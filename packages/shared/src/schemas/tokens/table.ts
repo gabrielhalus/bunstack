@@ -1,5 +1,4 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { nanoid } from "nanoid";
 
 export const tokens = sqliteTable("tokens", {
@@ -13,7 +12,3 @@ export const tokens = sqliteTable("tokens", {
 });
 
 export type Token = typeof tokens.$inferSelect;
-
-export const selectTokenSchema = createSelectSchema(tokens);
-
-export const insertTokenSchema = createInsertSchema(tokens);
