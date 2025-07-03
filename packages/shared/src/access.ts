@@ -1,5 +1,4 @@
-import type { Role } from "schemas";
-import type { UserProfile, UserWithRoles } from "schemas/users/types";
+import type { Role, UserProfile, UserWithRoles } from "./schemas/users";
 
 type PermissionCheck<Key extends keyof Permissions> =
   | boolean
