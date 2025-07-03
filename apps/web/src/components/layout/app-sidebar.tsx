@@ -36,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Bunstack.</span>
-                  <span className="truncate text-xs">Minecraft Server Manager</span>
+                  <span className="truncate text-xs">BHVR Starter Kit</span>
                 </div>
               </Link>
             </SidebarMenuButton>
