@@ -1,6 +1,6 @@
 import type { insertUserSchema } from "@bunstack/shared/schemas/users";
 
-import { lower, users } from "@bunstack/shared/schemas/users";
+import { users } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -31,7 +31,7 @@ export async function getUserById(id: string) {
  * @returns The matching user.
  */
 export async function getUserByEmail(email: string) {
-  return db.select().from(users).where(eq(lower(users.email), email.toLowerCase())).get();
+  return db.select().from(users).where(eq(users.email, email.toLowerCase())).get();
 }
 
 /**
