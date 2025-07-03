@@ -1,7 +1,7 @@
 import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
 
-import type { UserProfile } from "@spawnd/shared/schemas/users";
+import type { UserProfile } from "@bunstack/shared/schemas/users";
 
 import { getUserById } from "@/db/queries/users";
 import env from "@/lib/env";

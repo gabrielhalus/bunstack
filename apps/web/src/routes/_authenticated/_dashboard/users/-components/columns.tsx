@@ -1,4 +1,4 @@
-import type { UserProfile } from "@spawnd/shared/schemas/users";
+import type { UserProfile } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

@@ -1,5 +1,5 @@
 {
-  "name": "spawnd",
+  "name": "bunstack",
   "private": true,
   "scripts": {
     "build": "turbo run build --",
@@ -9,8 +9,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
 
-    "db:generate": "bun --filter=@spawnd/api run db:generate",
-    "db:migrate": "bun --filter=@spawnd/api run db:migrate"
+    "db:generate": "bun --filter=@bunstack/api run db:generate",
+    "db:migrate": "bun --filter=@bunstack/api run db:migrate"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

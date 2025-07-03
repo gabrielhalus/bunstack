@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
 
-import type { insertUserSchema } from "@spawnd/shared/schemas/users";
+import type { insertUserSchema } from "@bunstack/shared/schemas/users";
 
 import { db } from "@/db";
-import { lower, users } from "@spawnd/shared/schemas/users";
+import { lower, users } from "@bunstack/shared/schemas/users";
 
 /**
  * Get all users.

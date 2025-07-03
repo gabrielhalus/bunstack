@@ -41,7 +41,7 @@ export async function createAccessToken(userId: string): Promise<string> {
     ttyp: "access",
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + ACCESS_TOKEN_EXPIRATION_SECONDS,
-    iss: "spawnd",
+    iss: "bunstack",
   };
 
   return await sign(payload, SECRET_KEY);
@@ -54,7 +54,7 @@ export async function createRefreshToken(userId: string, tokenId: string): Promi
     ttyp: "refresh",
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + REFRESH_TOKEN_EXPIRATION_SECONDS,
-    iss: "spawnd",
+    iss: "bunstack",
   };
 
   return await sign(payload, SECRET_KEY);

@@ -1,5 +1,5 @@
 <div align="left">
-  <img src="https://cdn.discordapp.com/attachments/1384503521407275052/1384506614517858317/spawnd.svg?ex=6852adc3&is=68515c43&hm=2ece36452269ad34224bc2ea68993a34a727fab66752574d39dec83c650dbfb5&" alt="Spawnd Logo" />
+  <img src="https://cdn.discordapp.com/attachments/1384503521407275052/1384506614517858317/bunstack.svg?ex=6852adc3&is=68515c43&hm=2ece36452269ad34224bc2ea68993a34a727fab66752574d39dec83c650dbfb5&" alt="bunstack Logo" />
 </div>
 
 <p align="left">
@@ -16,8 +16,8 @@
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/gabrielhalus/spawnd.git --depth=1
-cd spawnd
+git clone https://github.com/gabrielhalus/bunstack.git --depth=1
+cd bunstack
 ```
 
 ### 2. Install Dependencies
@@ -82,4 +82,4 @@ Gabriel Halus https://github.com/gabrielhalus
 
 ## License
 
-Distribued under the CC BY-NC 4.0 License. See [LICENSE](https://github.com/gabrielhalus/spawnd/blob/main/LICENSE) for more information.
+Distribued under the CC BY-NC 4.0 License. See [LICENSE](https://github.com/gabrielhalus/bunstack/blob/main/LICENSE) for more information.

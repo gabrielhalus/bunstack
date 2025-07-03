@@ -1,4 +1,4 @@
-import type { UserProfile } from "@spawnd/shared/schemas/users";
+import type { UserProfile } from "@bunstack/shared/schemas/users";
 import type { Row } from "@tanstack/react-table";
 
 import { Copy, MoreHorizontal } from "lucide-react";

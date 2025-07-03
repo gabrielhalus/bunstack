@@ -1,4 +1,4 @@
-import createConfig from "@spawnd/eslint-config/create-config";
+import createConfig from "@bunstack/eslint-config/create-config";
 import pluginQuery from "@tanstack/eslint-plugin-query";
 
 export default createConfig({

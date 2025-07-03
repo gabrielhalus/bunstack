@@ -1,12 +1,12 @@
 {
-  "extends": "@spawnd/typescript-config/base.json",
+  "extends": "@bunstack/typescript-config/base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"],
-      "@spawnd/shared/schemas/*": ["../../../packages/shared/src/schemas/*"]
+      "@bunstack/shared/schemas/*": ["../../../packages/shared/src/schemas/*"]
     }
   }
 }

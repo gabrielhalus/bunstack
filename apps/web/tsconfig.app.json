@@ -1,5 +1,5 @@
 {
-  "extends": "@spawnd/typescript-config/base.json",
+  "extends": "@bunstack/typescript-config/base.json",
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
@@ -11,7 +11,7 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./*"],
-      "@spawnd/shared/*": ["../../../packages/shared/src/*"]
+      "@bunstack/shared/*": ["../../../packages/shared/src/*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,

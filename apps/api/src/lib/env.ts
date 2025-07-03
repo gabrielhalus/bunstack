@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
 
-import { envSchema } from "@spawnd/shared/schemas/env";
+import { envSchema } from "@bunstack/shared/schemas/env";
 
 /**
  * Walk upward from __dirname to find the first file matching a string or RegExp.

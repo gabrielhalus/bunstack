@@ -12,7 +12,7 @@ You are an expert in TypeScript, Bun, Turborepo, Hono, React, Shadcn, Radix UI, 
   - apps/: runtime-specific applications (e.g. api for Bun + Hono, web for React).
   - packages/: reusable logic (shared types, schemas, utils), tooling (eslint-config, tsconfig).
   - Enforce strict boundaries: no app-specific logic inside shared packages.
-  - Import with @spawnd/package
+  - Import with @bunstack/package
 
 **Naming conventions**
 

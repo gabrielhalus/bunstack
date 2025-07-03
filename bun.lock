@@ -2,21 +2,21 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "spawnd",
+      "name": "bunstack",
       "devDependencies": {
         "turbo": "^2.5.4",
         "typescript": "5.8.2",
       },
     },
     "apps/api": {
-      "name": "@spawnd/api",
+      "name": "@bunstack/api",
       "version": "0.0.1",
       "dependencies": {
         "@hono/zod-validator": "^0.7.0",
         "@libsql/client": "^0.15.8",
-        "@spawnd/eslint-config": "workspace:*",
-        "@spawnd/shared": "workspace:*",
-        "@spawnd/typescript-config": "workspace:*",
+        "@bunstack/eslint-config": "workspace:*",
+        "@bunstack/shared": "workspace:*",
+        "@bunstack/typescript-config": "workspace:*",
         "dotenv": "^16.5.0",
         "hono": "^4.7.11",
         "zod": "^3.25.55",
@@ -33,7 +33,7 @@
       },
     },
     "apps/web": {
-      "name": "@spawnd/web",
+      "name": "@bunstack/web",
       "version": "0.0.0",
       "dependencies": {
         "@radix-ui/react-avatar": "^1.1.10",
@@ -43,7 +43,7 @@
         "@radix-ui/react-separator": "^1.1.7",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-tooltip": "^1.2.7",
-        "@spawnd/shared": "workspace:*",
+        "@bunstack/shared": "workspace:*",
         "@tailwindcss/vite": "^4.1.8",
         "@tanstack/react-form": "^1.12.3",
         "@tanstack/react-query": "^5.80.6",
@@ -64,8 +64,8 @@
       "devDependencies": {
         "@eslint-react/eslint-plugin": "^1.51.2",
         "@eslint/js": "^9.25.0",
-        "@spawnd/eslint-config": "workspace:*",
-        "@spawnd/typescript-config": "workspace:*",
+        "@bunstack/eslint-config": "workspace:*",
+        "@bunstack/typescript-config": "workspace:*",
         "@tanstack/eslint-plugin-query": "^5.78.0",
         "@tanstack/router-plugin": "^1.120.18",
         "@types/react": "^19.1.2",
@@ -82,7 +82,7 @@
       },
     },
     "packages/eslint-config": {
-      "name": "@spawnd/eslint-config",
+      "name": "@bunstack/eslint-config",
       "version": "0.0.1",
       "dependencies": {
         "eslint": "^9.28.0",
@@ -93,11 +93,11 @@
       },
     },
     "packages/shared": {
-      "name": "@spawnd/shared",
+      "name": "@bunstack/shared",
       "version": "0.0.0",
       "dependencies": {
-        "@spawnd/eslint-config": "workspace:*",
-        "@spawnd/typescript-config": "workspace:*",
+        "@bunstack/eslint-config": "workspace:*",
+        "@bunstack/typescript-config": "workspace:*",
         "drizzle-orm": "^0.44.2",
         "drizzle-zod": "^0.7.1",
         "nanoid": "^5.1.5",
@@ -105,7 +105,7 @@
       },
     },
     "packages/typescript-config": {
-      "name": "@spawnd/typescript-config",
+      "name": "@bunstack/typescript-config",
       "version": "0.0.1",
     },
   },
@@ -456,15 +456,15 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.42.0", "", { "os": "win32", "cpu": "x64" }, "sha512-LpHiJRwkaVz/LqjHjK8LCi8osq7elmpwujwbXKNW88bM8eeGxavJIKKjkjpMHAh/2xfnrt1ZSnhTv41WYUHYmA=="],
 
-    "@spawnd/api": ["@spawnd/api@workspace:apps/api"],
+    "@bunstack/api": ["@bunstack/api@workspace:apps/api"],
 
-    "@spawnd/eslint-config": ["@spawnd/eslint-config@workspace:packages/eslint-config"],
+    "@bunstack/eslint-config": ["@bunstack/eslint-config@workspace:packages/eslint-config"],
 
-    "@spawnd/shared": ["@spawnd/shared@workspace:packages/shared"],
+    "@bunstack/shared": ["@bunstack/shared@workspace:packages/shared"],
 
-    "@spawnd/typescript-config": ["@spawnd/typescript-config@workspace:packages/typescript-config"],
+    "@bunstack/typescript-config": ["@bunstack/typescript-config@workspace:packages/typescript-config"],
 
-    "@spawnd/web": ["@spawnd/web@workspace:apps/web"],
+    "@bunstack/web": ["@bunstack/web@workspace:apps/web"],
 
     "@stylistic/eslint-plugin": ["@stylistic/eslint-plugin@5.0.0-beta.1", "", { "dependencies": { "@typescript-eslint/utils": "^8.32.1", "eslint-visitor-keys": "^4.2.0", "espree": "^10.3.0", "estraverse": "^5.3.0", "picomatch": "^4.0.2" }, "peerDependencies": { "eslint": ">=9.0.0" } }, "sha512-26syM7oRlnfUVoQ58GoPVXAXS3rSknWtD9dAx3XHIYxSQsqmd1Uuw7ILG0E6YSO+VYTlhuOcmikP/dg8Cu9d0Q=="],
 
@@ -1496,7 +1496,7 @@
 
     "@humanfs/node/@humanwhocodes/retry": ["@humanwhocodes/retry@0.3.1", "", {}, "sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA=="],
 
-    "@spawnd/web/typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
+    "@bunstack/web/typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
 
     "@tailwindcss/oxide-wasm32-wasi/@emnapi/core": ["@emnapi/core@1.4.3", "", { "dependencies": { "@emnapi/wasi-threads": "1.0.2", "tslib": "^2.4.0" }, "bundled": true }, "sha512-4m62DuCE07lw01soJwPiBGC0nAww0Q+RY70VZ+n49yDIO13yyinhbWCeNnaob0lakDtWQzSdtNWzJeOJt2ma+g=="],
 
