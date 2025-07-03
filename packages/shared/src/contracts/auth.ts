@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { insertUserSchema } from "../schemas/users";
+import { insertUserSchema } from "schemas";
 
 // Login
 export const loginInputSchema = z.object({
