@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Box, Calendar, DatabaseBackup, Home, Server, Users } from "lucide-react";
+import { Box, Home, Users } from "lucide-react";
 import React from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -13,21 +13,6 @@ const data = {
       title: "Home",
       icon: Home,
       href: "/",
-    },
-    {
-      title: "Servers",
-      icon: Server,
-      href: "/servers",
-    },
-    {
-      title: "Schedules",
-      icon: Calendar,
-      href: "/schedules",
-    },
-    {
-      title: "Backups",
-      icon: DatabaseBackup,
-      href: "/backups",
     },
     {
       title: "Users",
@@ -50,7 +35,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Box className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">bunstack.</span>
+                  <span className="truncate font-medium">Bunstack.</span>
                   <span className="truncate text-xs">Minecraft Server Manager</span>
                 </div>
               </Link>
