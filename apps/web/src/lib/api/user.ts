@@ -1,8 +1,8 @@
-import type { UserProfile } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/schemas/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
-export async function getAllUsers(): Promise<UserProfile[]> {
+export async function getAllUsers(): Promise<User[]> {
   const res = await fetchAuthenticated("/api/users");
   if (!res.ok) {
     throw new Error("Failed to get users");
@@ -10,7 +10,7 @@ export async function getAllUsers(): Promise<UserProfile[]> {
   return res.json().then(data => data.users);
 }
 
-export async function deleteUser({ id }: { id: string }): Promise<UserProfile> {
+export async function deleteUser({ id }: { id: string }): Promise<User> {
   const res = await fetchAuthenticated(`/api/users/${id}`, {
     method: "DELETE",
   });

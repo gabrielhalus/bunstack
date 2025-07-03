@@ -1,4 +1,4 @@
-import type { UserProfile } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/schemas/users";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,7 +18,7 @@ type UseAuthReturn =
     isAuthenticated: false;
   }
   | {
-    user: UserProfile;
+    user: User;
     isLoading: false;
     isError: false;
     isAuthenticated: true;

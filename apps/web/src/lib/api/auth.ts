@@ -1,8 +1,8 @@
-import type { UserProfile } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/schemas/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
-export async function getCurrentUser(): Promise<{ user: UserProfile }> {
+export async function getCurrentUser(): Promise<{ user: User }> {
   const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {

@@ -1,4 +1,4 @@
-import type { UserProfile } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,7 +6,7 @@ import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
 
 import { RowActions } from "./row-actions";
 
-export const columns: ColumnDef<UserProfile>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
     header: "Name",

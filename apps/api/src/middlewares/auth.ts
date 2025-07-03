@@ -1,4 +1,4 @@
-import type { UserProfile } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/schemas/users";
 
 import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
@@ -8,7 +8,7 @@ import env from "@/lib/env";
 
 type Env = {
   Variables: {
-    user: UserProfile;
+    user: User;
   };
 };
 
@@ -40,8 +40,8 @@ export const getUser = factory.createMiddleware(async (c, next) => {
     return c.json({ success: false, error: "Unauthorized" }, 401);
   }
 
-  const { password: _, ...userProfile } = user;
-  c.set("user", userProfile);
+  const { password: _, ...User } = user;
+  c.set("user", User);
 
   await next();
 });

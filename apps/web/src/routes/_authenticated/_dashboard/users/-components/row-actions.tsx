@@ -1,4 +1,4 @@
-import type { UserProfile } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/schemas/users";
 import type { Row } from "@tanstack/react-table";
 
 import { Copy, MoreHorizontal } from "lucide-react";
@@ -16,7 +16,7 @@ import {
 
 import { UserDeleteButton } from "./user-delete-button";
 
-export function RowActions({ row }: { row: Row<UserProfile> }) {
+export function RowActions({ row }: { row: Row<User> }) {
   const user = row.original;
 
   return (

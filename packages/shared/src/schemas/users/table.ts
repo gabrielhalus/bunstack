@@ -11,4 +11,3 @@ export const users = sqliteTable("users", {
   updatedAt: integer("updated_at").notNull().$defaultFn(() => Date.now()),
 });
 
-export type User = typeof users.$inferSelect;

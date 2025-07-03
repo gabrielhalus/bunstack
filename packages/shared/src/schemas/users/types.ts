@@ -1,8 +1,5 @@
+import { Merge } from "common";
 import type { Role } from "./relations";
-import type { User } from "./table";
+import { users } from "./table";
 
-export type UserProfile = Omit<User, "password">;
-
-export type UserWithRoles = UserProfile & {
-  roles: Role[];
-};
+export type User = Merge<Omit<typeof users.$inferSelect, "password"> & { password?: string } & { roles: Role[] }>;
