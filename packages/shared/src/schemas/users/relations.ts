@@ -1,8 +1,6 @@
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const ROLES = ["admin", "user"] as const;
-
-export type Role = (typeof ROLES)[number];
+import { ROLES } from "./types";
 
 export const userRoles = sqliteTable("user_roles", {
   userId: text("user_id").notNull(),

@@ -43,7 +43,7 @@ export function hasPermission<Resource extends keyof Permissions>(
   action: Permissions[Resource]["action"],
   data?: Permissions[Resource]["dataType"],
 ) {
-  return user.roles.some((role) => {
+  return user.roles.some((role: Role) => {
     const permission = (ROLES as RolesWithPermissions)[role][resource]?.[action];
     if (permission == null)
       return false;

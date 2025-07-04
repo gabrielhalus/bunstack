@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./dist/*.js",
+    "./access": "./dist/access.js",
     "./contracts/*": "./dist/contracts/*.js",
     "./schemas/*": "./dist/schemas/*/index.js"
   },
