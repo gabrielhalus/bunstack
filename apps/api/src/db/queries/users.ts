@@ -58,7 +58,10 @@ export async function getUserByEmail(email: string) {
  * @returns The inserted user.
  */
 export async function insertUser(user: typeof insertUserSchema._type) {
-  return db.insert(users).values(user).returning().get();
+  const insertedUser = await db.insert(users).values(user).returning().get();
+  await db.insert(userRoles).values({ userId: insertedUser.id, role: "user" });
+
+  return insertedUser;
 }
 
 /**
@@ -68,5 +71,8 @@ export async function insertUser(user: typeof insertUserSchema._type) {
  * @returns The deleted user.
  */
 export async function deleteUserById(id: string) {
-  return db.delete(users).where(eq(users.id, id)).returning().get();
+  const deletedUser = await db.delete(users).where(eq(users.id, id)).returning().get();
+  await db.delete(userRoles).where(eq(userRoles.userId, id));
+
+  return deletedUser;
 }
