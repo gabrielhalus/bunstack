@@ -1,27 +1,44 @@
-import type { insertUserSchema } from "@bunstack/shared/schemas/users";
-
-import { users } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
+import type { insertUserSchema, User } from "@bunstack/shared/schemas/users";
+
 import { db } from "@/db";
+import { userRoles, users } from "@bunstack/shared/schemas/users";
 
 /**
  * Get all users.
  *
  * @returns All users.
  */
-export async function getAllUsers() {
-  return db.select().from(users);
+export async function getAllUsers(): Promise<User[]> {
+  const allUsers = await db.select().from(users).all();
+  const allRoles = await db.select().from(userRoles).all();
+
+  return allUsers.map(user => ({
+    ...user,
+    roles: allRoles.filter(role => role.userId === user.id).map(role => role.role),
+  }));
 }
 
 /**
  * Get a user by its ID.
  *
  * @param id - The ID to look up.
- * @returns The matching user.
+ * @returns The matching user with roles.
  */
-export async function getUserById(id: string) {
-  return db.select().from(users).where(eq(users.id, id)).get();
+export async function getUserById(id: string): Promise<User | undefined> {
+  const user = db.select().from(users).where(eq(users.id, id)).get();
+
+  if (!user) {
+    return undefined;
+  }
+
+  const roles = db.select().from(userRoles).where(eq(userRoles.userId, id)).all();
+
+  return {
+    ...user,
+    roles: roles.map(role => role.role),
+  };
 }
 
 /**

@@ -6,7 +6,7 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"],
-      "@bunstack/shared/schemas/*": ["../../../packages/shared/src/schemas/*"]
+      "@bunstack/shared/": ["../../../packages/shared/src/*"]
     }
   }
 }
