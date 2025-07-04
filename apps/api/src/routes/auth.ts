@@ -1,4 +1,3 @@
-import { insertUserSchema } from "@bunstack/shared/schemas/users";
 import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
@@ -10,6 +9,7 @@ import { getClientInfo } from "@/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
 import env from "@/lib/env";
 import { getUser } from "@/middlewares/auth";
+import { insertUserSchema } from "@bunstack/shared/schemas/users";
 
 export default new Hono()
   /**

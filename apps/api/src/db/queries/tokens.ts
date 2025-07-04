@@ -1,9 +1,9 @@
-import type { insertTokenSchema } from "@bunstack/shared/schemas/tokens";
-
-import { tokens } from "@bunstack/shared/schemas/tokens";
 import { eq } from "drizzle-orm";
 
+import type { insertTokenSchema } from "@bunstack/shared/schemas/tokens";
+
 import { db } from "@/db";
+import { tokens } from "@bunstack/shared/schemas/tokens";
 
 /**
  * Get all tokens.

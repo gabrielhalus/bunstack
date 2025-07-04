@@ -4,7 +4,7 @@ import { join } from "node:path";
 import env from "@/lib/env";
 
 export default defineConfig({
-  schema: join(__dirname, "../../packages/shared/src/schemas/*.ts"),
+  schema: join(__dirname, "../../packages/shared/src/schemas/**/*.ts"),
   out: "./src/db/migrations",
   dialect: "sqlite",
   dbCredentials: {
