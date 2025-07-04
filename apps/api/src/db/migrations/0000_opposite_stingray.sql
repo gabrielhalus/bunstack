@@ -10,7 +10,8 @@ CREATE TABLE `tokens` (
 --> statement-breakpoint
 CREATE TABLE `user_roles` (
 	`user_id` text NOT NULL,
-	`role` text DEFAULT 'user' NOT NULL
+	`role` text DEFAULT 'user' NOT NULL,
+	PRIMARY KEY(`user_id`, `role`)
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
