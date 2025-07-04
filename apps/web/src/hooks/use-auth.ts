@@ -1,6 +1,8 @@
 import type { User } from "@bunstack/shared/schemas/users";
 
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import { userQueryOptions } from "@/lib/queries/auth";
 
@@ -24,8 +26,20 @@ type UseAuthReturn =
     isAuthenticated: true;
   };
 
-export function useAuth(): UseAuthReturn {
+type UseAuthOptions = {
+  redirect?: boolean;
+};
+
+export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
+  const { redirect = false } = options;
+  const navigate = useNavigate();
   const { data, isLoading, isError } = useQuery(userQueryOptions);
+
+  useEffect(() => {
+    if (redirect && !isLoading && !data?.user) {
+      navigate({ to: "/login" });
+    }
+  }, [redirect, isLoading, data?.user, navigate]);
 
   if (isLoading) {
     return {
