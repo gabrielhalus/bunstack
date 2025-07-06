@@ -25,16 +25,28 @@ import {
 import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
 import { useAuth } from "@/hooks/use-auth";
 
+import { Skeleton } from "../ui/skeleton";
+
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user, isLoading, isError } = useAuth();
-
-  if (isError) {
-    return "not logged in";
-  }
+  const { user, isLoading, isAuthenticated } = useAuth({ redirect: "/login" });
 
   if (isLoading) {
-    return "pending";
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem className="flex w-full items-center gap-2 p-2 ">
+          <Skeleton className="h-8 w-8 rounded-lg" />
+          <div className="grid flex-1 gap-1">
+            <Skeleton className="h-3.75 w-24" />
+            <Skeleton className="h-3.75 w-32" />
+          </div>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   const avatarFallback = !user.avatar ? generateAvatarFallback(user.name) : undefined;

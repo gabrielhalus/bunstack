@@ -1,7 +1,9 @@
+import type { LucideProps } from "lucide-react";
+
 import { hasPermission } from "@bunstack/shared/access";
 import { Link } from "@tanstack/react-router";
 import { Box, Home, Users } from "lucide-react";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
 import { NavSecondary } from "@/components/layout/nav-secondary";
@@ -12,7 +14,7 @@ import { useAuth } from "@/hooks/use-auth";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuth();
 
-  const data = {
+  const data = useMemo(() => ({
     navMain: [
       {
         title: "Home",
@@ -28,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         : []),
     ],
     navSecondary: [],
-  };
+  }), [user]);
 
   return (
     <Sidebar collapsible="icon" {...props}>
