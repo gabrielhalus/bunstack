@@ -1,4 +1,5 @@
 import type { User } from "@bunstack/shared/schemas/users";
+import type { LinkOptions } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -26,18 +27,34 @@ type UseAuthReturn =
     isAuthenticated: true;
   };
 
+type UseAuthReturnWithRedirect =
+  | {
+    user: undefined;
+    isLoading: true;
+    isError: false;
+    isAuthenticated: false;
+  }
+  | {
+    user: User;
+    isLoading: false;
+    isError: false;
+    isAuthenticated: true;
+  };
+
 type UseAuthOptions = {
-  redirect?: boolean;
+  redirect?: LinkOptions["to"] | false;
 };
 
-export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
+export function useAuth(): UseAuthReturn;
+export function useAuth(options: { redirect: LinkOptions["to"] }): UseAuthReturnWithRedirect;
+export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthReturnWithRedirect {
   const { redirect = false } = options;
   const navigate = useNavigate();
   const { data, isLoading, isError } = useQuery(userQueryOptions);
 
   useEffect(() => {
     if (redirect && !isLoading && !data?.user) {
-      navigate({ to: "/login" });
+      navigate({ to: redirect });
     }
   }, [redirect, isLoading, data?.user, navigate]);
 
