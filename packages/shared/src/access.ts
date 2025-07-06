@@ -17,10 +17,26 @@ type Permissions = {
     dataType: User;
     action: "view" | "create" | "update" | "delete";
   };
+  settings: {
+    dataType: null;
+    action: "view" | "update";
+  };
 };
 
 const ROLES = {
   admin: {
+    users: {
+      view: true,
+      create: true,
+      update: true,
+      delete: true,
+    },
+    settings: {
+      view: true,
+      update: true,
+    },
+  },
+  manager: {
     users: {
       view: true,
       create: true,
