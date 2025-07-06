@@ -1,6 +1,7 @@
 import { registerInputSchema, registerOutputSchema } from "@bunstack/shared/contracts/auth";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -163,7 +164,15 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                   children={([canSubmit, isSubmitting]) => (
                     <>
                       <Button type="submit" disabled={!canSubmit}>
-                        {isSubmitting ? "..." : "Sign up"}
+                        {isSubmitting
+                          ? (
+                              <span className="flex items-center gap-2">
+                                <Loader2 className="size-4 animate-spin" />
+                                {" "}
+                                Signing up...
+                              </span>
+                            )
+                          : "Sign up"}
                       </Button>
                     </>
                   )}
