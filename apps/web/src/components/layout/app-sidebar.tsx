@@ -1,6 +1,6 @@
 import { hasPermission } from "@bunstack/shared/access";
 import { Link } from "@tanstack/react-router";
-import { Box, Home, Users } from "lucide-react";
+import { Box, Home, Settings2, Users } from "lucide-react";
 import React, { useMemo } from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -17,13 +17,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: "Home",
         icon: Home,
-        href: "/",
+        href: { to: "/" } as const,
       },
       ...(user && hasPermission(user, "users", "view")
         ? [{
             title: "Users",
             icon: Users,
-            href: "/users",
+            href: { to: "/users" } as const,
+          }]
+        : []),
+      ...(user && hasPermission(user, "settings", "view")
+        ? [{
+            title: "Settings",
+            icon: Settings2,
+            href: { to: "/settings" } as const,
+            items: [
+              {
+                title: "Permissions",
+                href: { to: "/settings/$section", params: { section: "permissions" } } as const,
+              },
+            ],
           }]
         : []),
     ],

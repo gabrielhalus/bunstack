@@ -19,6 +19,8 @@ import { Route as AuthenticatedDashboardIndexImport } from './routes/_authentica
 import { Route as AuthenticatedDashboardProfileImport } from './routes/_authenticated/_dashboard/profile'
 import { Route as AuthenticatedDashboardUsersRouteImport } from './routes/_authenticated/_dashboard/users/route'
 import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authenticated/_dashboard/users/index'
+import { Route as AuthenticatedDashboardSettingsIndexImport } from './routes/_authenticated/_dashboard/settings/index'
+import { Route as AuthenticatedDashboardSettingsSectionImport } from './routes/_authenticated/_dashboard/settings/$section'
 
 // Create/Update Routes
 
@@ -71,6 +73,20 @@ const AuthenticatedDashboardUsersIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardUsersRouteRoute,
+  } as any)
+
+const AuthenticatedDashboardSettingsIndexRoute =
+  AuthenticatedDashboardSettingsIndexImport.update({
+    id: '/settings/',
+    path: '/settings/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+
+const AuthenticatedDashboardSettingsSectionRoute =
+  AuthenticatedDashboardSettingsSectionImport.update({
+    id: '/settings/$section',
+    path: '/settings/$section',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -126,6 +142,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexImport
       parentRoute: typeof AuthenticatedDashboardRouteImport
     }
+    '/_authenticated/_dashboard/settings/$section': {
+      id: '/_authenticated/_dashboard/settings/$section'
+      path: '/settings/$section'
+      fullPath: '/settings/$section'
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsSectionImport
+      parentRoute: typeof AuthenticatedDashboardRouteImport
+    }
+    '/_authenticated/_dashboard/settings/': {
+      id: '/_authenticated/_dashboard/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsIndexImport
+      parentRoute: typeof AuthenticatedDashboardRouteImport
+    }
     '/_authenticated/_dashboard/users/': {
       id: '/_authenticated/_dashboard/users/'
       path: '/'
@@ -170,6 +200,8 @@ interface AuthenticatedDashboardRouteRouteChildren {
   AuthenticatedDashboardUsersRouteRoute: typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   AuthenticatedDashboardProfileRoute: typeof AuthenticatedDashboardProfileRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardSettingsSectionRoute: typeof AuthenticatedDashboardSettingsSectionRoute
+  AuthenticatedDashboardSettingsIndexRoute: typeof AuthenticatedDashboardSettingsIndexRoute
 }
 
 const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRouteChildren =
@@ -178,6 +210,10 @@ const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRoute
       AuthenticatedDashboardUsersRouteRouteWithChildren,
     AuthenticatedDashboardProfileRoute: AuthenticatedDashboardProfileRoute,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardSettingsSectionRoute:
+      AuthenticatedDashboardSettingsSectionRoute,
+    AuthenticatedDashboardSettingsIndexRoute:
+      AuthenticatedDashboardSettingsIndexRoute,
   }
 
 const AuthenticatedDashboardRouteRouteWithChildren =
@@ -192,6 +228,8 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
+  '/settings/$section': typeof AuthenticatedDashboardSettingsSectionRoute
+  '/settings': typeof AuthenticatedDashboardSettingsIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
 }
 
@@ -201,6 +239,8 @@ export interface FileRoutesByTo {
   '/register': typeof AuthenticationRegisterRoute
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
+  '/settings/$section': typeof AuthenticatedDashboardSettingsSectionRoute
+  '/settings': typeof AuthenticatedDashboardSettingsIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
 }
 
@@ -213,6 +253,8 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/_dashboard/settings/$section': typeof AuthenticatedDashboardSettingsSectionRoute
+  '/_authenticated/_dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
 }
 
@@ -225,9 +267,19 @@ export interface FileRouteTypes {
     | '/users'
     | '/profile'
     | '/'
+    | '/settings/$section'
+    | '/settings'
     | '/users/'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/login' | '/register' | '/profile' | '/' | '/users'
+  to:
+    | ''
+    | '/login'
+    | '/register'
+    | '/profile'
+    | '/'
+    | '/settings/$section'
+    | '/settings'
+    | '/users'
   id:
     | '__root__'
     | '/_authentication'
@@ -237,6 +289,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard/users'
     | '/_authenticated/_dashboard/profile'
     | '/_authenticated/_dashboard/'
+    | '/_authenticated/_dashboard/settings/$section'
+    | '/_authenticated/_dashboard/settings/'
     | '/_authenticated/_dashboard/users/'
   fileRoutesById: FileRoutesById
 }
@@ -278,7 +332,9 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/_dashboard/users",
         "/_authenticated/_dashboard/profile",
-        "/_authenticated/_dashboard/"
+        "/_authenticated/_dashboard/",
+        "/_authenticated/_dashboard/settings/$section",
+        "/_authenticated/_dashboard/settings/"
       ]
     },
     "/_authentication/login": {
@@ -302,6 +358,14 @@ export const routeTree = rootRoute
     },
     "/_authenticated/_dashboard/": {
       "filePath": "_authenticated/_dashboard/index.tsx",
+      "parent": "/_authenticated/_dashboard"
+    },
+    "/_authenticated/_dashboard/settings/$section": {
+      "filePath": "_authenticated/_dashboard/settings/$section.tsx",
+      "parent": "/_authenticated/_dashboard"
+    },
+    "/_authenticated/_dashboard/settings/": {
+      "filePath": "_authenticated/_dashboard/settings/index.tsx",
       "parent": "/_authenticated/_dashboard"
     },
     "/_authenticated/_dashboard/users/": {
