@@ -10,19 +10,19 @@ import { userQueryOptions } from "@/lib/queries/auth";
 type UseAuthReturn =
   | {
     user: undefined;
-    isLoading: true;
+    isPending: true;
     isError: false;
     isAuthenticated: false;
   }
   | {
     user: null;
-    isLoading: false;
+    isPending: false;
     isError: true;
     isAuthenticated: false;
   }
   | {
     user: User;
-    isLoading: false;
+    isPending: false;
     isError: false;
     isAuthenticated: true;
   };
@@ -30,13 +30,13 @@ type UseAuthReturn =
 type UseAuthReturnWithRedirect =
   | {
     user: undefined;
-    isLoading: true;
+    isPending: true;
     isError: false;
     isAuthenticated: false;
   }
   | {
     user: User;
-    isLoading: false;
+    isPending: false;
     isError: false;
     isAuthenticated: true;
   };
@@ -61,7 +61,7 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthRe
   if (isPending) {
     return {
       user: undefined,
-      isLoading: true,
+      isPending: true,
       isError: false,
       isAuthenticated: false,
     };
@@ -70,7 +70,7 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthRe
   if (isError) {
     return {
       user: null,
-      isLoading: false,
+      isPending: false,
       isError: true,
       isAuthenticated: false,
     };
@@ -79,7 +79,7 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthRe
   // data is defined here and contains a valid user
   return {
     user: data!.user,
-    isLoading: false,
+    isPending: false,
     isError: false,
     isAuthenticated: true,
   };

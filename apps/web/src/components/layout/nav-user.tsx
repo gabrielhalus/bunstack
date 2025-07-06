@@ -29,9 +29,9 @@ import { Skeleton } from "../ui/skeleton";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user, isLoading, isAuthenticated } = useAuth({ redirect: "/login" });
+  const { user, isPending, isAuthenticated } = useAuth({ redirect: "/login" });
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <SidebarMenu>
         <SidebarMenuItem className="flex w-full items-center gap-2 p-2 ">
