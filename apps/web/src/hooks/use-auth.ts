@@ -2,7 +2,7 @@ import type { User } from "@bunstack/shared/schemas/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
-import { redirect, useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 
 import { userQueryOptions } from "@/lib/queries/auth";
 
