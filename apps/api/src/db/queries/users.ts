@@ -1,6 +1,7 @@
-import type { insertUserSchema, User } from "@bunstack/shared/schemas/users";
+import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/schemas/users";
 
-import { userRoles, users } from "@bunstack/shared/schemas/users";
+import { roles as rolesTable } from "@bunstack/shared/schemas/roles";
+import { userRoles as userRolesTable, users as usersTable } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -11,44 +12,50 @@ import { db } from "@/db";
  * @returns All users.
  */
 export async function getAllUsers(): Promise<User[]> {
-  const allUsers = await db.select().from(users).all();
-  const allRoles = await db.select().from(userRoles).all();
+  const [users, roles, userRoles] = [
+    db.select().from(usersTable).all(),
+    db.select().from(rolesTable).all(),
+    db.select().from(userRolesTable).all(),
+  ];
 
-  return allUsers.map(user => ({
+  const roleMap = new Map(roles.map(r => [r.id, r.name]));
+  const userRoleMap = new Map<string, string[]>();
+
+  for (const { userId, roleId } of userRoles) {
+    if (!userRoleMap.has(userId))
+      userRoleMap.set(userId, []);
+    userRoleMap.get(userId)!.push(roleMap.get(roleId)!);
+  }
+
+  return users.map(user => ({
     ...user,
-    roles: allRoles.filter(role => role.userId === user.id).map(role => role.role),
+    roles: userRoleMap.get(user.id) ?? [],
   }));
 }
 
 /**
  * Get a user by its ID.
  *
- * @param id - The ID to look up.
+ * @param value - The ID to look up.
  * @returns The matching user with roles.
  */
-export async function getUserById(id: string): Promise<User | undefined> {
-  const user = db.select().from(users).where(eq(users.id, id)).get();
-
-  if (!user) {
+export async function getUniqueUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
+  const user = db.select().from(usersTable).where(eq(usersTable[key], value)).get();
+  if (!user)
     return undefined;
-  }
 
-  const roles = db.select().from(userRoles).where(eq(userRoles.userId, id)).all();
+  const [roles, userRoles] = [
+    db.select().from(rolesTable).all(),
+    db.select().from(userRolesTable).where(eq(userRolesTable.userId, value)).all(),
+  ];
+
+  const roleMap = new Map(roles.map(r => [r.id, r.name]));
+  const roleNames = userRoles.map(ur => roleMap.get(ur.roleId)!).filter(Boolean);
 
   return {
     ...user,
-    roles: roles.map(role => role.role),
+    roles: roleNames,
   };
-}
-
-/**
- * Get a user by its email.
- *
- * @param email - The email to look up.
- * @returns The matching user.
- */
-export async function getUserByEmail(email: string) {
-  return db.select().from(users).where(eq(users.email, email.toLowerCase())).get();
 }
 
 /**
@@ -58,8 +65,12 @@ export async function getUserByEmail(email: string) {
  * @returns The inserted user.
  */
 export async function insertUser(user: typeof insertUserSchema._type) {
-  const insertedUser = await db.insert(users).values(user).returning().get();
-  await db.insert(userRoles).values({ userId: insertedUser.id, role: "user" });
+  const insertedUser = await db.insert(usersTable).values(user).returning().get();
+  const defaultRole = db.select().from(rolesTable).where(eq(rolesTable.default, true)).get();
+
+  if (defaultRole) {
+    await db.insert(userRolesTable).values({ userId: insertedUser.id, roleId: defaultRole.id });
+  }
 
   return insertedUser;
 }
@@ -71,8 +82,8 @@ export async function insertUser(user: typeof insertUserSchema._type) {
  * @returns The deleted user.
  */
 export async function deleteUserById(id: string) {
-  const deletedUser = await db.delete(users).where(eq(users.id, id)).returning().get();
-  await db.delete(userRoles).where(eq(userRoles.userId, id));
+  const deletedUser = db.delete(usersTable).where(eq(usersTable.id, id)).returning().get();
+  await db.delete(userRolesTable).where(eq(userRolesTable.userId, id));
 
   return deletedUser;
 }

@@ -11,7 +11,7 @@ import { db } from "@/db";
  * @returns All tokens.
  */
 export async function getAllTokens() {
-  return db.select().from(tokens);
+  return db.select().from(tokens).all();
 }
 
 /**

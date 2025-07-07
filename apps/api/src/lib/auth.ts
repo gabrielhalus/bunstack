@@ -1,7 +1,7 @@
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
 
-import { getUserByEmail } from "@/db/queries/users";
+import { getUniqueUser } from "@/db/queries/users";
 import env from "@/lib/env";
 
 const SECRET_KEY = env.JWT_SECRET;
@@ -27,8 +27,8 @@ export type JwtPayload =
   };
 
 export async function validateUser({ email, password: pwd }: { email: string; password: string }): Promise<string | null> {
-  const user = await getUserByEmail(email);
-  if (user && await password.verify(pwd, user.password)) {
+  const user = await getUniqueUser("email", email);
+  if (user?.password && await password.verify(pwd, user.password)) {
     return user.id;
   }
 

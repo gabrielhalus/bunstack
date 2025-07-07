@@ -5,7 +5,7 @@ import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
 import { deleteToken, getTokenById, insertToken } from "@/db/queries/tokens";
-import { getUserByEmail, insertUser } from "@/db/queries/users";
+import { getUniqueUser, insertUser } from "@/db/queries/users";
 import { getClientInfo } from "@/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
 import env from "@/lib/env";
@@ -187,7 +187,7 @@ export default new Hono()
     }
 
     try {
-      const user = await getUserByEmail(email); // If you have a getUserByEmail, use that instead
+      const user = await getUniqueUser("email", email);
       const available = !user;
       return c.json({ success: true, available });
     } catch (error: any) {
