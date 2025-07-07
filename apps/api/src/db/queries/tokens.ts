@@ -1,4 +1,4 @@
-import type { insertTokenSchema } from "@bunstack/shared/schemas/tokens";
+import type { insertTokenSchema, Token } from "@bunstack/shared/schemas/tokens";
 
 import { tokens } from "@bunstack/shared/schemas/tokens";
 import { eq } from "drizzle-orm";
@@ -10,7 +10,7 @@ import { db } from "@/db";
  *
  * @returns All tokens.
  */
-export async function getAllTokens() {
+export async function getAllTokens(): Promise<Token[]> {
   return db.select().from(tokens).all();
 }
 
