@@ -4,12 +4,12 @@ import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
-import { deleteToken, getTokenById, insertToken } from "@/db/queries/tokens";
-import { getUniqueUser, insertUser } from "@/db/queries/users";
+import { deleteToken, getToken, insertToken } from "@/db/queries/tokens";
+import { getUser, insertUser } from "@/db/queries/users";
 import { getClientInfo } from "@/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
 import env from "@/lib/env";
-import { getUser } from "@/middlewares/auth";
+import { getAuth } from "@/middlewares/auth";
 
 export default new Hono()
   /**
@@ -116,11 +116,11 @@ export default new Hono()
         throw new Error("Invalid refresh token");
 
       const { sub, jti } = payload;
-      const tokenRecord = await getTokenById(jti);
+      const tokenRecord = await getToken("id", jti);
 
       if (!tokenRecord || tokenRecord.expiresAt < Date.now()) {
         if (jti)
-          await deleteToken(jti);
+          await deleteToken("id", jti);
         return c.json({ success: false, error: "Refresh token expired or invalid" }, 401);
       }
 
@@ -131,7 +131,7 @@ export default new Hono()
       try {
         const payload = await verifyToken(refreshToken, "refresh");
         if (payload?.jti)
-          await deleteToken(payload.jti);
+          await deleteToken("id", payload.jti);
       } catch {}
       return c.json({ success: false, error: "Invalid refresh token" }, 401);
     }
@@ -149,7 +149,7 @@ export default new Hono()
       try {
         const payload = await verifyToken(refreshToken, "refresh");
         if (payload?.jti) {
-          await deleteToken(payload.jti);
+          await deleteToken("id", payload.jti);
         }
       } catch {}
     }
@@ -170,7 +170,7 @@ export default new Hono()
    * @param c - The context
    * @returns The current user
    */
-  .get("/profile", getUser, async (c) => {
+  .get("/profile", getAuth, async (c) => {
     const user = c.var.user;
     return c.json({ success: true, user });
   })
@@ -187,7 +187,7 @@ export default new Hono()
     }
 
     try {
-      const user = await getUniqueUser("email", email);
+      const user = await getUser("email", email);
       const available = !user;
       return c.json({ success: true, available });
     } catch (error: any) {

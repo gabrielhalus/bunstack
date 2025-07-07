@@ -3,7 +3,7 @@ import type { User } from "@bunstack/shared/schemas/users";
 import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
 
-import { getUniqueUser } from "@/db/queries/users";
+import { getUser } from "@/db/queries/users";
 import env from "@/lib/env";
 
 type Env = {
@@ -20,7 +20,7 @@ const factory = createFactory<Env>();
  * @param next - The next middleware
  * @returns The user
  */
-export const getUser = factory.createMiddleware(async (c, next) => {
+export const getAuth = factory.createMiddleware(async (c, next) => {
   const token = c.req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
@@ -34,7 +34,7 @@ export const getUser = factory.createMiddleware(async (c, next) => {
     return c.json({ success: false, error: "Unauthorized" }, 401);
   }
 
-  const user = await getUniqueUser("id", decoded.sub as string);
+  const user = await getUser("id", decoded.sub as string);
 
   if (!user) {
     return c.json({ success: false, error: "Unauthorized" }, 401);

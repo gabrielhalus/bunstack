@@ -1,11 +1,11 @@
 /* eslint-disable drizzle/enforce-delete-with-where */
 import { Hono } from "hono";
 
-import { deleteUserById, getAllUsers, getUniqueUser } from "@/db/queries/users";
-import { getUser } from "@/middlewares/auth";
+import { deleteUser, getAllUsers, getUser } from "@/db/queries/users";
+import { getAuth } from "@/middlewares/auth";
 
 export default new Hono()
-  .use(getUser)
+  .use(getAuth)
 
   /**
    * Get all users
@@ -30,7 +30,7 @@ export default new Hono()
     const { id } = c.req.param();
 
     try {
-      const user = await getUniqueUser("id", id);
+      const user = await getUser("id", id);
       return c.json({ success: true, user: { ...user, password: undefined } });
     } catch (error: any) {
       return c.json({ success: false, error: error.message }, 500);
@@ -46,7 +46,7 @@ export default new Hono()
     const { id } = c.req.param();
 
     try {
-      const user = await deleteUserById(id);
+      const user = await deleteUser("id", id);
       return c.json({ success: true, user });
     } catch (error: any) {
       return c.json({ success: false, error: error.message }, 500);

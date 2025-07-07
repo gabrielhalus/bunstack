@@ -1,7 +1,7 @@
 import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/schemas/users";
 
-import { roles as rolesTable } from "@bunstack/shared/schemas/roles";
-import { userRoles as userRolesTable, users as usersTable } from "@bunstack/shared/schemas/users";
+import { rolesTable } from "@bunstack/shared/schemas/roles";
+import { userRolesTable, usersTable } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -36,10 +36,11 @@ export async function getAllUsers(): Promise<User[]> {
 /**
  * Get a user by its ID.
  *
- * @param value - The ID to look up.
+ * @param key - The field to search by.
+ * @param value - The value to search for.
  * @returns The matching user with roles.
  */
-export async function getUniqueUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
+export async function getUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
   const user = db.select().from(usersTable).where(eq(usersTable[key], value)).get();
   if (!user)
     return undefined;
@@ -64,8 +65,8 @@ export async function getUniqueUser(key: keyof UserUniqueFields, value: any): Pr
  * @param user - The user data to insert.
  * @returns The inserted user.
  */
-export async function insertUser(user: typeof insertUserSchema._type) {
-  const insertedUser = await db.insert(usersTable).values(user).returning().get();
+export async function insertUser(user: typeof insertUserSchema._type): Promise<Omit<User, 'roles'>> {
+  const insertedUser = db.insert(usersTable).values(user).returning().get();
   const defaultRole = db.select().from(rolesTable).where(eq(rolesTable.default, true)).get();
 
   if (defaultRole) {
@@ -78,12 +79,16 @@ export async function insertUser(user: typeof insertUserSchema._type) {
 /**
  * Delete a user by its ID.
  *
- * @param id - The ID of the user to delete.
+ * @param key - The field to search by.
+ * @param value - The value to search for.
  * @returns The deleted user.
  */
-export async function deleteUserById(id: string) {
-  const deletedUser = db.delete(usersTable).where(eq(usersTable.id, id)).returning().get();
-  await db.delete(userRolesTable).where(eq(userRolesTable.userId, id));
+export async function deleteUser(key: keyof UserUniqueFields, value: any): Promise<Omit<User, 'roles'> | undefined> {
+  const deletedUser = db.delete(usersTable).where(eq(usersTable[key], value)).returning().get();
+  
+  if (deletedUser) {
+    await db.delete(userRolesTable).where(eq(userRolesTable.userId, deletedUser.id));
+  }
 
   return deletedUser;
 }
