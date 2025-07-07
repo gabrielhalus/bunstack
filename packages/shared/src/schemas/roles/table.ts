@@ -2,7 +2,7 @@ import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
-export const roles = sqliteTable("roles", {
+export const rolesTable = sqliteTable("roles", {
   id: text("id").primaryKey().$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   index: integer("index").notNull().default(0),
