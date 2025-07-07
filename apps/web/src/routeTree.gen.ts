@@ -20,7 +20,7 @@ import { Route as AuthenticatedDashboardProfileImport } from './routes/_authenti
 import { Route as AuthenticatedDashboardUsersRouteImport } from './routes/_authenticated/_dashboard/users/route'
 import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authenticated/_dashboard/users/index'
 import { Route as AuthenticatedDashboardSettingsIndexImport } from './routes/_authenticated/_dashboard/settings/index'
-import { Route as AuthenticatedDashboardSettingsSectionImport } from './routes/_authenticated/_dashboard/settings/$section'
+import { Route as AuthenticatedDashboardSettingsRolesImport } from './routes/_authenticated/_dashboard/settings/roles'
 
 // Create/Update Routes
 
@@ -82,10 +82,10 @@ const AuthenticatedDashboardSettingsIndexRoute =
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 
-const AuthenticatedDashboardSettingsSectionRoute =
-  AuthenticatedDashboardSettingsSectionImport.update({
-    id: '/settings/$section',
-    path: '/settings/$section',
+const AuthenticatedDashboardSettingsRolesRoute =
+  AuthenticatedDashboardSettingsRolesImport.update({
+    id: '/settings/roles',
+    path: '/settings/roles',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 
@@ -142,11 +142,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexImport
       parentRoute: typeof AuthenticatedDashboardRouteImport
     }
-    '/_authenticated/_dashboard/settings/$section': {
-      id: '/_authenticated/_dashboard/settings/$section'
-      path: '/settings/$section'
-      fullPath: '/settings/$section'
-      preLoaderRoute: typeof AuthenticatedDashboardSettingsSectionImport
+    '/_authenticated/_dashboard/settings/roles': {
+      id: '/_authenticated/_dashboard/settings/roles'
+      path: '/settings/roles'
+      fullPath: '/settings/roles'
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsRolesImport
       parentRoute: typeof AuthenticatedDashboardRouteImport
     }
     '/_authenticated/_dashboard/settings/': {
@@ -200,7 +200,7 @@ interface AuthenticatedDashboardRouteRouteChildren {
   AuthenticatedDashboardUsersRouteRoute: typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   AuthenticatedDashboardProfileRoute: typeof AuthenticatedDashboardProfileRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
-  AuthenticatedDashboardSettingsSectionRoute: typeof AuthenticatedDashboardSettingsSectionRoute
+  AuthenticatedDashboardSettingsRolesRoute: typeof AuthenticatedDashboardSettingsRolesRoute
   AuthenticatedDashboardSettingsIndexRoute: typeof AuthenticatedDashboardSettingsIndexRoute
 }
 
@@ -210,8 +210,8 @@ const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRoute
       AuthenticatedDashboardUsersRouteRouteWithChildren,
     AuthenticatedDashboardProfileRoute: AuthenticatedDashboardProfileRoute,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
-    AuthenticatedDashboardSettingsSectionRoute:
-      AuthenticatedDashboardSettingsSectionRoute,
+    AuthenticatedDashboardSettingsRolesRoute:
+      AuthenticatedDashboardSettingsRolesRoute,
     AuthenticatedDashboardSettingsIndexRoute:
       AuthenticatedDashboardSettingsIndexRoute,
   }
@@ -228,7 +228,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
-  '/settings/$section': typeof AuthenticatedDashboardSettingsSectionRoute
+  '/settings/roles': typeof AuthenticatedDashboardSettingsRolesRoute
   '/settings': typeof AuthenticatedDashboardSettingsIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
 }
@@ -239,7 +239,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthenticationRegisterRoute
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
-  '/settings/$section': typeof AuthenticatedDashboardSettingsSectionRoute
+  '/settings/roles': typeof AuthenticatedDashboardSettingsRolesRoute
   '/settings': typeof AuthenticatedDashboardSettingsIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
 }
@@ -253,7 +253,7 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
-  '/_authenticated/_dashboard/settings/$section': typeof AuthenticatedDashboardSettingsSectionRoute
+  '/_authenticated/_dashboard/settings/roles': typeof AuthenticatedDashboardSettingsRolesRoute
   '/_authenticated/_dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
 }
@@ -267,7 +267,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/profile'
     | '/'
-    | '/settings/$section'
+    | '/settings/roles'
     | '/settings'
     | '/users/'
   fileRoutesByTo: FileRoutesByTo
@@ -277,7 +277,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/profile'
     | '/'
-    | '/settings/$section'
+    | '/settings/roles'
     | '/settings'
     | '/users'
   id:
@@ -289,7 +289,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard/users'
     | '/_authenticated/_dashboard/profile'
     | '/_authenticated/_dashboard/'
-    | '/_authenticated/_dashboard/settings/$section'
+    | '/_authenticated/_dashboard/settings/roles'
     | '/_authenticated/_dashboard/settings/'
     | '/_authenticated/_dashboard/users/'
   fileRoutesById: FileRoutesById
@@ -333,7 +333,7 @@ export const routeTree = rootRoute
         "/_authenticated/_dashboard/users",
         "/_authenticated/_dashboard/profile",
         "/_authenticated/_dashboard/",
-        "/_authenticated/_dashboard/settings/$section",
+        "/_authenticated/_dashboard/settings/roles",
         "/_authenticated/_dashboard/settings/"
       ]
     },
@@ -360,8 +360,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard/index.tsx",
       "parent": "/_authenticated/_dashboard"
     },
-    "/_authenticated/_dashboard/settings/$section": {
-      "filePath": "_authenticated/_dashboard/settings/$section.tsx",
+    "/_authenticated/_dashboard/settings/roles": {
+      "filePath": "_authenticated/_dashboard/settings/roles.tsx",
       "parent": "/_authenticated/_dashboard"
     },
     "/_authenticated/_dashboard/settings/": {

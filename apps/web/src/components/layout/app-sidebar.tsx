@@ -33,8 +33,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             href: { to: "/settings" } as const,
             items: [
               {
-                title: "Permissions",
-                href: { to: "/settings/$section", params: { section: "permissions" } } as const,
+                title: "Roles",
+                href: { to: "/settings/roles" } as const,
               },
             ],
           }]
