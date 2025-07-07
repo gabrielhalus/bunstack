@@ -1,11 +1,11 @@
-import type { Role, User } from "./schemas/users";
+import type { User } from "./schemas/users";
 
 type PermissionCheck<Key extends keyof Permissions> =
   | boolean
   | ((user: User, data: Permissions[Key]["dataType"]) => boolean);
 
 type RolesWithPermissions = {
-  [R in Role]: Partial<{
+  [R in string]: Partial<{
     [Key in keyof Permissions]: Partial<{
       [Action in Permissions[Key]["action"]]: PermissionCheck<Key>;
     }>
@@ -59,7 +59,7 @@ export function hasPermission<Resource extends keyof Permissions>(
   action: Permissions[Resource]["action"],
   data?: Permissions[Resource]["dataType"],
 ) {
-  return user.roles.some((role: Role) => {
+  return user.roles.some((role: string) => {
     const permission = (ROLES as RolesWithPermissions)[role][resource]?.[action];
     if (permission == null)
       return false;
