@@ -73,8 +73,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "role": {
-          "name": "role",
+        "role_id": {
+          "name": "role_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -88,7 +88,7 @@
         "user_roles_user_id_role_pk": {
           "columns": [
             "user_id",
-            "role"
+            "role_id"
           ],
           "name": "user_roles_user_id_role_pk"
         }

@@ -15,6 +15,13 @@
       "when": 1751863922041,
       "tag": "0001_supreme_banshee",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1751865496945,
+      "tag": "0002_chilly_flatman",
+      "breakpoints": true
     }
   ]
 }

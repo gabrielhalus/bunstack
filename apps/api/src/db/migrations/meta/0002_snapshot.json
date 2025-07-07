@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c577b7ff-c93c-4697-89b2-0eb18b31283f",
-  "prevId": "2bafa9d0-c11f-4d33-a7cb-e38a428d76e1",
+  "id": "c27e7dcc-5e32-47a8-a0d9-fc4a2323d00a",
+  "prevId": "c577b7ff-c93c-4697-89b2-0eb18b31283f",
   "tables": {
     "roles": {
       "name": "roles",
@@ -21,6 +21,22 @@
           "notNull": true,
           "autoincrement": false
         },
+        "default": {
+          "name": "default",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "super_user": {
+          "name": "super_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "integer",
@@ -36,7 +52,16 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "default_unique": {
+          "name": "default_unique",
+          "columns": [
+            "default"
+          ],
+          "isUnique": true,
+          "where": "\"default\" = 1"
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -116,19 +141,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "'user'"
+          "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "user_roles_user_id_role_pk": {
+        "user_roles_user_id_role_id_pk": {
           "columns": [
             "user_id",
             "role_id"
           ],
-          "name": "user_roles_user_id_role_pk"
+          "name": "user_roles_user_id_role_id_pk"
         }
       },
       "uniqueConstraints": {},
