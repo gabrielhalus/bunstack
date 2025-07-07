@@ -11,6 +11,7 @@ export const roles = sqliteTable("roles", {
   createdAt: integer("created_at").notNull().$defaultFn(() => Date.now()),
   updatedAt: integer("updated_at").notNull().$defaultFn(() => Date.now()),
 }, t => [
+  uniqueIndex("name_unique").on(t.name),
   uniqueIndex("index_unique").on(t.index),
   uniqueIndex("default_unique").on(t.default).where(sql`"default" = 1`),
 ]);
