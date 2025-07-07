@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1751623521441,
-      "tag": "0000_opposite_stingray",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1751863922041,
-      "tag": "0001_supreme_banshee",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1751865496945,
-      "tag": "0002_chilly_flatman",
+      "when": 1751865763686,
+      "tag": "0000_young_sinister_six",
       "breakpoints": true
     }
   ]
