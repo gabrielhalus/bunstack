@@ -10,5 +10,3 @@ export const tokens = sqliteTable("tokens", {
   userAgent: text("user_agent"),
   ip: text("ip"),
 });
-
-export type Token = typeof tokens.$inferSelect;
