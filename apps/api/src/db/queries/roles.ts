@@ -1,10 +1,10 @@
 import type { insertRoleSchema, Role, RoleUniqueFields } from "@bunstack/shared/schemas/roles";
 
-import { rolesTable as rolesTable } from "@bunstack/shared/schemas/roles";
+import { rolesTable } from "@bunstack/shared/schemas/roles";
+import { userRolesTable } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { userRolesTable } from "@bunstack/shared/schemas/users";
 
 /**
  * Get all roles.

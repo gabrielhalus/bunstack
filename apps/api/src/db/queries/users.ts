@@ -65,7 +65,7 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
  * @param user - The user data to insert.
  * @returns The inserted user.
  */
-export async function insertUser(user: typeof insertUserSchema._type): Promise<Omit<User, 'roles'>> {
+export async function insertUser(user: typeof insertUserSchema._type): Promise<Omit<User, "roles">> {
   const insertedUser = db.insert(usersTable).values(user).returning().get();
   const defaultRole = db.select().from(rolesTable).where(eq(rolesTable.default, true)).get();
 
@@ -83,9 +83,9 @@ export async function insertUser(user: typeof insertUserSchema._type): Promise<O
  * @param value - The value to search for.
  * @returns The deleted user.
  */
-export async function deleteUser(key: keyof UserUniqueFields, value: any): Promise<Omit<User, 'roles'> | undefined> {
+export async function deleteUser(key: keyof UserUniqueFields, value: any): Promise<Omit<User, "roles"> | undefined> {
   const deletedUser = db.delete(usersTable).where(eq(usersTable[key], value)).returning().get();
-  
+
   if (deletedUser) {
     await db.delete(userRolesTable).where(eq(userRolesTable.userId, deletedUser.id));
   }

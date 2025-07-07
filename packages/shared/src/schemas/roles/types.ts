@@ -1,4 +1,4 @@
-import { rolesTable } from "./table";
+import type { rolesTable } from "./table";
 
 export type Role = typeof rolesTable.$inferSelect;
 

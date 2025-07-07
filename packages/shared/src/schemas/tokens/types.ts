@@ -1,4 +1,4 @@
-import { tokensTable } from "./table";
+import type { tokensTable } from "./table";
 
 export type Token = typeof tokensTable.$inferSelect;
 
