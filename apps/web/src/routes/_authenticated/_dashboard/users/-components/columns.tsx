@@ -1,53 +1,100 @@
 import type { User } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
+import { ArrowUpDown } from "lucide-react";
 
-import { RowActions } from "./row-actions";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const columns: ColumnDef<User>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={value => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => {
-      const user = row.original;
-      const avatarFallback = !user.avatar ? generateAvatarFallback(user.name) : undefined;
-
+    header: ({ column }) => {
       return (
-        <div className="flex items-center gap-2">
-          {/* TODO: make this a component */}
-          <Avatar className="h-8 w-8 overflow-visible">
-            {user.avatar && (
-              <AvatarImage
-                src={user.avatar}
-                alt={user.name}
-                className="object-cover h-8 w-8 rounded-lg"
-                style={{ objectFit: "cover" }}
-              />
-            )}
-            <AvatarFallback className="h-8 w-8 rounded-lg">{avatarFallback}</AvatarFallback>
-          </Avatar>
-          {user.name}
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 -ml-3 p-0 hover:bg-transparent"
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="flex items-center space-x-3">
+        <Avatar className="h-8 w-8 rounded-lg">
+          <AvatarImage src={row.original.avatar as string} className="object-cover" />
+          <AvatarFallback className="rounded-lg">
+            {row
+              .getValue<string>("name")
+              .split(" ")
+              .map(n => n[0])
+              .join("")}
+          </AvatarFallback>
+        </Avatar>
+        <div className="font-medium">{row.getValue("name")}</div>
+      </div>
+    ),
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 -ml-3 p-0 hover:bg-transparent"
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="text-muted-foreground">{row.getValue("email")}</div>,
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="h-8 -ml-3 hover:bg-transparent"
+      >
+        Created At
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
-      const timestamp = Number(row.getValue("createdAt"));
-      const createdAt = new Date(timestamp);
-      return Number.isNaN(createdAt.getTime()) ? <>Invalid date</> : <>{createdAt.toLocaleDateString()}</>;
+      const timestamp = row.getValue<number>("createdAt");
+      const dateString = timestamp
+        ? new Date(timestamp).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        : "";
+      return <div className="text-muted-foreground">{dateString}</div>;
     },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <div className="flex justify-end"><RowActions row={row} /></div>,
   },
 ];
