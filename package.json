@@ -9,8 +9,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
 
-    "db:generate": "bun --filter=@bunstack/api run db:generate",
-    "db:migrate": "bun --filter=@bunstack/api run db:migrate"
+    "drizzle:generate": "bun --filter=@bunstack/api run drizzle:generate",
+    "drizzle:push": "bun --filter=@bunstack/api run drizzle:push",
+    "drizzle:studio": "bun --filter=@bunstack/api run drizzle:studio"
   },
   "devDependencies": {
     "turbo": "^2.5.4",
