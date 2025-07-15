@@ -20,7 +20,8 @@ import { Route as AuthenticatedDashboardProfileImport } from './routes/_authenti
 import { Route as AuthenticatedDashboardUsersRouteImport } from './routes/_authenticated/_dashboard/users/route'
 import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authenticated/_dashboard/users/index'
 import { Route as AuthenticatedDashboardSettingsIndexImport } from './routes/_authenticated/_dashboard/settings/index'
-import { Route as AuthenticatedDashboardSettingsRolesImport } from './routes/_authenticated/_dashboard/settings/roles'
+import { Route as AuthenticatedDashboardSettingsRolesRouteImport } from './routes/_authenticated/_dashboard/settings/roles/route'
+import { Route as AuthenticatedDashboardSettingsRolesIndexImport } from './routes/_authenticated/_dashboard/settings/roles/index'
 
 // Create/Update Routes
 
@@ -82,11 +83,18 @@ const AuthenticatedDashboardSettingsIndexRoute =
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 
-const AuthenticatedDashboardSettingsRolesRoute =
-  AuthenticatedDashboardSettingsRolesImport.update({
+const AuthenticatedDashboardSettingsRolesRouteRoute =
+  AuthenticatedDashboardSettingsRolesRouteImport.update({
     id: '/settings/roles',
     path: '/settings/roles',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+
+const AuthenticatedDashboardSettingsRolesIndexRoute =
+  AuthenticatedDashboardSettingsRolesIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardSettingsRolesRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -146,7 +154,7 @@ declare module '@tanstack/react-router' {
       id: '/_authenticated/_dashboard/settings/roles'
       path: '/settings/roles'
       fullPath: '/settings/roles'
-      preLoaderRoute: typeof AuthenticatedDashboardSettingsRolesImport
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsRolesRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteImport
     }
     '/_authenticated/_dashboard/settings/': {
@@ -162,6 +170,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/users/'
       preLoaderRoute: typeof AuthenticatedDashboardUsersIndexImport
       parentRoute: typeof AuthenticatedDashboardUsersRouteImport
+    }
+    '/_authenticated/_dashboard/settings/roles/': {
+      id: '/_authenticated/_dashboard/settings/roles/'
+      path: '/'
+      fullPath: '/settings/roles/'
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsRolesIndexImport
+      parentRoute: typeof AuthenticatedDashboardSettingsRolesRouteImport
     }
   }
 }
@@ -196,11 +211,26 @@ const AuthenticatedDashboardUsersRouteRouteWithChildren =
     AuthenticatedDashboardUsersRouteRouteChildren,
   )
 
+interface AuthenticatedDashboardSettingsRolesRouteRouteChildren {
+  AuthenticatedDashboardSettingsRolesIndexRoute: typeof AuthenticatedDashboardSettingsRolesIndexRoute
+}
+
+const AuthenticatedDashboardSettingsRolesRouteRouteChildren: AuthenticatedDashboardSettingsRolesRouteRouteChildren =
+  {
+    AuthenticatedDashboardSettingsRolesIndexRoute:
+      AuthenticatedDashboardSettingsRolesIndexRoute,
+  }
+
+const AuthenticatedDashboardSettingsRolesRouteRouteWithChildren =
+  AuthenticatedDashboardSettingsRolesRouteRoute._addFileChildren(
+    AuthenticatedDashboardSettingsRolesRouteRouteChildren,
+  )
+
 interface AuthenticatedDashboardRouteRouteChildren {
   AuthenticatedDashboardUsersRouteRoute: typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   AuthenticatedDashboardProfileRoute: typeof AuthenticatedDashboardProfileRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
-  AuthenticatedDashboardSettingsRolesRoute: typeof AuthenticatedDashboardSettingsRolesRoute
+  AuthenticatedDashboardSettingsRolesRouteRoute: typeof AuthenticatedDashboardSettingsRolesRouteRouteWithChildren
   AuthenticatedDashboardSettingsIndexRoute: typeof AuthenticatedDashboardSettingsIndexRoute
 }
 
@@ -210,8 +240,8 @@ const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRoute
       AuthenticatedDashboardUsersRouteRouteWithChildren,
     AuthenticatedDashboardProfileRoute: AuthenticatedDashboardProfileRoute,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
-    AuthenticatedDashboardSettingsRolesRoute:
-      AuthenticatedDashboardSettingsRolesRoute,
+    AuthenticatedDashboardSettingsRolesRouteRoute:
+      AuthenticatedDashboardSettingsRolesRouteRouteWithChildren,
     AuthenticatedDashboardSettingsIndexRoute:
       AuthenticatedDashboardSettingsIndexRoute,
   }
@@ -228,9 +258,10 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
-  '/settings/roles': typeof AuthenticatedDashboardSettingsRolesRoute
+  '/settings/roles': typeof AuthenticatedDashboardSettingsRolesRouteRouteWithChildren
   '/settings': typeof AuthenticatedDashboardSettingsIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
+  '/settings/roles/': typeof AuthenticatedDashboardSettingsRolesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -239,9 +270,9 @@ export interface FileRoutesByTo {
   '/register': typeof AuthenticationRegisterRoute
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
-  '/settings/roles': typeof AuthenticatedDashboardSettingsRolesRoute
   '/settings': typeof AuthenticatedDashboardSettingsIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
+  '/settings/roles': typeof AuthenticatedDashboardSettingsRolesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -253,9 +284,10 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
-  '/_authenticated/_dashboard/settings/roles': typeof AuthenticatedDashboardSettingsRolesRoute
+  '/_authenticated/_dashboard/settings/roles': typeof AuthenticatedDashboardSettingsRolesRouteRouteWithChildren
   '/_authenticated/_dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
+  '/_authenticated/_dashboard/settings/roles/': typeof AuthenticatedDashboardSettingsRolesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -270,6 +302,7 @@ export interface FileRouteTypes {
     | '/settings/roles'
     | '/settings'
     | '/users/'
+    | '/settings/roles/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -277,9 +310,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/profile'
     | '/'
-    | '/settings/roles'
     | '/settings'
     | '/users'
+    | '/settings/roles'
   id:
     | '__root__'
     | '/_authentication'
@@ -292,6 +325,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard/settings/roles'
     | '/_authenticated/_dashboard/settings/'
     | '/_authenticated/_dashboard/users/'
+    | '/_authenticated/_dashboard/settings/roles/'
   fileRoutesById: FileRoutesById
 }
 
@@ -361,8 +395,11 @@ export const routeTree = rootRoute
       "parent": "/_authenticated/_dashboard"
     },
     "/_authenticated/_dashboard/settings/roles": {
-      "filePath": "_authenticated/_dashboard/settings/roles.tsx",
-      "parent": "/_authenticated/_dashboard"
+      "filePath": "_authenticated/_dashboard/settings/roles/route.tsx",
+      "parent": "/_authenticated/_dashboard",
+      "children": [
+        "/_authenticated/_dashboard/settings/roles/"
+      ]
     },
     "/_authenticated/_dashboard/settings/": {
       "filePath": "_authenticated/_dashboard/settings/index.tsx",
@@ -371,6 +408,10 @@ export const routeTree = rootRoute
     "/_authenticated/_dashboard/users/": {
       "filePath": "_authenticated/_dashboard/users/index.tsx",
       "parent": "/_authenticated/_dashboard/users"
+    },
+    "/_authenticated/_dashboard/settings/roles/": {
+      "filePath": "_authenticated/_dashboard/settings/roles/index.tsx",
+      "parent": "/_authenticated/_dashboard/settings/roles"
     }
   }
 }
