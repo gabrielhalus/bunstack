@@ -96,6 +96,11 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data: data || [],
     columns,
+    defaultColumn: {
+      size: undefined,
+      maxSize: undefined,
+      minSize: undefined,
+    },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -164,8 +169,42 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead {...{
+                      key: header.id,
+                      colSpan: header.colSpan,
+                      style: {
+                        width: header.column.columnDef.size !== undefined
+                          ? header.getSize()
+                          : undefined
+                      },
+                    }}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {/* <div
+                        {...{
+                          onDoubleClick: () => header.column.resetSize(),
+                          onMouseDown: header.getResizeHandler(),
+                          onTouchStart: header.getResizeHandler(),
+                          className: resizer ${
+                            table.options.columnResizeDirection
+                          } ${
+                            header.column.getIsResizing() ? 'isResizing' : ''
+                          },
+                          style: {
+                            transform:
+                              columnResizeMode === 'onEnd' &&
+                              header.column.getIsResizing()
+                                ? translateX(${
+                                    (table.options.columnResizeDirection ===
+                                    'rtl'
+                                      ? -1
+                                      : 1) *
+                                    (table.getState().columnSizingInfo
+                                      .deltaOffset ?? 0)
+                                  }px)
+                                : '',
+                          },
+                        }}
+                      /> */}
                     </TableHead>
                   )
                 })}
@@ -179,7 +218,12 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell {...{
+                      key: cell.id,
+                      style: {
+                        width: cell.column.columnDef.size
+                      },
+                    }}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

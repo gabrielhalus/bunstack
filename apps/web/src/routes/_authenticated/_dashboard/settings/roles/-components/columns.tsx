@@ -2,6 +2,8 @@ import type { Role } from "@bunstack/shared/schemas/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { Donut } from "lucide-react";
+import { SortableHeader } from "@/components/ui/sortable-header";
 
 export const columns: ColumnDef<Role>[] = [
   {
@@ -22,10 +24,21 @@ export const columns: ColumnDef<Role>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    size: 50,
   },
   {
-    header: "Name",
+    header: ({ column }) => <SortableHeader column={column} title="Name" />,
     accessorKey: "name",
-    enableSorting: false,
   },
+  {
+    id: "actions",
+    cell: () => (
+      <div className="flex justify-center">
+        <Donut />
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+    size: 50,
+  }
 ];

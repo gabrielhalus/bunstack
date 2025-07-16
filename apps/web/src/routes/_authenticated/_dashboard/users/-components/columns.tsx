@@ -1,11 +1,12 @@
 import type { User } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { ArrowUpDown } from "lucide-react";
+import { ArrowDownNarrowWide, ArrowUpDown, ArrowUpNarrowWide } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SortableHeader } from "@/components/ui/sortable-header";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -26,21 +27,11 @@ export const columns: ColumnDef<User>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    size: 32,
   },
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 -ml-3 p-0 hover:bg-transparent"
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Name" />,
     cell: ({ row }) => (
       <div className="flex items-center space-x-3">
         <Avatar className="h-8 w-8 rounded-lg">
@@ -56,35 +47,16 @@ export const columns: ColumnDef<User>[] = [
         <div className="font-medium">{row.getValue("name")}</div>
       </div>
     ),
+    size: 250,
   },
   {
     accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 -ml-3 p-0 hover:bg-transparent"
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Email" />,
     cell: ({ row }) => <div className="text-muted-foreground">{row.getValue("email")}</div>,
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-8 -ml-3 hover:bg-transparent"
-      >
-        Created At
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
+    header: ({ column }) => <SortableHeader column={column} title="Created At" />,
     cell: ({ row }) => {
       const timestamp = row.getValue<number>("createdAt");
       const dateString = timestamp
