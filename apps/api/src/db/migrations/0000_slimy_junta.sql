@@ -1,15 +1,16 @@
 CREATE TABLE `roles` (
-	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
-	`index` integer DEFAULT 0 NOT NULL,
-	`default` integer DEFAULT false NOT NULL,
-	`super_user` integer DEFAULT false NOT NULL,
+	`name` text PRIMARY KEY NOT NULL,
+	`label` text NOT NULL,
+	`description` text,
+	`sort_order` integer DEFAULT 0 NOT NULL,
+	`is_default` integer DEFAULT false NOT NULL,
+	`is_super_user` integer DEFAULT false NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `index_unique` ON `roles` (`index`);--> statement-breakpoint
-CREATE UNIQUE INDEX `default_unique` ON `roles` (`default`) WHERE "default" = 1;--> statement-breakpoint
+CREATE UNIQUE INDEX `sort_order_unique` ON `roles` (`sort_order`);--> statement-breakpoint
+CREATE UNIQUE INDEX `is_default_unique` ON `roles` (`is_default`) WHERE "is_default" = 1;--> statement-breakpoint
 CREATE TABLE `tokens` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,

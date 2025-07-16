@@ -1,44 +1,51 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "052d7fc3-ef0b-4d0d-baed-7dd5ebc78595",
+  "id": "5b829542-47bd-4766-849d-2ed54743a5ee",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "roles": {
       "name": "roles",
       "columns": {
-        "id": {
-          "name": "id",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
-        "name": {
-          "name": "name",
+        "label": {
+          "name": "label",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "index": {
-          "name": "index",
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sort_order": {
+          "name": "sort_order",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": 0
         },
-        "default": {
-          "name": "default",
+        "is_default": {
+          "name": "is_default",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": false
         },
-        "super_user": {
-          "name": "super_user",
+        "is_super_user": {
+          "name": "is_super_user",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -61,20 +68,20 @@
         }
       },
       "indexes": {
-        "index_unique": {
-          "name": "index_unique",
+        "sort_order_unique": {
+          "name": "sort_order_unique",
           "columns": [
-            "index"
+            "sort_order"
           ],
           "isUnique": true
         },
-        "default_unique": {
-          "name": "default_unique",
+        "is_default_unique": {
+          "name": "is_default_unique",
           "columns": [
-            "default"
+            "is_default"
           ],
           "isUnique": true,
-          "where": "\"default\" = 1"
+          "where": "\"is_default\" = 1"
         }
       },
       "foreignKeys": {},
