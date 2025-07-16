@@ -1,10 +1,10 @@
 import type { Role } from "@bunstack/shared/schemas/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Donut } from "lucide-react";
+import { toast } from "sonner";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { SortableHeader } from "@/components/ui/sortable-header";
+import { ActionsCell, SortableHeader } from "@/components/ui/data-table";
 
 export const columns: ColumnDef<Role>[] = [
   {
@@ -33,11 +33,22 @@ export const columns: ColumnDef<Role>[] = [
   },
   {
     id: "actions",
-    cell: () => (
-      <div className="flex justify-center">
-        <Donut />
-      </div>
-    ),
+    cell: ({ row }) => {
+      const role = row.original;
+
+      return (
+        <ActionsCell items={[
+          {
+            label: "Copy Role ID",
+            onClick: () => {
+              navigator.clipboard.writeText(role.id);
+              toast.success("Role ID copied to clipboard");
+            },
+          },
+        ]}
+        />
+      );
+    },
     enableSorting: false,
     enableHiding: false,
     size: 50,

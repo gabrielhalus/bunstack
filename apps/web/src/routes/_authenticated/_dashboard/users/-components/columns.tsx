@@ -1,9 +1,11 @@
 import type { User } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
+import { toast } from "sonner";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SortableHeader } from "@/components/ui/sortable-header";
+import { ActionsCell, SortableHeader } from "@/components/ui/data-table";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -24,7 +26,7 @@ export const columns: ColumnDef<User>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
-    size: 32,
+    size: 50,
   },
   {
     accessorKey: "name",
@@ -65,5 +67,27 @@ export const columns: ColumnDef<User>[] = [
         : "";
       return <div className="text-muted-foreground">{dateString}</div>;
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const user = row.original;
+
+      return (
+        <ActionsCell items={[
+          {
+            label: "Copy User ID",
+            onClick: () => {
+              navigator.clipboard.writeText(user.id);
+              toast.success("User ID copied to clipboard");
+            },
+          },
+        ]}
+        />
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+    size: 50,
   },
 ];

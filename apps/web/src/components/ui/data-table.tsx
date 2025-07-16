@@ -1,5 +1,5 @@
-import * as React from "react"
 import {
+  Column,
   type ColumnDef,
   type ColumnFiltersState,
   type SortingState,
@@ -11,18 +11,21 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ChevronDown, Search, Settings2 } from "lucide-react"
+import { ArrowDownNarrowWide, ArrowUpDown, ArrowUpNarrowWide, ChevronDown, MoreHorizontal, Search, Settings2 } from "lucide-react"
+import * as React from "react"
 
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -279,5 +282,81 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
     </div>
+  )
+}
+
+interface SortableHeaderProps<TData> {
+  column: Column<TData, unknown>;
+  title: string;
+  className?: string;
+}
+
+export function SortableHeader<TData>({ column, title, className }: SortableHeaderProps<TData>) {
+  const sortState = column.getIsSorted() as false | "asc" | "desc";
+  
+  const getSortIcon = () => {
+    if (sortState === "asc") return <ArrowUpNarrowWide className="ml-2 h-4 w-4 text-muted-foreground" />;
+    if (sortState === "desc") return <ArrowDownNarrowWide className="ml-2 h-4 w-4 text-muted-foreground" />;
+    return <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground" />;
+  };
+
+  const handleSort = () => {
+    if (sortState === "asc") {
+      column.toggleSorting(true);
+    } else if (sortState === "desc") {
+      column.clearSorting();
+    } else {
+      column.toggleSorting(false);
+    }
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      onClick={handleSort}
+      className={`h-8 -ml-3 p-0 hover:bg-transparent ${className || ""}`}
+    >
+      {title}
+      {getSortIcon()}
+    </Button>
+  );
+}
+
+type ActionItem = {
+  label: string
+  onClick: () => void
+  icon?: React.ComponentType<{ className?: string }>
+  disabled?: boolean
+  destructive?: boolean
+}
+
+interface ActionsCellProps {
+  items: ActionItem[]
+}
+
+export function ActionsCell({ items }: ActionsCellProps) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        {items.map((item, index) => (
+          <DropdownMenuItem
+            key={index}
+            onClick={item.onClick}
+            disabled={item.disabled}
+            className={item.destructive ? "text-destructive" : ""}
+          >
+            {item.icon && <item.icon className="mr-2 h-4 w-4" />}
+            {item.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
