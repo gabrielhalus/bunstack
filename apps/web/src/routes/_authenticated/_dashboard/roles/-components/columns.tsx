@@ -2,7 +2,7 @@ import type { Role } from "@bunstack/shared/schemas/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { SortableHeader } from "@/components/ui/data-table";
+import { SortableHeader } from "@/components/ui/sortable-header";
 
 export const columns: ColumnDef<Role>[] = [
   {

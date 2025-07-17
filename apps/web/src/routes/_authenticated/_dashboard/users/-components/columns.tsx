@@ -1,11 +1,11 @@
 import type { User } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { toast } from "sonner";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ActionsCell, SortableHeader } from "@/components/ui/data-table";
+import { SortableHeader } from "@/components/ui/sortable-header";
+import { ActionDropdown } from "./action-dropdown";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -75,22 +75,7 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const user = row.original;
-
-      return (
-        <ActionsCell items={[
-          {
-            label: "Copy User ID",
-            onClick: () => {
-              navigator.clipboard.writeText(user.id);
-              toast.success("User ID copied to clipboard");
-            },
-          },
-        ]}
-        />
-      );
-    },
+    cell: ({ row }) => <ActionDropdown row={row} />,
     enableSorting: false,
     enableHiding: false,
     size: 50,
