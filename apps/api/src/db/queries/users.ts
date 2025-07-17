@@ -12,19 +12,17 @@ import { db } from "@/db";
  * @returns All users.
  */
 export async function getAllUsers(): Promise<User[]> {
-  const [users, roles, userRoles] = [
+  const [users, userRoles] = [
     db.select().from(usersTable).all(),
-    db.select().from(rolesTable).all(),
     db.select().from(userRolesTable).all(),
   ];
 
-  const roleMap = new Map(roles.map(r => [r.id, r.name]));
   const userRoleMap = new Map<string, string[]>();
 
   for (const { userId, roleId } of userRoles) {
     if (!userRoleMap.has(userId))
       userRoleMap.set(userId, []);
-    userRoleMap.get(userId)!.push(roleMap.get(roleId)!);
+    userRoleMap.get(userId)!.push(roleId);
   }
 
   return users.map(user => ({
@@ -45,17 +43,12 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
   if (!user)
     return undefined;
 
-  const [roles, userRoles] = [
-    db.select().from(rolesTable).all(),
-    db.select().from(userRolesTable).where(eq(userRolesTable.userId, value)).all(),
-  ];
-
-  const roleMap = new Map(roles.map(r => [r.id, r.name]));
-  const roleNames = userRoles.map(ur => roleMap.get(ur.roleId)!).filter(Boolean);
+  const userRoles = db.select().from(userRolesTable).where(eq(userRolesTable.userId, value)).all();
+  const roleIds = userRoles.map(ur => ur.roleId);
 
   return {
     ...user,
-    roles: roleNames,
+    roles: roleIds,
   };
 }
 
@@ -67,7 +60,7 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
  */
 export async function insertUser(user: typeof insertUserSchema._type): Promise<Omit<User, "roles">> {
   const insertedUser = db.insert(usersTable).values(user).returning().get();
-  const defaultRole = db.select().from(rolesTable).where(eq(rolesTable.default, true)).get();
+  const defaultRole = db.select().from(rolesTable).where(eq(rolesTable.isDefault, true)).get();
 
   if (defaultRole) {
     await db.insert(userRolesTable).values({ userId: insertedUser.id, roleId: defaultRole.id });

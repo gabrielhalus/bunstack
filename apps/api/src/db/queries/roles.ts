@@ -1,7 +1,6 @@
 import type { insertRoleSchema, Role, RoleUniqueFields } from "@bunstack/shared/schemas/roles";
 
 import { rolesTable } from "@bunstack/shared/schemas/roles";
-import { userRolesTable } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -44,11 +43,5 @@ export async function insertRole(role: typeof insertRoleSchema._type): Promise<R
  * @returns The deleted role.
  */
 export async function deleteRole(key: keyof RoleUniqueFields, value: any): Promise<Role | undefined> {
-  const deletedRole = db.delete(rolesTable).where(eq(rolesTable[key], value)).returning().get();
-
-  if (deletedRole) {
-    await db.delete(userRolesTable).where(eq(userRolesTable.roleId, deletedRole.id));
-  }
-
-  return deletedRole;
+  return db.delete(rolesTable).where(eq(rolesTable[key], value)).returning().get();
 }

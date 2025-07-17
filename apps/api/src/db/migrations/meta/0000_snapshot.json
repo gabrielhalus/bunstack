@@ -1,14 +1,14 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "5b829542-47bd-4766-849d-2ed54743a5ee",
+  "id": "473bb249-735b-4df2-b657-5e2d1014e717",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "roles": {
       "name": "roles",
       "columns": {
-        "name": {
-          "name": "name",
+        "id": {
+          "name": "id",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
@@ -44,8 +44,8 @@
           "autoincrement": false,
           "default": false
         },
-        "is_super_user": {
-          "name": "is_super_user",
+        "is_admin": {
+          "name": "is_admin",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -167,7 +167,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "user_roles_user_id_users_id_fk": {
+          "name": "user_roles_user_id_users_id_fk",
+          "tableFrom": "user_roles",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_roles_role_id_roles_id_fk": {
+          "name": "user_roles_role_id_roles_id_fk",
+          "tableFrom": "user_roles",
+          "tableTo": "roles",
+          "columnsFrom": [
+            "role_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {
         "user_roles_user_id_role_id_pk": {
           "columns": [
