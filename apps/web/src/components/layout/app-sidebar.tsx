@@ -1,4 +1,4 @@
-import { hasPermission } from "@bunstack/shared/access";
+import { can } from "@bunstack/shared/access";
 import { Link } from "@tanstack/react-router";
 import { Box, Home, ShieldUser, Users } from "lucide-react";
 import React, { useMemo } from "react";
@@ -19,14 +19,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(user && hasPermission(user, "users", "view")
+      ...(can(user, "users", "view")
         ? [{
             title: "Users",
             icon: Users,
             href: { to: "/users" } as const,
           }]
         : []),
-      ...(user && hasPermission(user, "roles", "view")
+      ...(can(user, "roles", "view")
         ? [{
             title: "Roles",
             icon: ShieldUser,

@@ -1,4 +1,4 @@
-import { hasPermission } from "@bunstack/shared/access";
+import { can } from "@bunstack/shared/access";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { userQueryOptions } from "@/lib/queries/auth";
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles")({
     const queryClient = context.queryClient;
     const { user } = await queryClient.ensureQueryData(userQueryOptions);
 
-    if (!user || !hasPermission(user, "roles", "view")) {
+    if (!can(user, "roles", "view")) {
       throw redirect({ to: "/" });
     }
   },

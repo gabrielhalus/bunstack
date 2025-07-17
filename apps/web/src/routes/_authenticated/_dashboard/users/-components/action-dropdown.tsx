@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { TimeoutButton } from "@/components/ui/timeout-button"
 import { useAuth } from "@/hooks/use-auth"
-import { hasPermission } from "@bunstack/shared/access"
+import { can } from "@bunstack/shared/access"
 import { User } from "@bunstack/shared/schemas/users"
 import { Row } from "@tanstack/react-table"
 import { Copy, MoreHorizontal, Trash } from "lucide-react"
@@ -25,7 +25,7 @@ export function ActionDropdown({ row }: { row: Row<User>}) {
             Copy User ID
           </DropdownMenuItem>
           {
-            user && hasPermission(user, "users", "delete") && (
+            can(user, "users", "delete", row.original) && (
               <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => console.log("Delete user")}>
                 <Trash className="h-4 w-4" />
                 Delete User
