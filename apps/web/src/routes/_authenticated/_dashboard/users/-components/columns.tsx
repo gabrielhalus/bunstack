@@ -54,6 +54,11 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => <div className="text-muted-foreground">{row.getValue("email")}</div>,
   },
   {
+    accessorKey: "roles",
+    header: "Roles",
+    cell: ({ row }) => <div className="text-muted-foreground">{(row.getValue("roles") as { id: string; label: string }[]).map(({ label }) => label).join(", ")}</div>,
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => <SortableHeader column={column} title="Created At" />,
     cell: ({ row }) => {
