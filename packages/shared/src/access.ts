@@ -60,13 +60,13 @@ const ROLES = {
   },
 } as const satisfies RolesWithPermissions;
 
-export function hasPermission<Resource extends keyof Permissions>(
-  user: User,
+export function can<Resource extends keyof Permissions>(
+  user: User | null | undefined,
   resource: Resource,
   action: Permissions[Resource]["action"],
   data?: Permissions[Resource]["dataType"],
 ) {
-  return user.roles.some(({ id }: { id: string }) => {
+  return user?.roles.some(({ id }: { id: string }) => {
     const permission = (ROLES as RolesWithPermissions)[id][resource]?.[action];
     if (permission == null)
       return false;
