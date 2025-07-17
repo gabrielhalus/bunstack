@@ -1,3 +1,5 @@
+import type { Role } from "schemas/roles";
+
 import type { User } from "./schemas/users";
 
 type PermissionCheck<Key extends keyof Permissions> =
@@ -17,9 +19,9 @@ type Permissions = {
     dataType: User;
     action: "view" | "create" | "update" | "delete";
   };
-  settings: {
-    dataType: null;
-    action: "view" | "update";
+  roles: {
+    dataType: Role;
+    action: "view" | "create" | "update" | "delete";
   };
 };
 
@@ -31,17 +33,19 @@ const ROLES = {
       update: true,
       delete: true,
     },
-    settings: {
+    roles: {
       view: true,
+      create: true,
       update: true,
+      delete: true,
     },
   },
   manager: {
     users: {
       view: true,
-      create: true,
-      update: true,
-      delete: true,
+    },
+    roles: {
+      view: true,
     },
   },
   user: {
@@ -49,6 +53,9 @@ const ROLES = {
       view: (user, resource) => user.id === resource.id,
       update: (user, resource) => user.id === resource.id,
       delete: (user, resource) => user.id === resource.id,
+    },
+    roles: {
+      view: (user, resource) => user.roles.some(({ id }) => id === resource.id),
     },
   },
 } as const satisfies RolesWithPermissions;
