@@ -2,7 +2,7 @@ import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/
 
 import { rolesTable } from "@bunstack/shared/schemas/roles";
 import { userRolesTable, usersTable } from "@bunstack/shared/schemas/users";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
 
@@ -12,17 +12,29 @@ import { db } from "@/db";
  * @returns All users.
  */
 export async function getAllUsers(): Promise<User[]> {
-  const [users, userRoles] = [
-    db.select().from(usersTable).all(),
-    db.select().from(userRolesTable).all(),
-  ];
+  const users = await db.select().from(usersTable).all();
 
-  const userRoleMap = new Map<string, string[]>();
+  if (!users.length)
+    return [];
 
-  for (const { userId, roleId } of userRoles) {
+  // Get all user-role relations with role info
+  const userRoles = await db
+    .select({
+      userId: userRolesTable.userId,
+      id: rolesTable.id,
+      label: rolesTable.label,
+    })
+    .from(userRolesTable)
+    .innerJoin(rolesTable, eq(userRolesTable.roleId, rolesTable.id))
+    .orderBy(desc(rolesTable.sortOrder))
+    .all();
+
+  // Map userId to array of roles
+  const userRoleMap = new Map<string, { id: string; label: string }[]>();
+  for (const { userId, id, label } of userRoles) {
     if (!userRoleMap.has(userId))
       userRoleMap.set(userId, []);
-    userRoleMap.get(userId)!.push(roleId);
+    userRoleMap.get(userId)!.push({ id, label });
   }
 
   return users.map(user => ({
@@ -43,12 +55,17 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
   if (!user)
     return undefined;
 
-  const userRoles = db.select().from(userRolesTable).where(eq(userRolesTable.userId, value)).all();
-  const roleIds = userRoles.map(ur => ur.roleId);
+  const roles = await db
+    .select({ id: rolesTable.id, label: rolesTable.label })
+    .from(userRolesTable)
+    .where(eq(userRolesTable.userId, value))
+    .innerJoin(rolesTable, eq(userRolesTable.roleId, rolesTable.id))
+    .orderBy(desc(rolesTable.sortOrder))
+    .all();
 
   return {
     ...user,
-    roles: roleIds,
+    roles,
   };
 }
 

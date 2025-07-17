@@ -1,7 +1,7 @@
 import type { insertRoleSchema, Role, RoleUniqueFields } from "@bunstack/shared/schemas/roles";
 
 import { rolesTable } from "@bunstack/shared/schemas/roles";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
 
@@ -11,7 +11,7 @@ import { db } from "@/db";
  * @returns All roles.
  */
 export async function getAllRoles(): Promise<Role[]> {
-  return db.select().from(rolesTable).all();
+  return db.select().from(rolesTable).orderBy(desc(rolesTable.sortOrder)).all();
 }
 
 /**
