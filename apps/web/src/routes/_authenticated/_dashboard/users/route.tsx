@@ -13,6 +13,9 @@ export const Route = createFileRoute("/_authenticated/_dashboard/users")({
     }
   },
   component: UsersLayout,
+  loader: () => ({
+    crumb: "Users",
+  }),
 });
 
 function UsersLayout() {

@@ -3,18 +3,21 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { userQueryOptions } from "@/lib/queries/auth";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/settings/roles")({
+export const Route = createFileRoute("/_authenticated/_dashboard/roles")({
   beforeLoad: async ({ context }) => {
     const queryClient = context.queryClient;
     const { user } = await queryClient.ensureQueryData(userQueryOptions);
 
-    if (!user || !hasPermission(user, "users", "view")) {
+    if (!user || !hasPermission(user, "roles", "view")) {
       throw redirect({ to: "/" });
     }
   },
-  component: UsersLayout,
+  component: RolesLayout,
+  loader: () => ({
+    crumb: "Roles",
+  }),
 });
 
-function UsersLayout() {
+function RolesLayout() {
   return <Outlet />;
 }

@@ -7,7 +7,7 @@ import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
 import { columns } from "./-components/columns";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/settings/roles/")({
+export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
   component: Roles,
 });
 
