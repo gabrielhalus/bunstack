@@ -1,10 +1,8 @@
 import type { Role } from "@bunstack/shared/schemas/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { toast } from "sonner";
-
 import { Checkbox } from "@/components/ui/checkbox";
-import { ActionsCell, SortableHeader } from "@/components/ui/data-table";
+import { SortableHeader } from "@/components/ui/data-table";
 
 export const columns: ColumnDef<Role>[] = [
   {
@@ -29,28 +27,23 @@ export const columns: ColumnDef<Role>[] = [
   },
   {
     header: ({ column }) => <SortableHeader column={column} title="Name" />,
-    accessorKey: "name",
+    accessorKey: "label",
+    size: 200,
   },
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const role = row.original;
-
-      return (
-        <ActionsCell items={[
-          {
-            label: "Copy Role ID",
-            onClick: () => {
-              navigator.clipboard.writeText(role.id);
-              toast.success("Role ID copied to clipboard");
-            },
-          },
-        ]}
-        />
-      );
-    },
-    enableSorting: false,
-    enableHiding: false,
-    size: 50,
+    header: "Description",
+    accessorKey: "description",
+  },
+  {
+    header: "Default",
+    accessorKey: "isDefault",
+    cell: ({ row }) => <Checkbox checked={row.original.isDefault} />,
+    size: 80,
+  },
+  {
+    header: "Admin",
+    accessorKey: "isAdmin",
+    cell: ({ row }) => <Checkbox checked={row.original.isAdmin} />,
+    size: 80,
   },
 ];
