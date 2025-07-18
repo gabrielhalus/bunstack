@@ -1,1 +1,0 @@
-ALTER TABLE `role_permissions` ADD `condition_args` text;
