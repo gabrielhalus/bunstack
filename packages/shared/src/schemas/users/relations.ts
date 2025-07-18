@@ -5,7 +5,7 @@ import { usersTable } from "./table";
 
 export const userRolesTable = sqliteTable("user_roles", {
   userId: text("user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
-  roleId: text("role_id").notNull().references(() => rolesTable.id, { onDelete: "cascade" }),
+  roleName: text("role_name").notNull().references(() => rolesTable.id, { onDelete: "cascade" }),
 }, table => [
-  primaryKey({ columns: [table.userId, table.roleId] }),
+  primaryKey({ columns: [table.userId, table.roleName] }),
 ]);
