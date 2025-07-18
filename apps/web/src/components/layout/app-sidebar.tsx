@@ -19,14 +19,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(can(user, "users", "view")
+      ...(can(user, "users", "access")
         ? [{
             title: "Users",
             icon: Users,
             href: { to: "/users" } as const,
           }]
         : []),
-      ...(can(user, "roles", "view")
+      ...(can(user, "roles", "access")
         ? [{
             title: "Roles",
             icon: ShieldUser,

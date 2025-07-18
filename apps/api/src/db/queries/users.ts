@@ -1,8 +1,8 @@
 import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/schemas/users";
 
-import { rolesTable } from "@bunstack/shared/schemas/roles";
+import { rolePermissionsTable, rolesTable } from "@bunstack/shared/schemas/roles";
 import { userRolesTable, usersTable } from "@bunstack/shared/schemas/users";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, inArray } from "drizzle-orm";
 
 import { db } from "@/db";
 
@@ -23,6 +23,7 @@ export async function getAllUsers(): Promise<User[]> {
       userId: userRolesTable.userId,
       id: rolesTable.id,
       label: rolesTable.label,
+      isAdmin: rolesTable.isAdmin,
     })
     .from(userRolesTable)
     .innerJoin(rolesTable, eq(userRolesTable.roleId, rolesTable.id))
@@ -37,9 +38,25 @@ export async function getAllUsers(): Promise<User[]> {
     userRoleMap.get(userId)!.push({ id, label });
   }
 
+  // Get user permissions
+  const permissions = await db
+    .select({
+      roleId: rolePermissionsTable.roleId,
+      resource: rolePermissionsTable.resource,
+      action: rolePermissionsTable.action,
+      condition: rolePermissionsTable.condition,
+      conditionArgs: rolePermissionsTable.conditionArgs,
+    })
+    .from(rolePermissionsTable)
+    .innerJoin(rolesTable, eq(rolePermissionsTable.roleId, rolesTable.id))
+    .all();
+
+  console.log(permissions);
+
   return users.map(user => ({
     ...user,
     roles: userRoleMap.get(user.id) ?? [],
+    permissions,
   }));
 }
 
@@ -51,21 +68,42 @@ export async function getAllUsers(): Promise<User[]> {
  * @returns The matching user with roles.
  */
 export async function getUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
-  const user = db.select().from(usersTable).where(eq(usersTable[key], value)).get();
-  if (!user)
+  // Fix: Add await to the user query
+  const user = await db.select().from(usersTable).where(eq(usersTable[key], value)).get();
+  if (!user) {
     return undefined;
+  }
 
   const roles = await db
-    .select({ id: rolesTable.id, label: rolesTable.label })
+    .select({ id: rolesTable.id, label: rolesTable.label, isAdmin: rolesTable.isAdmin })
     .from(userRolesTable)
-    .where(eq(userRolesTable.userId, value))
+    .where(eq(userRolesTable.userId, user.id))
     .innerJoin(rolesTable, eq(userRolesTable.roleId, rolesTable.id))
     .orderBy(desc(rolesTable.sortOrder))
     .all();
 
+  const roleIds = roles.map(role => role.id);
+  const permissions = roleIds.length > 0 
+    ? await db
+        .select({
+          roleId: rolePermissionsTable.roleId,
+          resource: rolePermissionsTable.resource,
+          action: rolePermissionsTable.action,
+          condition: rolePermissionsTable.condition,
+          conditionArgs: rolePermissionsTable.conditionArgs,
+        })
+        .from(rolePermissionsTable)
+        .where(roleIds.length === 1 
+          ? eq(rolePermissionsTable.roleId, roleIds[0])
+          : inArray(rolePermissionsTable.roleId, roleIds)
+        )
+        .all()
+    : [];
+
   return {
     ...user,
     roles,
+    permissions,
   };
 }
 

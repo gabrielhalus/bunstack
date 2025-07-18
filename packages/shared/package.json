@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./access": "./dist/access.js",
+    "./access": "./dist/access/index.js",
     "./contracts/*": "./dist/contracts/*.js",
-    "./schemas/*": "./dist/schemas/*/index.js"
+    "./schemas/*": "./dist/schemas/*/index.js",
+    "./types": "./dist/types.js"
   },
   "scripts": {
     "dev": "tsc --watch",
