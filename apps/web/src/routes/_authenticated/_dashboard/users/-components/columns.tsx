@@ -1,10 +1,10 @@
 import type { User } from "@bunstack/shared/schemas/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SortableHeader } from "@/components/ui/sortable-header";
+
 import { ActionDropdown } from "./action-dropdown";
 
 export const columns: ColumnDef<User>[] = [
@@ -52,11 +52,6 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "email",
     header: ({ column }) => <SortableHeader column={column} title="Email" />,
     cell: ({ row }) => <div className="text-muted-foreground">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "roles",
-    header: "Roles",
-    cell: ({ row }) => <div className="text-muted-foreground">{(row.getValue("roles") as { id: string; label: string }[]).map(({ label }) => label).join(", ")}</div>,
   },
   {
     accessorKey: "createdAt",
