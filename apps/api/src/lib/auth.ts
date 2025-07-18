@@ -28,6 +28,7 @@ export type JwtPayload =
 
 export async function validateUser({ email, password: pwd }: { email: string; password: string }): Promise<string | null> {
   const user = await getUser("email", email);
+  console.log(user);
   if (user?.password && await password.verify(pwd, user.password)) {
     return user.id;
   }
