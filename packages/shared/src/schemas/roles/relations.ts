@@ -4,7 +4,7 @@ import { permissionsTable } from "../permissions/table";
 import { rolesTable } from "./table";
 
 export const rolePermissionsTable = sqliteTable("role_permissions", {
-  roleId: text("role_name").notNull().references(() => rolesTable.id, { onDelete: "cascade" }),
+  roleId: text("role_id").notNull().references(() => rolesTable.id, { onDelete: "cascade" }),
   resource: text("resource").notNull(),
   action: text("action").notNull().references(() => permissionsTable.name, { onDelete: "cascade" }),
   condition: text("condition"),
