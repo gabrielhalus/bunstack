@@ -8,6 +8,7 @@ export const rolePermissionsTable = sqliteTable("role_permissions", {
   resource: text("resource").notNull(),
   action: text("action").notNull().references(() => permissionsTable.name, { onDelete: "cascade" }),
   condition: text("condition"),
+  conditionArgs: text("condition_args", { mode: "json" }),
 }, table => [
   primaryKey({ columns: [table.roleId, table.resource, table.action] }),
 ]);
