@@ -24,7 +24,7 @@ export default new Hono()
     const hashedPassword = await password.hash(user.password);
 
     try {
-      const { password: _, ...insertedUser } = await insertUser({ ...user, password: hashedPassword });
+      const insertedUser = await insertUser({ ...user, password: hashedPassword });
 
       const insertedToken = await insertToken({
         userId: insertedUser.id,
