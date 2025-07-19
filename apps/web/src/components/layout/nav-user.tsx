@@ -100,7 +100,7 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+            {/* <DropdownMenuGroup>
               <Link to="/profile">
                 <DropdownMenuItem>
                   <UserRound />
@@ -108,7 +108,7 @@ export function NavUser() {
                 </DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator /> */}
             <LogoutButton variant="dropdown" />
           </DropdownMenuContent>
         </DropdownMenu>
