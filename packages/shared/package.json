@@ -6,6 +6,7 @@
   "exports": {
     "./access": "./dist/access.js",
     "./contracts/*": "./dist/contracts/*.js",
+    "./env": "./dist/env.js",
     "./schemas/*": "./dist/schemas/*/index.js",
     "./types": "./dist/types.js"
   },
