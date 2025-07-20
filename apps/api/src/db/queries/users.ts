@@ -1,6 +1,6 @@
 import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/schemas/users";
 
-import { usersTable } from "@bunstack/shared/schemas/users";
+import { Users } from "@bunstack/shared/schemas/users";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -11,7 +11,7 @@ import { db } from "@/db";
  * @returns All users.
  */
 export async function getAllUsers(): Promise<User[]> {
-  return await db.select().from(usersTable).all();
+  return await db.select().from(Users).all();
 }
 
 /**
@@ -22,7 +22,7 @@ export async function getAllUsers(): Promise<User[]> {
  * @returns The matching user.
  */
 export async function getUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
-  return await db.select().from(usersTable).where(eq(usersTable[key], value)).get();
+  return await db.select().from(Users).where(eq(Users[key], value)).get();
 }
 
 /**
@@ -32,7 +32,7 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
  * @returns The inserted user.
  */
 export async function insertUser(user: typeof insertUserSchema._type): Promise<User> {
-  return await db.insert(usersTable).values(user).returning().get();
+  return await db.insert(Users).values(user).returning().get();
 }
 
 /**
@@ -43,5 +43,5 @@ export async function insertUser(user: typeof insertUserSchema._type): Promise<U
  * @returns The deleted user.
  */
 export async function deleteUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
-  return await db.delete(usersTable).where(eq(usersTable[key], value)).returning().get();
+  return await db.delete(Users).where(eq(Users[key], value)).returning().get();
 }
