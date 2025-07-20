@@ -1,9 +1,9 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { usersTable } from "./table";
+import { Users } from "./table";
 
-export const insertUserSchema = createInsertSchema(usersTable, {
+export const insertUserSchema = createInsertSchema(Users, {
   name: z
     .string()
     .min(3, { message: "Name must be at least 3 characters long" })
@@ -18,4 +18,4 @@ export const insertUserSchema = createInsertSchema(usersTable, {
     }),
 });
 
-export const selectUserSchema = createSelectSchema(usersTable);
+export const selectUserSchema = createSelectSchema(Users);

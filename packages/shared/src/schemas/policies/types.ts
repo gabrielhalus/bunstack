@@ -1,3 +1,3 @@
-import type { policies } from "./table";
+import type { Policies } from "./table";
 
-export type Policy = typeof policies.$inferSelect;
+export type Policy = typeof Policies.$inferSelect;

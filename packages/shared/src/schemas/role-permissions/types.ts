@@ -1,3 +1,3 @@
-import type { rolePermissions } from "./table";
+import type { RolePermissions } from "./table";
 
-export type RolePermission = typeof rolePermissions.$inferSelect;
+export type RolePermission = typeof RolePermissions.$inferSelect;

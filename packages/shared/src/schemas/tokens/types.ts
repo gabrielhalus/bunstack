@@ -1,5 +1,5 @@
-import type { tokensTable } from "./table";
+import type { Tokens } from "./table";
 
-export type Token = typeof tokensTable.$inferSelect;
+export type Token = typeof Tokens.$inferSelect;
 
 export type TokenUniqueFields = Pick<Token, "id">;

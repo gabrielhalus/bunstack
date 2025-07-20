@@ -1,3 +1,3 @@
-import type { userRolesTable } from "./table";
+import type { UserRoles } from "./table";
 
-export type UserRole = typeof userRolesTable.$inferSelect;
+export type UserRole = typeof UserRoles.$inferSelect;

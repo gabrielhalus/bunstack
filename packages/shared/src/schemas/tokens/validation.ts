@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-import { tokensTable } from "./table";
+import { Tokens } from "./table";
 
-export const selectTokenSchema = createSelectSchema(tokensTable);
+export const selectTokenSchema = createSelectSchema(Tokens);
 
-export const insertTokenSchema = createInsertSchema(tokensTable);
+export const insertTokenSchema = createInsertSchema(Tokens);
