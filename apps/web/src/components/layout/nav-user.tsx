@@ -1,6 +1,3 @@
-import { Link } from "@tanstack/react-router";
-import { UserRound } from "lucide-react";
-
 import { LogoutButton } from "@/components/layout/logout-button";
 import {
   Avatar,
@@ -10,8 +7,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
