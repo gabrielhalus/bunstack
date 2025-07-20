@@ -8,13 +8,12 @@
     "test": "turbo run test --",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-
     "drizzle:generate": "turbo run drizzle:generate --filter=@bunstack/api",
     "drizzle:push": "turbo run drizzle:push --filter=@bunstack/api",
     "drizzle:studio": "turbo run drizzle:studio --filter=@bunstack/api"
   },
   "devDependencies": {
-    "turbo": "^2.5.4",
+    "turbo": "^2.5.5",
     "typescript": "5.8.2"
   },
   "engines": {
