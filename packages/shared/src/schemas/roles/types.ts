@@ -1,5 +1,5 @@
-import type { rolesTable } from "./table";
+import type { Roles } from "./table";
 
-export type Role = typeof rolesTable.$inferSelect;
+export type Role = typeof Roles.$inferSelect;
 
 export type RoleUniqueFields = Pick<Role, "id" | "name">;
