@@ -8,7 +8,7 @@ export const Policies = sqliteTable("policies", {
   effect: text("effect", { enum: ["allow", "deny"] }).notNull(),
   permissionId: integer("permission_id").references(() => Permissions.id),
   roleId: integer("role_id").references(() => Roles.id),
-  condition: text("condition"), // e.g. JSON expression string
+  condition: text("condition"),
   description: text("description"),
   createdAt: integer("created_at").notNull().$defaultFn(() => Date.now()),
   updatedAt: integer("updated_at").notNull().$defaultFn(() => Date.now()),
