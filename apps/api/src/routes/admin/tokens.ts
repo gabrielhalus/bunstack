@@ -1,8 +1,6 @@
+import { deleteAllTokens, getAllTokens } from "@bunstack/shared/db/queries/tokens";
 import { Hono } from "hono";
 
-import { deleteAllTokens, getAllTokens } from "@bunstack/shared/db/queries/tokens";
-
-// eslint-disable-next-line drizzle/enforce-delete-with-where
 export default new Hono()
 
   /**

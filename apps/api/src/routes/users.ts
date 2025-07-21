@@ -1,6 +1,6 @@
+import { deleteUser, getAllUsers, getUser } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
-import { deleteUser, getAllUsers, getUser } from "@bunstack/shared/db/queries/users";
 import { getAuth } from "@/middlewares/auth";
 
 export default new Hono()

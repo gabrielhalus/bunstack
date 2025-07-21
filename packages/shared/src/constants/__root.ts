@@ -1,5 +1,5 @@
-import { dirname, join } from "node:path";
 import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 let cachedRoot: string | undefined;
@@ -9,7 +9,8 @@ let cachedRoot: string | undefined;
  * the monorepo root (where `.git` or a root `package.json` with `"private": true` exists).
  */
 export const __root = (() => {
-  if (cachedRoot) return cachedRoot;
+  if (cachedRoot)
+    return cachedRoot;
 
   let current = dirname(fileURLToPath(import.meta.url));
 
@@ -18,17 +19,20 @@ export const __root = (() => {
     const git = join(current, ".git");
     const pkg = join(current, "package.json");
 
-    if (existsSync(git)) return (cachedRoot = current);
+    if (existsSync(git))
+      return (cachedRoot = current);
 
     if (existsSync(pkg)) {
       try {
         const json = JSON.parse(readFileSync(pkg, "utf8"));
-        if (json.private === true) return (cachedRoot = current);
+        if (json.private === true)
+          return (cachedRoot = current);
       } catch {}
     }
 
     const parent = dirname(current);
-    if (parent === current) break;
+    if (parent === current)
+      break;
     current = parent;
   }
 

@@ -1,14 +1,14 @@
+import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
+import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
+import env from "@bunstack/shared/env";
 import { insertUserSchema } from "@bunstack/shared/schemas/users";
 import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
-import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
-import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
 import { getClientInfo } from "@/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
-import env from "@bunstack/shared/env";
 import { getAuth } from "@/middlewares/auth";
 
 export default new Hono()

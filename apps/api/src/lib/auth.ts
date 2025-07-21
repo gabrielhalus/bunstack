@@ -1,8 +1,7 @@
+import { getUser } from "@bunstack/shared/db/queries/users";
 import env from "@bunstack/shared/env";
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
-
-import { getUser } from "@bunstack/shared/db/queries/users";
 
 const SECRET_KEY = env.JWT_SECRET;
 
