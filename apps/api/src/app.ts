@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 import serveEmojiFavicon from "@/middlewares/serve-emoji-favicon";
 import admin from "@/routes/admin";
 import auth from "@/routes/auth";
+import permissions from "@/routes/permissions";
 import users from "@/routes/users";
 
 const app = new Hono({ strict: false });
@@ -16,6 +17,7 @@ app.use(logger(), serveEmojiFavicon("🔥"));
 app.basePath("/api")
   .route("/auth", auth)
   .route("/users", users)
+  .route("/permissions", permissions)
   .route("/admin", admin);
 
 // Serve static files from the React Build
