@@ -1,6 +1,6 @@
-import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/schemas/users";
-
 import { eq } from "drizzle-orm";
+
+import type { insertUserSchema, User, UserUniqueFields } from "../../types/users";
 
 import { db } from "../";
 import { Users } from "../schemas/users";

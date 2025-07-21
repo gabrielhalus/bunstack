@@ -1,7 +1,7 @@
 import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
 import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
 import env from "@bunstack/shared/env";
-import { insertUserSchema } from "@bunstack/shared/schemas/users";
+import { insertUserSchema } from "@bunstack/shared/users";
 import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
