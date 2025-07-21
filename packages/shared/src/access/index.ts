@@ -3,8 +3,8 @@ import { and, eq, inArray, isNull, or } from "drizzle-orm";
 import type { PermissionCheck, UserContext, UserLike, ResourceContext } from "./types";
 
 import { db } from "../db";
-import { Permissions } from "../schemas/permissions";
-import { Policies } from "../schemas/policies";
+import { Permissions } from "../db/schemas/permissions";
+import { Policies } from "../db/schemas/policies";
 import { evaluateCondition } from "./evalutate-condition";
 
 // Add a helper function to normalize user objects

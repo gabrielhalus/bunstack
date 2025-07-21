@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { insertUserSchema } from "../schemas/users/validation";
+import { insertUserSchema } from "../types/users";
 
 // Login
 export const loginInputSchema = z.object({
