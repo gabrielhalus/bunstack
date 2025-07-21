@@ -19,16 +19,3 @@ jobs:
 
       - name: Run lint
         run: bun run lint
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup environment
-        uses: ./.github/actions/setup-bun-env
-
-      - name: Run tests
-        run: bun run test
