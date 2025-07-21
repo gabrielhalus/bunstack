@@ -8,7 +8,6 @@
     "./contracts/*": "./dist/contracts/*.js",
     "./db/*": "./dist/db/*.js",
     "./env": "./dist/lib/env.js",
-    "./schemas/*": "./dist/schemas/*/index.js",
     "./types": "./dist/types.js",
     "./__root": "./dist/constants/__root.js"
   },

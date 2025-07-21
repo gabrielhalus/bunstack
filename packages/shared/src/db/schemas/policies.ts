@@ -1,7 +1,7 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { Permissions } from "../permissions";
-import { Roles } from "../roles";
+import { Permissions } from "./permissions";
+import { Roles } from "./roles";
 
 export const Policies = sqliteTable("policies", {
   id: integer("id").primaryKey({ autoIncrement: true }),

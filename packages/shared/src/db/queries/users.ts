@@ -3,7 +3,7 @@ import type { insertUserSchema, User, UserUniqueFields } from "@bunstack/shared/
 import { eq } from "drizzle-orm";
 
 import { db } from "../";
-import { Users } from "../../schemas/users";
+import { Users } from "../schemas/users";
 
 /**
  * Get all users.
