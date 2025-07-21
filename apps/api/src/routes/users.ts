@@ -1,7 +1,6 @@
-/* eslint-disable drizzle/enforce-delete-with-where */
 import { Hono } from "hono";
 
-import { deleteUser, getAllUsers, getUser } from "@/db/queries/users";
+import { deleteUser, getAllUsers, getUser } from "@bunstack/shared/db/queries/users";
 import { getAuth } from "@/middlewares/auth";
 
 export default new Hono()

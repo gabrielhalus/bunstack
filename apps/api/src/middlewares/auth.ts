@@ -1,10 +1,10 @@
 import type { User } from "@bunstack/shared/schemas/users";
 
+import env from "@bunstack/shared/lib/env";
 import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
 
-import { getUser } from "@/db/queries/users";
-import env from "@/lib/env";
+import { getUser } from "@bunstack/shared/db/queries/users";
 
 type Env = {
   Variables: {
