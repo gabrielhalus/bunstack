@@ -1,4 +1,4 @@
-import env from "@bunstack/shared/lib/env";
+import env from "@bunstack/shared/env";
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
 

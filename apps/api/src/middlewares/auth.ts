@@ -1,6 +1,6 @@
 import type { User } from "@bunstack/shared/schemas/users";
 
-import env from "@bunstack/shared/lib/env";
+import env from "@bunstack/shared/env";
 import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
 
