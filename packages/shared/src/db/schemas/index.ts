@@ -1,17 +1,17 @@
 import { Permissions } from "./permissions";
 import { Policies } from "./policies";
-import { RolePermissions } from "./role-permissions";
+import { RolesToPermissions } from "./roles-to-permissions";
 import { Roles } from "./roles";
 import { Tokens } from "./tokens";
-import { UserRoles } from "./user-roles";
+import { UsersToRoles } from "./users-to-roles";
 import { Users } from "./users";
 
 export const schema = {
   permissions: Permissions,
   policies: Policies,
-  rolePermissions: RolePermissions,
+  rolesToPermissions: RolesToPermissions,
   roles: Roles,
   tokens: Tokens,
-  userRoles: UserRoles,
+  usersToRoles: UsersToRoles,
   users: Users,
 };
