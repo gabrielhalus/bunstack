@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "exports": {
     "./access": "./dist/access/index.js",
+    "./access/types": "./dist/access/types.js",
     "./contracts/*": "./dist/contracts/*.js",
     "./db/*": "./dist/db/*.js",
     "./env": "./dist/lib/env.js",
