@@ -1,4 +1,4 @@
-import type { Condition, Operand } from "../types/policies";
+import type { Condition, Operand } from "../db/types/policies";
 import type { ResourceContext, UserContext } from "./types";
 
 function getNested(obj: any, path: string): any {

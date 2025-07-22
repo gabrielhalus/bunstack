@@ -1,9 +1,11 @@
 import { eq } from "drizzle-orm";
 
-import type { insertUserSchema, User, UserUniqueFields } from "../../types/users";
+import type { Role } from "../types/roles";
+import type { insertUserSchema, User, UserUniqueFields } from "../types/users";
 
 import { db } from "../";
 import { Users } from "../schemas/users";
+import { getUserRoles } from "./roles";
 
 /**
  * Get all users.
@@ -23,6 +25,16 @@ export async function getAllUsers(): Promise<User[]> {
  */
 export async function getUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
   return await db.select().from(Users).where(eq(Users[key], value)).get();
+}
+
+export async function getUserWithRelations(key: keyof UserUniqueFields, value: any): Promise<[User | undefined, Role[]]> {
+  const user = await db.select().from(Users).where(eq(Users[key], value)).get();
+  if (!user) {
+    return [undefined, []];
+  }
+
+  const roles = await getUserRoles(user);
+  return [user, roles];
 }
 
 /**

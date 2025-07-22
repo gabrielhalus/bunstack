@@ -1,8 +1,9 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
+import type { Condition } from "../types/policies";
+
 import { Permissions } from "./permissions";
 import { Roles } from "./roles";
-import { Condition } from "../../types/policies";
 
 export const Policies = sqliteTable("policies", {
   id: integer("id").primaryKey({ autoIncrement: true }),

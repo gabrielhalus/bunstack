@@ -1,15 +1,17 @@
-{
-  "name": "@bunstack/shared",
-  "type": "module",
-  "version": "0.0.0",
-  "exports": {
+  {
+    "name": "@bunstack/shared",
+    "type": "module",
+    "version": "0.0.0",
+    "exports": {
     "./access": "./dist/access/index.js",
     "./access/types": "./dist/access/types.js",
-    "./contracts/*": "./dist/contracts/*.js",
-    "./db/*": "./dist/db/*.js",
-    "./env": "./dist/lib/env.js",
-    "./users": "./dist/types/users.js",
-    "./__root": "./dist/constants/__root.js"
+    "./contracts/auth": "./dist/contracts/auth.js",
+    "./db": "./dist/db/index.js",
+    "./db/queries/*": "./dist/db/queries/*.js",
+    "./db/schemas/*": "./dist/db/schemas/*.js",
+    "./db/seeds/*": "./dist/db/seeds/*.js",
+    "./db/types/*": "./dist/db/types/*.js",
+    "./env": "./dist/lib/env.js"
   },
   "scripts": {
     "dev": "tsc --watch",
