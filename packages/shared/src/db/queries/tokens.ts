@@ -1,4 +1,4 @@
-import type { insertTokenSchema, Token, TokenUniqueFields } from "../../types/tokens";
+import type { insertTokenSchema, Token, TokenUniqueFields } from "../types/tokens";
 
 import { eq } from "drizzle-orm";
 
