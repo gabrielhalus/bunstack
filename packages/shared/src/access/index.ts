@@ -2,19 +2,15 @@ import { and, eq, inArray, isNull, or } from "drizzle-orm";
 
 import type { Condition } from "db/types/policies";
 
-import type { PermissionCheck } from "./types";
+import type { Role } from "../db/types/roles";
+import type { User } from "../db/types/users";
 
 import { db } from "../db";
 import { Permissions } from "../db/schemas/permissions";
 import { Policies } from "../db/schemas/policies";
 import { evaluateCondition } from "./evalutate-condition";
 
-export async function can({
-  permissionName,
-  user,
-  roles,
-  resource,
-}: PermissionCheck): Promise<boolean> {
+export async function can(permissionName: string, user: User, roles: Role[], resource?: Record<string, unknown>): Promise<boolean> {
   if (roles.some(r => r.isSuperAdmin)) {
     return true;
   }
