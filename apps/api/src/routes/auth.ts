@@ -9,7 +9,7 @@ import { getCookie, setCookie } from "hono/cookie";
 
 import { getClientInfo } from "@/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
-import { getAuth } from "@/middlewares/auth";
+import { getAuthContext } from "@/middlewares/auth";
 
 export default new Hono()
   /**
@@ -170,7 +170,7 @@ export default new Hono()
    * @param c - The context
    * @returns The current user
    */
-  .get("/me", getAuth, async (c) => {
+  .get("/me", getAuthContext, async (c) => {
     const authContext = c.var.authContext;
     return c.json({ success: true, ...authContext });
   })

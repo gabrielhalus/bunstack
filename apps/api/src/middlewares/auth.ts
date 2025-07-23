@@ -19,12 +19,12 @@ type Env = {
 const factory = createFactory<Env>();
 
 /**
- * Get the user from the JWT token
+ * Get the user from the JWT token and set the auth context
  * @param c - The context
  * @param next - The next middleware
  * @returns The user
  */
-export const getAuth = factory.createMiddleware(async (c, next) => {
+export const getAuthContext = factory.createMiddleware(async (c, next) => {
   const token = c.req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
