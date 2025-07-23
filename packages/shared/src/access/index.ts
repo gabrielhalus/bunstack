@@ -1,5 +1,7 @@
 import { and, eq, inArray, isNull, or } from "drizzle-orm";
 
+import type { Condition } from "db/types/policies";
+
 import type { PermissionCheck } from "./types";
 
 import { db } from "../db";
@@ -13,6 +15,10 @@ export async function can({
   roles,
   resource,
 }: PermissionCheck): Promise<boolean> {
+  if (roles.some(r => r.isSuperAdmin)) {
+    return true;
+  }
+
   const permission = await db.query.permissions.findFirst({
     where: eq(Permissions.name, permissionName),
   });
@@ -36,7 +42,7 @@ export async function can({
   for (const policy of applicablePolicies) {
     const allow = policy.effect === "allow";
     const conditionOk = policy.condition
-      ? evaluateCondition(policy.condition, user, resource)
+      ? evaluateCondition(JSON.parse(policy.condition) as Condition, user, resource)
       : true;
 
     if (conditionOk) {
