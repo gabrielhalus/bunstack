@@ -1,13 +1,18 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { Role } from "@bunstack/shared/db/types/roles";
+import type { User } from "@bunstack/shared/db/types/users";
 
-import { getUser } from "@bunstack/shared/db/queries/users";
+import { getUserWithContext } from "@bunstack/shared/db/queries/users";
 import env from "@bunstack/shared/env";
 import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
 
 type Env = {
   Variables: {
-    user: User;
+    authContext: {
+      user: User;
+      roles: Role[];
+      permissions: string[];
+    };
   };
 };
 
@@ -33,14 +38,13 @@ export const getAuth = factory.createMiddleware(async (c, next) => {
     return c.json({ success: false, error: "Unauthorized" }, 401);
   }
 
-  const user = await getUser("id", decoded.sub as string);
+  const { user, ...context } = await getUserWithContext("id", decoded.sub as string);
 
   if (!user) {
     return c.json({ success: false, error: "Unauthorized" }, 401);
   }
 
-  const { password: _, ...User } = user;
-  c.set("user", User);
+  c.set("authContext", { user, ...context });
 
   await next();
 });
