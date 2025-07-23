@@ -1,10 +1,13 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import type { Role } from "../types/roles";
 import type { insertUserSchema, User, UserUniqueFields } from "../types/users";
 
 import { db } from "../";
+import { Permissions } from "../schemas/permissions";
+import { RolePermissions } from "../schemas/role-permissions";
 import { Users } from "../schemas/users";
+import { getRolesPermissions } from "./permissions";
 import { getUserRoles } from "./roles";
 
 /**
@@ -27,14 +30,27 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
   return await db.select().from(Users).where(eq(Users[key], value)).get();
 }
 
-export async function getUserWithRelations(key: keyof UserUniqueFields, value: any): Promise<[User | undefined, Role[]]> {
+/**
+ * Retrieves a user along with their associated roles and permissions.
+ *
+ * @param key - The unique field key to search by (e.g., "id", "email").
+ * @param value - The value to search for.
+ * @returns An object containing the user (or undefined if not found), their roles, and their permissions.
+ */
+export async function getUserWithContext(key: keyof UserUniqueFields, value: any): Promise<{
+  user: User | undefined;
+  roles: Role[];
+  permissions: string[];
+}> {
   const user = await db.select().from(Users).where(eq(Users[key], value)).get();
   if (!user) {
-    return [undefined, []];
+    return { user: undefined, roles: [], permissions: [] };
   }
 
   const roles = await getUserRoles(user);
-  return [user, roles];
+  const permissions = (await getRolesPermissions(roles)).map(permission => permission.name);
+
+  return { user, roles, permissions };
 }
 
 /**

@@ -1,8 +1,8 @@
-  {
-    "name": "@bunstack/shared",
-    "type": "module",
-    "version": "0.0.0",
-    "exports": {
+{
+  "name": "@bunstack/shared",
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
     "./access": "./dist/access/index.js",
     "./access/types": "./dist/access/types.js",
     "./contracts/auth": "./dist/contracts/auth.js",

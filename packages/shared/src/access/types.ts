@@ -1,32 +1,14 @@
-export type UserContext = {
-  id: string;
-  roles: { id: number; level: number; name: string }[];
-  attributes: Record<string, unknown>;
-};
+import type { Role } from "db/types/roles";
+import type { User } from "db/types/users";
 
-export type UserLike = {
-  id: string;
-  roles?: { id: number; level: number; name: string }[];
-  attributes?: Record<string, unknown>;
-  // Allow additional properties for flexibility
-  [key: string]: unknown;
-};
-
-// Helper type for permission checks that can work with any user-like object
-export type PermissionCheckInput = {
-  permissionName: string;
-  user: UserLike;
-  resource?: ResourceContext;
-};
-
-// Keep the original for internal use
 export type PermissionCheck = {
   permissionName: string;
-  user: UserContext;
+  user: User;
+  roles: Role[];
   resource?: ResourceContext;
 };
 
 export type ResourceContext = {
   type: string;
-  attributes: Record<string, unknown>;
+  [key: string]: any;
 };

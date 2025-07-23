@@ -1,9 +1,11 @@
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+import type { Merge } from "../../types/utils";
+
 import { Users } from "../schemas/users";
 
-export type User = typeof Users.$inferSelect;
+export type User = Merge<typeof Users.$inferSelect, { password?: string }>;
 
 export type UserUniqueFields = Pick<User, "id" | "email">;
 
