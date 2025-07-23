@@ -9,6 +9,5 @@ export type PermissionCheck = {
 };
 
 export type ResourceContext = {
-  type: string;
   [key: string]: any;
 };

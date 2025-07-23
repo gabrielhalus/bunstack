@@ -1,11 +1,9 @@
-import { eq, inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import type { Role } from "../types/roles";
 import type { insertUserSchema, User, UserUniqueFields } from "../types/users";
 
 import { db } from "../";
-import { Permissions } from "../schemas/permissions";
-import { RolePermissions } from "../schemas/role-permissions";
 import { Users } from "../schemas/users";
 import { getRolesPermissions } from "./permissions";
 import { getUserRoles } from "./roles";

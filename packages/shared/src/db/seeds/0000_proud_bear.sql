@@ -14,27 +14,19 @@ INSERT INTO "user_roles" ("user_id", "role_id") VALUES
 ('l1knWD3gwIavSLDsDxHI5', 1);
 --> statement-breakpoint
 INSERT INTO "permissions" ("id", "name", "label", "created_at", "updated_at") VALUES
-(1, 'view:self', 'View Own Profile', 1735686000, 1735686000),
-(2, 'update:self', 'Update Own Profile', 1735686000, 1735686000),
-(3, 'delete:self', 'Delete Own Profile', 1735686000, 1735686000),
-(4, 'view:users', 'View All Users', 1735686000, 1735686000),
-(5, 'update:users', 'Update Any Users', 1735686000, 1735686000),
-(6, 'delete:users', 'Delete Any Users', 1735686000, 1735686000);
+(1, 'view:users', 'View Own Profile', 1735686000, 1735686000),
+(2, 'update:users', 'Update Own Profile', 1735686000, 1735686000),
+(3, 'delete:users', 'Delete Own Profile', 1735686000, 1735686000),
+(4, 'manage:users', 'List All Users', 1735686000, 1735686000);
 --> statement-breakpoint
 INSERT INTO "role_permissions" ("role_id", "permission_id") VALUES
 -- user
-(1, 1), -- view:self
-(1, 2), -- update:self
-(1, 3), -- delete:self
--- admin
-(2, 4), -- view:users 
-(2, 5), -- update:users 
-(2, 6); -- delete:users 
+(1, 1), -- view:users
+(1, 2), -- update:users
+(1, 3), -- delete:users
 --> statement-breakpoint
 INSERT INTO "policies" ("id", "role_id", "permission_id", "effect", "condition", "created_at", "updated_at") VALUES
 -- Enforce "self" condition for users
 (1, 1, 1, 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000), -- view:self
 (2, 1, 2, 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000), -- update:self
 (3, 1, 3, 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000), -- delete:self
--- Prevent admin from deleting themselves
-(4, 2, 6, 'deny', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000); -- delete:users
