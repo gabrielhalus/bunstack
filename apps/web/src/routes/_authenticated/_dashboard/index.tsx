@@ -1,4 +1,3 @@
-import { usePermissionWithAuth } from "@/hooks/use-permissions";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/_dashboard/")({
@@ -6,11 +5,14 @@ export const Route = createFileRoute("/_authenticated/_dashboard/")({
 });
 
 function Dashboard() {
-  const { allowed, loading } = usePermissionWithAuth("view:self")
-
-  if (loading) {
-    return <div>loading...</div>;
-  }
-  
-  return <div>{allowed ? "allowed" : "not allowed"}</div>;
+  return (
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+        <div className="bg-muted/50 aspect-video rounded-xl" />
+        <div className="bg-muted/50 aspect-video rounded-xl" />
+        <div className="bg-muted/50 aspect-video rounded-xl" />
+      </div>
+      <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+    </div>
+  );
 }

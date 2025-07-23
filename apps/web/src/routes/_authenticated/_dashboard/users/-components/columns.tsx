@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/db/types/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

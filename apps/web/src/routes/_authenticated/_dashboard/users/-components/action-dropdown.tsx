@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/db/types/users";
 import type { Row } from "@tanstack/react-table";
 
 import { Copy, MoreHorizontal, Trash } from "lucide-react";

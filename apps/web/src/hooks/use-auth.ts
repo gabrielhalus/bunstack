@@ -1,4 +1,5 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { Role } from "@bunstack/shared/db/types/roles";
+import type { User } from "@bunstack/shared/db/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
@@ -9,19 +10,28 @@ import { userQueryOptions } from "@/lib/queries/auth";
 type UseAuthReturn =
   | {
     user: undefined;
-    isPending: true;
+    roles: undefined;
+    can: () => false;
+    isAdmin: false;
+    loading: true;
     isError: false;
     isAuthenticated: false;
   }
   | {
     user: null;
-    isPending: false;
+    roles: undefined;
+    can: (permission: string) => false;
+    isAdmin: false;
+    loading: false;
     isError: true;
     isAuthenticated: false;
   }
   | {
     user: User;
-    isPending: false;
+    roles: Role[];
+    can: (permission: string) => boolean;
+    isAdmin: boolean;
+    loading: false;
     isError: false;
     isAuthenticated: true;
   };
@@ -29,13 +39,19 @@ type UseAuthReturn =
 type UseAuthReturnWithRedirect =
   | {
     user: undefined;
-    isPending: true;
+    roles: undefined;
+    can: (permission: string) => false;
+    isAdmin: false;
+    loading: true;
     isError: false;
     isAuthenticated: false;
   }
   | {
     user: User;
-    isPending: false;
+    roles: Role[];
+    can: (permission: string) => boolean;
+    isAdmin: boolean;
+    loading: false;
     isError: false;
     isAuthenticated: true;
   };
@@ -60,7 +76,10 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthRe
   if (isPending) {
     return {
       user: undefined,
-      isPending: true,
+      roles: undefined,
+      can: (_permission: string) => false,
+      isAdmin: false,
+      loading: true,
       isError: false,
       isAuthenticated: false,
     };
@@ -69,7 +88,10 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthRe
   if (isError) {
     return {
       user: null,
-      isPending: false,
+      roles: undefined,
+      can: (_permission: string) => false,
+      isAdmin: false,
+      loading: false,
       isError: true,
       isAuthenticated: false,
     };
@@ -77,8 +99,11 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthRe
 
   // data is defined here and contains a valid user
   return {
-    user: data!.user,
-    isPending: false,
+    user: data.user,
+    roles: data.roles,
+    can: (permission: string) => data.permissions.includes(permission),
+    isAdmin: data.roles.some(role => role.isSuperAdmin),
+    loading: false,
     isError: false,
     isAuthenticated: true,
   };

@@ -1,15 +1,16 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { Role } from "@bunstack/shared/db/types/roles";
+import type { User } from "@bunstack/shared/db/types/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
-export async function getCurrentUser(): Promise<{ user: User }> {
+export async function getCurrentUser(): Promise<{ user: User; roles: Role[]; permissions: string[] }> {
   const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {
     throw new Error("Not authenticated: missing access token");
   }
 
-  const res = await fetchAuthenticated("/api/auth/profile");
+  const res = await fetchAuthenticated("/api/auth/me");
 
   if (res.status === 401) {
     localStorage.removeItem("accessToken");
