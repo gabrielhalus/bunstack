@@ -1,7 +1,7 @@
 import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
 import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
-import env from "@bunstack/shared/env";
 import { insertUserSchema } from "@bunstack/shared/db/types/users";
+import env from "@bunstack/shared/env";
 import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
@@ -170,9 +170,9 @@ export default new Hono()
    * @param c - The context
    * @returns The current user
    */
-  .get("/profile", getAuth, async (c) => {
-    const user = c.var.user;
-    return c.json({ success: true, user });
+  .get("/me", getAuth, async (c) => {
+    const authContext = c.var.authContext;
+    return c.json({ success: true, ...authContext });
   })
 
   /**
