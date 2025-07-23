@@ -18,7 +18,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(isAuthenticated && can("view:users")
+      ...(isAuthenticated && can("list:users")
         ? [{
             title: "Users",
             icon: Users,
