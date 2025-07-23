@@ -2,6 +2,7 @@ import { deleteUser, getAllUsers, getUser } from "@bunstack/shared/db/queries/us
 import { Hono } from "hono";
 
 import { getAuthContext } from "@/middlewares/auth";
+import { requireOwnResource, requirePermission, requirePermissionForResource } from "@/middlewares/authorization";
 
 export default new Hono()
   .use(getAuthContext)
@@ -11,7 +12,7 @@ export default new Hono()
    * @param c - The context
    * @returns All users
    */
-  .get("/", async (c) => {
+  .get("/", requirePermission("list:users"), async (c) => {
     try {
       const users = await getAllUsers();
       return c.json({ success: true, users: users.map(user => ({ ...user, password: undefined })) });
@@ -25,7 +26,7 @@ export default new Hono()
    * @param c - The context
    * @returns The user
    */
-  .get("/:id", async (c) => {
+  .get("/:id", requireOwnResource("view:users"), async (c) => {
     const { id } = c.req.param();
 
     try {
@@ -41,7 +42,7 @@ export default new Hono()
    * @param c - The context
    * @returns The user
    */
-  .delete("/:id", async (c) => {
+  .delete("/:id", requireOwnResource("delete:users"), async (c) => {
     const { id } = c.req.param();
 
     try {
