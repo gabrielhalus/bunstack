@@ -1,10 +1,10 @@
 import { deleteUser, getAllUsers, getUser } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
-import { getAuth } from "@/middlewares/auth";
+import { getAuthContext } from "@/middlewares/auth";
 
 export default new Hono()
-  .use(getAuth)
+  .use(getAuthContext)
 
   /**
    * Get all users
