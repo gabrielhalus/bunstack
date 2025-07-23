@@ -1,24 +1,16 @@
 import { and, eq, inArray, isNull, or } from "drizzle-orm";
 
-import type { PermissionCheck, UserContext, UserLike, ResourceContext } from "./types";
+import type { PermissionCheck } from "./types";
 
 import { db } from "../db";
 import { Permissions } from "../db/schemas/permissions";
 import { Policies } from "../db/schemas/policies";
 import { evaluateCondition } from "./evalutate-condition";
 
-// Add a helper function to normalize user objects
-export function normalizeUserContext(user: UserLike): UserContext {
-  return {
-    id: user.id,
-    roles: user.roles || [],
-    attributes: user.attributes || {},
-  };
-}
-
 export async function can({
   permissionName,
   user,
+  roles,
   resource,
 }: PermissionCheck): Promise<boolean> {
   const permission = await db.query.permissions.findFirst({
@@ -29,7 +21,7 @@ export async function can({
     return false;
   }
 
-  const roleIds = user.roles.map(r => r.id);
+  const roleIds = roles.map(r => r.id);
 
   const applicablePolicies = await db
     .select()
@@ -53,14 +45,4 @@ export async function can({
   }
 
   return false;
-}
-
-// Add a new function that accepts UserLike and normalizes it
-export async function canWithUserLike(
-  permissionName: string,
-  user: UserLike,
-  resource?: ResourceContext
-): Promise<boolean> {
-  const normalizedUser = normalizeUserContext(user);
-  return can({ permissionName, user: normalizedUser, resource });
 }

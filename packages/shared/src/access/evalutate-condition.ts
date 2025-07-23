@@ -1,22 +1,25 @@
 import type { Condition, Operand } from "../db/types/policies";
-import type { ResourceContext, UserContext } from "./types";
+import type { User } from "../db/types/users";
+import type { ResourceContext } from "./types";
 
-function getNested(obj: any, path: string): any {
+function getNested(obj: any, path: string): unknown {
   return path.split(".").reduce((acc, part) => acc?.[part], obj);
 }
 
-export function resolveOperand(operand: Operand, user: UserContext, resource?: ResourceContext) {
+export function resolveOperand(operand: Operand, user: User, resource?: ResourceContext) {
   switch (operand.type) {
     case "user_attr":
-      return getNested(user.attributes, operand.key);
+      // Access user properties directly (id, roles, etc.)
+      return getNested(user, operand.key);
     case "resource_attr":
-      return getNested(resource?.attributes, operand.key);
+      // Access resource properties directly (id, type, etc.)
+      return getNested(resource, operand.key);
     case "literal":
       return operand.value;
   }
 }
 
-export function evaluateCondition(cond: Condition, user: UserContext, resource?: ResourceContext): boolean {
+export function evaluateCondition(cond: Condition, user: User, resource?: ResourceContext): boolean {
   switch (cond.op) {
     case "and":
       return cond.conditions.every(c => evaluateCondition(c, user, resource));
