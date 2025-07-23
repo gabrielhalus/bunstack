@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { User } from "@bunstack/shared/db/types/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
