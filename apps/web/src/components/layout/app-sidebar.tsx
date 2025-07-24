@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Box, Home, Users } from "lucide-react";
+import { Box, Home, ShieldUser, Users } from "lucide-react";
 import React, { useMemo } from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -9,7 +9,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { useAuth } from "@/hooks/use-auth";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { isAuthenticated, can } = useAuth();
+  const { isAuthenticated, isAdmin, can } = useAuth();
 
   const data = useMemo(() => ({
     navMain: [
@@ -18,16 +18,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(isAuthenticated && can("list:users")
+      ...(isAuthenticated && (can("manage:users") || isAdmin)
         ? [{
             title: "Users",
             icon: Users,
             href: { to: "/users" } as const,
           }]
         : []),
+      ...(isAuthenticated && (can("manage:roles") || isAdmin)
+        ? [{
+            title: "Roles",
+            icon: ShieldUser,
+            href: { to: "/roles" } as const,
+          }]
+        : []),
     ],
     navSecondary: [],
-  }), [isAuthenticated, can]);
+  }), [isAuthenticated, isAdmin, can]);
 
   return (
     <Sidebar collapsible="icon" {...props}>

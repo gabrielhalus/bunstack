@@ -1,8 +1,8 @@
-import type { User } from "@bunstack/shared/db/types/users";
+import type { User, UserWithRoles } from "@bunstack/shared/db/types/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
-export async function getAllUsers(): Promise<User[]> {
+export async function getAllUsers(): Promise<UserWithRoles[]> {
   const res = await fetchAuthenticated("/api/users");
   if (!res.ok) {
     throw new Error("Failed to get users");

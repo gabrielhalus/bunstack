@@ -15,6 +15,16 @@ type AuthState = {
   permissions: string[];
 };
 
+// Extracted can function
+export function can(permission: string, permissions: string[]): boolean {
+  return permissions.includes(permission);
+}
+
+// Extracted isAdmin check
+export function isAdmin(roles: Role[]): boolean {
+  return roles.some(role => role.isSuperAdmin);
+}
+
 type AuthResult = {
   user: User;
   roles: Role[];
@@ -67,8 +77,8 @@ function createAuthResult(authState: AuthState): AuthResult {
   return {
     user: authState.user,
     roles: authState.roles,
-    can: (permission: string) => authState.permissions.includes(permission),
-    isAdmin: authState.roles.some(role => role.isSuperAdmin),
+    can: (permission: string) => can(permission, authState.permissions),
+    isAdmin: isAdmin(authState.roles),
     isAuthenticated: true,
   };
 }
