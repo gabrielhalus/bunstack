@@ -1,8 +1,8 @@
-import { deleteUser, getAllUsers, getUser } from "@bunstack/shared/db/queries/users";
+import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
 import { getAuthContext } from "@/middlewares/auth";
-import { requireOwnResource, requirePermission, requirePermissionForResource } from "@/middlewares/authorization";
+import { requireOwnResource, requirePermission } from "@/middlewares/authorization";
 
 export default new Hono()
   .use(getAuthContext)
@@ -14,10 +14,18 @@ export default new Hono()
    */
   .get("/", requirePermission("list:users"), async (c) => {
     try {
-      const users = await getAllUsers();
-      return c.json({ success: true, users: users.map(user => ({ ...user, password: undefined })) });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+      const page = Number(c.req.query("page") ?? "1");
+      const limit = Number(c.req.query("limit") ?? "25");
+
+      if (Number.isNaN(page) || page < 1 || Number.isNaN(limit) || limit < 1) {
+        return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
+      }
+
+      const { users, total } = await getUsers(page, limit);
+
+      return c.json({ success: true, users, total });
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -31,9 +39,9 @@ export default new Hono()
 
     try {
       const user = await getUser("id", id);
-      return c.json({ success: true, user: { ...user, password: undefined } });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+      return c.json({ success: true, user });
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -48,7 +56,7 @@ export default new Hono()
     try {
       const user = await deleteUser("id", id);
       return c.json({ success: true, user });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });
