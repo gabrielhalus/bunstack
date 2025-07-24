@@ -44,7 +44,7 @@ export default new Hono()
       });
 
       return c.json({ success: true, accessToken });
-    } catch (error: any) {
+    } catch (error) {
       if (error instanceof Error && error.message.includes("UNIQUE constraint failed: users.email")) {
         return c.json(
           {
@@ -55,7 +55,7 @@ export default new Hono()
         );
       }
 
-      return c.json({ success: false, error: error.message }, 500);
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -94,8 +94,8 @@ export default new Hono()
       });
 
       return c.json({ success: true, accessToken });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -190,7 +190,7 @@ export default new Hono()
       const user = await getUser("email", email);
       const available = !user;
       return c.json({ success: true, available });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });
