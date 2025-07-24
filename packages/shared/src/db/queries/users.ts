@@ -1,7 +1,7 @@
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 
 import type { Role } from "../types/roles";
-import type { insertUserSchema, User, UserUniqueFields } from "../types/users";
+import type { insertUserSchema, User, UserUniqueFields, UserWithRoles } from "../types/users";
 
 import { db } from "../";
 import { Users } from "../schemas/users";
@@ -9,23 +9,45 @@ import { getRolesPermissions } from "./permissions";
 import { getUserRoles } from "./roles";
 
 /**
- * Get all users.
+ * Get all users along with their associated roles.
  *
  * @returns All users.
  */
-export async function getAllUsers(): Promise<User[]> {
-  return await db.select().from(Users).all();
+export async function getUsers(page: number, limit: number): Promise<{ users: Array<UserWithRoles>; total: number }> {
+  const users = await db.select().from(Users).limit(limit).offset((page - 1) * limit).all();
+
+  const enrichedUsers = await Promise.all(users.map(async user => ({
+    ...user,
+    password: undefined,
+    roles: await getUserRoles(user),
+  })));
+
+  const total = await db.select({ count: count() }).from(Users).get();
+
+  return { users: enrichedUsers, total: Number(total?.count ?? 0) };
 }
 
 /**
- * Get a user by its ID.
+ * Get a user along with their associated roles by its ID.
  *
  * @param key - The field to search by.
  * @param value - The value to search for.
  * @returns The matching user.
  */
-export async function getUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
-  return await db.select().from(Users).where(eq(Users[key], value)).get();
+export async function getUser(key: keyof UserUniqueFields, value: any): Promise<UserWithRoles | undefined> {
+  const user = await db.select().from(Users).where(eq(Users[key], value)).get();
+
+  if (!user) {
+    return undefined;
+  }
+
+  const enrichedUser = {
+    ...user,
+    password: undefined,
+    roles: await getUserRoles(user),
+  };
+
+  return enrichedUser;
 }
 
 /**

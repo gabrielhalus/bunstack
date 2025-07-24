@@ -2,10 +2,13 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import type { Merge } from "../../types/utils";
+import type { Role } from "./roles";
 
 import { Users } from "../schemas/users";
 
 export type User = Merge<typeof Users.$inferSelect, { password?: string }>;
+
+export type UserWithRoles = Merge<User, { roles: Role[] }>;
 
 export type UserUniqueFields = Pick<User, "id" | "email">;
 
