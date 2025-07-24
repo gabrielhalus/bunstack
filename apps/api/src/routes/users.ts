@@ -12,7 +12,7 @@ export default new Hono()
    * @param c - The context
    * @returns All users
    */
-  .get("/", requirePermission("list:users"), async (c) => {
+  .get("/", requirePermission("manage:users"), async (c) => {
     try {
       const page = Number(c.req.query("page") ?? "1");
       const limit = Number(c.req.query("limit") ?? "25");
