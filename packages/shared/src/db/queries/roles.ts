@@ -1,8 +1,8 @@
-import { eq, inArray } from "drizzle-orm";
+import { count, eq, inArray } from "drizzle-orm";
 
 import { UserRoles } from "db/schemas/user-roles";
 
-import type { RoleUniqueFields } from "../types/roles";
+import type { Role, RoleUniqueFields } from "../types/roles";
 import type { User } from "../types/users";
 
 import { db } from "../";
@@ -13,8 +13,12 @@ import { Roles } from "../schemas/roles";
  *
  * @returns All roles.
  */
-export async function getAllRoles() {
-  return await db.select().from(Roles).all();
+export async function getRoles(page: number, limit: number): Promise<{ roles: Role[]; total: number }> {
+  const roles = await db.select().from(Roles).limit(limit).offset((page - 1) * limit).all();
+
+  const total = await db.select({ count: count() }).from(Roles).get();
+
+  return { roles, total: Number(total?.count ?? 0) };
 }
 
 /**
