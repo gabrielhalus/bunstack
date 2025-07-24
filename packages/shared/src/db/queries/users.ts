@@ -9,9 +9,11 @@ import { getRolesPermissions } from "./permissions";
 import { getUserRoles } from "./roles";
 
 /**
- * Get all users along with their associated roles.
+ * Retrieves a paginated list of users, each including their associated roles.
  *
- * @returns All users.
+ * @param page - The page number to retrieve (1-based).
+ * @param limit - The number of users to retrieve per page.
+ * @returns An object containing an array of users with their roles and the total number of users.
  */
 export async function getUsers(page: number, limit: number): Promise<{ users: Array<UserWithRoles>; total: number }> {
   const users = await db.select().from(Users).limit(limit).offset((page - 1) * limit).all();
@@ -28,12 +30,12 @@ export async function getUsers(page: number, limit: number): Promise<{ users: Ar
 }
 
 /**
- * Get a user along with their associated roles by its ID.
+ * Retrieves a single user by a unique field, including their associated roles.
  *
- * @param key - The field to search by.
- * @param value - The value to search for.
- * @param keepPassword - If true, include the password field (for auth purposes).
- * @returns The matching user.
+ * @param key - The unique field of the user to search by (e.g., "id", "email").
+ * @param value - The value to match for the specified field.
+ * @param keepPassword - If true, includes the password field in the result (useful for authentication).
+ * @returns The matching user with their roles, or undefined if not found.
  */
 export async function getUser(
   key: keyof UserUniqueFields,
