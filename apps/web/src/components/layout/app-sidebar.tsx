@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Box, Home, ShieldUser, Users } from "lucide-react";
+import { Box, Home, ShieldUser, UsersRound } from "lucide-react";
 import React, { useMemo } from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -21,7 +21,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       ...(isAuthenticated && (can("manage:users") || isAdmin)
         ? [{
             title: "Users",
-            icon: Users,
+            icon: UsersRound,
             href: { to: "/users" } as const,
           }]
         : []),

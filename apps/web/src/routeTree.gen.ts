@@ -22,6 +22,9 @@ import { Route as AuthenticatedDashboardUsersRouteImport } from './routes/_authe
 import { Route as AuthenticatedDashboardRolesRouteImport } from './routes/_authenticated/_dashboard/roles/route'
 import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authenticated/_dashboard/users/index'
 import { Route as AuthenticatedDashboardRolesIndexImport } from './routes/_authenticated/_dashboard/roles/index'
+import { Route as AuthenticatedDashboardRolesSlugRouteImport } from './routes/_authenticated/_dashboard/roles/$slug/route'
+import { Route as AuthenticatedDashboardRolesSlugIndexImport } from './routes/_authenticated/_dashboard/roles/$slug/index'
+import { Route as AuthenticatedDashboardRolesSlugMembersImport } from './routes/_authenticated/_dashboard/roles/$slug/members'
 
 // Create/Update Routes
 
@@ -95,6 +98,27 @@ const AuthenticatedDashboardRolesIndexRoute =
     getParentRoute: () => AuthenticatedDashboardRolesRouteRoute,
   } as any)
 
+const AuthenticatedDashboardRolesSlugRouteRoute =
+  AuthenticatedDashboardRolesSlugRouteImport.update({
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => AuthenticatedDashboardRolesRouteRoute,
+  } as any)
+
+const AuthenticatedDashboardRolesSlugIndexRoute =
+  AuthenticatedDashboardRolesSlugIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardRolesSlugRouteRoute,
+  } as any)
+
+const AuthenticatedDashboardRolesSlugMembersRoute =
+  AuthenticatedDashboardRolesSlugMembersImport.update({
+    id: '/members',
+    path: '/members',
+    getParentRoute: () => AuthenticatedDashboardRolesSlugRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -162,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexImport
       parentRoute: typeof AuthenticatedDashboardRouteImport
     }
+    '/_authenticated/_dashboard/roles/$slug': {
+      id: '/_authenticated/_dashboard/roles/$slug'
+      path: '/$slug'
+      fullPath: '/roles/$slug'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesSlugRouteImport
+      parentRoute: typeof AuthenticatedDashboardRolesRouteImport
+    }
     '/_authenticated/_dashboard/roles/': {
       id: '/_authenticated/_dashboard/roles/'
       path: '/'
@@ -176,17 +207,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardUsersIndexImport
       parentRoute: typeof AuthenticatedDashboardUsersRouteImport
     }
+    '/_authenticated/_dashboard/roles/$slug/members': {
+      id: '/_authenticated/_dashboard/roles/$slug/members'
+      path: '/members'
+      fullPath: '/roles/$slug/members'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesSlugMembersImport
+      parentRoute: typeof AuthenticatedDashboardRolesSlugRouteImport
+    }
+    '/_authenticated/_dashboard/roles/$slug/': {
+      id: '/_authenticated/_dashboard/roles/$slug/'
+      path: '/'
+      fullPath: '/roles/$slug/'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesSlugIndexImport
+      parentRoute: typeof AuthenticatedDashboardRolesSlugRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedDashboardRolesSlugRouteRouteChildren {
+  AuthenticatedDashboardRolesSlugMembersRoute: typeof AuthenticatedDashboardRolesSlugMembersRoute
+  AuthenticatedDashboardRolesSlugIndexRoute: typeof AuthenticatedDashboardRolesSlugIndexRoute
+}
+
+const AuthenticatedDashboardRolesSlugRouteRouteChildren: AuthenticatedDashboardRolesSlugRouteRouteChildren =
+  {
+    AuthenticatedDashboardRolesSlugMembersRoute:
+      AuthenticatedDashboardRolesSlugMembersRoute,
+    AuthenticatedDashboardRolesSlugIndexRoute:
+      AuthenticatedDashboardRolesSlugIndexRoute,
+  }
+
+const AuthenticatedDashboardRolesSlugRouteRouteWithChildren =
+  AuthenticatedDashboardRolesSlugRouteRoute._addFileChildren(
+    AuthenticatedDashboardRolesSlugRouteRouteChildren,
+  )
+
 interface AuthenticatedDashboardRolesRouteRouteChildren {
+  AuthenticatedDashboardRolesSlugRouteRoute: typeof AuthenticatedDashboardRolesSlugRouteRouteWithChildren
   AuthenticatedDashboardRolesIndexRoute: typeof AuthenticatedDashboardRolesIndexRoute
 }
 
 const AuthenticatedDashboardRolesRouteRouteChildren: AuthenticatedDashboardRolesRouteRouteChildren =
   {
+    AuthenticatedDashboardRolesSlugRouteRoute:
+      AuthenticatedDashboardRolesSlugRouteRouteWithChildren,
     AuthenticatedDashboardRolesIndexRoute:
       AuthenticatedDashboardRolesIndexRoute,
   }
@@ -266,8 +332,11 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
+  '/roles/$slug': typeof AuthenticatedDashboardRolesSlugRouteRouteWithChildren
   '/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
+  '/roles/$slug/members': typeof AuthenticatedDashboardRolesSlugMembersRoute
+  '/roles/$slug/': typeof AuthenticatedDashboardRolesSlugIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -278,6 +347,8 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedDashboardIndexRoute
   '/roles': typeof AuthenticatedDashboardRolesIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
+  '/roles/$slug/members': typeof AuthenticatedDashboardRolesSlugMembersRoute
+  '/roles/$slug': typeof AuthenticatedDashboardRolesSlugIndexRoute
 }
 
 export interface FileRoutesById {
@@ -291,8 +362,11 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/_dashboard/roles/$slug': typeof AuthenticatedDashboardRolesSlugRouteRouteWithChildren
   '/_authenticated/_dashboard/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
+  '/_authenticated/_dashboard/roles/$slug/members': typeof AuthenticatedDashboardRolesSlugMembersRoute
+  '/_authenticated/_dashboard/roles/$slug/': typeof AuthenticatedDashboardRolesSlugIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -305,10 +379,22 @@ export interface FileRouteTypes {
     | '/users'
     | '/profile'
     | '/'
+    | '/roles/$slug'
     | '/roles/'
     | '/users/'
+    | '/roles/$slug/members'
+    | '/roles/$slug/'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/login' | '/register' | '/profile' | '/' | '/roles' | '/users'
+  to:
+    | ''
+    | '/login'
+    | '/register'
+    | '/profile'
+    | '/'
+    | '/roles'
+    | '/users'
+    | '/roles/$slug/members'
+    | '/roles/$slug'
   id:
     | '__root__'
     | '/_authenticated'
@@ -320,8 +406,11 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard/users'
     | '/_authenticated/_dashboard/profile'
     | '/_authenticated/_dashboard/'
+    | '/_authenticated/_dashboard/roles/$slug'
     | '/_authenticated/_dashboard/roles/'
     | '/_authenticated/_dashboard/users/'
+    | '/_authenticated/_dashboard/roles/$slug/members'
+    | '/_authenticated/_dashboard/roles/$slug/'
   fileRoutesById: FileRoutesById
 }
 
@@ -384,6 +473,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard/roles/route.tsx",
       "parent": "/_authenticated/_dashboard",
       "children": [
+        "/_authenticated/_dashboard/roles/$slug",
         "/_authenticated/_dashboard/roles/"
       ]
     },
@@ -402,6 +492,14 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard/index.tsx",
       "parent": "/_authenticated/_dashboard"
     },
+    "/_authenticated/_dashboard/roles/$slug": {
+      "filePath": "_authenticated/_dashboard/roles/$slug/route.tsx",
+      "parent": "/_authenticated/_dashboard/roles",
+      "children": [
+        "/_authenticated/_dashboard/roles/$slug/members",
+        "/_authenticated/_dashboard/roles/$slug/"
+      ]
+    },
     "/_authenticated/_dashboard/roles/": {
       "filePath": "_authenticated/_dashboard/roles/index.tsx",
       "parent": "/_authenticated/_dashboard/roles"
@@ -409,6 +507,14 @@ export const routeTree = rootRoute
     "/_authenticated/_dashboard/users/": {
       "filePath": "_authenticated/_dashboard/users/index.tsx",
       "parent": "/_authenticated/_dashboard/users"
+    },
+    "/_authenticated/_dashboard/roles/$slug/members": {
+      "filePath": "_authenticated/_dashboard/roles/$slug/members.tsx",
+      "parent": "/_authenticated/_dashboard/roles/$slug"
+    },
+    "/_authenticated/_dashboard/roles/$slug/": {
+      "filePath": "_authenticated/_dashboard/roles/$slug/index.tsx",
+      "parent": "/_authenticated/_dashboard/roles/$slug"
     }
   }
 }

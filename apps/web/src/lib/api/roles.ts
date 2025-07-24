@@ -1,8 +1,8 @@
-import type { Role } from "@bunstack/shared/db/types/roles";
+import type { RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
 
 import { fetchAuthenticated } from "./http";
 
-export async function getAllRoles(): Promise<Role[]> {
+export async function getAllRoles(): Promise<RoleWithMembersCount[]> {
   const res = await fetchAuthenticated("/api/roles");
   if (!res.ok) {
     throw new Error("Failed to get roles");
