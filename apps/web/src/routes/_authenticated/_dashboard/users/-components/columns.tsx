@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/db/types/users";
+import type { UserWithRoles } from "@bunstack/shared/db/types/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,7 +7,7 @@ import { SortableHeader } from "@/components/ui/sortable-header";
 
 import { ActionDropdown } from "./action-dropdown";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<UserWithRoles>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -51,13 +51,23 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "email",
     header: ({ column }) => <SortableHeader column={column} title="Email" />,
-    cell: ({ row }) => <div className="text-muted-foreground">{row.getValue("email")}</div>,
+    cell: ({ row }) => <div className="text-muted-foreground">{row.original.email}</div>,
+  },
+  {
+    accessorKey: "roles",
+    cell: ({ row }) => (
+      <div className="text-muted-foreground">
+        {
+          row.original.roles.sort((a, b) => b.level - a.level).map(r => r.label).join(", ")
+        }
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",
     header: ({ column }) => <SortableHeader column={column} title="Created At" />,
     cell: ({ row }) => {
-      const timestamp = row.getValue<number>("createdAt");
+      const timestamp = row.original.createdAt;
       const dateString = timestamp
         ? new Date(timestamp).toLocaleDateString(undefined, {
             year: "numeric",
