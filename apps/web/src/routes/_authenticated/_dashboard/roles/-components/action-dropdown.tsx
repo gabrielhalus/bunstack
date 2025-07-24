@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/db/types/users";
+import type { Role } from "@bunstack/shared/db/types/roles";
 import type { Row } from "@tanstack/react-table";
 
 import { Copy, MoreHorizontal, Trash } from "lucide-react";
@@ -6,15 +6,8 @@ import { Copy, MoreHorizontal, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TimeoutButton } from "@/components/ui/timeout-button";
-import { useAuth } from "@/hooks/use-auth";
 
-export function ActionDropdown({ row }: { row: Row<User> }) {
-  const { can, isAdmin, loading } = useAuth();
-
-  if (loading) { 
-    return null;
-  }
-  
+export function ActionDropdown({ row }: { row: Row<Role> }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,16 +18,14 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id.toString())}>
           <Copy className="h-4 w-4" />
-          Copy User ID
+          Copy Role ID
         </DropdownMenuItem>
-        {(can("delete:users") || isAdmin) && (
-          <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => console.log("Delete user")}>
-            <Trash className="h-4 w-4" />
-            Delete User
-          </TimeoutButton>
-        )}
+        <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => console.log("Delete role")}>
+          <Trash className="h-4 w-4" />
+          Delete Role
+        </TimeoutButton>
       </DropdownMenuContent>
     </DropdownMenu>
   );
