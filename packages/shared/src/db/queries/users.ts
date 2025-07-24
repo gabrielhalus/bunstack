@@ -32,9 +32,14 @@ export async function getUsers(page: number, limit: number): Promise<{ users: Ar
  *
  * @param key - The field to search by.
  * @param value - The value to search for.
+ * @param keepPassword - If true, include the password field (for auth purposes).
  * @returns The matching user.
  */
-export async function getUser(key: keyof UserUniqueFields, value: any): Promise<UserWithRoles | undefined> {
+export async function getUser(
+  key: keyof UserUniqueFields,
+  value: any,
+  keepPassword: boolean = false,
+): Promise<UserWithRoles | undefined> {
   const user = await db.select().from(Users).where(eq(Users[key], value)).get();
 
   if (!user) {
@@ -43,11 +48,25 @@ export async function getUser(key: keyof UserUniqueFields, value: any): Promise<
 
   const enrichedUser = {
     ...user,
-    password: undefined,
+    password: keepPassword ? user.password : undefined,
     roles: await getUserRoles(user),
   };
 
   return enrichedUser;
+}
+
+/**
+ * Get a user along with their associated roles by its ID, always including the password (for auth).
+ *
+ * @param key - The field to search by.
+ * @param value - The value to search for.
+ * @returns The matching user, with password.
+ */
+export async function getUserWithPassword(
+  key: keyof UserUniqueFields,
+  value: any,
+): Promise<UserWithRoles | undefined> {
+  return getUser(key, value, true);
 }
 
 /**
