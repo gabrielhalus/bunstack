@@ -1,12 +1,13 @@
 import type { RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
+import { Link } from "@tanstack/react-router";
+import { UserRound } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SortableHeader } from "@/components/ui/sortable-header";
 
-import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
-import { UserRound } from "lucide-react";
 import { ActionDropdown } from "./action-dropdown";
 
 export const columns: ColumnDef<RoleWithMembersCount>[] = [
@@ -47,14 +48,15 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     accessorKey: "members",
     header: ({ column }) => <SortableHeader column={column} title="Members" />,
     cell: ({ row }) => {
-      return <Button variant="secondary" size='sm' asChild>
-        <Link to="/roles/$slug/members" params={{ slug: row.original.name }} className="flex items-center gap-2">
-          {row.original.members}
-          <UserRound />
-        </Link>
-      </Button>;
+      return (
+        <Button variant="secondary" size="sm" asChild>
+          <Link to="/roles/$slug/members" params={{ slug: row.original.name }} className="flex items-center gap-2">
+            {row.original.members}
+            <UserRound />
+          </Link>
+        </Button>
+      );
     },
-    size: 150,
   },
   {
     accessorKey: "createdAt",

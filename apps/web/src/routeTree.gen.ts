@@ -22,9 +22,9 @@ import { Route as AuthenticatedDashboardUsersRouteImport } from './routes/_authe
 import { Route as AuthenticatedDashboardRolesRouteImport } from './routes/_authenticated/_dashboard/roles/route'
 import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authenticated/_dashboard/users/index'
 import { Route as AuthenticatedDashboardRolesIndexImport } from './routes/_authenticated/_dashboard/roles/index'
-import { Route as AuthenticatedDashboardRolesSlugRouteImport } from './routes/_authenticated/_dashboard/roles/$slug/route'
-import { Route as AuthenticatedDashboardRolesSlugIndexImport } from './routes/_authenticated/_dashboard/roles/$slug/index'
-import { Route as AuthenticatedDashboardRolesSlugMembersImport } from './routes/_authenticated/_dashboard/roles/$slug/members'
+import { Route as AuthenticatedDashboardRolesNameRouteImport } from './routes/_authenticated/_dashboard/roles/$name/route'
+import { Route as AuthenticatedDashboardRolesNameIndexImport } from './routes/_authenticated/_dashboard/roles/$name/index'
+import { Route as AuthenticatedDashboardRolesNameMembersImport } from './routes/_authenticated/_dashboard/roles/$name/members'
 
 // Create/Update Routes
 
@@ -98,25 +98,25 @@ const AuthenticatedDashboardRolesIndexRoute =
     getParentRoute: () => AuthenticatedDashboardRolesRouteRoute,
   } as any)
 
-const AuthenticatedDashboardRolesSlugRouteRoute =
-  AuthenticatedDashboardRolesSlugRouteImport.update({
-    id: '/$slug',
-    path: '/$slug',
+const AuthenticatedDashboardRolesNameRouteRoute =
+  AuthenticatedDashboardRolesNameRouteImport.update({
+    id: '/$name',
+    path: '/$name',
     getParentRoute: () => AuthenticatedDashboardRolesRouteRoute,
   } as any)
 
-const AuthenticatedDashboardRolesSlugIndexRoute =
-  AuthenticatedDashboardRolesSlugIndexImport.update({
+const AuthenticatedDashboardRolesNameIndexRoute =
+  AuthenticatedDashboardRolesNameIndexImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => AuthenticatedDashboardRolesSlugRouteRoute,
+    getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
   } as any)
 
-const AuthenticatedDashboardRolesSlugMembersRoute =
-  AuthenticatedDashboardRolesSlugMembersImport.update({
+const AuthenticatedDashboardRolesNameMembersRoute =
+  AuthenticatedDashboardRolesNameMembersImport.update({
     id: '/members',
     path: '/members',
-    getParentRoute: () => AuthenticatedDashboardRolesSlugRouteRoute,
+    getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -186,11 +186,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexImport
       parentRoute: typeof AuthenticatedDashboardRouteImport
     }
-    '/_authenticated/_dashboard/roles/$slug': {
-      id: '/_authenticated/_dashboard/roles/$slug'
-      path: '/$slug'
-      fullPath: '/roles/$slug'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesSlugRouteImport
+    '/_authenticated/_dashboard/roles/$name': {
+      id: '/_authenticated/_dashboard/roles/$name'
+      path: '/$name'
+      fullPath: '/roles/$name'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNameRouteImport
       parentRoute: typeof AuthenticatedDashboardRolesRouteImport
     }
     '/_authenticated/_dashboard/roles/': {
@@ -207,52 +207,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardUsersIndexImport
       parentRoute: typeof AuthenticatedDashboardUsersRouteImport
     }
-    '/_authenticated/_dashboard/roles/$slug/members': {
-      id: '/_authenticated/_dashboard/roles/$slug/members'
+    '/_authenticated/_dashboard/roles/$name/members': {
+      id: '/_authenticated/_dashboard/roles/$name/members'
       path: '/members'
-      fullPath: '/roles/$slug/members'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesSlugMembersImport
-      parentRoute: typeof AuthenticatedDashboardRolesSlugRouteImport
+      fullPath: '/roles/$name/members'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNameMembersImport
+      parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
     }
-    '/_authenticated/_dashboard/roles/$slug/': {
-      id: '/_authenticated/_dashboard/roles/$slug/'
+    '/_authenticated/_dashboard/roles/$name/': {
+      id: '/_authenticated/_dashboard/roles/$name/'
       path: '/'
-      fullPath: '/roles/$slug/'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesSlugIndexImport
-      parentRoute: typeof AuthenticatedDashboardRolesSlugRouteImport
+      fullPath: '/roles/$name/'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNameIndexImport
+      parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthenticatedDashboardRolesSlugRouteRouteChildren {
-  AuthenticatedDashboardRolesSlugMembersRoute: typeof AuthenticatedDashboardRolesSlugMembersRoute
-  AuthenticatedDashboardRolesSlugIndexRoute: typeof AuthenticatedDashboardRolesSlugIndexRoute
+interface AuthenticatedDashboardRolesNameRouteRouteChildren {
+  AuthenticatedDashboardRolesNameMembersRoute: typeof AuthenticatedDashboardRolesNameMembersRoute
+  AuthenticatedDashboardRolesNameIndexRoute: typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
-const AuthenticatedDashboardRolesSlugRouteRouteChildren: AuthenticatedDashboardRolesSlugRouteRouteChildren =
+const AuthenticatedDashboardRolesNameRouteRouteChildren: AuthenticatedDashboardRolesNameRouteRouteChildren =
   {
-    AuthenticatedDashboardRolesSlugMembersRoute:
-      AuthenticatedDashboardRolesSlugMembersRoute,
-    AuthenticatedDashboardRolesSlugIndexRoute:
-      AuthenticatedDashboardRolesSlugIndexRoute,
+    AuthenticatedDashboardRolesNameMembersRoute:
+      AuthenticatedDashboardRolesNameMembersRoute,
+    AuthenticatedDashboardRolesNameIndexRoute:
+      AuthenticatedDashboardRolesNameIndexRoute,
   }
 
-const AuthenticatedDashboardRolesSlugRouteRouteWithChildren =
-  AuthenticatedDashboardRolesSlugRouteRoute._addFileChildren(
-    AuthenticatedDashboardRolesSlugRouteRouteChildren,
+const AuthenticatedDashboardRolesNameRouteRouteWithChildren =
+  AuthenticatedDashboardRolesNameRouteRoute._addFileChildren(
+    AuthenticatedDashboardRolesNameRouteRouteChildren,
   )
 
 interface AuthenticatedDashboardRolesRouteRouteChildren {
-  AuthenticatedDashboardRolesSlugRouteRoute: typeof AuthenticatedDashboardRolesSlugRouteRouteWithChildren
+  AuthenticatedDashboardRolesNameRouteRoute: typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
   AuthenticatedDashboardRolesIndexRoute: typeof AuthenticatedDashboardRolesIndexRoute
 }
 
 const AuthenticatedDashboardRolesRouteRouteChildren: AuthenticatedDashboardRolesRouteRouteChildren =
   {
-    AuthenticatedDashboardRolesSlugRouteRoute:
-      AuthenticatedDashboardRolesSlugRouteRouteWithChildren,
+    AuthenticatedDashboardRolesNameRouteRoute:
+      AuthenticatedDashboardRolesNameRouteRouteWithChildren,
     AuthenticatedDashboardRolesIndexRoute:
       AuthenticatedDashboardRolesIndexRoute,
   }
@@ -332,11 +332,11 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
-  '/roles/$slug': typeof AuthenticatedDashboardRolesSlugRouteRouteWithChildren
+  '/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
   '/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
-  '/roles/$slug/members': typeof AuthenticatedDashboardRolesSlugMembersRoute
-  '/roles/$slug/': typeof AuthenticatedDashboardRolesSlugIndexRoute
+  '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -347,8 +347,8 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedDashboardIndexRoute
   '/roles': typeof AuthenticatedDashboardRolesIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
-  '/roles/$slug/members': typeof AuthenticatedDashboardRolesSlugMembersRoute
-  '/roles/$slug': typeof AuthenticatedDashboardRolesSlugIndexRoute
+  '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/roles/$name': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
 export interface FileRoutesById {
@@ -362,11 +362,11 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
-  '/_authenticated/_dashboard/roles/$slug': typeof AuthenticatedDashboardRolesSlugRouteRouteWithChildren
+  '/_authenticated/_dashboard/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
   '/_authenticated/_dashboard/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
-  '/_authenticated/_dashboard/roles/$slug/members': typeof AuthenticatedDashboardRolesSlugMembersRoute
-  '/_authenticated/_dashboard/roles/$slug/': typeof AuthenticatedDashboardRolesSlugIndexRoute
+  '/_authenticated/_dashboard/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/_authenticated/_dashboard/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -379,11 +379,11 @@ export interface FileRouteTypes {
     | '/users'
     | '/profile'
     | '/'
-    | '/roles/$slug'
+    | '/roles/$name'
     | '/roles/'
     | '/users/'
-    | '/roles/$slug/members'
-    | '/roles/$slug/'
+    | '/roles/$name/members'
+    | '/roles/$name/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -393,8 +393,8 @@ export interface FileRouteTypes {
     | '/'
     | '/roles'
     | '/users'
-    | '/roles/$slug/members'
-    | '/roles/$slug'
+    | '/roles/$name/members'
+    | '/roles/$name'
   id:
     | '__root__'
     | '/_authenticated'
@@ -406,11 +406,11 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard/users'
     | '/_authenticated/_dashboard/profile'
     | '/_authenticated/_dashboard/'
-    | '/_authenticated/_dashboard/roles/$slug'
+    | '/_authenticated/_dashboard/roles/$name'
     | '/_authenticated/_dashboard/roles/'
     | '/_authenticated/_dashboard/users/'
-    | '/_authenticated/_dashboard/roles/$slug/members'
-    | '/_authenticated/_dashboard/roles/$slug/'
+    | '/_authenticated/_dashboard/roles/$name/members'
+    | '/_authenticated/_dashboard/roles/$name/'
   fileRoutesById: FileRoutesById
 }
 
@@ -473,7 +473,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard/roles/route.tsx",
       "parent": "/_authenticated/_dashboard",
       "children": [
-        "/_authenticated/_dashboard/roles/$slug",
+        "/_authenticated/_dashboard/roles/$name",
         "/_authenticated/_dashboard/roles/"
       ]
     },
@@ -492,12 +492,12 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard/index.tsx",
       "parent": "/_authenticated/_dashboard"
     },
-    "/_authenticated/_dashboard/roles/$slug": {
-      "filePath": "_authenticated/_dashboard/roles/$slug/route.tsx",
+    "/_authenticated/_dashboard/roles/$name": {
+      "filePath": "_authenticated/_dashboard/roles/$name/route.tsx",
       "parent": "/_authenticated/_dashboard/roles",
       "children": [
-        "/_authenticated/_dashboard/roles/$slug/members",
-        "/_authenticated/_dashboard/roles/$slug/"
+        "/_authenticated/_dashboard/roles/$name/members",
+        "/_authenticated/_dashboard/roles/$name/"
       ]
     },
     "/_authenticated/_dashboard/roles/": {
@@ -508,13 +508,13 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard/users/index.tsx",
       "parent": "/_authenticated/_dashboard/users"
     },
-    "/_authenticated/_dashboard/roles/$slug/members": {
-      "filePath": "_authenticated/_dashboard/roles/$slug/members.tsx",
-      "parent": "/_authenticated/_dashboard/roles/$slug"
+    "/_authenticated/_dashboard/roles/$name/members": {
+      "filePath": "_authenticated/_dashboard/roles/$name/members.tsx",
+      "parent": "/_authenticated/_dashboard/roles/$name"
     },
-    "/_authenticated/_dashboard/roles/$slug/": {
-      "filePath": "_authenticated/_dashboard/roles/$slug/index.tsx",
-      "parent": "/_authenticated/_dashboard/roles/$slug"
+    "/_authenticated/_dashboard/roles/$name/": {
+      "filePath": "_authenticated/_dashboard/roles/$name/index.tsx",
+      "parent": "/_authenticated/_dashboard/roles/$name"
     }
   }
 }
