@@ -1,85 +1,222 @@
-import type { User } from "@bunstack/shared/schemas/users";
+import type { Role } from "@bunstack/shared/db/types/roles";
+import type { User } from "@bunstack/shared/db/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 
 import { userQueryOptions } from "@/lib/queries/auth";
+import { queryClient } from "@/main";
 
-type UseAuthReturn =
-  | {
-    user: undefined;
-    isPending: true;
-    isError: false;
-    isAuthenticated: false;
-  }
-  | {
-    user: null;
-    isPending: false;
-    isError: true;
-    isAuthenticated: false;
-  }
-  | {
-    user: User;
-    isPending: false;
-    isError: false;
-    isAuthenticated: true;
-  };
+// Core auth state types
+type AuthState = {
+  user: User;
+  roles: Role[];
+  permissions: string[];
+};
 
-type UseAuthReturnWithRedirect =
-  | {
-    user: undefined;
-    isPending: true;
-    isError: false;
-    isAuthenticated: false;
-  }
-  | {
-    user: User;
-    isPending: false;
-    isError: false;
-    isAuthenticated: true;
-  };
+// Extracted can function
+export function can(permission: string, permissions: string[]): boolean {
+  return permissions.includes(permission);
+}
 
+// Extracted isAdmin check
+export function isAdmin(roles: Role[]): boolean {
+  return roles.some(role => role.isSuperAdmin);
+}
+
+type AuthResult = {
+  user: User;
+  roles: Role[];
+  can: (permission: string) => boolean;
+  isAdmin: boolean;
+  isAuthenticated: true;
+};
+
+type UnauthenticatedResult = {
+  user: null;
+  roles: undefined;
+  can: (permission: string) => false;
+  isAdmin: false;
+  isAuthenticated: false;
+};
+
+// Hook return types
+type UseAuthLoading = {
+  user: undefined;
+  roles: undefined;
+  can: () => false;
+  isAdmin: false;
+  loading: true;
+  isError: false;
+  isAuthenticated: false;
+};
+
+type UseAuthError = UnauthenticatedResult & {
+  loading: false;
+  isError: true;
+};
+
+type UseAuthSuccess = AuthResult & {
+  loading: false;
+  isError: false;
+};
+
+type UseAuthReturn = UseAuthLoading | UseAuthError | UseAuthSuccess;
+
+// Non-component auth function types
+type AuthFunctionReturn = AuthResult | UnauthenticatedResult;
+
+// Options for the hook
 type UseAuthOptions = {
   redirect?: LinkOptions["to"] | false;
 };
 
+// Core auth logic (reusable between hook and function)
+function createAuthResult(authState: AuthState): AuthResult {
+  return {
+    user: authState.user,
+    roles: authState.roles,
+    can: (permission: string) => can(permission, authState.permissions),
+    isAdmin: isAdmin(authState.roles),
+    isAuthenticated: true,
+  };
+}
+
+function createUnauthenticatedResult(): UnauthenticatedResult {
+  return {
+    user: null,
+    roles: undefined,
+    can: (_permission: string) => false,
+    isAdmin: false,
+    isAuthenticated: false,
+  };
+}
+
+// Singleton cache for non-component auth
+let authCache: {
+  promise: Promise<AuthFunctionReturn> | null;
+  result: AuthFunctionReturn | null;
+  timestamp: number;
+} | null = null;
+
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+function isCacheValid(): boolean {
+  if (!authCache)
+    return false;
+  return Date.now() - authCache.timestamp < CACHE_DURATION;
+}
+
+function clearAuthCache(): void {
+  authCache = null;
+}
+
+// Non-component auth function with caching
+export async function auth(): Promise<AuthFunctionReturn> {
+  // Check if we have a valid cached result
+  if (authCache && authCache.result && isCacheValid()) {
+    return authCache.result;
+  }
+
+  // Check if we have an ongoing request
+  if (authCache?.promise) {
+    return authCache.promise;
+  }
+
+  // Create new request using the existing query client
+  const authPromise = (async () => {
+    try {
+      // Use the same query options that the hook uses
+      const authState = await queryClient.fetchQuery(userQueryOptions);
+      const result = createAuthResult(authState);
+
+      // Cache the successful result
+      authCache = {
+        promise: null,
+        result,
+        timestamp: Date.now(),
+      };
+
+      return result;
+    } catch {
+      const result = createUnauthenticatedResult();
+
+      // Cache the error result (shorter cache for errors)
+      authCache = {
+        promise: null,
+        result,
+        timestamp: Date.now(),
+      };
+
+      return result;
+    }
+  })();
+
+  // Store the promise to prevent duplicate requests
+  authCache = {
+    promise: authPromise,
+    result: null,
+    timestamp: Date.now(),
+  };
+
+  return authPromise;
+}
+
+// Function to invalidate auth cache (useful after login/logout)
+export function invalidateAuth(): void {
+  clearAuthCache();
+  // Also invalidate the React Query cache
+  queryClient.invalidateQueries({ queryKey: ["get-current-user"] });
+}
+
+// React hook with overloads
 export function useAuth(): UseAuthReturn;
-export function useAuth(options: { redirect: LinkOptions["to"] }): UseAuthReturnWithRedirect;
-export function useAuth(options: UseAuthOptions = {}): UseAuthReturn | UseAuthReturnWithRedirect {
+export function useAuth(options: { redirect: LinkOptions["to"] }): UseAuthReturn;
+export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
   const { redirect = false } = options;
   const router = useRouter();
-  const { data, isPending, isError } = useQuery(userQueryOptions);
 
-  const unauthenticated = isError || !data?.user;
+  // Use the query with optimized caching
+  const { data, isPending, isError } = useQuery({
+    ...userQueryOptions,
+    // Additional optimizations
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
 
-  if (!isPending && unauthenticated && redirect) {
+  // Handle redirect logic
+  if (!isPending && (isError || !data?.user) && redirect) {
     router.navigate({ to: redirect });
   }
 
+  // Loading state
   if (isPending) {
     return {
       user: undefined,
-      isPending: true,
+      roles: undefined,
+      can: () => false,
+      isAdmin: false,
+      loading: true,
       isError: false,
       isAuthenticated: false,
     };
   }
 
-  if (isError) {
+  // Error state
+  if (isError || !data?.user) {
     return {
-      user: null,
-      isPending: false,
+      ...createUnauthenticatedResult(),
+      loading: false,
       isError: true,
-      isAuthenticated: false,
     };
   }
 
-  // data is defined here and contains a valid user
+  // Success state
   return {
-    user: data!.user,
-    isPending: false,
+    ...createAuthResult(data),
+    loading: false,
     isError: false,
-    isAuthenticated: true,
   };
 }

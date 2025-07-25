@@ -1,8 +1,7 @@
+import { getUser } from "@bunstack/shared/db/queries/users";
+import env from "@bunstack/shared/env";
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
-
-import { getUser } from "@/db/queries/users";
-import env from "@/lib/env";
 
 const SECRET_KEY = env.JWT_SECRET;
 
@@ -27,7 +26,7 @@ export type JwtPayload =
   };
 
 export async function validateUser({ email, password: pwd }: { email: string; password: string }): Promise<string | null> {
-  const user = await getUser("email", email);
+  const user = await getUser("email", email, true);
   if (user?.password && await password.verify(pwd, user.password)) {
     return user.id;
   }

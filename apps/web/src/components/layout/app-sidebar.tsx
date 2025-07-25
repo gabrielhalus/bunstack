@@ -1,6 +1,5 @@
-import { can } from "@bunstack/shared/access";
 import { Link } from "@tanstack/react-router";
-import { Box, Home, ShieldUser, Users } from "lucide-react";
+import { Box, Home, ShieldUser, UsersRound } from "lucide-react";
 import React, { useMemo } from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -10,7 +9,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { useAuth } from "@/hooks/use-auth";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useAuth();
+  const { isAuthenticated, isAdmin, can } = useAuth();
 
   const data = useMemo(() => ({
     navMain: [
@@ -19,14 +18,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(can(user, "users", "view")
+      ...(isAuthenticated && (can("manage:users") || isAdmin)
         ? [{
             title: "Users",
-            icon: Users,
+            icon: UsersRound,
             href: { to: "/users" } as const,
           }]
         : []),
-      ...(can(user, "roles", "view")
+      ...(isAuthenticated && (can("manage:roles") || isAdmin)
         ? [{
             title: "Roles",
             icon: ShieldUser,
@@ -35,7 +34,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         : []),
     ],
     navSecondary: [],
-  }), [user]);
+  }), [isAuthenticated, isAdmin, can]);
 
   return (
     <Sidebar collapsible="icon" {...props}>

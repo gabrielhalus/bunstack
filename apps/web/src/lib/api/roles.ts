@@ -1,8 +1,8 @@
-import type { Role } from "@bunstack/shared/schemas/roles";
+import type { RoleWithMembers, RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
 
-import { fetchAuthenticated } from "@/lib/api/http";
+import { fetchAuthenticated } from "./http";
 
-export async function getAllRoles(): Promise<Role[]> {
+export async function getAllRoles(): Promise<RoleWithMembersCount[]> {
   const res = await fetchAuthenticated("/api/roles");
   if (!res.ok) {
     throw new Error("Failed to get roles");
@@ -10,14 +10,10 @@ export async function getAllRoles(): Promise<Role[]> {
   return res.json().then(data => data.roles);
 }
 
-export async function deleteRole({ id }: { id: string }): Promise<Role> {
-  const res = await fetchAuthenticated(`/api/roles/${id}`, {
-    method: "DELETE",
-  });
-
+export async function getRoleByName(name: string): Promise<RoleWithMembers> {
+  const res = await fetchAuthenticated(`/api/roles/${name}`);
   if (!res.ok) {
-    throw new Error("Failed to delete role");
+    throw new Error("Failed to get role");
   }
-
-  return res.json();
+  return res.json().then(data => data.role);
 }

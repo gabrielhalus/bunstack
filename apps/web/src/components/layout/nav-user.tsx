@@ -1,6 +1,3 @@
-import { Link } from "@tanstack/react-router";
-import { UserRound } from "lucide-react";
-
 import { LogoutButton } from "@/components/layout/logout-button";
 import {
   Avatar,
@@ -10,8 +7,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -29,9 +24,9 @@ import { Skeleton } from "../ui/skeleton";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user, isPending, isAuthenticated } = useAuth({ redirect: "/login" });
+  const { user, loading, isAuthenticated } = useAuth({ redirect: "/login" });
 
-  if (isPending) {
+  if (loading) {
     return (
       <SidebarMenu>
         <SidebarMenuItem className="flex w-full items-center gap-2 p-2 ">
@@ -100,7 +95,7 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+            {/* <DropdownMenuGroup>
               <Link to="/profile">
                 <DropdownMenuItem>
                   <UserRound />
@@ -108,7 +103,7 @@ export function NavUser() {
                 </DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator /> */}
             <LogoutButton variant="dropdown" />
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,23 +1,31 @@
-/* eslint-disable drizzle/enforce-delete-with-where */
+import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
-import { deleteUser, getAllUsers, getUser } from "@/db/queries/users";
-import { getAuth } from "@/middlewares/auth";
+import { getAuthContext } from "@/middlewares/auth";
+import { requireOwnResource, requirePermission } from "@/middlewares/authorization";
 
 export default new Hono()
-  .use(getAuth)
+  .use(getAuthContext)
 
   /**
    * Get all users
    * @param c - The context
    * @returns All users
    */
-  .get("/", async (c) => {
+  .get("/", requirePermission("manage:users"), async (c) => {
     try {
-      const users = await getAllUsers();
-      return c.json({ success: true, users: users.map(user => ({ ...user, password: undefined })) });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+      const page = Number(c.req.query("page") ?? "1");
+      const limit = Number(c.req.query("limit") ?? "25");
+
+      if (Number.isNaN(page) || page < 1 || Number.isNaN(limit) || limit < 1) {
+        return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
+      }
+
+      const { users, total } = await getUsers(page, limit);
+
+      return c.json({ success: true, users, total });
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -26,14 +34,14 @@ export default new Hono()
    * @param c - The context
    * @returns The user
    */
-  .get("/:id", async (c) => {
+  .get("/:id", requireOwnResource("view:users"), async (c) => {
     const { id } = c.req.param();
 
     try {
       const user = await getUser("id", id);
-      return c.json({ success: true, user: { ...user, password: undefined } });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+      return c.json({ success: true, user });
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -42,13 +50,13 @@ export default new Hono()
    * @param c - The context
    * @returns The user
    */
-  .delete("/:id", async (c) => {
+  .delete("/:id", requireOwnResource("delete:users"), async (c) => {
     const { id } = c.req.param();
 
     try {
       const user = await deleteUser("id", id);
       return c.json({ success: true, user });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });

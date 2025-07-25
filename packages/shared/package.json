@@ -2,17 +2,25 @@
   "name": "@bunstack/shared",
   "type": "module",
   "version": "0.0.0",
-  "private": true,
   "exports": {
-    "./access": "./dist/access.js",
-    "./contracts/*": "./dist/contracts/*.js",
-    "./schemas/*": "./dist/schemas/*/index.js"
+    "./access": "./dist/access/index.js",
+    "./access/types": "./dist/access/types.js",
+    "./contracts/auth": "./dist/contracts/auth.js",
+    "./db": "./dist/db/index.js",
+    "./db/queries/*": "./dist/db/queries/*.js",
+    "./db/schemas/*": "./dist/db/schemas/*.js",
+    "./db/seeds/*": "./dist/db/seeds/*.js",
+    "./db/types/*": "./dist/db/types/*.js",
+    "./env": "./dist/lib/env.js"
   },
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
     "lint": "eslint .",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:push": "drizzle-kit push",
+    "drizzle:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@bunstack/eslint-config": "workspace:*",
@@ -21,5 +29,10 @@
     "drizzle-zod": "^0.7.1",
     "nanoid": "^5.1.5",
     "zod": "^3.25.55"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.1",
+    "eslint": "^9.28.0",
+    "eslint-plugin-drizzle": "^0.2.3"
   }
 }

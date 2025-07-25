@@ -1,15 +1,15 @@
-import { insertUserSchema } from "@bunstack/shared/schemas/users";
+import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
+import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
+import { insertUserSchema } from "@bunstack/shared/db/types/users";
+import env from "@bunstack/shared/env";
 import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
-import { deleteToken, getToken, insertToken } from "@/db/queries/tokens";
-import { getUser, insertUser } from "@/db/queries/users";
 import { getClientInfo } from "@/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
-import env from "@/lib/env";
-import { getAuth } from "@/middlewares/auth";
+import { getAuthContext } from "@/middlewares/auth";
 
 export default new Hono()
   /**
@@ -24,7 +24,7 @@ export default new Hono()
     const hashedPassword = await password.hash(user.password);
 
     try {
-      const { password: _, ...insertedUser } = await insertUser({ ...user, password: hashedPassword });
+      const insertedUser = await insertUser({ ...user, password: hashedPassword });
 
       const insertedToken = await insertToken({
         userId: insertedUser.id,
@@ -44,7 +44,7 @@ export default new Hono()
       });
 
       return c.json({ success: true, accessToken });
-    } catch (error: any) {
+    } catch (error) {
       if (error instanceof Error && error.message.includes("UNIQUE constraint failed: users.email")) {
         return c.json(
           {
@@ -55,7 +55,7 @@ export default new Hono()
         );
       }
 
-      return c.json({ success: false, error: error.message }, 500);
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -94,8 +94,8 @@ export default new Hono()
       });
 
       return c.json({ success: true, accessToken });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -170,9 +170,9 @@ export default new Hono()
    * @param c - The context
    * @returns The current user
    */
-  .get("/profile", getAuth, async (c) => {
-    const user = c.var.user;
-    return c.json({ success: true, user });
+  .get("/me", getAuthContext, async (c) => {
+    const authContext = c.var.authContext;
+    return c.json({ success: true, ...authContext });
   })
 
   /**
@@ -190,7 +190,7 @@ export default new Hono()
       const user = await getUser("email", email);
       const available = !user;
       return c.json({ success: true, available });
-    } catch (error: any) {
-      return c.json({ success: false, error: error.message }, 500);
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });

@@ -3,7 +3,6 @@ import { serveStatic } from "hono/bun";
 import { logger } from "hono/logger";
 
 import serveEmojiFavicon from "@/middlewares/serve-emoji-favicon";
-import admin from "@/routes/admin";
 import auth from "@/routes/auth";
 import roles from "@/routes/roles";
 import users from "@/routes/users";
@@ -17,8 +16,7 @@ app.use(logger(), serveEmojiFavicon("🔥"));
 app.basePath("/api")
   .route("/auth", auth)
   .route("/users", users)
-  .route("/roles", roles)
-  .route("/admin", admin);
+  .route("/roles", roles);
 
 // Serve static files from the React Build
 app.use("/*", serveStatic({ root: "../web/dist" }));

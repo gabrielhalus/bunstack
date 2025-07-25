@@ -1,5 +1,4 @@
 import {
-  Column,
   type ColumnDef,
   type ColumnFiltersState,
   type SortingState,
@@ -9,9 +8,9 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table"
-import { ArrowDownNarrowWide, ArrowUpDown, ArrowUpNarrowWide, ChevronDown, MoreHorizontal, Search, Settings2 } from "lucide-react"
+import { ChevronDown, Search, Settings2 } from "lucide-react"
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -19,8 +18,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
