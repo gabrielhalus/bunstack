@@ -1,13 +1,12 @@
 import { count, eq, inArray } from "drizzle-orm";
 
-import { UserRoles } from "../schemas/user-roles";
-
 import type { Role, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 import type { User } from "../types/users";
 
 import { db } from "../";
 import { Roles } from "../schemas/roles";
-import { Users } from "db/schemas/users";
+import { UserRoles } from "../schemas/user-roles";
+import { Users } from "../schemas/users";
 
 /**
  * Retrieves a paginated list of roles, including the number of members for each role.
@@ -19,11 +18,11 @@ import { Users } from "db/schemas/users";
 export async function getRoles(page: number, limit: number): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
   const roles = await db.select().from(Roles).limit(limit).offset((page - 1) * limit).all();
 
-  const enrichedRoles = await Promise.all(roles.map(async (role) => ({
+  const enrichedRoles = await Promise.all(roles.map(async role => ({
     ...role,
-    members: await getRoleMembersCount(role)
-  })))
-  
+    members: await getRoleMembersCount(role),
+  })));
+
   const total = await db.select({ count: count() }).from(Roles).get();
 
   return { roles: enrichedRoles, total: Number(total?.count ?? 0) };
@@ -37,16 +36,16 @@ export async function getRoles(page: number, limit: number): Promise<{ roles: Ro
  * @returns The matching role with its members, or undefined if not found.
  */
 export async function getRole(key: keyof RoleUniqueFields, value: any): Promise<RoleWithMembers | undefined> {
-  const role =  await db.select().from(Roles).where(eq(Roles[key], value)).get();
-  
+  const role = await db.select().from(Roles).where(eq(Roles[key], value)).get();
+
   if (!role) {
     return undefined;
   }
-  
+
   const enrichedRole = {
     ...role,
-    members: await getRoleMembers(role)
-  }
+    members: await getRoleMembers(role),
+  };
 
   return enrichedRole;
 }
