@@ -1,13 +1,13 @@
 import { getRole, getRoles } from "@bunstack/shared/db/queries/roles";
 import { Hono } from "hono";
 
+import { requirePermission } from "@/middlewares/access-control";
 import { getAuthContext } from "@/middlewares/auth";
-import { requirePermission } from "@/middlewares/authorization";
 
 export default new Hono()
   .use(getAuthContext)
 
-  .get("/", requirePermission("manage:roles"), async (c) => {
+  .get("/", requirePermission("role:list"), async (c) => {
     try {
       const page = Number(c.req.query("page") ?? "1");
       const limit = Number(c.req.query("limit") ?? "25");
@@ -24,7 +24,7 @@ export default new Hono()
     }
   })
 
-  .get("/:name", requirePermission("manage:roles"), async (c) => {
+  .get("/:name", requirePermission("role:read"), async (c) => {
     const { name } = c.req.param();
 
     try {

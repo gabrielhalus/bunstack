@@ -1,22 +1,8 @@
-import type { Role } from "@bunstack/shared/db/types/roles";
-import type { User } from "@bunstack/shared/db/types/users";
-
 import { getUserWithContext } from "@bunstack/shared/db/queries/users";
 import env from "@bunstack/shared/env";
-import { createFactory } from "hono/factory";
 import { verify } from "hono/jwt";
 
-type Env = {
-  Variables: {
-    authContext: {
-      user: User;
-      roles: Role[];
-      permissions: string[];
-    };
-  };
-};
-
-const factory = createFactory<Env>();
+import { factory } from "@/utils/hono";
 
 /**
  * Get the user from the JWT token and set the auth context

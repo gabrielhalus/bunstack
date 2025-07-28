@@ -1,8 +1,8 @@
 import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
+import { requirePermission } from "@/middlewares/access-control";
 import { getAuthContext } from "@/middlewares/auth";
-import { requireOwnResource, requirePermission } from "@/middlewares/authorization";
 
 export default new Hono()
   .use(getAuthContext)
@@ -12,7 +12,7 @@ export default new Hono()
    * @param c - The context
    * @returns All users
    */
-  .get("/", requirePermission("manage:users"), async (c) => {
+  .get("/", requirePermission("user:list"), async (c) => {
     try {
       const page = Number(c.req.query("page") ?? "1");
       const limit = Number(c.req.query("limit") ?? "25");
@@ -34,7 +34,7 @@ export default new Hono()
    * @param c - The context
    * @returns The user
    */
-  .get("/:id", requireOwnResource("view:users"), async (c) => {
+  .get("/:id", requirePermission("user:read", c => ({ id: c.req.param("id") })), async (c) => {
     const { id } = c.req.param();
 
     try {
@@ -50,7 +50,7 @@ export default new Hono()
    * @param c - The context
    * @returns The user
    */
-  .delete("/:id", requireOwnResource("delete:users"), async (c) => {
+  .delete("/:id", requirePermission("user:delete", c => ({ id: c.req.param("id") })), async (c) => {
     const { id } = c.req.param();
 
     try {

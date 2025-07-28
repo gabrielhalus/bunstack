@@ -1,0 +1,28 @@
+import type { Permission } from "@bunstack/shared/access/types";
+
+import { can } from "@bunstack/shared/access";
+
+import type { AppContext } from "@/utils/hono";
+
+import { factory } from "@/utils/hono";
+
+/**
+ * Core authorization middleware that checks permissions
+ */
+export function requirePermission(
+  permission: Permission,
+  getResource?: (c: AppContext) => Promise<Record<string, unknown> | undefined> | Record<string, unknown> | undefined,
+) {
+  return factory.createMiddleware(async (c, next) => {
+    const { user, roles, policies } = c.get("authContext");
+
+    const resource = typeof getResource === "function" ? await getResource(c) : undefined;
+
+    const allowed = can(permission, user, roles, policies, resource);
+    if (!allowed) {
+      return c.json({ error: "Forbidden" }, 403);
+    }
+
+    await next();
+  });
+}
