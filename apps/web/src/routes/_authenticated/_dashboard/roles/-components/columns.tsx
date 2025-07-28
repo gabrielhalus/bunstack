@@ -50,7 +50,7 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     cell: ({ row }) => {
       return (
         <Button variant="secondary" size="sm" asChild>
-          <Link to="/roles/$slug/members" params={{ slug: row.original.name }} className="flex items-center gap-2">
+          <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
             {row.original.members}
             <UserRound />
           </Link>
