@@ -1,7 +1,9 @@
+import type { Permission, Policy } from "@bunstack/shared/access/types";
 import type { Role } from "@bunstack/shared/db/types/roles";
 import type { User } from "@bunstack/shared/db/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
+import { can as sharedCan } from "@bunstack/shared/access";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 
@@ -12,44 +14,44 @@ import { queryClient } from "@/main";
 type AuthState = {
   user: User;
   roles: Role[];
-  permissions: string[];
+  permissions: Permission[];
+  policies: Policy[];
 };
 
-// Extracted can function
-export function can(permission: string, permissions: string[]): boolean {
-  return permissions.includes(permission);
-}
-
-// Extracted isAdmin check
-export function isAdmin(roles: Role[]): boolean {
+function isAdmin(roles: Role[]): boolean {
   return roles.some(role => role.isSuperAdmin);
 }
 
 type AuthResult = {
   user: User;
   roles: Role[];
-  can: (permission: string) => boolean;
+  permissions: Permission[];
+  policies: Policy[];
   isAdmin: boolean;
   isAuthenticated: true;
+  can: (permission: Permission, resource?: Record<string, unknown>) => boolean;
 };
 
 type UnauthenticatedResult = {
   user: null;
   roles: undefined;
-  can: (permission: string) => false;
+  permissions: undefined;
+  policies: undefined;
   isAdmin: false;
   isAuthenticated: false;
+  can: () => Promise<false>;
 };
 
-// Hook return types
 type UseAuthLoading = {
   user: undefined;
   roles: undefined;
-  can: () => false;
+  permissions: undefined;
+  policies: undefined;
   isAdmin: false;
   loading: true;
   isError: false;
   isAuthenticated: false;
+  can: () => Promise<false>;
 };
 
 type UseAuthError = UnauthenticatedResult & {
@@ -64,22 +66,21 @@ type UseAuthSuccess = AuthResult & {
 
 type UseAuthReturn = UseAuthLoading | UseAuthError | UseAuthSuccess;
 
-// Non-component auth function types
 type AuthFunctionReturn = AuthResult | UnauthenticatedResult;
 
-// Options for the hook
 type UseAuthOptions = {
   redirect?: LinkOptions["to"] | false;
 };
 
-// Core auth logic (reusable between hook and function)
+// Factory
 function createAuthResult(authState: AuthState): AuthResult {
   return {
-    user: authState.user,
-    roles: authState.roles,
-    can: (permission: string) => can(permission, authState.permissions),
+    ...authState,
     isAdmin: isAdmin(authState.roles),
     isAuthenticated: true,
+    can: (permission: Permission, resource?: Record<string, unknown>) => {
+      return sharedCan(permission, authState.user, authState.roles, authState.policies, resource);
+    },
   };
 }
 
@@ -87,20 +88,22 @@ function createUnauthenticatedResult(): UnauthenticatedResult {
   return {
     user: null,
     roles: undefined,
-    can: (_permission: string) => false,
+    permissions: undefined,
+    policies: undefined,
     isAdmin: false,
     isAuthenticated: false,
+    can: async () => false,
   };
 }
 
-// Singleton cache for non-component auth
+// Cache
 let authCache: {
   promise: Promise<AuthFunctionReturn> | null;
   result: AuthFunctionReturn | null;
   timestamp: number;
 } | null = null;
 
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 5 * 60 * 1000;
 
 function isCacheValid(): boolean {
   if (!authCache)
@@ -112,26 +115,20 @@ function clearAuthCache(): void {
   authCache = null;
 }
 
-// Non-component auth function with caching
 export async function auth(): Promise<AuthFunctionReturn> {
-  // Check if we have a valid cached result
   if (authCache && authCache.result && isCacheValid()) {
     return authCache.result;
   }
 
-  // Check if we have an ongoing request
   if (authCache?.promise) {
     return authCache.promise;
   }
 
-  // Create new request using the existing query client
   const authPromise = (async () => {
     try {
-      // Use the same query options that the hook uses
       const authState = await queryClient.fetchQuery(userQueryOptions);
       const result = createAuthResult(authState);
 
-      // Cache the successful result
       authCache = {
         promise: null,
         result,
@@ -142,7 +139,6 @@ export async function auth(): Promise<AuthFunctionReturn> {
     } catch {
       const result = createUnauthenticatedResult();
 
-      // Cache the error result (shorter cache for errors)
       authCache = {
         promise: null,
         result,
@@ -153,7 +149,6 @@ export async function auth(): Promise<AuthFunctionReturn> {
     }
   })();
 
-  // Store the promise to prevent duplicate requests
   authCache = {
     promise: authPromise,
     result: null,
@@ -163,48 +158,42 @@ export async function auth(): Promise<AuthFunctionReturn> {
   return authPromise;
 }
 
-// Function to invalidate auth cache (useful after login/logout)
 export function invalidateAuth(): void {
   clearAuthCache();
-  // Also invalidate the React Query cache
   queryClient.invalidateQueries({ queryKey: ["get-current-user"] });
 }
 
-// React hook with overloads
 export function useAuth(): UseAuthReturn;
 export function useAuth(options: { redirect: LinkOptions["to"] }): UseAuthReturn;
 export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
   const { redirect = false } = options;
   const router = useRouter();
 
-  // Use the query with optimized caching
   const { data, isPending, isError } = useQuery({
     ...userQueryOptions,
-    // Additional optimizations
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
 
-  // Handle redirect logic
   if (!isPending && (isError || !data?.user) && redirect) {
     router.navigate({ to: redirect });
   }
 
-  // Loading state
   if (isPending) {
     return {
       user: undefined,
       roles: undefined,
-      can: () => false,
+      permissions: undefined,
+      policies: undefined,
       isAdmin: false,
       loading: true,
       isError: false,
       isAuthenticated: false,
+      can: async () => false,
     };
   }
 
-  // Error state
   if (isError || !data?.user) {
     return {
       ...createUnauthenticatedResult(),
@@ -213,7 +202,6 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
     };
   }
 
-  // Success state
   return {
     ...createAuthResult(data),
     loading: false,

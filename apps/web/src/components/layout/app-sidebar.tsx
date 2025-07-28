@@ -18,14 +18,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(isAuthenticated && (can("manage:users") || isAdmin)
+      ...(isAuthenticated && (can("user:list") || isAdmin)
         ? [{
             title: "Users",
             icon: UsersRound,
             href: { to: "/users" } as const,
           }]
         : []),
-      ...(isAuthenticated && (can("manage:roles") || isAdmin)
+      ...(isAuthenticated && (can("role:list") || isAdmin)
         ? [{
             title: "Roles",
             icon: ShieldUser,

@@ -1,9 +1,10 @@
+import type { Permission, Policy } from "@bunstack/shared/access/types";
 import type { Role } from "@bunstack/shared/db/types/roles";
 import type { User } from "@bunstack/shared/db/types/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
-export async function getCurrentUser(): Promise<{ user: User; roles: Role[]; permissions: string[] }> {
+export async function getCurrentUser(): Promise<{ user: User; roles: Role[]; permissions: Permission[]; policies: Policy[] }> {
   const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {
