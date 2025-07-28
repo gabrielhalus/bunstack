@@ -11,10 +11,10 @@ import { useAuth } from "@/hooks/use-auth";
 export function ActionDropdown({ row }: { row: Row<User> }) {
   const { can, isAdmin, loading } = useAuth();
 
-  if (loading) { 
+  if (loading) {
     return null;
   }
-  
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
