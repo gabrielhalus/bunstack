@@ -9,7 +9,7 @@ import { TimeoutButton } from "@/components/ui/timeout-button";
 import { useAuth } from "@/hooks/use-auth";
 
 export function ActionDropdown({ row }: { row: Row<User> }) {
-  const { can, isAdmin, loading } = useAuth();
+  const { can, loading } = useAuth();
 
   if (loading) {
     return null;
@@ -29,8 +29,8 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
           <Copy className="h-4 w-4" />
           Copy User ID
         </DropdownMenuItem>
-        {(can("user:delete", row.original) || isAdmin) && (
-          <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => console.log("Delete user")}>
+        {(can("user:delete", row.original)) && (
+          <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => ({})}>
             <Trash className="h-4 w-4" />
             Delete User
           </TimeoutButton>

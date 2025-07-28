@@ -9,7 +9,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { useAuth } from "@/hooks/use-auth";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { isAuthenticated, isAdmin, can } = useAuth();
+  const { isAuthenticated, can } = useAuth();
 
   const data = useMemo(() => ({
     navMain: [
@@ -18,14 +18,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
-      ...(isAuthenticated && (can("user:list") || isAdmin)
+      ...(isAuthenticated && (can("user:list"))
         ? [{
             title: "Users",
             icon: UsersRound,
             href: { to: "/users" } as const,
           }]
         : []),
-      ...(isAuthenticated && (can("role:list") || isAdmin)
+      ...(isAuthenticated && (can("role:list"))
         ? [{
             title: "Roles",
             icon: ShieldUser,
@@ -34,7 +34,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         : []),
     ],
     navSecondary: [],
-  }), [isAuthenticated, isAdmin, can]);
+  }), [isAuthenticated, can]);
 
   return (
     <Sidebar collapsible="icon" {...props}>
