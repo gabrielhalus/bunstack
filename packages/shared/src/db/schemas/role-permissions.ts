@@ -1,11 +1,12 @@
-import { integer, primaryKey, sqliteTable } from "drizzle-orm/sqlite-core";
+import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { Permissions } from "./permissions";
+import type { Permission } from "../../access/types";
+
 import { Roles } from "./roles";
 
 export const RolePermissions = sqliteTable("role_permissions", {
   roleId: integer("role_id").notNull().references(() => Roles.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  permissionId: integer("permission_id").notNull().references(() => Permissions.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  permission: text("permission").notNull().$type<Permission>(),
 }, table => [
-  primaryKey({ columns: [table.roleId, table.permissionId] }),
+  primaryKey({ columns: [table.roleId, table.permission] }),
 ]);

@@ -12,6 +12,8 @@ export type UserWithRoles = Merge<User, { roles: Role[] }>;
 
 export type UserUniqueFields = Pick<User, "id" | "email">;
 
+export type UserOrderBy = keyof User | { field: keyof User; direction: "asc" | "desc" };
+
 export const insertUserSchema = createInsertSchema(Users, {
   name: z
     .string()

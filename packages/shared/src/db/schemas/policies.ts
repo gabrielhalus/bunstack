@@ -1,12 +1,13 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { Permissions } from "./permissions";
+import type { Permission } from "../../access/types";
+
 import { Roles } from "./roles";
 
 export const Policies = sqliteTable("policies", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   effect: text("effect", { enum: ["allow", "deny"] }).notNull(),
-  permissionId: integer("permission_id").references(() => Permissions.id),
+  permission: text("permission").$type<Permission>(),
   roleId: integer("role_id").references(() => Roles.id),
   condition: text("condition"),
   description: text("description"),

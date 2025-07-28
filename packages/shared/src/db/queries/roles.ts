@@ -1,6 +1,6 @@
 import { count, eq, inArray } from "drizzle-orm";
 
-import type { Role, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
+import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 import type { User } from "../types/users";
 
 import { db } from "../";
@@ -9,23 +9,46 @@ import { UserRoles } from "../schemas/user-roles";
 import { Users } from "../schemas/users";
 
 /**
- * Retrieves a paginated list of roles, including the number of members for each role.
+ * Fetches a paginated list of roles, each with the count of assigned members.
  *
- * @param page - The page number to retrieve (1-based).
- * @param limit - The number of roles to retrieve per page.
- * @returns An object containing an array of roles with member counts and the total number of roles.
+ * @param page - The current page number (1-based).
+ * @param limit - Maximum number of roles to return per page.
+ * @param orderBy - Optional ordering criteria for the roles.
+ * @returns An object containing the paginated roles with member counts and the total number of roles.
  */
-export async function getRoles(page: number, limit: number): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
-  const roles = await db.select().from(Roles).limit(limit).offset((page - 1) * limit).all();
+export async function getRoles(page: number, limit: number, orderBy?: RoleOrderBy): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
+  const offset = (page - 1) * limit;
 
-  const enrichedRoles = await Promise.all(roles.map(async role => ({
-    ...role,
-    members: await getRoleMembersCount(role),
-  })));
+  const baseQuery = db.select().from(Roles);
 
-  const total = await db.select({ count: count() }).from(Roles).get();
+  const orderedQuery = (() => {
+    if (typeof orderBy === "string") {
+      return baseQuery.orderBy(Roles[orderBy]);
+    }
 
-  return { roles: enrichedRoles, total: Number(total?.count ?? 0) };
+    if (orderBy && typeof orderBy === "object") {
+      // @ts-expect-error: dynamic key access
+      return baseQuery.orderBy({ [orderBy.direction]: Roles[orderBy.field] });
+    }
+
+    return baseQuery;
+  })();
+
+  const roles = await orderedQuery.limit(limit).offset(offset).all();
+
+  const enrichedRoles = await Promise.all(
+    roles.map(async role => ({
+      ...role,
+      members: await getRoleMembersCount(role),
+    })),
+  );
+
+  const { count: total = 0 } = (await db
+    .select({ count: count() })
+    .from(Roles)
+    .get()) ?? {};
+
+  return { roles: enrichedRoles, total };
 }
 
 /**

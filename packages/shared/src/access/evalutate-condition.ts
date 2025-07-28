@@ -1,11 +1,10 @@
-import type { Condition, Operand } from "../db/types/policies";
-import type { User } from "../db/types/users";
+import type { Condition, Operand, UserContext } from "./types";
 
 function getNested(obj: any, path: string): unknown {
   return path.split(".").reduce((acc, part) => acc?.[part], obj);
 }
 
-export function resolveOperand(operand: Operand, user: User, resource?: Record<string, unknown>) {
+export function resolveOperand(operand: Operand, user: UserContext, resource?: Record<string, unknown>) {
   switch (operand.type) {
     case "user_attr":
       // Access user properties directly (id, roles, etc.)
@@ -18,7 +17,9 @@ export function resolveOperand(operand: Operand, user: User, resource?: Record<s
   }
 }
 
-export function evaluateCondition(cond: Condition, user: User, resource?: Record<string, unknown>): boolean {
+export function evaluateCondition(condition: string | Condition, user: UserContext, resource?: Record<string, unknown>): boolean {
+  const cond = typeof condition === "string" ? JSON.parse(condition) as Condition : condition;
+  
   switch (cond.op) {
     case "and":
       return cond.conditions.every(c => evaluateCondition(c, user, resource));

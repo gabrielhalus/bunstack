@@ -1,48 +1,29 @@
-import { and, eq, inArray, isNull, or } from "drizzle-orm";
+import type { Policy, RoleContext, UserContext } from "./types";
 
-import type { Condition } from "db/types/policies";
-
-import type { Role } from "../db/types/roles";
-import type { User } from "../db/types/users";
-
-import { db } from "../db";
-import { Permissions } from "../db/schemas/permissions";
-import { Policies } from "../db/schemas/policies";
 import { evaluateCondition } from "./evalutate-condition";
 
-export async function can(permissionName: string, user: User, roles: Role[], resource?: Record<string, unknown>): Promise<boolean> {
+export function can(permission: string, user: UserContext, roles: RoleContext[], policies: Policy[], resource?: Record<string, unknown>): boolean {
   if (roles.some(r => r.isSuperAdmin)) {
     return true;
   }
 
-  const permission = await db.query.permissions.findFirst({
-    where: eq(Permissions.name, permissionName),
-  });
+  const relevantPolicies = policies.filter(p =>
+    (p.permission === null || p.permission === permission)
+    && (p.roleId === null || roles.some(r => r.id === p.roleId)),
+  );
 
-  if (!permission) {
-    return false;
+  if (!relevantPolicies.length) {
+    return true;
   }
 
-  const roleIds = roles.map(r => r.id);
-
-  const applicablePolicies = await db
-    .select()
-    .from(Policies)
-    .where(
-      and(
-        or(eq(Policies.permissionId, permission.id), isNull(Policies.permissionId)),
-        or(inArray(Policies.roleId, roleIds), isNull(Policies.roleId)),
-      ),
-    );
-
-  for (const policy of applicablePolicies) {
-    const allow = policy.effect === "allow";
-    const conditionOk = policy.condition
-      ? evaluateCondition(JSON.parse(policy.condition) as Condition, user, resource)
+  for (const policy of relevantPolicies) {
+    const allowed = policy.effect === "allow";
+    const validCondition = policy.condition
+      ? evaluateCondition(policy.condition, user, resource)
       : true;
 
-    if (conditionOk) {
-      return allow;
+    if (validCondition) {
+      return allowed;
     }
   }
 

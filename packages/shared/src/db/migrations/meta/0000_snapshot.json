@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "37403bfe-4334-43f8-890e-2b5b748b31c1",
+  "id": "19edd8b5-f380-49a8-a32c-8738b0212838",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "permissions": {
@@ -81,9 +81,9 @@
           "notNull": true,
           "autoincrement": false
         },
-        "permission_id": {
-          "name": "permission_id",
-          "type": "integer",
+        "permission": {
+          "name": "permission",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -126,19 +126,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "policies_permission_id_permissions_id_fk": {
-          "name": "policies_permission_id_permissions_id_fk",
-          "tableFrom": "policies",
-          "tableTo": "permissions",
-          "columnsFrom": [
-            "permission_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "policies_role_id_roles_id_fk": {
           "name": "policies_role_id_roles_id_fk",
           "tableFrom": "policies",
@@ -167,9 +154,9 @@
           "notNull": true,
           "autoincrement": false
         },
-        "permission_id": {
-          "name": "permission_id",
-          "type": "integer",
+        "permission": {
+          "name": "permission",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -189,28 +176,15 @@
           ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
-        },
-        "role_permissions_permission_id_permissions_id_fk": {
-          "name": "role_permissions_permission_id_permissions_id_fk",
-          "tableFrom": "role_permissions",
-          "tableTo": "permissions",
-          "columnsFrom": [
-            "permission_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {
-        "role_permissions_role_id_permission_id_pk": {
+        "role_permissions_role_id_permission_pk": {
           "columns": [
             "role_id",
-            "permission_id"
+            "permission"
           ],
-          "name": "role_permissions_role_id_permission_id_pk"
+          "name": "role_permissions_role_id_permission_pk"
         }
       },
       "uniqueConstraints": {},
@@ -260,7 +234,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": 0
+          "default": false
         },
         "is_super_admin": {
           "name": "is_super_admin",
@@ -268,7 +242,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": 0
+          "default": false
         },
         "created_at": {
           "name": "created_at",

@@ -15,36 +15,18 @@ INSERT INTO "user_roles" ("user_id", "role_id") VALUES
 ('l1knWD3gwIavSLDsDxHI5', 2),
 ('l1knWD3gwIavSLDsDxHI5', 3);
 --> statement-breakpoint
-INSERT INTO "permissions" ("id", "name", "label", "created_at", "updated_at") VALUES
--- users
-(1, 'view:users', 'View Users', 1735686000, 1735686000),
-(2, 'update:users', 'Update Users', 1735686000, 1735686000),
-(3, 'delete:users', 'Delete Users', 1735686000, 1735686000),
-(4, 'manage:users', 'Manage Users', 1735686000, 1735686000),
--- roles
-(5, 'view:roles', 'View Roles', 1735686000, 1735686000),
-(6, 'update:roles', 'Update Roles', 1735686000, 1735686000),
-(7, 'delete:roles', 'Delete Roles', 1735686000, 1735686000),
-(8, 'manage:roles', 'Manage Roles', 1735686000, 1735686000);
---> statement-breakpoint
-INSERT INTO "role_permissions" ("role_id", "permission_id") VALUES
+INSERT INTO "role_permissions" ("role_id", "permission") VALUES
 -- user
-(2, 1), -- view:users
-(2, 2), -- update:users
-(2, 3), -- delete:users
-(2, 5), -- view:roles
+(2, 'user:read'),
+(2, 'user:edit'),
+(2, 'user:delete'),
+(2, 'role:read'),
 -- moderator
-(3, 4), -- manage:users
-(3, 5), -- view:roles
-(3, 6), -- update:roles
-(3, 7), -- delete:roles
-(3, 8); -- manage:roles
+(3, 'user:list'),
+(3, 'role:list');
 --> statement-breakpoint
-INSERT INTO "policies" ("id", "role_id", "permission_id", "effect", "condition", "created_at", "updated_at") VALUES
+INSERT INTO "policies" ("id", "role_id", "permission", "effect", "condition", "description", "created_at", "updated_at") VALUES
 -- Enforce "self" condition for users
-(1, 2, 1, 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000),
-(2, 2, 2, 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000),
-(3, 2, 3, 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 1735686000, 1735686000),
-(4, 2, 6, 'allow', '{"op": "in", "left": {"type": "resource_attr", "key": "id"}, "right": {"type": "user_attr", "key": "roles"}}', 1735686000, 1735686000),
-(5, 2, 7, 'allow', '{"op": "in", "left": {"type": "resource_attr", "key": "id"}, "right": {"type": "user_attr", "key": "roles"}}', 1735686000, 1735686000),
-(6, 2, 8, 'allow', '{"op": "in", "left": {"type": "resource_attr", "key": "id"}, "right": {"type": "user_attr", "key": "roles"}}', 1735686000, 1735686000);
+(1, 2, 'user:read', 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 'Allow users to read their own profile', 1735686000, 1735686000),
+(2, 2, 'user:edit', 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 'Allow users to edit their own profile', 1735686000, 1735686000),
+(3, 2, 'user:delete', 'allow', '{"op": "eq", "left": {"type": "user_attr", "key": "id"}, "right": {"type": "resource_attr", "key": "id"}}', 'Allow users to delete their own profile', 1735686000, 1735686000);

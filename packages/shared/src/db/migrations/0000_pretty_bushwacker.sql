@@ -11,22 +11,20 @@ CREATE UNIQUE INDEX `permissions_name_unique` ON `permissions` (`name`);--> stat
 CREATE TABLE `policies` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`effect` text NOT NULL,
-	`permission_id` integer,
+	`permission` text,
 	`role_id` integer,
 	`condition` text,
 	`description` text,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
-	FOREIGN KEY (`permission_id`) REFERENCES `permissions`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `role_permissions` (
 	`role_id` integer NOT NULL,
-	`permission_id` integer NOT NULL,
-	PRIMARY KEY(`role_id`, `permission_id`),
-	FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE cascade ON DELETE cascade,
-	FOREIGN KEY (`permission_id`) REFERENCES `permissions`(`id`) ON UPDATE cascade ON DELETE cascade
+	`permission` text NOT NULL,
+	PRIMARY KEY(`role_id`, `permission`),
+	FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `roles` (
@@ -35,8 +33,8 @@ CREATE TABLE `roles` (
 	`label` text NOT NULL,
 	`description` text,
 	`level` integer NOT NULL,
-	`is_default` integer DEFAULT 0 NOT NULL,
-	`is_super_admin` integer DEFAULT 0 NOT NULL,
+	`is_default` integer DEFAULT false NOT NULL,
+	`is_super_admin` integer DEFAULT false NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL
 );

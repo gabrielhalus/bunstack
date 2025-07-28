@@ -1,11 +1,13 @@
 import { count, eq } from "drizzle-orm";
 
+import type { Permission, Policy } from "../../access/types";
 import type { Role } from "../types/roles";
-import type { insertUserSchema, User, UserUniqueFields, UserWithRoles } from "../types/users";
+import type { insertUserSchema, User, UserOrderBy, UserUniqueFields, UserWithRoles } from "../types/users";
 
 import { db } from "../";
 import { Users } from "../schemas/users";
-import { getRolesPermissions } from "./permissions";
+import { getApplicablePolicies } from "./policies";
+import { getRolesPermissions } from "./role-permissions";
 import { getUserRoles } from "./roles";
 
 /**
@@ -13,10 +15,28 @@ import { getUserRoles } from "./roles";
  *
  * @param page - The page number to retrieve (1-based).
  * @param limit - The number of users to retrieve per page.
+ * @param orderBy - Optional ordering criteria for the user.
  * @returns An object containing an array of users with their roles and the total number of users.
  */
-export async function getUsers(page: number, limit: number): Promise<{ users: Array<UserWithRoles>; total: number }> {
-  const users = await db.select().from(Users).limit(limit).offset((page - 1) * limit).all();
+export async function getUsers(page: number, limit: number, orderBy?: UserOrderBy): Promise<{ users: Array<UserWithRoles>; total: number }> {
+  const offset = (page - 1) * limit;
+
+  const baseQuery = db.select().from(Users);
+
+  const orderedQuery = (() => {
+    if (typeof orderBy === "string") {
+      return baseQuery.orderBy(Users[orderBy]);
+    }
+
+    if (orderBy && typeof orderBy === "object") {
+      // @ts-expect-error: dynamic key access
+      return baseQuery.orderBy({ [orderBy.direction]: Users[orderBy.field] });
+    }
+
+    return baseQuery;
+  })();
+
+  const users = await orderedQuery.limit(limit).offset(offset).all();
 
   const enrichedUsers = await Promise.all(users.map(async user => ({
     ...user,
@@ -24,9 +44,12 @@ export async function getUsers(page: number, limit: number): Promise<{ users: Ar
     roles: await getUserRoles(user),
   })));
 
-  const total = await db.select({ count: count() }).from(Users).get();
+  const { count: total = 0 } = (await db
+    .select({ count: count() })
+    .from(Users)
+    .get()) ?? {};
 
-  return { users: enrichedUsers, total: Number(total?.count ?? 0) };
+  return { users: enrichedUsers, total };
 }
 
 /**
@@ -81,17 +104,30 @@ export async function getUserWithPassword(
 export async function getUserWithContext(key: keyof UserUniqueFields, value: any): Promise<{
   user: User | undefined;
   roles: Role[];
-  permissions: string[];
+  permissions: Permission[];
+  policies: Policy[];
 }> {
   const user = await db.select().from(Users).where(eq(Users[key], value)).get();
   if (!user) {
-    return { user: undefined, roles: [], permissions: [] };
+    return { user: undefined, roles: [], permissions: [], policies: [] };
   }
 
   const roles = await getUserRoles(user);
-  const permissions = (await getRolesPermissions(roles)).map(permission => permission.name);
+  const rolesPermissions = await getRolesPermissions(roles);
 
-  return { user, roles, permissions };
+  const policiesMap = new Map<number, Policy>();
+
+  for (const { roleId, permission } of rolesPermissions) {
+    const foundPolicies = await getApplicablePolicies(roleId, permission);
+    for (const policy of foundPolicies) {
+      policiesMap.set(policy.id, policy);
+    }
+  }
+
+  const permissions = rolesPermissions.map(({ permission }) => permission);
+  const policies = Array.from(policiesMap.values());
+
+  return { user, roles, permissions, policies };
 }
 
 /**
