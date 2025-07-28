@@ -20,7 +20,6 @@ INSERT INTO "role_permissions" ("role_id", "permission") VALUES
 (2, 'user:read'),
 (2, 'user:edit'),
 (2, 'user:delete'),
-(2, 'role:read'),
 -- moderator
 (3, 'user:list'),
 (3, 'role:list');
