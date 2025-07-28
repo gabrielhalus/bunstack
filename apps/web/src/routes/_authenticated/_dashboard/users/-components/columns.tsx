@@ -55,6 +55,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
   },
   {
     accessorKey: "roles",
+    header: "Roles",
     cell: ({ row }) => (
       <div className="text-muted-foreground">
         {
