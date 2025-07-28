@@ -1,12 +1,12 @@
 import { and, eq, isNull, or } from "drizzle-orm";
 
 import type { Permission } from "../../access/types";
+import type { Policy } from "../types/policies";
 
 import { db } from "../";
 import { Policies } from "../schemas/policies";
-import { Policy } from "../types/policies";
 
-export async function getApplicablePolicies(roleId?: number, permission?: Permission, effect?: Policy['effect']): Promise<Policy[]> {
+export async function getApplicablePolicies(roleId?: number, permission?: Permission, effect?: Policy["effect"]): Promise<Policy[]> {
   const conditions = [];
 
   // Match roleId or global (null)

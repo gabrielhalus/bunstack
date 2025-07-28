@@ -19,7 +19,7 @@ export function resolveOperand(operand: Operand, user: UserContext, resource?: R
 
 export function evaluateCondition(condition: string | Condition, user: UserContext, resource?: Record<string, unknown>): boolean {
   const cond = typeof condition === "string" ? JSON.parse(condition) as Condition : condition;
-  
+
   switch (cond.op) {
     case "and":
       return cond.conditions.every(c => evaluateCondition(c, user, resource));
