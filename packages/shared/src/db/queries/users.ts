@@ -1,13 +1,13 @@
-import { count, eq } from "drizzle-orm";
+import { asc, count, desc, eq } from "drizzle-orm";
 
-import type { Permission, Policy } from "../../access/types";
-import type { Role } from "../types/roles";
+import type { Policy } from "../../access/types";
+import type { RoleWithPermissions } from "../types/roles";
 import type { insertUserSchema, User, UserOrderBy, UserUniqueFields, UserWithRoles } from "../types/users";
 
 import { db } from "../";
 import { Users } from "../schemas/users";
 import { getApplicablePolicies } from "./policies";
-import { getRolesPermissions } from "./role-permissions";
+import { getRolePermissions } from "./role-permissions";
 import { getUserRoles } from "./roles";
 
 /**
@@ -29,8 +29,9 @@ export async function getUsers(page: number, limit: number, orderBy?: UserOrderB
     }
 
     if (orderBy && typeof orderBy === "object") {
-      // @ts-expect-error: dynamic key access
-      return baseQuery.orderBy({ [orderBy.direction]: Users[orderBy.field] });
+      const { field, direction } = orderBy;
+      const column = Users[field];
+      return direction === "asc" ? baseQuery.orderBy(asc(column)) : baseQuery.orderBy(desc(column));
     }
 
     return baseQuery;
@@ -101,33 +102,40 @@ export async function getUserWithPassword(
  * @param value - The value to search for.
  * @returns An object containing the user (or undefined if not found), their roles, and their permissions.
  */
-export async function getUserWithContext(key: keyof UserUniqueFields, value: any): Promise<{
-  user: User | undefined;
-  roles: Role[];
-  permissions: Permission[];
-  policies: Policy[];
-}> {
+export async function getUserWithContext(key: keyof UserUniqueFields, value: any): Promise<{ user: User | undefined; roles: RoleWithPermissions[]; policies: Policy[] }> {
   const user = await db.select().from(Users).where(eq(Users[key], value)).get();
   if (!user) {
-    return { user: undefined, roles: [], permissions: [], policies: [] };
+    return { user: undefined, roles: [], policies: [] };
   }
 
-  const roles = await getUserRoles(user);
-  const rolesPermissions = await getRolesPermissions(roles);
+  const roles = await getUserRoles(user, { field: "level", direction: "desc" });
 
+  // Assign permissions to each role
+  const rolesWithPermissions = await Promise.all(
+    roles.map(async (role) => {
+      const rolePermissions = await getRolePermissions(role);
+      return {
+        ...role,
+        permissions: rolePermissions.map(({ permission }) => permission),
+      };
+    }),
+  );
+
+  // Collect all policies for all role-permission pairs
   const policiesMap = new Map<number, Policy>();
 
-  for (const { roleId, permission } of rolesPermissions) {
-    const foundPolicies = await getApplicablePolicies(roleId, permission);
-    for (const policy of foundPolicies) {
-      policiesMap.set(policy.id, policy);
+  for (const role of rolesWithPermissions) {
+    for (const permission of role.permissions) {
+      const foundPolicies = await getApplicablePolicies(role.id, permission);
+      for (const policy of foundPolicies) {
+        policiesMap.set(policy.id, policy);
+      }
     }
   }
 
-  const permissions = rolesPermissions.map(({ permission }) => permission);
   const policies = Array.from(policiesMap.values());
 
-  return { user, roles, permissions, policies };
+  return { user, roles: rolesWithPermissions, policies };
 }
 
 /**

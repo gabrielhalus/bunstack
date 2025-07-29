@@ -25,5 +25,7 @@ export type UserContext = {
 
 export type RoleContext = {
   id: number;
-  isSuperAdmin?: boolean;
+  level: number;
+  isSuperAdmin: boolean;
+  permissions: Permission[];
 };

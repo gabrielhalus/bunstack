@@ -1,4 +1,4 @@
-import { count, eq, inArray } from "drizzle-orm";
+import { asc, count, desc, eq, inArray } from "drizzle-orm";
 
 import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 import type { User } from "../types/users";
@@ -27,8 +27,9 @@ export async function getRoles(page: number, limit: number, orderBy?: RoleOrderB
     }
 
     if (orderBy && typeof orderBy === "object") {
-      // @ts-expect-error: dynamic key access
-      return baseQuery.orderBy({ [orderBy.direction]: Roles[orderBy.field] });
+      const { field, direction } = orderBy;
+      const column = Roles[field];
+      return direction === "asc" ? baseQuery.orderBy(asc(column)) : baseQuery.orderBy(desc(column));
     }
 
     return baseQuery;
@@ -106,11 +107,25 @@ export async function getRoleMembers(role: Role): Promise<User[]> {
  * @param user - The user object for which to retrieve roles.
  * @returns An array of roles assigned to the user.
  */
-export async function getUserRoles(user: User) {
-  const userToRoles = await db.select().from(UserRoles).where(eq(UserRoles.userId, user.id)).all();
-  const roleIds = userToRoles.map(ur => ur.roleId);
+export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
+  const userRoles = await db.select().from(UserRoles).where(eq(UserRoles.userId, user.id)).all();
+  const roleIds = userRoles.map(ur => ur.roleId);
 
-  const userRoles = await db.select().from(Roles).where(inArray(Roles.id, roleIds)).all();
+  const baseQuery = db.select().from(Roles).where(inArray(Roles.id, roleIds));
 
-  return userRoles;
+  const orderedQuery = (() => {
+    if (typeof orderBy === "string") {
+      return baseQuery.orderBy(Roles[orderBy]);
+    }
+
+    if (orderBy && typeof orderBy === "object") {
+      const { field, direction } = orderBy;
+      const column = Roles[field];
+      return direction === "asc" ? baseQuery.orderBy(asc(column)) : baseQuery.orderBy(desc(column));
+    }
+
+    return baseQuery;
+  })();
+
+  return await orderedQuery.all();
 }

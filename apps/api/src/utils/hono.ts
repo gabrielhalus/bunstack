@@ -1,6 +1,4 @@
-import type { Permission, Policy } from "@bunstack/shared/access/types";
-import type { Role } from "@bunstack/shared/db/types/roles";
-import type { User } from "@bunstack/shared/db/types/users";
+import type { Policy, RoleContext, UserContext } from "@bunstack/shared/access/types";
 import type { Context } from "hono";
 
 import { createFactory } from "hono/factory";
@@ -8,9 +6,8 @@ import { createFactory } from "hono/factory";
 export type AppEnv = {
   Variables: {
     authContext: {
-      user: User;
-      roles: Role[];
-      permissions: Permission[];
+      user: UserContext;
+      roles: RoleContext[];
       policies: Policy[];
     };
   };

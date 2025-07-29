@@ -1,29 +1,35 @@
-import type { Policy, RoleContext, UserContext } from "./types";
+import type { Permission, Policy, RoleContext, UserContext } from "./types";
 
 import { evaluateCondition } from "./evalutate-condition";
 
-export function can(permission: string, user: UserContext, roles: RoleContext[], policies: Policy[], resource?: Record<string, unknown>): boolean {
+export function can(permission: Permission, user: UserContext, roles: RoleContext[], policies: Policy[], resource?: Record<string, unknown>): boolean {
   if (roles.some(r => r.isSuperAdmin)) {
     return true;
   }
 
-  const relevantPolicies = policies.filter(p =>
-    (p.permission === null || p.permission === permission)
-    && (p.roleId === null || roles.some(r => r.id === p.roleId)),
-  );
+  const sortedRoles = [...roles].sort((a, b) => b.level - a.level);
 
-  if (!relevantPolicies.length) {
-    return true;
-  }
+  for (const role of sortedRoles) {
+    // Get policies for this role and permission (or global)
+    const rolePolicies = policies.filter(p =>
+      (p.permission === null || p.permission === permission)
+      && (p.roleId === null || p.roleId === role.id),
+    );
 
-  for (const policy of relevantPolicies) {
-    const allowed = policy.effect === "allow";
-    const validCondition = policy.condition
-      ? evaluateCondition(policy.condition, user, resource)
-      : true;
+    if (!rolePolicies.length) {
+      return role.permissions.includes(permission);
+    }
 
-    if (validCondition) {
-      return allowed;
+    for (const policy of rolePolicies) {
+      const validCondition = policy.condition
+        ? evaluateCondition(policy.condition, user, resource)
+        : true;
+
+      if (!validCondition) {
+        continue;
+      }
+
+      return policy.effect === "allow";
     }
   }
 

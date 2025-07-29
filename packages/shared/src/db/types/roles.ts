@@ -1,3 +1,4 @@
+import type { Permission } from "../../access/types";
 import type { Merge } from "../../types/utils";
 import type { Roles } from "../schemas/roles";
 import type { User } from "./users";
@@ -9,5 +10,7 @@ export type RoleWithMembersCount = Merge<Role, { members: number }>;
 export type RoleWithMembers = Merge<Role, { members: User[] }>;
 
 export type RoleUniqueFields = Pick<Role, "id" | "name">;
+
+export type RoleWithPermissions = Merge<Role, { permissions: Permission[] }>;
 
 export type RoleOrderBy = keyof Role | { field: keyof Role; direction: "asc" | "desc" };
