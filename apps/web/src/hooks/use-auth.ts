@@ -1,5 +1,5 @@
 import type { Permission, Policy } from "@bunstack/shared/access/types";
-import type { Role } from "@bunstack/shared/db/types/roles";
+import type { Role, RoleWithPermissions } from "@bunstack/shared/db/types/roles";
 import type { User } from "@bunstack/shared/db/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
@@ -13,8 +13,7 @@ import { queryClient } from "@/main";
 // Core auth state types
 type AuthState = {
   user: User;
-  roles: Role[];
-  permissions: Permission[];
+  roles: RoleWithPermissions[];
   policies: Policy[];
 };
 
@@ -24,8 +23,7 @@ function isAdmin(roles: Role[]): boolean {
 
 type AuthResult = {
   user: User;
-  roles: Role[];
-  permissions: Permission[];
+  roles: RoleWithPermissions[];
   policies: Policy[];
   isAdmin: boolean;
   isAuthenticated: true;
@@ -39,7 +37,7 @@ type UnauthenticatedResult = {
   policies: undefined;
   isAdmin: false;
   isAuthenticated: false;
-  can: () => Promise<false>;
+  can: () => false;
 };
 
 type UseAuthLoading = {
@@ -51,7 +49,7 @@ type UseAuthLoading = {
   loading: true;
   isError: false;
   isAuthenticated: false;
-  can: () => Promise<false>;
+  can: () => false;
 };
 
 type UseAuthError = UnauthenticatedResult & {
@@ -92,7 +90,7 @@ function createUnauthenticatedResult(): UnauthenticatedResult {
     policies: undefined,
     isAdmin: false,
     isAuthenticated: false,
-    can: async () => false,
+    can: () => false,
   };
 }
 
@@ -190,7 +188,7 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       loading: true,
       isError: false,
       isAuthenticated: false,
-      can: async () => false,
+      can: () => false,
     };
   }
 
