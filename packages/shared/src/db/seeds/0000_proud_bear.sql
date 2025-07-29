@@ -22,9 +22,9 @@ INSERT INTO "role_permissions" ("role_id", "permission") VALUES
 (2, 'user:delete'),
 -- moderator
 (3, 'user:list'),
-(3, 'role:read');
-(3, 'role:update');
-(3, 'role:delete');
+(3, 'role:read'),
+(3, 'role:update'),
+(3, 'role:delete'),
 (3, 'role:list');
 --> statement-breakpoint
 INSERT INTO "policies" ("id", "role_id", "permission", "effect", "condition", "description", "created_at", "updated_at") VALUES

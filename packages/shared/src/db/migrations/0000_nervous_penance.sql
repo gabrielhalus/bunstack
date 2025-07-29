@@ -1,13 +1,3 @@
-CREATE TABLE `permissions` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`name` text NOT NULL,
-	`label` text NOT NULL,
-	`description` text,
-	`created_at` integer NOT NULL,
-	`updated_at` integer NOT NULL
-);
---> statement-breakpoint
-CREATE UNIQUE INDEX `permissions_name_unique` ON `permissions` (`name`);--> statement-breakpoint
 CREATE TABLE `policies` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`effect` text NOT NULL,
