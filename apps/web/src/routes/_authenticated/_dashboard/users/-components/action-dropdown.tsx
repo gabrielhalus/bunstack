@@ -1,39 +1,50 @@
 import type { User } from "@bunstack/shared/db/types/users";
 import type { Row } from "@tanstack/react-table";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, Loader2, MoreHorizontal, Trash } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { deleteUser } from "@/lib/api/users";
 import { getAllUsersQueryOptions } from "@/lib/queries/users";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import sayno from "@/lib/sayno";
 
 export function ActionDropdown({ row }: { row: Row<User> }) {
   const { can, loading } = useAuth();
   const queryClient = useQueryClient();
-  
-  if (loading) {
-    return null;
-  }
 
   const user = row.original;
 
   const mutation = useMutation({
     mutationFn: deleteUser,
-    onError: () => {
-      toast.error("Failed to delete user");
-    },
-    onSuccess: () => {
-      toast.success("User deleted");
+    onError: () => toast.error("Failed to delete user"),
+    onSuccess: (deletedUser) => {
+      toast.success("User deleted successfully");
 
       queryClient.setQueryData(getAllUsersQueryOptions.queryKey, (existingUsers) => {
-        return existingUsers?.filter((u) => u.id !== user.id) ?? [];
+        return existingUsers?.filter(u => u.id !== deletedUser.id) ?? [];
       });
     },
-  })
+  });
+
+  const handleDeleteClick = async () => {
+    const confirmed = await sayno({
+      title: "Delete User",
+      description: "Are you sure you want to delete this user? This action cannot be undone.",
+      variant: "destructive",
+    });
+
+    if (confirmed) {
+      mutation.mutate(user);
+    }
+  };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <DropdownMenu>
@@ -50,7 +61,12 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
           Copy User ID
         </DropdownMenuItem>
         {can("user:delete") && (
-          <Button disabled={mutation.isPending} onClick={() => mutation.mutate(user)} variant="destructive" size="sm">
+          <Button
+            disabled={mutation.isPending}
+            onClick={handleDeleteClick}
+            variant="destructive"
+            size="sm"
+          >
             {mutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
             Delete User
           </Button>

@@ -5,6 +5,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import { Sayno } from "@/components/ui/sayno";
 import { Toaster } from "@/components/ui/sonner";
 import { routeTree } from "@/routeTree.gen";
 
@@ -34,6 +35,7 @@ if (!rootElement.innerHTML) {
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
         <Toaster position="bottom-center" />
+        <Sayno />
       </QueryClientProvider>
     </StrictMode>,
   );
