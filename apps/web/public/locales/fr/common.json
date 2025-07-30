@@ -1,0 +1,40 @@
+{
+  "actions": {
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "close": "Fermer",
+    "submit": "Soumettre",
+    "reset": "Réinitialiser",
+    "retry": "Réessayer"
+  },
+  "navigation": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "back": "Retour",
+    "home": "Accueil",
+    "dashboard": "Tableau de bord"
+  },
+  "status": {
+    "loading": "Chargement...",
+    "success": "Succès",
+    "error": "Une erreur s'est produite",
+    "noData": "Aucune donnée disponible"
+  },
+  "form": {
+    "required": "Ce champ est obligatoire",
+    "optional": "Optionnel",
+    "invalid": "Saisie invalide"
+  },
+  "modal": {
+    "confirmTitle": "Êtes-vous sûr ?",
+    "confirmDescription": "Cette action ne peut pas être annulée."
+  },
+  "generic": {
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "OK"
+  }
+}
