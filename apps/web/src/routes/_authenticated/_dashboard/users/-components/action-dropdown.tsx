@@ -29,7 +29,7 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
           <Copy className="h-4 w-4" />
           Copy User ID
         </DropdownMenuItem>
-        {can("user:delete", row.original) && (
+        {can("user:delete") && (
           <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => ({})}>
             <Trash className="h-4 w-4" />
             Delete User
