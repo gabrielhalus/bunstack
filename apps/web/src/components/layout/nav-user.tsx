@@ -1,3 +1,6 @@
+import { Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
 import { LogoutButton } from "@/components/layout/logout-button";
 import {
   Avatar,
@@ -7,8 +10,12 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -25,6 +32,18 @@ import { Skeleton } from "../ui/skeleton";
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user, loading, isAuthenticated } = useAuth({ redirect: "/login" });
+  const { t, i18n } = useTranslation("common");
+
+  const locales = [
+    { code: "en", name: "English", flag: "🇺🇸" },
+    { code: "fr", name: "Français", flag: "🇫🇷" },
+  ];
+
+  const currentLocale = locales.find(locale => locale.code === i18n.language) || locales[0];
+
+  const handleLocaleChange = (localeCode: string) => {
+    i18n.changeLanguage(localeCode);
+  };
 
   if (loading) {
     return (
@@ -95,15 +114,34 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuGroup>
-              <Link to="/profile">
-                <DropdownMenuItem>
-                  <UserRound />
-                  Your profile
-                </DropdownMenuItem>
-              </Link>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
+
+            {/* Locale submenu */}
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="flex items-center gap-2">
+                <Languages className="h-4 w-4" />
+                <span>
+                  {t("generic.language")}
+                  {" "}
+                  {currentLocale.name}
+                </span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                {locales.map(locale => (
+                  <DropdownMenuItem
+                    key={locale.code}
+                    onClick={() => handleLocaleChange(locale.code)}
+                    className={`flex items-center gap-2 ${
+                      i18n.language === locale.code ? "bg-accent" : ""
+                    }`}
+                  >
+                    <span className="text-sm">{locale.flag}</span>
+                    <span className="text-sm">{locale.name}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+
+            <DropdownMenuSeparator />
             <LogoutButton variant="dropdown" />
           </DropdownMenuContent>
         </DropdownMenu>

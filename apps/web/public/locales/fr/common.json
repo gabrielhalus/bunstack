@@ -35,6 +35,7 @@
   "generic": {
     "yes": "Oui",
     "no": "Non",
-    "ok": "OK"
+    "ok": "OK",
+    "language": "Langue :"
   }
 }
