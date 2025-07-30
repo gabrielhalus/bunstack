@@ -17,7 +17,10 @@ export function can(permission: Permission, user: UserContext, roles: RoleContex
     );
 
     if (!rolePolicies.length) {
-      return role.permissions.includes(permission);
+      if (role.permissions.includes(permission)) {
+        return true;
+      }
+      continue;
     }
 
     for (const policy of rolePolicies) {
