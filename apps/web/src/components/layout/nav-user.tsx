@@ -41,7 +41,9 @@ export function NavUser() {
 
   const currentLocale = locales.find(locale => locale.code === i18n.language) || locales[0];
 
-  const handleLocaleChange = (localeCode: string) => {
+  const handleLocaleChange = (localeCode: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     i18n.changeLanguage(localeCode);
   };
 
@@ -129,7 +131,7 @@ export function NavUser() {
                 {locales.map(locale => (
                   <DropdownMenuItem
                     key={locale.code}
-                    onClick={() => handleLocaleChange(locale.code)}
+                    onClick={event => handleLocaleChange(locale.code, event)}
                     className={`flex items-center gap-2 ${
                       i18n.language === locale.code ? "bg-accent" : ""
                     }`}
