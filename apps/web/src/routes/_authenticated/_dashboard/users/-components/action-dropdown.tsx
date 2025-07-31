@@ -66,6 +66,7 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
             onClick={handleDeleteClick}
             variant="destructive"
             size="sm"
+            className="w-full"
           >
             {mutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
             Delete User
