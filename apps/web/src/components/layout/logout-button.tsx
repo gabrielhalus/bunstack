@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { logout } from "@/lib/api/auth";
-import sayno from "@/lib/sayno";
 
 type Variant = "button" | "dropdown";
 
@@ -31,16 +30,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
     },
   });
 
-  const handleLogoutClick = async () => {
-    const confirmed = await sayno({
-      title: t("sign-out.dialog.title"),
-      description: t("sign-out.dialog.description"),
-    });
-
-    if (confirmed) {
-      mutation.mutate();
-    }
-  };
+  const handleLogoutClick = () => mutation.mutate();
 
   const content = (
     <>
