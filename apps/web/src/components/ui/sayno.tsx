@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { handleDialogResult } from "@/lib/sayno";
+import { useTranslation } from "react-i18next";
 
 interface DialogState {
   open: boolean;
@@ -15,7 +16,9 @@ interface DialogState {
   resolve: ((value: boolean) => void) | null;
 }
 
-const Sayno = () => {
+function Sayno() {
+  const { t } = useTranslation();
+  
   const [dialogState, setDialogState] = useState<DialogState>({
     open: false,
     options: {},
@@ -35,10 +38,10 @@ const Sayno = () => {
   }, []);
 
   const {
-    title = 'Confirm',
-    description = 'Are you sure you want to continue?',
-    confirmText = 'Confirm',
-    cancelText = 'Cancel',
+    title = t("dialog.confirmTitle"),
+    description = t("dialog.confirmDescription"),
+    confirmText = t("actions.confirm"),
+    cancelText = t("actions.cancel"),
     variant = 'default'
   } = dialogState.options;
 

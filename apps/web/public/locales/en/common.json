@@ -28,9 +28,9 @@
     "optional": "Optional",
     "invalid": "Invalid input"
   },
-  "modal": {
+  "dialog": {
     "confirmTitle": "Are you sure?",
-    "confirmDescription": "This action cannot be undone."
+    "confirmDescription": "Are you sure you want to continue?"
   },
   "generic": {
     "yes": "Yes",

@@ -28,9 +28,9 @@
     "optional": "Optionnel",
     "invalid": "Saisie invalide"
   },
-  "modal": {
+  "dialog": {
     "confirmTitle": "Êtes-vous sûr ?",
-    "confirmDescription": "Cette action ne peut pas être annulée."
+    "confirmDescription": "Êtes-vous sûr de vouloir continuer ?"
   },
   "generic": {
     "yes": "Oui",

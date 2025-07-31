@@ -1,11 +1,13 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { LogOut } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { logout } from "@/lib/api/auth";
+import sayno from "@/lib/sayno";
 
 type Variant = "button" | "dropdown";
 
@@ -19,33 +21,44 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
   const queryClient = useQueryClient();
   const { t } = useTranslation("auth");
 
-  async function handleLogout() {
-    const { success } = await logout();
-
-    if (success) {
+  const mutation = useMutation({
+    mutationFn: logout,
+    onError: () => toast.error("Failed to sign out"),
+    onSuccess: () => {
       localStorage.removeItem("accessToken");
       queryClient.clear();
       navigate({ to: "/login" });
+    },
+  });
+
+  const handleLogoutClick = async () => {
+    const confirmed = await sayno({
+      title: t("sign-out.dialog.title"),
+      description: t("sign-out.dialog.description"),
+    });
+
+    if (confirmed) {
+      mutation.mutate();
     }
-  }
+  };
 
   const content = (
     <>
-      <LogOut />
+      {mutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <LogOut />}
       {t("sign-out")}
     </>
   );
 
   if (variant === "dropdown") {
     return (
-      <DropdownMenuItem onClick={handleLogout} className={className}>
+      <DropdownMenuItem onClick={handleLogoutClick} className={className}>
         {content}
       </DropdownMenuItem>
     );
   }
 
   return (
-    <Button onClick={handleLogout} className={className}>
+    <Button disabled={mutation.isPending} onClick={handleLogoutClick} className={className}>
       {content}
     </Button>
   );
