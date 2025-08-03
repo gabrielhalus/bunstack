@@ -19,5 +19,5 @@ export async function deleteUser({ id }: { id: string }): Promise<User> {
     throw new Error("Failed to delete user");
   }
 
-  return res.json();
+  return res.json().then(data => data.user);
 }
