@@ -21,7 +21,7 @@ export async function getAllTokens(): Promise<Token[]> {
  * @param value - The value to search for.
  * @returns The matching token.
  */
-export async function getToken(key: keyof TokenUniqueFields, value: any): Promise<Token | undefined> {
+export async function getToken<T extends keyof TokenUniqueFields>(key: T, value: typeof Tokens[T]["_"]["data"]): Promise<Token | undefined> {
   return db.select().from(Tokens).where(eq(Tokens[key], value)).get();
 }
 
@@ -52,6 +52,6 @@ export async function deleteAllTokens(): Promise<Token[]> {
  * @param value - The value to search for.
  * @returns The deleted token.
  */
-export async function deleteToken(key: keyof TokenUniqueFields, value: any): Promise<Token | undefined> {
+export async function deleteToken<T extends keyof TokenUniqueFields>(key: T, value: typeof Tokens[T]["_"]["data"]): Promise<Token | undefined> {
   return db.delete(Tokens).where(eq(Tokens[key], value)).returning().get();
 }

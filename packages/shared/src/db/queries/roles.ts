@@ -59,7 +59,7 @@ export async function getRoles(page: number, limit: number, orderBy?: RoleOrderB
  * @param value - The value to match for the specified field.
  * @returns The matching role with its members, or undefined if not found.
  */
-export async function getRole(key: keyof RoleUniqueFields, value: any): Promise<RoleWithMembers | undefined> {
+export async function getRole<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"]): Promise<RoleWithMembers | undefined> {
   const role = await db.select().from(Roles).where(eq(Roles[key], value)).get();
 
   if (!role) {
@@ -137,6 +137,6 @@ export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
  * @param value - The value to search for
  * @returns The deleted role.
  */
-export async function deleteRole(key: keyof RoleUniqueFields, value: any): Promise<Role | undefined> {
+export async function deleteRole<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"]): Promise<Role | undefined> {
   return await db.delete(Roles).where(eq(Roles[key], value)).returning().get();
 }

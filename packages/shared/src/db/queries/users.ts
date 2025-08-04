@@ -61,11 +61,7 @@ export async function getUsers(page: number, limit: number, orderBy?: UserOrderB
  * @param keepPassword - If true, includes the password field in the result (useful for authentication).
  * @returns The matching user with their roles, or undefined if not found.
  */
-export async function getUser(
-  key: keyof UserUniqueFields,
-  value: any,
-  keepPassword: boolean = false,
-): Promise<UserWithRoles | undefined> {
+export async function getUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"], keepPassword: boolean = false): Promise<UserWithRoles | undefined> {
   const user = await db.select().from(Users).where(eq(Users[key], value)).get();
 
   if (!user) {
@@ -88,10 +84,7 @@ export async function getUser(
  * @param value - The value to search for.
  * @returns The matching user, with password.
  */
-export async function getUserWithPassword(
-  key: keyof UserUniqueFields,
-  value: any,
-): Promise<UserWithRoles | undefined> {
+export async function getUserWithPassword<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<UserWithRoles | undefined> {
   return getUser(key, value, true);
 }
 
@@ -102,7 +95,7 @@ export async function getUserWithPassword(
  * @param value - The value to search for.
  * @returns An object containing the user (or undefined if not found), their roles, and their permissions.
  */
-export async function getUserWithContext(key: keyof UserUniqueFields, value: any): Promise<{ user: User | undefined; roles: RoleWithPermissions[]; policies: Policy[] }> {
+export async function getUserWithContext<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<{ user: User | undefined; roles: RoleWithPermissions[]; policies: Policy[] }> {
   const user = await db.select().from(Users).where(eq(Users[key], value)).get();
   if (!user) {
     return { user: undefined, roles: [], policies: [] };
@@ -155,6 +148,6 @@ export async function insertUser(user: typeof insertUserSchema._type): Promise<U
  * @param value - The value to search for.
  * @returns The deleted user.
  */
-export async function deleteUser(key: keyof UserUniqueFields, value: any): Promise<User | undefined> {
+export async function deleteUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<User | undefined> {
   return await db.delete(Users).where(eq(Users[key], value)).returning().get();
 }
