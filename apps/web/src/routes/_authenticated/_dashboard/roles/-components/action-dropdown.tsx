@@ -1,13 +1,52 @@
 import type { Role } from "@bunstack/shared/db/types/roles";
 import type { Row } from "@tanstack/react-table";
 
-import { Copy, MoreHorizontal, Trash } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Copy, Loader2, MoreHorizontal, Trash } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { TimeoutButton } from "@/components/ui/timeout-button";
+import { useAuth } from "@/hooks/use-auth";
+import { deleteRole } from "@/lib/api/roles";
+import { getAllRolesQueryOptions } from "@/lib/queries/roles";
+import sayno from "@/lib/sayno";
 
 export function ActionDropdown({ row }: { row: Row<Role> }) {
+  const { can, loading } = useAuth();
+
+  const queryClient = useQueryClient();
+
+  const role = row.original;
+
+  const mutation = useMutation({
+    mutationFn: deleteRole,
+    onError: () => toast.error("Failed to delete role"),
+    onSuccess: (deletedRole) => {
+      toast.success("User deleted successfully");
+
+      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, (existingRoles) => {
+        return existingRoles?.filter(r => r.id !== deletedRole.id) ?? [];
+      });
+    },
+  });
+
+  const handleDeleteClick = async () => {
+    const confirmed = await sayno({
+      title: "Delete Role",
+      description: "Are you sure you want to delete this role? This action cannot be undone.",
+      variant: "destructive",
+    });
+
+    if (confirmed) {
+      mutation.mutate(role);
+    }
+  };
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -18,14 +57,22 @@ export function ActionDropdown({ row }: { row: Row<Role> }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id.toString())}>
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(role.id.toString())}>
           <Copy className="h-4 w-4" />
           Copy Role ID
         </DropdownMenuItem>
-        <TimeoutButton variant="destructive" size="sm" noExpansion timeout={2000} onClick={() => console.log("Delete role")}>
-          <Trash className="h-4 w-4" />
-          Delete Role
-        </TimeoutButton>
+        {can("role:delete") && (
+          <Button
+            disabled={mutation.isPending}
+            onClick={handleDeleteClick}
+            variant="destructive"
+            size="sm"
+            className="w-full"
+          >
+            {mutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
+            Delete User
+          </Button>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

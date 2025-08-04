@@ -4,7 +4,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "@tanstack/react-router";
 import { UserRound } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SortableHeader } from "@/components/ui/sortable-header";
 
@@ -40,37 +39,19 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     size: 250,
   },
   {
-    accessorKey: "level",
-    header: ({ column }) => <SortableHeader column={column} title="Level" />,
-    size: 250,
+    accessorKey: "description",
+    size: 500,
   },
   {
     accessorKey: "members",
     header: ({ column }) => <SortableHeader column={column} title="Members" />,
     cell: ({ row }) => {
       return (
-        <Button variant="secondary" size="sm" asChild>
-          <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
-            {row.original.members}
-            <UserRound />
-          </Link>
-        </Button>
+        <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
+          {row.original.members}
+          <UserRound className="h-4 w-4" />
+        </Link>
       );
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => <SortableHeader column={column} title="Created At" />,
-    cell: ({ row }) => {
-      const timestamp = row.original.createdAt;
-      const dateString = timestamp
-        ? new Date(timestamp).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })
-        : "";
-      return <div className="text-muted-foreground">{dateString}</div>;
     },
   },
   {
