@@ -1,4 +1,4 @@
-import { getRole, getRoles } from "@bunstack/shared/db/queries/roles";
+import { deleteRole, getRole, getRoles } from "@bunstack/shared/db/queries/roles";
 import { Hono } from "hono";
 
 import { requirePermission } from "@/middlewares/access-control";
@@ -29,6 +29,17 @@ export default new Hono()
 
     try {
       const role = await getRole("name", name);
+      return c.json({ success: true, role });
+    } catch (error) {
+      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+    }
+  })
+
+  .delete("/:id", requirePermission("role:delete", c => ({ id: c.req.param("id") })), async (c) => {
+    const { id } = c.req.param();
+
+    try {
+      const role = await deleteRole("id", id);
       return c.json({ success: true, role });
     } catch (error) {
       return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
