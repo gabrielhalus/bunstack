@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { __root } from "../constants/__root";
 import env from "../lib/env";
 
-const queryClient = new Sqlite(join(__root, env.DATABASE_URL));
+const sqlite = new Sqlite(join(__root, env.DATABASE_URL));
+sqlite.exec("PRAGMA foreign_keys = ON");
 
-export const db = drizzle(queryClient);
+export const db = drizzle(sqlite);
