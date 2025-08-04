@@ -129,3 +129,14 @@ export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
 
   return await orderedQuery.all();
 }
+
+/**
+ * Delete a role by its ID.
+ *
+ * @param key - The field to search by.
+ * @param value - The value to search for
+ * @returns The deleted role.
+ */
+export async function deleteRole(key: keyof RoleUniqueFields, value: any): Promise<Role | undefined> {
+  return await db.delete(Roles).where(eq(Roles[key], value)).returning().get();
+}
