@@ -65,7 +65,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
     size: 200,
   },
   {
-    id: 'spacer',
+    id: "spacer",
     enableSorting: false,
     enableHiding: false,
   },
