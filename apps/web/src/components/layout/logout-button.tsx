@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Loader2, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { logout } from "@/lib/api/auth";
+import { logoutMutationOptions } from "@/lib/queries/auth";
+import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 type Variant = "button" | "dropdown";
 
@@ -16,20 +16,23 @@ type CommonProps = {
 };
 
 export function LogoutButton({ variant = "button", className }: CommonProps) {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { t } = useTranslation("auth");
 
   const mutation = useMutation({
-    mutationFn: logout,
-    onError: () => toast.error("Failed to sign out"),
+    ...logoutMutationOptions,
     onSuccess: () => {
       localStorage.removeItem("accessToken");
-      queryClient.clear();
-      navigate({ to: "/login" });
+      queryClient.resetQueries();
+      toast.success("Successfully signed out");
+      navigate({ to: "/login" })
     },
-  });
-
+    onError: () =>{
+      toast.error("Failed to sign out")
+    }
+  })
+  
   const handleLogoutClick = () => mutation.mutate();
 
   const content = (

@@ -11,8 +11,4 @@ export const userQueryOptions = queryOptions({
 
 export const logoutMutationOptions = {
   mutationFn: logout,
-  onSuccess: () => {
-    // Clear any cached data on logout
-    localStorage.removeItem("accessToken");
-  },
 };
