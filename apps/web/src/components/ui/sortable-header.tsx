@@ -1,6 +1,7 @@
 import { Column } from "@tanstack/react-table";
 import { ArrowUpNarrowWide, ArrowDownNarrowWide, ArrowUpDown } from "lucide-react";
 import { Button } from "./button";
+import { cn } from "@/lib/utils";
 
 type SortableHeaderProps<TData> = {
   column: Column<TData, unknown>;
@@ -31,7 +32,7 @@ export function SortableHeader<TData>({ column, title, className }: SortableHead
     <Button
       variant="ghost"
       onClick={handleSort}
-      className={`h-8 -ml-3 p-0 hover:bg-transparent ${className || ""}`}
+      className={cn("h-8 -ml-3 p-0 font-medium hover:bg-transparent", className)}
     >
       {title}
       {getSortIcon()}

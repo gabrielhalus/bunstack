@@ -52,17 +52,22 @@ export const columns: ColumnDef<UserWithRoles>[] = [
     accessorKey: "email",
     header: ({ column }) => <SortableHeader column={column} title="Email" />,
     cell: ({ row }) => <div className="text-muted-foreground">{row.original.email}</div>,
+    size: 250,
   },
   {
     accessorKey: "roles",
     header: "Roles",
     cell: ({ row }) => (
-      <div className="text-muted-foreground">
-        {
-          row.original.roles.sort((a, b) => b.level - a.level).map(r => r.label).join(", ")
-        }
+      <div className="text-muted-foreground overflow-hidden text-ellipsis">
+        { row.original.roles.sort((a, b) => b.level - a.level).map(r => r.label).join(", ") }
       </div>
     ),
+    size: 200,
+  },
+  {
+    id: 'spacer',
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: "createdAt",
@@ -78,6 +83,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
         : "";
       return <div className="text-muted-foreground">{dateString}</div>;
     },
+    size: 150,
   },
   {
     id: "actions",

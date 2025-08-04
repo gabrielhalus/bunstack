@@ -40,19 +40,24 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
   },
   {
     accessorKey: "description",
-    size: 500,
+    header: "Description",
+    size: 250,
   },
   {
     accessorKey: "members",
     header: ({ column }) => <SortableHeader column={column} title="Members" />,
-    cell: ({ row }) => {
-      return (
+    cell: ({ row }) => (
         <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
           {row.original.members}
           <UserRound className="h-4 w-4" />
         </Link>
-      );
-    },
+    ),
+    size: 100,
+  },
+  {
+    id: 'spacer',
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     id: "actions",

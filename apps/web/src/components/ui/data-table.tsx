@@ -175,7 +175,7 @@ export function DataTable<TData, TValue>({
                       style={{
                         width: header.column.columnDef.size !== undefined
                           ? header.getSize()
-                          : undefined
+                          : undefined,
                       }}
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -221,7 +221,9 @@ export function DataTable<TData, TValue>({
                     <TableCell 
                       key={cell.id}
                       style={{
-                        width: cell.column.columnDef.size
+                        width: cell.column.columnDef.size,
+                        maxWidth: cell.column.columnDef.maxSize,
+                        minWidth: cell.column.columnDef.minSize,
                       }}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
