@@ -9,10 +9,10 @@ export const Route = createFileRoute("/_authenticated/_dashboard/users")({
       throw redirect({ to: "/" });
     }
   },
-  component: UsersLayout,
   loader: () => ({
     crumb: "Users",
   }),
+  component: UsersLayout,
 });
 
 function UsersLayout() {
