@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
@@ -12,8 +12,17 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
 });
 
 function Roles() {
+  const queryClient = useQueryClient();
+
   const { isPending, data } = useQuery(getAllRolesQueryOptions);
   const [globalFilter, setGlobalFilter] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: async (args: any) => args,
+    onSuccess: (obj) => {
+      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, obj.newOrder);
+    },
+  });
 
   return (
     <div className="w-full py-10 px-10">
@@ -29,6 +38,8 @@ function Roles() {
           searchPlaceholder="Search roles..."
           searchValue={globalFilter}
           onSearchChange={setGlobalFilter}
+          enableRowReorder
+          onReorder={mutation.mutate}
         />
       </div>
     </div>
