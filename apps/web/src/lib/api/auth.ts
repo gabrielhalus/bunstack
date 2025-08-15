@@ -25,6 +25,16 @@ export async function getCurrentUser(): Promise<{ user: User; roles: RoleWithPer
   return await res.json();
 }
 
+export async function login(credentials: { email: string, password: string }) {
+  const res = await fetchAuthenticated("/api/auth/login", { method: "POST", body: JSON.stringify(credentials) })
+  return res.json();
+}
+
+export async function register(credentials: { name: string, email: string, password: string }) {
+  const res = await fetchAuthenticated("/api/auth/register", { method: "POST", body: JSON.stringify(credentials) })
+  return res.json();
+}
+
 export async function logout() {
   const res = await fetchAuthenticated("/api/auth/logout", { method: "POST" });
 

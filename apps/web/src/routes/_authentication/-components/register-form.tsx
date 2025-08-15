@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { debounceAsync } from "@/lib/debounce";
 import { cn } from "@/lib/utils";
+import { register } from "@/lib/api/auth";
 
 const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
   const res = await fetch(`/api/auth/email-available?email=${encodeURIComponent(email)}`);
@@ -36,13 +37,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(value),
-      });
-
-      const json = await res.json();
+      const json = await register(value);
 
       const parsed = registerOutputSchema.safeParse(json);
       if (!parsed.success) {

@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { login } from "@/lib/api/auth";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
@@ -25,12 +26,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify(value),
-      });
-
-      const json = await res.json();
+      const json = await login(value);
 
       const parsed = loginOutputSchema.safeParse(json);
       if (!parsed.success) {
