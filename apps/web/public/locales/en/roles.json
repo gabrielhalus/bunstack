@@ -1,0 +1,7 @@
+{
+  "nav": {
+    "display": "Display",
+    "members": "Manage Members ({{count}})",
+    "permissions": "Permissions"
+  }
+}

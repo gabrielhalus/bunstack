@@ -1,0 +1,7 @@
+{
+  "nav": {
+    "display": "Affichage",
+    "members": "Gérer les membres ({{count}})",
+    "permissions": "Permissions"
+  }
+}

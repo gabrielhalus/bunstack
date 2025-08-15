@@ -4,8 +4,10 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "@tanstack/react-router";
 import { UserRound } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SortableHeader } from "@/components/ui/sortable-header";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { ActionDropdown } from "./action-dropdown";
 
@@ -47,12 +49,21 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     accessorKey: "members",
     header: ({ column }) => <SortableHeader column={column} title="Members" />,
     cell: ({ row }) => (
-      <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
-        {row.original.members}
-        <UserRound className="h-4 w-4" />
-      </Link>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button asChild variant="link" size="sm">
+            <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
+              {row.original.members}
+              <UserRound className="h-4 w-4" />
+            </Link>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          Show members
+        </TooltipContent>
+      </Tooltip>
     ),
-    size: 100,
+    size: 0,
   },
   {
     id: "spacer",
@@ -64,6 +75,6 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     cell: ({ row }) => <ActionDropdown row={row} />,
     enableSorting: false,
     enableHiding: false,
-    size: 50,
+    size: 0,
   },
 ];
