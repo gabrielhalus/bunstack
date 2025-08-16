@@ -39,10 +39,6 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     size: 250,
   },
   {
-    accessorKey: "level",
-    header: "Level",
-  },
-  {
     accessorKey: "description",
     header: "Description",
     size: 250,
