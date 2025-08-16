@@ -40,7 +40,7 @@ interface DataTableProps<TData, TValue> {
   onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void
   manualPagination?: boolean
   enableRowReorder?: boolean
-  onReorder?: (args: { fromIndex: number; toIndex: number; newOrder: TData[] }) => void
+  onReorder?: (args: { from: TData, to: TData, position: "above" | "below" }) => void
 }
 
 function TableSkeleton({ columns }: { columns: ColumnDef<any, any>[] }) {
@@ -83,6 +83,7 @@ export function DataTable<TData, TValue>({
   })
   const [draggingIndex, setDraggingIndex] = React.useState<number | null>(null)
   const [overIndex, setOverIndex] = React.useState<number | null>(null)
+  const [overPosition, setOverPosition] = React.useState<'above' | 'below' | null>(null)
   const dragImageRef = React.useRef<HTMLDivElement | null>(null)
 
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -90,6 +91,7 @@ export function DataTable<TData, TValue>({
   const cleanupDnd = React.useCallback(() => {
     setDraggingIndex(null)
     setOverIndex(null)
+    setOverPosition(null)
     if (dragImageRef.current) {
       document.body.removeChild(dragImageRef.current)
       dragImageRef.current = null
@@ -147,12 +149,39 @@ export function DataTable<TData, TValue>({
     }
   }
 
-  const handleDragOver = (index: number) => (e: React.DragEvent) => {
-    e.preventDefault()
-    if (draggingIndex === index) return
-    
-    setOverIndex(index)
-    e.dataTransfer.dropEffect = "move"
+  const handleDragOver = (rowIndex: number) => (e: React.DragEvent) => {
+    e.preventDefault();
+
+    // If dragging over the row we're already dragging, clear the overIndex and exit
+    if (draggingIndex === rowIndex) {
+      setOverIndex(null);
+      return;
+    }
+
+    setOverIndex(rowIndex);
+
+    // Determine if the mouse is in the upper or lower half of the row
+    const rowElement = e.currentTarget as HTMLElement;
+    const rowRect = rowElement.getBoundingClientRect();
+    const rowMiddleY = rowRect.top + rowRect.height / 2;
+    const mouseY = e.clientY;
+
+    if (mouseY < rowMiddleY) {
+      setOverPosition('above');
+      // If dragging from immediately above, don't show indicator
+      if (draggingIndex === rowIndex - 1) {
+        setOverIndex(null);
+      }
+    } else {
+      setOverPosition('below');
+      // If dragging from immediately below, don't show indicator
+      if (draggingIndex === rowIndex + 1) {
+        setOverIndex(null);
+      }
+    }
+
+    // Indicate a move operation for the drag
+    e.dataTransfer.dropEffect = "move";
   }
 
   const handleContainerDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -166,6 +195,7 @@ export function DataTable<TData, TValue>({
     const lastRect = lastEl.getBoundingClientRect()
     if (e.clientY > lastRect.bottom) {
       setOverIndex(rowsEls.length - 1)
+      setOverPosition('below')
     }
   }
 
@@ -176,17 +206,14 @@ export function DataTable<TData, TValue>({
     }
 
     const rowCount = table.getRowModel().rows.length
-    let targetIndex = index;
-    targetIndex = Math.max(0, Math.min(rowCount, targetIndex))
-    if (draggingIndex === targetIndex) {
+    const targetIndex = Math.max(0, Math.min(rowCount, index))
+
+    if (draggingIndex === targetIndex || draggingIndex === (overPosition === "above" ? targetIndex - 1 : targetIndex + 1)) {
       return cleanupDnd()
     }
-
-    const originals = table.getRowModel().rows.map(r => r.original as TData)
-    console.log(draggingIndex, targetIndex)
-    const newOrder = arrayMove(originals, draggingIndex, targetIndex)
-
-    onReorder?.({ fromIndex: draggingIndex, toIndex: targetIndex, newOrder })
+    
+    const originals = table.getRowModel().rows.map(r => r.original as TData);
+    onReorder?.({ from: originals[draggingIndex], to: originals[targetIndex], position: overPosition! });
     cleanupDnd()
   }
 
@@ -209,13 +236,6 @@ export function DataTable<TData, TValue>({
   const rows = React.useMemo(() => {
     return data || []
   }, [data])
-
-  const arrayMove = React.useCallback((arr: TData[], from: number, to: number) => {
-    const copy = arr.slice()
-    const [item] = copy.splice(from, 1)
-    copy.splice(to, 0, item)
-    return copy
-  }, [])
 
   const table = useReactTable({
     data: rows,
@@ -329,7 +349,6 @@ export function DataTable<TData, TValue>({
                   className={cn(
                     enableRowReorder && "cursor-grab",
                     draggingIndex === idx && "cursor-grabbing opacity-50 bg-muted/40 ring-1 ring-primary/20",
-                    overIndex === idx && "bg-primary/5"
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -355,6 +374,38 @@ export function DataTable<TData, TValue>({
             )} 
           </TableBody>
         </Table>
+        
+        {/* Unified indicator system - handles all cases outside the table structure */}
+        {enableRowReorder && overIndex !== null && draggingIndex !== null && draggingIndex !== overIndex && (
+          <div 
+            className={cn(
+              "absolute left-0 right-0 h-1 bg-primary rounded-full mx-2",
+            )}
+            style={{
+              top: (() => {
+                if (overPosition === 'above') {
+                  // Position above the target row - center on the top border
+                  const targetRow = containerRef.current?.querySelector(`tbody tr:nth-child(${overIndex + 1}`) as HTMLElement
+                  if (targetRow) {
+                    return overIndex === 0 
+                      ? `${targetRow.offsetTop - 0.5}px` // Above first row - use actual row position
+                      : `${targetRow.offsetTop - 0.5}px` // Above other rows
+                    } 
+                  return '0px'
+                } else {
+                  // Position below the target row - center on the bottom border
+                  const targetRow = containerRef.current?.querySelector(`tbody tr:nth-child(${overIndex + 1}`) as HTMLElement
+                  if (targetRow) {
+                    return overIndex === table.getRowModel().rows.length - 1 
+                      ? 'calc(100% - 0.5rem)' // Below last row
+                      : `${targetRow.offsetTop + targetRow.offsetHeight - 1}px` // Below the row
+                  }
+                  return '0px'
+                }
+              })()
+            }}
+          />
+        )}
       </div>
       <div className="flex items-center justify-between space-x-2">
         <div className="flex-1 text-sm text-muted-foreground">
@@ -379,8 +430,8 @@ export function DataTable<TData, TValue>({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage() || isLoading}
+               onClick={() => table.previousPage()}
+               disabled={!table.getCanPreviousPage() || isLoading}
             >
               Previous
             </Button>

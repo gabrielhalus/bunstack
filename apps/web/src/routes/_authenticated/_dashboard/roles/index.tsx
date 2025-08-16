@@ -1,8 +1,11 @@
+import type { Role } from "@bunstack/shared/db/types/roles";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { DataTable } from "@/components/ui/data-table";
+import { updateRoleLevel } from "@/lib/api/roles";
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
 import { columns } from "./-components/columns";
@@ -18,9 +21,11 @@ function Roles() {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const mutation = useMutation({
-    mutationFn: async (args: any) => args,
-    onSuccess: (obj) => {
-      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, obj.newOrder);
+    mutationFn: async ({ from, to, position }: { from: Role; to: Role; position: "above" | "below" }) => {
+      return await updateRoleLevel(from.id, position === "above" ? to.level + 1 : to.level - 1);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(getAllRolesQueryOptions);
     },
   });
 
