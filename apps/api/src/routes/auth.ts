@@ -46,13 +46,7 @@ export default new Hono()
       return c.json({ success: true, accessToken });
     } catch (error) {
       if (error instanceof Error && error.message.includes("UNIQUE constraint failed: users.email")) {
-        return c.json(
-          {
-            success: false,
-            error: "Email is already taken",
-          },
-          400,
-        );
+        return c.json({ success: false, error: "Email is already taken" }, 400);
       }
 
       return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
