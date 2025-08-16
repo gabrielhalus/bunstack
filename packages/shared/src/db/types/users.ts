@@ -15,6 +15,7 @@ export type UserUniqueFields = Pick<User, "id" | "email">;
 export type UserOrderBy = keyof User | { field: keyof User; direction: "asc" | "desc" };
 
 export const insertUserSchema = createInsertSchema(Users, {
+  id: z.never(),
   name: z
     .string()
     .min(3, { message: "Name must be at least 3 characters long" })
