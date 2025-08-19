@@ -348,7 +348,7 @@ export function DataTable<TData, TValue>({
                   onDragEnd={enableRowReorder ? cleanupDnd : undefined}
                   className={cn(
                     enableRowReorder && "cursor-grab",
-                    draggingIndex === idx && "cursor-grabbing opacity-50 bg-muted/40 ring-1 ring-primary/20",
+                    draggingIndex === idx && "cursor-grabbing opacity-30 bg-muted/20",
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
