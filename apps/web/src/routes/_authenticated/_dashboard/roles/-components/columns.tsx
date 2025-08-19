@@ -2,7 +2,7 @@ import type { RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Link } from "@tanstack/react-router";
-import { UserRound } from "lucide-react";
+import { SquareArrowOutUpRight, UserRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -36,7 +36,12 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     accessorKey: "label",
     header: ({ column }) => <SortableHeader column={column} title="Name" />,
     cell: ({ row }) => (
-      <div className="font-medium">{row.original.label}</div>
+      <Button asChild variant="ghost" size="sm" className="font-medium flex items-center justify-between">
+        <Link to="/roles/$name" params={{ name: row.original.name }}>
+          {row.original.label}
+          <SquareArrowOutUpRight />
+        </Link>
+      </Button>
     ),
     size: 250,
   },
@@ -51,7 +56,7 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     cell: ({ row }) => (
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button asChild variant="link" size="sm">
+          <Button asChild variant="ghost" size="sm">
             <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
               {row.original.members}
               <UserRound className="h-4 w-4" />
