@@ -11,15 +11,9 @@ i18n
     fallbackLng: "en",
     supportedLngs: ["en", "fr"],
     defaultNS: "common",
-    backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
-    },
-    interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      useSuspense: true,
-    },
+    backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
+    interpolation: { escapeValue: false },
+    react: { useSuspense: false },
   });
 
 export default i18n;
