@@ -5,6 +5,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { DataTable } from "@/components/ui/data-table";
+import { useAuth } from "@/hooks/use-auth";
 import { updateRoleLevel } from "@/lib/api/roles";
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
 
 function Roles() {
   const queryClient = useQueryClient();
+  const { can } = useAuth();
 
   const { isPending, data } = useQuery(getAllRolesQueryOptions);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -43,7 +45,7 @@ function Roles() {
           searchPlaceholder="Search roles..."
           searchValue={globalFilter}
           onSearchChange={setGlobalFilter}
-          enableRowReorder
+          enableRowReorder={can("role:edit")}
           onReorder={mutation.mutate}
         />
       </div>
