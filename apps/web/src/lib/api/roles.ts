@@ -1,4 +1,4 @@
-import type { Role, RoleWithMembers, RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
+import type { Role, RoleWithMembers, RoleWithMembersCount, updateRoleSchema } from "@bunstack/shared/db/types/roles";
 
 import { fetchAuthenticated } from "./http";
 
@@ -30,6 +30,19 @@ export async function updateRoleLevel(id: number, level: number): Promise<Role> 
 
   return res.json().then(data => data.role);
 }
+
+export async function updateRole(id: number, data: Partial<Role>): Promise<Role> {
+  const res = await fetchAuthenticated(`/api/roles/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update role");
+  }
+
+  return res.json().then(data => data.role);
+};
 
 export async function deleteRole({ id }: { id: number }): Promise<Role> {
   const res = await fetchAuthenticated(`/api/roles/${id}`, {

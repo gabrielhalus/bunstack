@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
 
+import { Form } from "./-components/form";
+
 export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name/")({
   component: RoleDetails,
 });
@@ -10,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name/")(
 function RoleDetails() {
   const { name } = Route.useParams();
 
-  const { data: role, isLoading, isError } = useQuery(getRoleByNameQueryOptions(name));
+  const { data, isLoading, isError } = useQuery(getRoleByNameQueryOptions(name));
 
   if (isLoading)
     return <div>Loading...</div>;
@@ -18,16 +20,8 @@ function RoleDetails() {
     return <div>Error loading role</div>;
 
   return (
-    <div>
-      <h1>
-        Role:
-        {role?.name}
-      </h1>
-      <p>
-        ID:
-        {role?.id}
-      </p>
-      {/* Add more fields here */}
+    <div className="p-4">
+      <Form role={data!} />
     </div>
   );
 }

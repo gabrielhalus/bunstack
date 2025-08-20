@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { auth } from "@/hooks/use-auth";
 import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
@@ -35,6 +35,9 @@ function RoleLayout() {
   // const { role } = Route.useLoaderData();
 
   return (
-    <Sidebar />
+    <div className="h-full flex">
+      <Sidebar />
+      <Outlet />
+    </div>
   );
 }
