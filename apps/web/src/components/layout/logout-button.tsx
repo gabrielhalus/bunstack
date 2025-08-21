@@ -25,7 +25,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
     onSuccess: () => {
       localStorage.removeItem("accessToken");
       queryClient.resetQueries();
-      navigate({ to: "/login" });
+      return navigate({ to: "/login" });
     },
     onError: () => {
       toast.error(t("sign-out.error"));
