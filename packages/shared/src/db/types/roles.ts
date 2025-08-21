@@ -27,3 +27,7 @@ export const updateRoleSchema = z.object({
   label: z.string().min(1, "Label is required"),
   description: z.string().min(1, "Description is required"),
 });
+
+export const updateRoleLevelSchema = z.object({
+  level: z.number().gt(0),
+});

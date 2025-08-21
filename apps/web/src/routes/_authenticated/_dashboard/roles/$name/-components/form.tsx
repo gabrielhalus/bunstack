@@ -2,6 +2,7 @@ import type { Role, RoleWithMembers } from "@bunstack/shared/db/types/roles";
 
 import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
 import { useForm } from "@tanstack/react-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -9,31 +10,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateRole } from "@/lib/api/roles";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
 export function Form({ role }: { role: RoleWithMembers }) {
   const queryClient = useQueryClient();
-  
+
   const mutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Role> }) => updateRole(id, data),
     onSuccess: (updatedRole) => {
       toast.success("Role successfully updated");
       queryClient.setQueryData(getAllRolesQueryOptions.queryKey, (existingRoles) => {
-        if (!existingRoles) return;
+        if (!existingRoles)
+          return;
 
-        return existingRoles.map((role) =>
+        return existingRoles.map(role =>
           role.id === updatedRole.id
             ? { ...role, ...updatedRole, members: role.members }
-            : role
+            : role,
         );
       });
     },
     onError: () => {
       toast.error("Failed to update role");
-    }
-  })
-  
+    },
+  });
+
   const form = useForm({
     validators: {
       onChange: updateRoleSchema,

@@ -1,5 +1,5 @@
 import { deleteRole, getRole, getRoles, updateRole, updateRoleLevel } from "@bunstack/shared/db/queries/roles";
-import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
+import { updateRoleLevelSchema, updateRoleSchema } from "@bunstack/shared/db/types/roles";
 import { Hono } from "hono";
 
 import { requirePermission } from "@/middlewares/access-control";
@@ -55,7 +55,7 @@ export default new Hono()
       const id = Number(c.req.param("id"));
       const rawRole = await c.req.json();
 
-      const role = updateRoleSchema.parse(rawRole);
+      const role = updateRoleLevelSchema.parse(rawRole);
 
       if (role.level === undefined || role.level === null) {
         return c.json({ success: false, error: "Level is required" }, 400);

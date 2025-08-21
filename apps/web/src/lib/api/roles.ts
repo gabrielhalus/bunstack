@@ -1,4 +1,4 @@
-import type { Role, RoleWithMembers, RoleWithMembersCount, updateRoleSchema } from "@bunstack/shared/db/types/roles";
+import type { Role, RoleWithMembers, RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
 
 import { fetchAuthenticated } from "./http";
 
