@@ -107,19 +107,18 @@ export function Form({ role }: { role: RoleWithMembers }) {
           />
         </div>
         <form.Subscribe
-          selector={state => [state.canSubmit, state.isSubmitting]}
-          children={([canSubmit, isSubmitting]) => (
+          selector={state => [state.canSubmit, state.isSubmitting, state.isDefaultValue]}
+          children={([canSubmit, isSubmitting, isDefaultValue]) => (
             <>
-              <Button type="submit" disabled={!canSubmit}>
-                {isSubmitting
+              <Button type="submit" disabled={!canSubmit || isDefaultValue}>
+                { isSubmitting
                   ? (
-                      <span className="flex items-center gap-2">
+                      <span className="flex items-center space-x-2">
                         <Loader2 className="size-4 animate-spin" />
-                        {" "}
                         Saving...
                       </span>
                     )
-                  : "Save"}
+                  : isDefaultValue ? (<span>No changes to save</span>) : (<span>Save changes</span>) }
               </Button>
             </>
           )}

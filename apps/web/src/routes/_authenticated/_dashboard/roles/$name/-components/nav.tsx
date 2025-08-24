@@ -1,38 +1,57 @@
 import type { RoleWithMembers } from "@bunstack/shared/db/types/roles";
+import type { LinkOptions } from "@tanstack/react-router";
 
-import { Link } from "@tanstack/react-router";
-import React from "react";
+import { Link, useLoaderData } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
-export function Nav({ role }: { role: RoleWithMembers }) {
+export function Nav() {
   const { t } = useTranslation("roles");
+
+  const { role } = useLoaderData({ from: "/_authenticated/_dashboard/roles/$name" });
 
   const nav = (role: RoleWithMembers) => [
     {
-      href: `/roles/${role.name}`,
       label: t("nav.display"),
+      linkOptions: {
+        to: "/roles/$name",
+        params: { name: role.name },
+      } as LinkOptions,
     },
     {
-      href: `/roles/${role.name}/members`,
       label: t("nav.members", { count: role.members.length }),
+      linkOptions: {
+        to: "/roles/$name/members",
+        params: { name: role.name },
+      } as LinkOptions,
     },
     {
-      href: `/roles/${role.name}/permissions`,
       label: "Permissions",
+      linkOptions: {
+        to: "/roles/$name/permissions",
+        params: { name: role.name },
+      } as LinkOptions,
     },
   ];
 
   return (
-    <nav className="flex h-4 items-center space-x-4 text-sm text-muted-foreground">
-      {nav(role).map((link, index) => (
-        <React.Fragment key={link.href}>
-          <Link to={link.href} key={link.href} activeOptions={{ exact: true }} activeProps={() => ({ className: "text-primary underline" })}>
+    <nav className="px-4 py-8 flex h-4 items-center space-x-2 text-sm">
+      {nav(role).map(link => (
+        <Button
+          key={`${link.label}-${link.linkOptions.to}`}
+          asChild
+          variant="ghost"
+          size="sm"
+        >
+          <Link
+            {...link.linkOptions}
+            activeOptions={{ exact: true }}
+            activeProps={{ className: "bg-accent" }}
+          >
             {link.label}
           </Link>
-          {index !== nav(role).length - 1 && <Separator orientation="vertical" />}
-        </React.Fragment>
+        </Button>
       ))}
     </nav>
   );

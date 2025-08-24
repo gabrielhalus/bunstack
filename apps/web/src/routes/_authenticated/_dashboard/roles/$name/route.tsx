@@ -3,6 +3,7 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { auth } from "@/hooks/use-auth";
 import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
 
+import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
 
 export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name")({
@@ -32,12 +33,13 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name")({
 });
 
 function RoleLayout() {
-  // const { role } = Route.useLoaderData();
-
   return (
     <div className="h-full flex">
       <Sidebar />
-      <Outlet />
+      <div className="w-full">
+        <Nav />
+        <Outlet />
+      </div>
     </div>
   );
 }

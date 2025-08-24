@@ -24,6 +24,7 @@ import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authe
 import { Route as AuthenticatedDashboardRolesIndexImport } from './routes/_authenticated/_dashboard/roles/index'
 import { Route as AuthenticatedDashboardRolesNameRouteImport } from './routes/_authenticated/_dashboard/roles/$name/route'
 import { Route as AuthenticatedDashboardRolesNameIndexImport } from './routes/_authenticated/_dashboard/roles/$name/index'
+import { Route as AuthenticatedDashboardRolesNamePermissionsImport } from './routes/_authenticated/_dashboard/roles/$name/permissions'
 import { Route as AuthenticatedDashboardRolesNameMembersImport } from './routes/_authenticated/_dashboard/roles/$name/members'
 
 // Create/Update Routes
@@ -109,6 +110,13 @@ const AuthenticatedDashboardRolesNameIndexRoute =
   AuthenticatedDashboardRolesNameIndexImport.update({
     id: '/',
     path: '/',
+    getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
+  } as any)
+
+const AuthenticatedDashboardRolesNamePermissionsRoute =
+  AuthenticatedDashboardRolesNamePermissionsImport.update({
+    id: '/permissions',
+    path: '/permissions',
     getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
   } as any)
 
@@ -214,6 +222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRolesNameMembersImport
       parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
     }
+    '/_authenticated/_dashboard/roles/$name/permissions': {
+      id: '/_authenticated/_dashboard/roles/$name/permissions'
+      path: '/permissions'
+      fullPath: '/roles/$name/permissions'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNamePermissionsImport
+      parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
+    }
     '/_authenticated/_dashboard/roles/$name/': {
       id: '/_authenticated/_dashboard/roles/$name/'
       path: '/'
@@ -228,6 +243,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedDashboardRolesNameRouteRouteChildren {
   AuthenticatedDashboardRolesNameMembersRoute: typeof AuthenticatedDashboardRolesNameMembersRoute
+  AuthenticatedDashboardRolesNamePermissionsRoute: typeof AuthenticatedDashboardRolesNamePermissionsRoute
   AuthenticatedDashboardRolesNameIndexRoute: typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
@@ -235,6 +251,8 @@ const AuthenticatedDashboardRolesNameRouteRouteChildren: AuthenticatedDashboardR
   {
     AuthenticatedDashboardRolesNameMembersRoute:
       AuthenticatedDashboardRolesNameMembersRoute,
+    AuthenticatedDashboardRolesNamePermissionsRoute:
+      AuthenticatedDashboardRolesNamePermissionsRoute,
     AuthenticatedDashboardRolesNameIndexRoute:
       AuthenticatedDashboardRolesNameIndexRoute,
   }
@@ -336,6 +354,7 @@ export interface FileRoutesByFullPath {
   '/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
   '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
   '/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
@@ -348,6 +367,7 @@ export interface FileRoutesByTo {
   '/roles': typeof AuthenticatedDashboardRolesIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
   '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
   '/roles/$name': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
@@ -366,6 +386,7 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
   '/_authenticated/_dashboard/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/_authenticated/_dashboard/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
   '/_authenticated/_dashboard/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 
@@ -383,6 +404,7 @@ export interface FileRouteTypes {
     | '/roles/'
     | '/users/'
     | '/roles/$name/members'
+    | '/roles/$name/permissions'
     | '/roles/$name/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -394,6 +416,7 @@ export interface FileRouteTypes {
     | '/roles'
     | '/users'
     | '/roles/$name/members'
+    | '/roles/$name/permissions'
     | '/roles/$name'
   id:
     | '__root__'
@@ -410,6 +433,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard/roles/'
     | '/_authenticated/_dashboard/users/'
     | '/_authenticated/_dashboard/roles/$name/members'
+    | '/_authenticated/_dashboard/roles/$name/permissions'
     | '/_authenticated/_dashboard/roles/$name/'
   fileRoutesById: FileRoutesById
 }
@@ -497,6 +521,7 @@ export const routeTree = rootRoute
       "parent": "/_authenticated/_dashboard/roles",
       "children": [
         "/_authenticated/_dashboard/roles/$name/members",
+        "/_authenticated/_dashboard/roles/$name/permissions",
         "/_authenticated/_dashboard/roles/$name/"
       ]
     },
@@ -510,6 +535,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/_dashboard/roles/$name/members": {
       "filePath": "_authenticated/_dashboard/roles/$name/members.tsx",
+      "parent": "/_authenticated/_dashboard/roles/$name"
+    },
+    "/_authenticated/_dashboard/roles/$name/permissions": {
+      "filePath": "_authenticated/_dashboard/roles/$name/permissions.tsx",
       "parent": "/_authenticated/_dashboard/roles/$name"
     },
     "/_authenticated/_dashboard/roles/$name/": {
