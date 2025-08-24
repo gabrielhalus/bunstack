@@ -8,13 +8,12 @@ export const Route = createFileRoute(
 });
 
 function RolePermissions() {
-  const { name } = Route.useParams();
-
   return (
-    <div>
-      Hello "/_authenticated/_dashboard/roles/
-      {name}
-      /permissions"!
+    <div className="space-y-4">
+      <div>
+        <h1 className="text-3xl font-bold">Role Permissions</h1>
+        <p className="text-muted-foreground">Manage the permissions assigned to this role here.</p>
+      </div>
     </div>
   );
 }

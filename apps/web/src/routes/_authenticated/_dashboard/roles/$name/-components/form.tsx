@@ -1,8 +1,9 @@
-import type { Role, RoleWithMembers } from "@bunstack/shared/db/types/roles";
+import type { Role } from "@bunstack/shared/db/types/roles";
 
 import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLoaderData } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -12,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { updateRole } from "@/lib/api/roles";
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
-export function Form({ role }: { role: RoleWithMembers }) {
+export function Form() {
   const queryClient = useQueryClient();
+  const { role } = useLoaderData({ from: "/_authenticated/_dashboard/roles/$name" });
 
   const mutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Role> }) => updateRole(id, data),

@@ -36,9 +36,11 @@ function RoleLayout() {
   return (
     <div className="h-full flex">
       <Sidebar />
-      <div className="w-full">
+      <div className="w-full max-w-2xl mx-auto">
         <Nav />
-        <Outlet />
+        <div className="p-4">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

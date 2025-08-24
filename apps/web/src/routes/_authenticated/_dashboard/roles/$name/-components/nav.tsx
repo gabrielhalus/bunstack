@@ -36,7 +36,7 @@ export function Nav() {
   ];
 
   return (
-    <nav className="px-4 py-8 flex h-4 items-center space-x-2 text-sm">
+    <nav className="py-8 flex h-4 items-center space-x-2 text-sm">
       {nav(role).map(link => (
         <Button
           key={`${link.label}-${link.linkOptions.to}`}
