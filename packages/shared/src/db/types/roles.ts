@@ -13,7 +13,7 @@ export type RoleWithMembersCount = Merge<Role, { members: number }>;
 
 export type RoleWithMembers = Merge<Role, { members: User[] }>;
 
-export type RoleUniqueFields = Pick<Role, "id" | "level" | "name">;
+export type RoleUniqueFields = Pick<Role, "id" | "name">;
 
 export type RoleWithPermissions = Merge<Role, { permissions: Permission[] }>;
 
@@ -26,8 +26,4 @@ export const insertRoleSchema = createInsertSchema(Roles, {
 export const updateRoleSchema = z.object({
   label: z.string().min(1, "Label is required"),
   description: z.string().min(1, "Description is required"),
-});
-
-export const updateRoleLevelSchema = z.object({
-  level: z.number().gt(0),
 });

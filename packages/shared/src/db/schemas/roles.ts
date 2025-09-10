@@ -5,7 +5,6 @@ export const Roles = sqliteTable("roles", {
   name: text("name").notNull().unique(),
   label: text("label").notNull(),
   description: text("description"),
-  level: integer("level").notNull(),
   isDefault: integer("is_default", { mode: "boolean" }).notNull().default(false),
   isSuperAdmin: integer("is_super_admin", { mode: "boolean" }).notNull().default(false),
   createdAt: integer("created_at").notNull().$defaultFn(() => Date.now()),

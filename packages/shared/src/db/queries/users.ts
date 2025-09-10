@@ -101,7 +101,7 @@ export async function getUserWithContext<T extends keyof UserUniqueFields>(key: 
     return { user: undefined, roles: [], policies: [] };
   }
 
-  const roles = await getUserRoles(user, { field: "level", direction: "desc" });
+  const roles = await getUserRoles(user);
 
   // Assign permissions to each role
   const rolesWithPermissions = await Promise.all(

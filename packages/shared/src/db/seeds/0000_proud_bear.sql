@@ -3,10 +3,10 @@ INSERT INTO "users" ("id", "name", "email", "password", "avatar", "created_at", 
 ('M90DRMRqUtchFdB47Uj-w', 'Konni Chiwa', 'konnichiwa@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$R0MwHjZBUMoLfGUmKeNRug$xWp6FErEcR3WPI+BhSVRLI/7V+TMcRbWREsTsoI9+tc', NULL, 1735686000, 1735686000),
 ('l1knWD3gwIavSLDsDxHI5', 'Mura Saki', 'murasaki@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$R0MwHjZBUMoLfGUmKeNRug$xWp6FErEcR3WPI+BhSVRLI/7V+TMcRbWREsTsoI9+tc', NULL, 1735686000, 1735686000);
 --> statement-breakpoint
-INSERT INTO "roles" ("id", "name", "label", "description", "level", "is_default", "is_super_admin", "created_at", "updated_at") VALUES
-(1, 'admin', 'Administrator', 'Full access and control.', 100, 0, 1, 1735686000, 1735686000),
-(2, 'user', 'User', 'Basic access to the platform.', 10, 1, 0, 1735686000, 1735686000),
-(3, 'moderator', 'Moderator', 'Can moderate user content.', 20, 0, 0, 1735686000, 1735686000);
+INSERT INTO "roles" ("id", "name", "label", "description", "is_default", "is_super_admin", "created_at", "updated_at") VALUES
+(1, 'admin', 'Administrator', 'Full access and control.', 0, 1, 1735686000, 1735686000),
+(2, 'user', 'User', 'Basic access to the platform.', 1, 0, 1735686000, 1735686000),
+(3, 'moderator', 'Moderator', 'Can moderate user content.', 0, 0, 1735686000, 1735686000);
 --> statement-breakpoint
 INSERT INTO "user_roles" ("user_id", "role_id") VALUES
 ('JyuT8xcpE2NUFf9_SPxc_', 2),

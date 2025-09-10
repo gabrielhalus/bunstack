@@ -22,7 +22,6 @@ CREATE TABLE `roles` (
 	`name` text NOT NULL,
 	`label` text NOT NULL,
 	`description` text,
-	`level` integer NOT NULL,
 	`is_default` integer DEFAULT false NOT NULL,
 	`is_super_admin` integer DEFAULT false NOT NULL,
 	`created_at` integer NOT NULL,

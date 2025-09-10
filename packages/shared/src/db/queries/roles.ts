@@ -8,8 +8,6 @@ import { Roles } from "../schemas/roles";
 import { UserRoles } from "../schemas/user-roles";
 import { Users } from "../schemas/users";
 
-const LEVEL_STEP = 10;
-
 /**
  * Fetches a paginated list of roles, each with the count of assigned members.
  *
@@ -141,96 +139,6 @@ export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
  */
 export async function updateRole<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"], updates: Partial<Omit<Role, "id">>): Promise<Role | undefined> {
   return await db.update(Roles).set(updates).where(eq(Roles[key], value)).returning().get();
-}
-
-/**
- * Updates the 'level' of a role, ensuring proper ordering and spacing.
- * If there is not enough space between adjacent roles, all roles are re-leveled.
- *
- * @param key - The unique field to identify the role (e.g., "id" or "name").
- * @param value - The value of the unique field.
- * @param requestedLevel - The desired level to move the role to.
- * @returns The updated role, or undefined if not found.
- */
-export async function updateRoleLevel<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"], requestedLevel: number): Promise<Role | undefined> {
-  const roles = await db.select().from(Roles).orderBy(asc(Roles.level));
-
-  const movingRoleIndex = roles.findIndex(r => r[key] === value);
-  if (movingRoleIndex === -1) {
-    throw new Error("Role not found");
-  }
-
-  const [movingRole] = roles.splice(movingRoleIndex, 1);
-
-  // Find the best insert position based on the requested level
-  let insertIndex = 0;
-  for (let i = 0; i < roles.length; i++) {
-    if (roles[i].level > requestedLevel) {
-      insertIndex = i;
-      break;
-    }
-    insertIndex = i + 1;
-  }
-
-  roles.splice(insertIndex, 0, movingRole);
-
-  const prevRole = insertIndex > 0 ? roles[insertIndex - 1] : null;
-  const nextRole = insertIndex < roles.length ? roles[insertIndex + 1] : null;
-
-  let newLevel: number;
-
-  if (prevRole && nextRole) {
-    // Case: role is in the middle
-    const gap = nextRole.level - prevRole.level;
-    if (gap > 1) {
-      newLevel = Math.floor((nextRole.level + prevRole.level) / 2);
-    } else {
-      // No space -> full relevel, but preserve the intended order
-      await relevelRoles(roles);
-      // After releveling, the movingRole should be at the intended insertIndex
-      // We need to update it to the correct level based on its new position
-      const updatedRoles = await db.select().from(Roles).orderBy(asc(Roles.level));
-      const finalInsertIndex = updatedRoles.findIndex(r => r.id === movingRole.id);
-      if (finalInsertIndex !== -1) {
-        const finalLevel = (finalInsertIndex + 1) * LEVEL_STEP;
-        await db.update(Roles).set({ level: finalLevel }).where(eq(Roles.id, movingRole.id));
-      }
-      // Return the updated role instead of returning early
-      return await db.select().from(Roles).where(eq(Roles[key], value)).get();
-    }
-  } else if (!prevRole && nextRole) {
-    // Case: role is at the start
-    if (nextRole.level > 1) {
-      newLevel = Math.floor(nextRole.level / 2);
-    } else {
-      // No space -> full relevel, but preserve the intended order
-      await relevelRoles(roles);
-      // The movingRole should now be at the start (level 10)
-      return await db.update(Roles).set({ level: LEVEL_STEP }).where(eq(Roles.id, movingRole.id)).returning().get();
-    }
-  } else if (prevRole && !nextRole) {
-    // Case: role is at the end
-    newLevel = prevRole.level + LEVEL_STEP;
-  } else {
-    // Only one role
-    newLevel = LEVEL_STEP;
-  }
-
-  return await db.update(Roles).set({ level: newLevel }).where(eq(Roles[key], value)).returning().get();
-}
-
-/**
- * Relevels all roles in the given array to have sequential levels starting from LEVEL_STEP.
- * This function is called when there's insufficient space between adjacent role levels.
- *
- * @param roles - Array of roles in the desired order (with movingRole already positioned)
- */
-async function relevelRoles(roles: Role[]): Promise<void> {
-  let level = LEVEL_STEP;
-  for (const role of roles) {
-    await db.update(Roles).set({ level }).where(eq(Roles.id, role.id));
-    level += LEVEL_STEP;
-  }
 }
 
 /**
