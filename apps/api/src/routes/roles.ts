@@ -1,5 +1,5 @@
-import { deleteRole, getRole, getRoles, updateRole, updateRoleLevel } from "@bunstack/shared/db/queries/roles";
-import { updateRoleLevelSchema, updateRoleSchema } from "@bunstack/shared/db/types/roles";
+import { deleteRole, getRole, getRoles, updateRole } from "@bunstack/shared/db/queries/roles";
+import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
 import { Hono } from "hono";
 
 import { requirePermission } from "@/middlewares/access-control";
@@ -17,7 +17,7 @@ export default new Hono()
         return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
       }
 
-      const { roles, total } = await getRoles(page, limit, { field: "level", direction: "desc" });
+      const { roles, total } = await getRoles(page, limit);
 
       return c.json({ success: true, roles, total });
     } catch (error) {
@@ -44,28 +44,6 @@ export default new Hono()
       const role = updateRoleSchema.parse(rawRole);
 
       const updatedRole = await updateRole("id", id, role);
-      return c.json({ success: true, role: updatedRole });
-    } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
-    }
-  })
-
-  .put("/:id/order", requirePermission("role:edit", c => ({ id: c.req.param("id") })), async (c) => {
-    try {
-      const id = Number(c.req.param("id"));
-      const rawRole = await c.req.json();
-
-      const role = updateRoleLevelSchema.parse(rawRole);
-
-      if (role.level === undefined || role.level === null) {
-        return c.json({ success: false, error: "Level is required" }, 400);
-      }
-
-      const updatedRole = await updateRoleLevel("id", id, role.level);
-      if (!updatedRole) {
-        return c.json({ success: false, error: "Not found" }, 404);
-      }
-
       return c.json({ success: true, role: updatedRole });
     } catch (error) {
       return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
