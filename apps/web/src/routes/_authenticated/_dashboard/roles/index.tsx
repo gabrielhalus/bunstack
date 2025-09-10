@@ -1,12 +1,7 @@
-import type { Role } from "@bunstack/shared/db/types/roles";
-
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 
-import { DataTable } from "@/components/ui/data-table";
-import { useAuth } from "@/hooks/use-auth";
-import { updateRoleLevel } from "@/lib/api/roles";
+import { DataTable } from "@/components/data-table";
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
 import { columns } from "./-components/columns";
@@ -16,20 +11,11 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
 });
 
 function Roles() {
-  const queryClient = useQueryClient();
-  const { can } = useAuth();
-
   const { isPending, data } = useQuery(getAllRolesQueryOptions);
-  const [globalFilter, setGlobalFilter] = useState("");
 
-  const mutation = useMutation({
-    mutationFn: async ({ from, to, position }: { from: Role; to: Role; position: "above" | "below" }) => {
-      return await updateRoleLevel(from.id, position === "above" ? to.level + 1 : to.level - 1);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(getAllRolesQueryOptions);
-    },
-  });
+  function update(updatedItems: any) {
+    console.log(updatedItems);
+  }
 
   return (
     <div className="w-full py-10 px-10">
@@ -38,7 +24,7 @@ function Roles() {
           <h1 className="text-3xl font-bold">Roles Management</h1>
           <p className="text-muted-foreground">Manage your roles with advanced filtering and search capabilities.</p>
         </div>
-        <DataTable
+        {/* <DataTable
           columns={columns}
           data={data}
           isLoading={isPending}
@@ -47,6 +33,15 @@ function Roles() {
           onSearchChange={setGlobalFilter}
           enableRowReorder={can("role:edit")}
           onReorder={mutation.mutate}
+        /> */}
+        <DataTable
+          columns={columns}
+          data={data}
+          isLoading={isPending}
+          enableCellEditing
+          callbacks={{
+            onBatchSave: update,
+          }}
         />
       </div>
     </div>

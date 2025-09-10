@@ -1,8 +1,9 @@
 import type { RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
-import type { ColumnDef } from "@tanstack/react-table";
 
 import { Link } from "@tanstack/react-router";
-import { SquareArrowOutUpRight, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
+
+import type { EditableColumnDef } from "@/components/data-table";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,7 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 
 import { ActionDropdown } from "./action-dropdown";
 
-export const columns: ColumnDef<RoleWithMembersCount>[] = [
+export const columns: EditableColumnDef<RoleWithMembersCount>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -35,19 +36,13 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
   {
     accessorKey: "label",
     header: ({ column }) => <SortableHeader column={column} title="Name" />,
-    cell: ({ row }) => (
-      <Button asChild variant="ghost" size="sm" className="font-medium flex items-center justify-between">
-        <Link to="/roles/$name" params={{ name: row.original.name }}>
-          {row.original.label}
-          <SquareArrowOutUpRight />
-        </Link>
-      </Button>
-    ),
+    editable: true,
     size: 250,
   },
   {
     accessorKey: "description",
     header: "Description",
+    editable: true,
     size: 250,
   },
   {
