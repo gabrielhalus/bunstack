@@ -59,7 +59,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
     header: "Roles",
     cell: ({ row }) => (
       <div className="text-muted-foreground overflow-hidden text-ellipsis">
-        { row.original.roles.sort((a, b) => b.level - a.level).map(r => r.label).join(", ") }
+        { row.original.roles.map(r => r.label).join(", ") }
       </div>
     ),
     size: 200,

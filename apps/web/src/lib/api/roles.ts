@@ -18,19 +18,6 @@ export async function getRoleByName(name: string): Promise<RoleWithMembers> {
   return res.json().then(data => data.role);
 }
 
-export async function updateRoleLevel(id: number, level: number): Promise<Role> {
-  const res = await fetchAuthenticated(`/api/roles/${id}/order`, {
-    method: "PUT",
-    body: JSON.stringify({ level }),
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to update role");
-  }
-
-  return res.json().then(data => data.role);
-}
-
 export async function updateRole(id: number, data: Partial<Role>): Promise<Role> {
   const res = await fetchAuthenticated(`/api/roles/${id}`, {
     method: "PUT",
