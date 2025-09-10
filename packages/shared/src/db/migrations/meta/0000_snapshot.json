@@ -161,6 +161,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "index": {
+          "name": "index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "is_default": {
           "name": "is_default",
           "type": "integer",
@@ -197,6 +204,13 @@
           "name": "roles_name_unique",
           "columns": [
             "name"
+          ],
+          "isUnique": true
+        },
+        "roles_index_unique": {
+          "name": "roles_index_unique",
+          "columns": [
+            "index"
           ],
           "isUnique": true
         }

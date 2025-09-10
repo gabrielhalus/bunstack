@@ -42,7 +42,7 @@ export async function getUsers(page: number, limit: number, orderBy?: UserOrderB
   const enrichedUsers = await Promise.all(users.map(async user => ({
     ...user,
     password: undefined,
-    roles: await getUserRoles(user),
+    roles: await getUserRoles(user, { field: "index", direction: "desc" }),
   })));
 
   const { count: total = 0 } = (await db
@@ -71,7 +71,7 @@ export async function getUser<T extends keyof UserUniqueFields>(key: T, value: t
   const enrichedUser = {
     ...user,
     password: keepPassword ? user.password : undefined,
-    roles: await getUserRoles(user),
+    roles: await getUserRoles(user, { field: "index", direction: "desc" }),
   };
 
   return enrichedUser;
@@ -101,7 +101,7 @@ export async function getUserWithContext<T extends keyof UserUniqueFields>(key: 
     return { user: undefined, roles: [], policies: [] };
   }
 
-  const roles = await getUserRoles(user);
+  const roles = await getUserRoles(user, { field: "index", direction: "asc" });
 
   // Assign permissions to each role
   const rolesWithPermissions = await Promise.all(

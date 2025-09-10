@@ -7,7 +7,9 @@ export function can(permission: Permission, user: UserContext, roles: RoleContex
     return true;
   }
 
-  for (const role of roles) {
+  const sortedRoles = [...roles].sort((a, b) => b.index - a.index);
+
+  for (const role of sortedRoles) {
     // Get policies for this role and permission (or global)
     const rolePolicies = policies.filter(p =>
       (p.permission === null || p.permission === permission)

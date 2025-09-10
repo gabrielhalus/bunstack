@@ -13,7 +13,7 @@ export type RoleWithMembersCount = Merge<Role, { members: number }>;
 
 export type RoleWithMembers = Merge<Role, { members: User[] }>;
 
-export type RoleUniqueFields = Pick<Role, "id" | "name">;
+export type RoleUniqueFields = Pick<Role, "id" | "index" | "name">;
 
 export type RoleWithPermissions = Merge<Role, { permissions: Permission[] }>;
 
