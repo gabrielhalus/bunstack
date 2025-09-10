@@ -17,7 +17,7 @@ export default new Hono()
         return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
       }
 
-      const { roles, total } = await getRoles(page, limit);
+      const { roles, total } = await getRoles(page, limit, { field: "index", direction: "desc" });
 
       return c.json({ success: true, roles, total });
     } catch (error) {
