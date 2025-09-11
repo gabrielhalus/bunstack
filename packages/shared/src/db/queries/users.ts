@@ -19,7 +19,7 @@ import { getUserRoles } from "./roles";
  * @returns An object containing an array of users with their roles and the total number of users.
  */
 export async function getUsers(page: number, limit: number, orderBy?: UserOrderBy): Promise<{ users: Array<UserWithRoles>; total: number }> {
-  const offset = (page - 1) * limit;
+  const offset = (page) * limit;
 
   const baseQuery = db.select().from(Users);
 

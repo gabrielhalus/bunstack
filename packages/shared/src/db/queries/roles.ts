@@ -17,7 +17,7 @@ import { Users } from "../schemas/users";
  * @returns An object containing the paginated roles with member counts and the total number of roles.
  */
 export async function getRoles(page: number, limit: number, orderBy?: RoleOrderBy): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
-  const offset = (page - 1) * limit;
+  const offset = (page) * limit;
 
   const baseQuery = db.select().from(Roles);
 
