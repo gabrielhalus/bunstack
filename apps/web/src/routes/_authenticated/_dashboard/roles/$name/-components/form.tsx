@@ -2,8 +2,8 @@ import type { Role } from "@bunstack/shared/db/types/roles";
 
 import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLoaderData } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -11,29 +11,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateRole } from "@/lib/api/roles";
-import { getAllRolesQueryOptions } from "@/lib/queries/roles";
+import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/lib/queries/roles";
 
 export function Form() {
   const queryClient = useQueryClient();
-  const { role } = useLoaderData({ from: "/_authenticated/_dashboard/roles/$name" });
+  const params = useParams({ from: "/_authenticated/_dashboard/roles/$name" });
 
+  const { data } = useQuery(getRoleByNameQueryOptions(params.name));
+  const role = data!.role;
+  
   const mutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Role> }) => updateRole(id, data),
-    onSuccess: (data) => {
-      toast.success("Role successfully updated");
-      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, (queryData) => {
-        if (!queryData?.roles)
-          return queryData;
-
-        return {
-          ...queryData,
-          roles: queryData.roles.map(role =>
-            role.id === data.role.id
-              ? { ...role, ...data.role, members: role.members }
-              : role,
-          ),
-        };
-      });
+    onSuccess: ({ role: data }) => {
+      toast.success(`Role successfully updated`);
+      queryClient.refetchQueries(getAllRolesQueryOptions);
+      queryClient.invalidateQueries({ queryKey: ["get-role-by-name", params.name] });
+      queryClient.invalidateQueries({ queryKey: ["get-roles-paginated"] });
+      form.reset(data);
     },
     onError: () => {
       toast.error("Failed to update role");
