@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name")({
   loader: async ({ params, context }) => {
     const { queryClient } = context;
 
-    const role = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
+    const { role } = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
     return { role, crumb: role.label };
   },
   component: RoleLayout,

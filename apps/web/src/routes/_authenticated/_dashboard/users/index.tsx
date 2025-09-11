@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { DataTable } from "@/components/ui/data-table";
-import { getAllUsersQueryOptions } from "@/lib/queries/users";
+import { getUsersPaginatedQueryOptions } from "@/lib/queries/users";
 
 import { columns } from "./-components/columns";
 
@@ -12,8 +12,20 @@ export const Route = createFileRoute("/_authenticated/_dashboard/users/")({
 });
 
 function Users() {
-  const { isPending, data } = useQuery(getAllUsersQueryOptions);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const { isPending, data } = useQuery(
+    getUsersPaginatedQueryOptions({
+      page: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+    }),
+  );
+
+  const pageCount = data?.total ? Math.ceil(data.total / pagination.pageSize) : 0;
 
   return (
     <div className="w-full py-10 px-10">
@@ -24,11 +36,15 @@ function Users() {
         </div>
         <DataTable
           columns={columns}
-          data={data}
+          data={data?.users}
           isLoading={isPending}
           searchPlaceholder="Search users..."
           searchValue={globalFilter}
           onSearchChange={setGlobalFilter}
+          pagination={pagination}
+          onPaginationChange={setPagination}
+          pageCount={pageCount}
+          manualPagination={true}
         />
       </div>
     </div>

@@ -38,7 +38,7 @@ export function Sidebar() {
         </Tooltip>
       </div>
       <div className="flex p-2 flex-col space-y-1">
-        {data.map(role => (
+        {data.roles.map(role => (
           <Button asChild key={role.id} variant="ghost" className="justify-start">
             <Link to="/roles/$name" params={{ name: role.name }} activeProps={() => ({ className: "bg-muted" })}>
               {role.label}

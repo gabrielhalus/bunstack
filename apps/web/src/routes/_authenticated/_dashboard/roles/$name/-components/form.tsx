@@ -19,17 +19,20 @@ export function Form() {
 
   const mutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Role> }) => updateRole(id, data),
-    onSuccess: (updatedRole) => {
+    onSuccess: (data) => {
       toast.success("Role successfully updated");
-      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, (existingRoles) => {
-        if (!existingRoles)
-          return;
+      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, (queryData) => {
+        if (!queryData?.roles)
+          return queryData;
 
-        return existingRoles.map(role =>
-          role.id === updatedRole.id
-            ? { ...role, ...updatedRole, members: role.members }
-            : role,
-        );
+        return {
+          ...queryData,
+          roles: queryData.roles.map(role =>
+            role.id === data.role.id
+              ? { ...role, ...data.role, members: role.members }
+              : role,
+          ),
+        };
       });
     },
     onError: () => {

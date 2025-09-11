@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { DataTable } from "@/components/ui/data-table";
-import { getAllRolesQueryOptions } from "@/lib/queries/roles";
+import { getRolesPaginatedQueryOptions } from "@/lib/queries/roles";
 
 import { columns } from "./-components/columns";
 
@@ -12,9 +12,19 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
 });
 
 function Roles() {
-  const { isPending, data } = useQuery(getAllRolesQueryOptions);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
+  const { isPending, data } = useQuery(getRolesPaginatedQueryOptions({
+    page: pagination.pageIndex,
+    pageSize: pagination.pageSize
+  }));
+
+  const pageCount = data?.total ? Math.ceil(data.total / pagination.pageSize) : 0;
+  
   return (
     <div className="w-full py-10 px-10">
       <div className="space-y-4">
@@ -24,11 +34,15 @@ function Roles() {
         </div>
         <DataTable
           columns={columns}
-          data={data}
+          data={data?.roles}
           isLoading={isPending}
           searchPlaceholder="Search roles..."
           searchValue={globalFilter}
           onSearchChange={setGlobalFilter}
+          pagination={pagination}
+          onPaginationChange={setPagination}
+          pageCount={pageCount}
+          manualPagination={true}
         />
       </div>
     </div>
