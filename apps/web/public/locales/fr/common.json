@@ -15,7 +15,9 @@
     "previous": "Précédent",
     "back": "Retour",
     "home": "Accueil",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "pages": "Pages",
+    "settings": "Administration"
   },
   "status": {
     "loading": "Chargement...",

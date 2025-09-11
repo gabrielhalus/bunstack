@@ -6,9 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/_authenticated/_dashboard")({
-  loader: () => ({
-    crumb: "Home",
-  }),
+  loader: () => {
+    return {
+      crumb: "pages.home",
+    };
+  },
   component: DashboardLayout,
 });
 

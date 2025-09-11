@@ -15,7 +15,9 @@
     "previous": "Previous",
     "back": "Back",
     "home": "Home",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "pages": "Pages",
+    "settings": "Admin Panel"
   },
   "status": {
     "loading": "Loading...",

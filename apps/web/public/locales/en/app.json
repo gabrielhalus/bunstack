@@ -2,7 +2,7 @@
   "name": "Bunstack.",
   "description": "BHVR Starter Kit",
   "pages": {
-    "home": "Home",
+    "home": "Bunstack",
     "users": "Users",
     "roles": "Roles"
   }

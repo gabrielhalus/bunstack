@@ -17,7 +17,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const data = useMemo(() => ({
     navMain: [
       {
-        title: "Home",
+        title: t("pages.home"),
         icon: Home,
         href: { to: "/" } as const,
       },
@@ -25,20 +25,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navSettings: [
       ...(can("user:list")
         ? [{
-            title: "Users",
+            title: t("pages.users"),
             icon: UsersRound,
             href: { to: "/users" } as const,
           }]
         : []),
       ...(can("role:list")
         ? [{
-            title: "Roles",
+            title: t("pages.roles"),
             icon: ShieldUser,
             href: { to: "/roles" } as const,
           }]
         : []),
     ],
-  }), [can]);
+  }), [t, can]);
 
   return (
     <Sidebar collapsible="icon" {...props}>
