@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { deleteRole } from "@/lib/api/roles";
-import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 import sayno from "@/lib/sayno";
 
 export function ActionDropdown({ row }: { row: Row<Role> }) {
@@ -22,12 +21,9 @@ export function ActionDropdown({ row }: { row: Row<Role> }) {
   const mutation = useMutation({
     mutationFn: deleteRole,
     onError: () => toast.error("Failed to delete role"),
-    onSuccess: (deletedRole) => {
+    onSuccess: () => {
       toast.success("User deleted successfully");
-
-      queryClient.setQueryData(getAllRolesQueryOptions.queryKey, (existingRoles) => {
-        return existingRoles?.filter(r => r.id !== deletedRole.id) ?? [];
-      });
+      queryClient.refetchQueries({ queryKey: ["get-roles-paginated"] });
     },
   });
 

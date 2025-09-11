@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { deleteUser } from "@/lib/api/users";
-import { getAllUsersQueryOptions } from "@/lib/queries/users";
 import sayno from "@/lib/sayno";
 
 export function ActionDropdown({ row }: { row: Row<User> }) {
@@ -21,12 +20,9 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
   const mutation = useMutation({
     mutationFn: deleteUser,
     onError: () => toast.error("Failed to delete user"),
-    onSuccess: (deletedUser) => {
+    onSuccess: () => {
       toast.success("User deleted successfully");
-
-      queryClient.setQueryData(getAllUsersQueryOptions.queryKey, (existingUsers) => {
-        return existingUsers?.filter(u => u.id !== deletedUser.id) ?? [];
-      });
+      queryClient.refetchQueries({ queryKey: ["get-users-paginated"] });
     },
   });
 
