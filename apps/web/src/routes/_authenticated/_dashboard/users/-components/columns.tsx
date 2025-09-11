@@ -43,7 +43,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
               .join("")}
           </AvatarFallback>
         </Avatar>
-        <div className="font-medium">{row.getValue("name")}</div>
+        <div className="text-foreground">{row.getValue("name")}</div>
       </div>
     ),
     size: 250,

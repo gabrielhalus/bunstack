@@ -200,6 +200,7 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell 
+                      className="text-muted-foreground"
                       key={cell.id}
                       style={{
                         width: cell.column.columnDef.size,
