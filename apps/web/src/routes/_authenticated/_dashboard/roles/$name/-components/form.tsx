@@ -19,7 +19,7 @@ export function Form() {
 
   const { data } = useQuery(getRoleByNameQueryOptions(params.name));
   const role = data!.role;
-  
+
   const mutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Role> }) => updateRole(id, data),
     onSuccess: ({ role: data }) => {
@@ -27,6 +27,7 @@ export function Form() {
       queryClient.refetchQueries(getAllRolesQueryOptions);
       queryClient.invalidateQueries({ queryKey: ["get-role-by-name", params.name] });
       queryClient.invalidateQueries({ queryKey: ["get-roles-paginated"] });
+      // eslint-disable-next-line ts/no-use-before-define
       form.reset(data);
     },
     onError: () => {
@@ -42,6 +43,7 @@ export function Form() {
       label: role.label,
       description: role.description,
     },
+
     onSubmit: async ({ value }) => mutation.mutate({ id: role.id, data: value }),
   });
 

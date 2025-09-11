@@ -12,14 +12,14 @@ export async function getAllRoles(): Promise<{ roles: RoleWithMembersCount[]; to
   return res.json();
 }
 
-export async function getRolesPaginated({ 
-  page = 0, 
+export async function getRolesPaginated({
+  page = 0,
   pageSize = 10,
   sortField,
   sortDirection,
-  search
-}: { 
-  page?: number; 
+  search,
+}: {
+  page?: number;
   pageSize?: number;
   sortField?: string;
   sortDirection?: "asc" | "desc";
@@ -37,7 +37,7 @@ export async function getRolesPaginated({
   if (sortDirection) {
     params.append("sortDirection", sortDirection);
   }
-  
+
   // Add search parameter if provided
   if (search) {
     params.append("search", search);

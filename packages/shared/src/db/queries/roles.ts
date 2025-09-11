@@ -21,10 +21,12 @@ export async function getRoles(page: number, limit: number, orderBy?: RoleOrderB
   const offset = (page) * limit;
 
   // Build search conditions
-  const searchConditions = search ? or(
-    like(Roles.name, `%${search}%`),
-    like(Roles.description, `%${search}%`)
-  ) : undefined;
+  const searchConditions = search
+    ? or(
+        like(Roles.name, `%${search}%`),
+        like(Roles.description, `%${search}%`),
+      )
+    : undefined;
 
   const baseQuery = db.select().from(Roles).where(searchConditions);
 

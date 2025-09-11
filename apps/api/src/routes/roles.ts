@@ -14,14 +14,14 @@ export default new Hono()
 
       const page = params.page ? Number(params.page) : 0;
       const pageSize = params.pageSize ? Number(params.pageSize) : Number.MAX_SAFE_INTEGER;
-      
+
       // Add sorting parameters
       const sortField = params.sortField || "index";
       const sortDirection = params.sortDirection || "desc";
-      
+
       // Add search parameter
       const search = params.search;
-      
+
       if (Number.isNaN(page) || page < 0 || Number.isNaN(pageSize) || pageSize < 1) {
         return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
       }
@@ -31,9 +31,9 @@ export default new Hono()
         return c.json({ success: false, error: "Invalid sort direction" }, 400);
       }
 
-      const { roles, total } = await getRoles(page, pageSize, { 
-        field: sortField as keyof Role, 
-        direction: sortDirection as "asc" | "desc" 
+      const { roles, total } = await getRoles(page, pageSize, {
+        field: sortField as keyof Role,
+        direction: sortDirection as "asc" | "desc",
       }, search);
 
       return c.json({ success: true, roles, total });

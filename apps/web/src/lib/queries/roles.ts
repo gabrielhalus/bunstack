@@ -8,14 +8,14 @@ export const getAllRolesQueryOptions = queryOptions({
   staleTime: 1000 * 60 * 5,
 });
 
-export const getRolesPaginatedQueryOptions = ({ 
-  page, 
-  pageSize, 
-  sortField, 
+export const getRolesPaginatedQueryOptions = ({
+  page,
+  pageSize,
+  sortField,
   sortDirection,
-  search
-}: { 
-  page?: number; 
+  search,
+}: {
+  page?: number;
   pageSize?: number;
   sortField?: string;
   sortDirection?: "asc" | "desc";
