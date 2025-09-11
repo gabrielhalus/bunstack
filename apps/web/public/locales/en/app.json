@@ -1,4 +1,9 @@
 {
   "name": "Bunstack.",
-  "description": "BHVR Starter Kit"
+  "description": "BHVR Starter Kit",
+  "pages": {
+    "home": "Home",
+    "users": "Users",
+    "roles": "Roles"
+  }
 }

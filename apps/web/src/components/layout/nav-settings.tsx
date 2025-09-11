@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react";
 
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuAction, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
 
-export function NavMain({ items }: { items: { title: string; icon: LucideIcon; href: LinkOptions; items?: { title: string; href: LinkOptions }[] }[] }) {
+export function NavSettings({ items }: { items: { title: string; icon: LucideIcon; href: LinkOptions; items?: { title: string; href: LinkOptions }[] }[] }) {
   const location = useLocation();
   const isActive = (href: LinkOptions["to"]) => location.pathname === href;
 
@@ -17,7 +17,7 @@ export function NavMain({ items }: { items: { title: string; icon: LucideIcon; h
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Pages</SidebarGroupLabel>
+      <SidebarGroupLabel>Settings</SidebarGroupLabel>
       <SidebarMenu>
         {items.map(item => (
           <Collapsible key={item.title} asChild defaultOpen={isActive(item.href.to)}>

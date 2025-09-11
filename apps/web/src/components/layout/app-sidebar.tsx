@@ -4,10 +4,11 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { NavMain } from "@/components/layout/nav-main";
-import { NavSecondary } from "@/components/layout/nav-secondary";
 import { NavUser } from "@/components/layout/nav-user";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";
+
+import { NavSettings } from "./nav-settings";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { can } = useAuth();
@@ -20,6 +21,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Home,
         href: { to: "/" } as const,
       },
+    ],
+    navSettings: [
       ...(can("user:list")
         ? [{
             title: "Users",
@@ -35,7 +38,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }]
         : []),
     ],
-    navSecondary: [],
   }), [can]);
 
   return (
@@ -56,11 +58,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <NavMain items={data.navMain} />
       </SidebarHeader>
+
       <SidebarContent>
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={data.navMain} />
+        <NavSettings items={data.navSettings} />
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
