@@ -11,13 +11,13 @@ export default new Hono()
   .get("/", requirePermission("role:list"), async (c) => {
     try {
       const page = Number(c.req.query("page") ?? "1");
-      const limit = Number(c.req.query("limit") ?? "25");
+      const pageSize = Number(c.req.query("pageSize") ?? "25");
 
-      if (Number.isNaN(page) || page < 1 || Number.isNaN(limit) || limit < 1) {
+      if (Number.isNaN(page) || page < 0 || Number.isNaN(pageSize) || pageSize < 1) {
         return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
       }
 
-      const { roles, total } = await getRoles(page, limit, { field: "index", direction: "desc" });
+      const { roles, total } = await getRoles(page, pageSize, { field: "index", direction: "desc" });
 
       return c.json({ success: true, roles, total });
     } catch (error) {
