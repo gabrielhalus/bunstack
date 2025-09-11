@@ -10,9 +10,11 @@ export default new Hono()
 
   .get("/", requirePermission("role:list"), async (c) => {
     try {
-      const page = Number(c.req.query("page") ?? "1");
-      const pageSize = Number(c.req.query("pageSize") ?? "25");
+      const params = c.req.query();
 
+      const page = params.page ? Number(params.page) : 0;
+      const pageSize = params.pageSize ? Number(params.pageSize) : Number.MAX_SAFE_INTEGER;
+      
       if (Number.isNaN(page) || page < 0 || Number.isNaN(pageSize) || pageSize < 1) {
         return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
       }
