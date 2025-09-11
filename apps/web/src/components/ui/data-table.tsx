@@ -31,6 +31,7 @@ interface DataTableProps<TData, TValue> {
   searchPlaceholder?: string
   onSearchChange?: (value: string) => void
   searchValue?: string
+  searchInputRef?: React.RefObject<HTMLInputElement | null>
   pageCount?: number
   pagination?: {
     pageIndex: number
@@ -38,6 +39,12 @@ interface DataTableProps<TData, TValue> {
   }
   onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void
   manualPagination?: boolean
+  // Add sorting props
+  sorting?: SortingState
+  onSortingChange?: (sorting: SortingState) => void
+  manualSorting?: boolean
+  // Add search props
+  manualFiltering?: boolean
 }
 
 function TableSkeleton({ columns }: { columns: ColumnDef<any, any>[] }) {
@@ -63,10 +70,17 @@ export function DataTable<TData, TValue>({
   searchPlaceholder = "Search...",
   onSearchChange,
   searchValue = "",
+  searchInputRef: externalSearchInputRef,
   pageCount,
   pagination: externalPagination,
   onPaginationChange,
   manualPagination = false,
+  // Add sorting props
+  sorting: externalSorting,
+  onSortingChange,
+  manualSorting = false,
+  // Add search props
+  manualFiltering = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -77,7 +91,19 @@ export function DataTable<TData, TValue>({
     pageSize: 10,
   })
 
+  const internalSearchInputRef = React.useRef<HTMLInputElement>(null)
+  const searchInputRef = externalSearchInputRef || internalSearchInputRef
+
+  React.useEffect(() => {
+    if (isLoading || (!isLoading && searchValue)) {
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 0)
+    }
+  }, [isLoading, searchValue])
+
   const currentPagination = externalPagination || internalPagination
+  const currentSorting = externalSorting || sorting
   const handlePaginationChange = React.useCallback(
     (updaterOrValue: any) => {
       const newPagination = typeof updaterOrValue === 'function' 
@@ -93,6 +119,21 @@ export function DataTable<TData, TValue>({
     [currentPagination, onPaginationChange]
   )
 
+  const handleSortingChange = React.useCallback(
+    (updaterOrValue: any) => {
+      const newSorting = typeof updaterOrValue === 'function' 
+        ? updaterOrValue(currentSorting) 
+        : updaterOrValue
+      
+      if (onSortingChange) {
+        onSortingChange(newSorting)
+      } else {
+        setSorting(newSorting)
+      }
+    },
+    [currentSorting, onSortingChange]
+  )
+
   const rows = React.useMemo(() => {
     return data || []
   }, [data])
@@ -105,7 +146,7 @@ export function DataTable<TData, TValue>({
       maxSize: undefined,
       minSize: undefined,
     },
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -115,9 +156,11 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
     onPaginationChange: handlePaginationChange,
     manualPagination,
+    manualSorting,
+    manualFiltering,
     pageCount: pageCount || (data ? Math.ceil(data.length / currentPagination.pageSize) : 0),
     state: {
-      sorting,
+      sorting: currentSorting,
       columnFilters,
       columnVisibility,
       rowSelection,
@@ -132,6 +175,7 @@ export function DataTable<TData, TValue>({
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
+              ref={searchInputRef}
               placeholder={searchPlaceholder}
               value={searchValue}
               onChange={(event) => onSearchChange?.(event.target.value)}

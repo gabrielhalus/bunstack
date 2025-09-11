@@ -12,11 +12,21 @@ export async function getAllUsers(): Promise<{ users: UserWithRoles[]; total: nu
   return await res.json();
 }
 
-export async function getUsersPaginated({ page = 0, pageSize = 10 }: { page?: number; pageSize?: number }): Promise<{ users: UserWithRoles[]; total: number }> {
+export async function getUsersPaginated({ page = 0, pageSize = 10, search, sortField, sortDirection }: { page?: number; pageSize?: number; search?: string; sortField?: string; sortDirection?: "asc" | "desc" }): Promise<{ users: UserWithRoles[]; total: number }> {
   const params = new URLSearchParams({
     page: page.toString(),
     pageSize: pageSize.toString(),
   });
+
+  if (search) {
+    params.append("search", search);
+  }
+  if (sortField) {
+    params.append("sortField", sortField);
+  }
+  if (sortDirection) {
+    params.append("sortDirection", sortDirection);
+  }
 
   const res = await fetchAuthenticated(`/api/users?${params}`);
   if (!res.ok) {

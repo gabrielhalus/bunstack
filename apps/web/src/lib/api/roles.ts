@@ -12,11 +12,36 @@ export async function getAllRoles(): Promise<{ roles: RoleWithMembersCount[]; to
   return res.json();
 }
 
-export async function getRolesPaginated({ page = 0, pageSize = 10 }: { page?: number; pageSize?: number }): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
+export async function getRolesPaginated({ 
+  page = 0, 
+  pageSize = 10,
+  sortField,
+  sortDirection,
+  search
+}: { 
+  page?: number; 
+  pageSize?: number;
+  sortField?: string;
+  sortDirection?: "asc" | "desc";
+  search?: string;
+}): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
   const params = new URLSearchParams({
     page: page.toString(),
     pageSize: pageSize.toString(),
   });
+
+  // Add sorting parameters if provided
+  if (sortField) {
+    params.append("sortField", sortField);
+  }
+  if (sortDirection) {
+    params.append("sortDirection", sortDirection);
+  }
+  
+  // Add search parameter if provided
+  if (search) {
+    params.append("search", search);
+  }
 
   const res = await fetchAuthenticated(`/api/roles?${params}`);
 
