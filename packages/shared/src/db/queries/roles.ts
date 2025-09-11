@@ -1,4 +1,4 @@
-import { asc, count, desc, eq, inArray } from "drizzle-orm";
+import { asc, count, desc, eq, inArray, like, or } from "drizzle-orm";
 
 import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 import type { User } from "../types/users";
@@ -14,12 +14,19 @@ import { Users } from "../schemas/users";
  * @param page - The current page number (1-based).
  * @param limit - Maximum number of roles to return per page.
  * @param orderBy - Optional ordering criteria for the roles.
+ * @param search - Optional search term to filter roles by name or description.
  * @returns An object containing the paginated roles with member counts and the total number of roles.
  */
-export async function getRoles(page: number, limit: number, orderBy?: RoleOrderBy): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
+export async function getRoles(page: number, limit: number, orderBy?: RoleOrderBy, search?: string): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
   const offset = (page) * limit;
 
-  const baseQuery = db.select().from(Roles);
+  // Build search conditions
+  const searchConditions = search ? or(
+    like(Roles.name, `%${search}%`),
+    like(Roles.description, `%${search}%`)
+  ) : undefined;
+
+  const baseQuery = db.select().from(Roles).where(searchConditions);
 
   const orderedQuery = (() => {
     if (typeof orderBy === "string") {
@@ -47,6 +54,7 @@ export async function getRoles(page: number, limit: number, orderBy?: RoleOrderB
   const { count: total = 0 } = (await db
     .select({ count: count() })
     .from(Roles)
+    .where(searchConditions)
     .get()) ?? {};
 
   return { roles: enrichedRoles, total };

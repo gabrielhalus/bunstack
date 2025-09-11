@@ -1,4 +1,4 @@
-import { asc, count, desc, eq } from "drizzle-orm";
+import { asc, count, desc, eq, like, or } from "drizzle-orm";
 
 import type { Policy } from "../../access/types";
 import type { RoleWithPermissions } from "../types/roles";
@@ -16,12 +16,21 @@ import { getUserRoles } from "./roles";
  * @param page - The page number to retrieve (1-based).
  * @param limit - The number of users to retrieve per page.
  * @param orderBy - Optional ordering criteria for the user.
+ * @param search - Optional search term to filter by name or email.
  * @returns An object containing an array of users with their roles and the total number of users.
  */
-export async function getUsers(page: number, limit: number, orderBy?: UserOrderBy): Promise<{ users: Array<UserWithRoles>; total: number }> {
+export async function getUsers(page: number, limit: number, orderBy?: UserOrderBy, search?: string): Promise<{ users: Array<UserWithRoles>; total: number }> {
   const offset = (page) * limit;
 
-  const baseQuery = db.select().from(Users);
+  // Build search conditions
+  const searchConditions = search
+    ? or(
+        like(Users.name, `%${search}%`),
+        like(Users.email, `%${search}%`),
+      )
+    : undefined;
+
+  const baseQuery = db.select().from(Users).where(searchConditions);
 
   const orderedQuery = (() => {
     if (typeof orderBy === "string") {
@@ -48,6 +57,7 @@ export async function getUsers(page: number, limit: number, orderBy?: UserOrderB
   const { count: total = 0 } = (await db
     .select({ count: count() })
     .from(Users)
+    .where(searchConditions)
     .get()) ?? {};
 
   return { users: enrichedUsers, total };
