@@ -2,7 +2,6 @@ import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/
 import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
 import { insertUserSchema } from "@bunstack/shared/db/types/users";
 import env from "@bunstack/shared/env";
-import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
@@ -17,7 +16,7 @@ export default new Hono()
    * @param c - The context
    * @returns The access token
    */
-  .post("/register", zValidator("json", insertUserSchema), async (c) => {
+  .post("/register", async (c) => {
     const rawUser = await c.req.json();
 
     const user = insertUserSchema.parse(rawUser);
