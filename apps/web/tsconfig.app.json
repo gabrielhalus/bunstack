@@ -11,7 +11,8 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./*"],
-      "@bunstack/shared/*": ["../../../packages/shared/src/*"]
+      "@bunstack/shared/*": ["../../../packages/shared/src/*"],
+      "@bunstack/ui/*": ["../../packages/ui/src/*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,

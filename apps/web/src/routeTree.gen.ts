@@ -8,238 +8,309 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticationRouteRouteImport } from './routes/_authentication/route'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticationRegisterRouteImport } from './routes/_authentication/register'
+import { Route as AuthenticationLoginRouteImport } from './routes/_authentication/login'
+import { Route as AuthenticatedDashboardRouteRouteImport } from './routes/_authenticated/_dashboard/route'
+import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/_dashboard/index'
+import { Route as AuthenticatedDashboardProfileRouteImport } from './routes/_authenticated/_dashboard/profile'
+import { Route as AuthenticatedDashboardUsersRouteRouteImport } from './routes/_authenticated/_dashboard/users/route'
+import { Route as AuthenticatedDashboardRolesRouteRouteImport } from './routes/_authenticated/_dashboard/roles/route'
+import { Route as AuthenticatedDashboardUsersIndexRouteImport } from './routes/_authenticated/_dashboard/users/index'
+import { Route as AuthenticatedDashboardRolesIndexRouteImport } from './routes/_authenticated/_dashboard/roles/index'
+import { Route as AuthenticatedDashboardRolesNameRouteRouteImport } from './routes/_authenticated/_dashboard/roles/$name/route'
+import { Route as AuthenticatedDashboardRolesNameIndexRouteImport } from './routes/_authenticated/_dashboard/roles/$name/index'
+import { Route as AuthenticatedDashboardRolesNamePermissionsRouteImport } from './routes/_authenticated/_dashboard/roles/$name/permissions'
+import { Route as AuthenticatedDashboardRolesNameMembersRouteImport } from './routes/_authenticated/_dashboard/roles/$name/members'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AuthenticationRouteImport } from './routes/_authentication/route'
-import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
-import { Route as AuthenticationRegisterImport } from './routes/_authentication/register'
-import { Route as AuthenticationLoginImport } from './routes/_authentication/login'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/_dashboard/route'
-import { Route as AuthenticatedDashboardIndexImport } from './routes/_authenticated/_dashboard/index'
-import { Route as AuthenticatedDashboardProfileImport } from './routes/_authenticated/_dashboard/profile'
-import { Route as AuthenticatedDashboardUsersRouteImport } from './routes/_authenticated/_dashboard/users/route'
-import { Route as AuthenticatedDashboardRolesRouteImport } from './routes/_authenticated/_dashboard/roles/route'
-import { Route as AuthenticatedDashboardUsersIndexImport } from './routes/_authenticated/_dashboard/users/index'
-import { Route as AuthenticatedDashboardRolesIndexImport } from './routes/_authenticated/_dashboard/roles/index'
-import { Route as AuthenticatedDashboardRolesNameRouteImport } from './routes/_authenticated/_dashboard/roles/$name/route'
-import { Route as AuthenticatedDashboardRolesNameIndexImport } from './routes/_authenticated/_dashboard/roles/$name/index'
-import { Route as AuthenticatedDashboardRolesNamePermissionsImport } from './routes/_authenticated/_dashboard/roles/$name/permissions'
-import { Route as AuthenticatedDashboardRolesNameMembersImport } from './routes/_authenticated/_dashboard/roles/$name/members'
-
-// Create/Update Routes
-
-const AuthenticationRouteRoute = AuthenticationRouteImport.update({
+const AuthenticationRouteRoute = AuthenticationRouteRouteImport.update({
   id: '/_authentication',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthenticatedRouteRoute = AuthenticatedRouteImport.update({
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthenticationRegisterRoute = AuthenticationRegisterImport.update({
+const AuthenticationRegisterRoute = AuthenticationRegisterRouteImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => AuthenticationRouteRoute,
 } as any)
-
-const AuthenticationLoginRoute = AuthenticationLoginImport.update({
+const AuthenticationLoginRoute = AuthenticationLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthenticationRouteRoute,
 } as any)
-
 const AuthenticatedDashboardRouteRoute =
-  AuthenticatedDashboardRouteImport.update({
+  AuthenticatedDashboardRouteRouteImport.update({
     id: '/_dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-
 const AuthenticatedDashboardIndexRoute =
-  AuthenticatedDashboardIndexImport.update({
+  AuthenticatedDashboardIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-
 const AuthenticatedDashboardProfileRoute =
-  AuthenticatedDashboardProfileImport.update({
+  AuthenticatedDashboardProfileRouteImport.update({
     id: '/profile',
     path: '/profile',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-
 const AuthenticatedDashboardUsersRouteRoute =
-  AuthenticatedDashboardUsersRouteImport.update({
+  AuthenticatedDashboardUsersRouteRouteImport.update({
     id: '/users',
     path: '/users',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-
 const AuthenticatedDashboardRolesRouteRoute =
-  AuthenticatedDashboardRolesRouteImport.update({
+  AuthenticatedDashboardRolesRouteRouteImport.update({
     id: '/roles',
     path: '/roles',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-
 const AuthenticatedDashboardUsersIndexRoute =
-  AuthenticatedDashboardUsersIndexImport.update({
+  AuthenticatedDashboardUsersIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardUsersRouteRoute,
   } as any)
-
 const AuthenticatedDashboardRolesIndexRoute =
-  AuthenticatedDashboardRolesIndexImport.update({
+  AuthenticatedDashboardRolesIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRolesRouteRoute,
   } as any)
-
 const AuthenticatedDashboardRolesNameRouteRoute =
-  AuthenticatedDashboardRolesNameRouteImport.update({
+  AuthenticatedDashboardRolesNameRouteRouteImport.update({
     id: '/$name',
     path: '/$name',
     getParentRoute: () => AuthenticatedDashboardRolesRouteRoute,
   } as any)
-
 const AuthenticatedDashboardRolesNameIndexRoute =
-  AuthenticatedDashboardRolesNameIndexImport.update({
+  AuthenticatedDashboardRolesNameIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
   } as any)
-
 const AuthenticatedDashboardRolesNamePermissionsRoute =
-  AuthenticatedDashboardRolesNamePermissionsImport.update({
+  AuthenticatedDashboardRolesNamePermissionsRouteImport.update({
     id: '/permissions',
     path: '/permissions',
     getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
   } as any)
-
 const AuthenticatedDashboardRolesNameMembersRoute =
-  AuthenticatedDashboardRolesNameMembersImport.update({
+  AuthenticatedDashboardRolesNameMembersRouteImport.update({
     id: '/members',
     path: '/members',
     getParentRoute: () => AuthenticatedDashboardRolesNameRouteRoute,
   } as any)
 
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  '/login': typeof AuthenticationLoginRoute
+  '/register': typeof AuthenticationRegisterRoute
+  '/roles': typeof AuthenticatedDashboardRolesRouteRouteWithChildren
+  '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
+  '/profile': typeof AuthenticatedDashboardProfileRoute
+  '/': typeof AuthenticatedDashboardIndexRoute
+  '/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
+  '/roles/': typeof AuthenticatedDashboardRolesIndexRoute
+  '/users/': typeof AuthenticatedDashboardUsersIndexRoute
+  '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
+  '/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
+}
+export interface FileRoutesByTo {
+  '/login': typeof AuthenticationLoginRoute
+  '/register': typeof AuthenticationRegisterRoute
+  '/profile': typeof AuthenticatedDashboardProfileRoute
+  '/': typeof AuthenticatedDashboardIndexRoute
+  '/roles': typeof AuthenticatedDashboardRolesIndexRoute
+  '/users': typeof AuthenticatedDashboardUsersIndexRoute
+  '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
+  '/roles/$name': typeof AuthenticatedDashboardRolesNameIndexRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authentication': typeof AuthenticationRouteRouteWithChildren
+  '/_authenticated/_dashboard': typeof AuthenticatedDashboardRouteRouteWithChildren
+  '/_authentication/login': typeof AuthenticationLoginRoute
+  '/_authentication/register': typeof AuthenticationRegisterRoute
+  '/_authenticated/_dashboard/roles': typeof AuthenticatedDashboardRolesRouteRouteWithChildren
+  '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
+  '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
+  '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/_dashboard/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
+  '/_authenticated/_dashboard/roles/': typeof AuthenticatedDashboardRolesIndexRoute
+  '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
+  '/_authenticated/_dashboard/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
+  '/_authenticated/_dashboard/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
+  '/_authenticated/_dashboard/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/login'
+    | '/register'
+    | '/roles'
+    | '/users'
+    | '/profile'
+    | '/'
+    | '/roles/$name'
+    | '/roles/'
+    | '/users/'
+    | '/roles/$name/members'
+    | '/roles/$name/permissions'
+    | '/roles/$name/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/login'
+    | '/register'
+    | '/profile'
+    | '/'
+    | '/roles'
+    | '/users'
+    | '/roles/$name/members'
+    | '/roles/$name/permissions'
+    | '/roles/$name'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/_authentication'
+    | '/_authenticated/_dashboard'
+    | '/_authentication/login'
+    | '/_authentication/register'
+    | '/_authenticated/_dashboard/roles'
+    | '/_authenticated/_dashboard/users'
+    | '/_authenticated/_dashboard/profile'
+    | '/_authenticated/_dashboard/'
+    | '/_authenticated/_dashboard/roles/$name'
+    | '/_authenticated/_dashboard/roles/'
+    | '/_authenticated/_dashboard/users/'
+    | '/_authenticated/_dashboard/roles/$name/members'
+    | '/_authenticated/_dashboard/roles/$name/permissions'
+    | '/_authenticated/_dashboard/roles/$name/'
+  fileRoutesById: FileRoutesById
+}
+export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthenticationRouteRoute: typeof AuthenticationRouteRouteWithChildren
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedRouteImport
-      parentRoute: typeof rootRoute
-    }
     '/_authentication': {
       id: '/_authentication'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthenticationRouteImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticationRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/_dashboard': {
-      id: '/_authenticated/_dashboard'
+    '/_authenticated': {
+      id: '/_authenticated'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof AuthenticatedRouteImport
-    }
-    '/_authentication/login': {
-      id: '/_authentication/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthenticationLoginImport
-      parentRoute: typeof AuthenticationRouteImport
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authentication/register': {
       id: '/_authentication/register'
       path: '/register'
       fullPath: '/register'
-      preLoaderRoute: typeof AuthenticationRegisterImport
-      parentRoute: typeof AuthenticationRouteImport
+      preLoaderRoute: typeof AuthenticationRegisterRouteImport
+      parentRoute: typeof AuthenticationRouteRoute
     }
-    '/_authenticated/_dashboard/roles': {
-      id: '/_authenticated/_dashboard/roles'
-      path: '/roles'
-      fullPath: '/roles'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteImport
+    '/_authentication/login': {
+      id: '/_authentication/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthenticationLoginRouteImport
+      parentRoute: typeof AuthenticationRouteRoute
     }
-    '/_authenticated/_dashboard/users': {
-      id: '/_authenticated/_dashboard/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthenticatedDashboardUsersRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteImport
-    }
-    '/_authenticated/_dashboard/profile': {
-      id: '/_authenticated/_dashboard/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedDashboardProfileImport
-      parentRoute: typeof AuthenticatedDashboardRouteImport
+    '/_authenticated/_dashboard': {
+      id: '/_authenticated/_dashboard'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedDashboardRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/_dashboard/': {
       id: '/_authenticated/_dashboard/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedDashboardIndexImport
-      parentRoute: typeof AuthenticatedDashboardRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
-    '/_authenticated/_dashboard/roles/$name': {
-      id: '/_authenticated/_dashboard/roles/$name'
-      path: '/$name'
-      fullPath: '/roles/$name'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesNameRouteImport
-      parentRoute: typeof AuthenticatedDashboardRolesRouteImport
+    '/_authenticated/_dashboard/profile': {
+      id: '/_authenticated/_dashboard/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedDashboardProfileRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
-    '/_authenticated/_dashboard/roles/': {
-      id: '/_authenticated/_dashboard/roles/'
-      path: '/'
-      fullPath: '/roles/'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesIndexImport
-      parentRoute: typeof AuthenticatedDashboardRolesRouteImport
+    '/_authenticated/_dashboard/users': {
+      id: '/_authenticated/_dashboard/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedDashboardUsersRouteRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/_dashboard/roles': {
+      id: '/_authenticated/_dashboard/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesRouteRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
     '/_authenticated/_dashboard/users/': {
       id: '/_authenticated/_dashboard/users/'
       path: '/'
       fullPath: '/users/'
-      preLoaderRoute: typeof AuthenticatedDashboardUsersIndexImport
-      parentRoute: typeof AuthenticatedDashboardUsersRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardUsersIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardUsersRouteRoute
     }
-    '/_authenticated/_dashboard/roles/$name/members': {
-      id: '/_authenticated/_dashboard/roles/$name/members'
-      path: '/members'
-      fullPath: '/roles/$name/members'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesNameMembersImport
-      parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
+    '/_authenticated/_dashboard/roles/': {
+      id: '/_authenticated/_dashboard/roles/'
+      path: '/'
+      fullPath: '/roles/'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRolesRouteRoute
     }
-    '/_authenticated/_dashboard/roles/$name/permissions': {
-      id: '/_authenticated/_dashboard/roles/$name/permissions'
-      path: '/permissions'
-      fullPath: '/roles/$name/permissions'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesNamePermissionsImport
-      parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
+    '/_authenticated/_dashboard/roles/$name': {
+      id: '/_authenticated/_dashboard/roles/$name'
+      path: '/$name'
+      fullPath: '/roles/$name'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNameRouteRouteImport
+      parentRoute: typeof AuthenticatedDashboardRolesRouteRoute
     }
     '/_authenticated/_dashboard/roles/$name/': {
       id: '/_authenticated/_dashboard/roles/$name/'
       path: '/'
       fullPath: '/roles/$name/'
-      preLoaderRoute: typeof AuthenticatedDashboardRolesNameIndexImport
-      parentRoute: typeof AuthenticatedDashboardRolesNameRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNameIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRolesNameRouteRoute
+    }
+    '/_authenticated/_dashboard/roles/$name/permissions': {
+      id: '/_authenticated/_dashboard/roles/$name/permissions'
+      path: '/permissions'
+      fullPath: '/roles/$name/permissions'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNamePermissionsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRolesNameRouteRoute
+    }
+    '/_authenticated/_dashboard/roles/$name/members': {
+      id: '/_authenticated/_dashboard/roles/$name/members'
+      path: '/members'
+      fullPath: '/roles/$name/members'
+      preLoaderRoute: typeof AuthenticatedDashboardRolesNameMembersRouteImport
+      parentRoute: typeof AuthenticatedDashboardRolesNameRouteRoute
     }
   }
 }
-
-// Create and export the route tree
 
 interface AuthenticatedDashboardRolesNameRouteRouteChildren {
   AuthenticatedDashboardRolesNameMembersRoute: typeof AuthenticatedDashboardRolesNameMembersRoute
@@ -342,209 +413,10 @@ const AuthenticationRouteRouteChildren: AuthenticationRouteRouteChildren = {
 const AuthenticationRouteRouteWithChildren =
   AuthenticationRouteRoute._addFileChildren(AuthenticationRouteRouteChildren)
 
-export interface FileRoutesByFullPath {
-  '': typeof AuthenticatedDashboardRouteRouteWithChildren
-  '/login': typeof AuthenticationLoginRoute
-  '/register': typeof AuthenticationRegisterRoute
-  '/roles': typeof AuthenticatedDashboardRolesRouteRouteWithChildren
-  '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
-  '/profile': typeof AuthenticatedDashboardProfileRoute
-  '/': typeof AuthenticatedDashboardIndexRoute
-  '/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
-  '/roles/': typeof AuthenticatedDashboardRolesIndexRoute
-  '/users/': typeof AuthenticatedDashboardUsersIndexRoute
-  '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
-  '/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
-  '/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '': typeof AuthenticationRouteRouteWithChildren
-  '/login': typeof AuthenticationLoginRoute
-  '/register': typeof AuthenticationRegisterRoute
-  '/profile': typeof AuthenticatedDashboardProfileRoute
-  '/': typeof AuthenticatedDashboardIndexRoute
-  '/roles': typeof AuthenticatedDashboardRolesIndexRoute
-  '/users': typeof AuthenticatedDashboardUsersIndexRoute
-  '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
-  '/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
-  '/roles/$name': typeof AuthenticatedDashboardRolesNameIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authentication': typeof AuthenticationRouteRouteWithChildren
-  '/_authenticated/_dashboard': typeof AuthenticatedDashboardRouteRouteWithChildren
-  '/_authentication/login': typeof AuthenticationLoginRoute
-  '/_authentication/register': typeof AuthenticationRegisterRoute
-  '/_authenticated/_dashboard/roles': typeof AuthenticatedDashboardRolesRouteRouteWithChildren
-  '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
-  '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
-  '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
-  '/_authenticated/_dashboard/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
-  '/_authenticated/_dashboard/roles/': typeof AuthenticatedDashboardRolesIndexRoute
-  '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
-  '/_authenticated/_dashboard/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
-  '/_authenticated/_dashboard/roles/$name/permissions': typeof AuthenticatedDashboardRolesNamePermissionsRoute
-  '/_authenticated/_dashboard/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | ''
-    | '/login'
-    | '/register'
-    | '/roles'
-    | '/users'
-    | '/profile'
-    | '/'
-    | '/roles/$name'
-    | '/roles/'
-    | '/users/'
-    | '/roles/$name/members'
-    | '/roles/$name/permissions'
-    | '/roles/$name/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | ''
-    | '/login'
-    | '/register'
-    | '/profile'
-    | '/'
-    | '/roles'
-    | '/users'
-    | '/roles/$name/members'
-    | '/roles/$name/permissions'
-    | '/roles/$name'
-  id:
-    | '__root__'
-    | '/_authenticated'
-    | '/_authentication'
-    | '/_authenticated/_dashboard'
-    | '/_authentication/login'
-    | '/_authentication/register'
-    | '/_authenticated/_dashboard/roles'
-    | '/_authenticated/_dashboard/users'
-    | '/_authenticated/_dashboard/profile'
-    | '/_authenticated/_dashboard/'
-    | '/_authenticated/_dashboard/roles/$name'
-    | '/_authenticated/_dashboard/roles/'
-    | '/_authenticated/_dashboard/users/'
-    | '/_authenticated/_dashboard/roles/$name/members'
-    | '/_authenticated/_dashboard/roles/$name/permissions'
-    | '/_authenticated/_dashboard/roles/$name/'
-  fileRoutesById: FileRoutesById
-}
-
-export interface RootRouteChildren {
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthenticationRouteRoute: typeof AuthenticationRouteRouteWithChildren
-}
-
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthenticationRouteRoute: AuthenticationRouteRouteWithChildren,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/_authenticated",
-        "/_authentication"
-      ]
-    },
-    "/_authenticated": {
-      "filePath": "_authenticated/route.tsx",
-      "children": [
-        "/_authenticated/_dashboard"
-      ]
-    },
-    "/_authentication": {
-      "filePath": "_authentication/route.tsx",
-      "children": [
-        "/_authentication/login",
-        "/_authentication/register"
-      ]
-    },
-    "/_authenticated/_dashboard": {
-      "filePath": "_authenticated/_dashboard/route.tsx",
-      "parent": "/_authenticated",
-      "children": [
-        "/_authenticated/_dashboard/roles",
-        "/_authenticated/_dashboard/users",
-        "/_authenticated/_dashboard/profile",
-        "/_authenticated/_dashboard/"
-      ]
-    },
-    "/_authentication/login": {
-      "filePath": "_authentication/login.tsx",
-      "parent": "/_authentication"
-    },
-    "/_authentication/register": {
-      "filePath": "_authentication/register.tsx",
-      "parent": "/_authentication"
-    },
-    "/_authenticated/_dashboard/roles": {
-      "filePath": "_authenticated/_dashboard/roles/route.tsx",
-      "parent": "/_authenticated/_dashboard",
-      "children": [
-        "/_authenticated/_dashboard/roles/$name",
-        "/_authenticated/_dashboard/roles/"
-      ]
-    },
-    "/_authenticated/_dashboard/users": {
-      "filePath": "_authenticated/_dashboard/users/route.tsx",
-      "parent": "/_authenticated/_dashboard",
-      "children": [
-        "/_authenticated/_dashboard/users/"
-      ]
-    },
-    "/_authenticated/_dashboard/profile": {
-      "filePath": "_authenticated/_dashboard/profile.tsx",
-      "parent": "/_authenticated/_dashboard"
-    },
-    "/_authenticated/_dashboard/": {
-      "filePath": "_authenticated/_dashboard/index.tsx",
-      "parent": "/_authenticated/_dashboard"
-    },
-    "/_authenticated/_dashboard/roles/$name": {
-      "filePath": "_authenticated/_dashboard/roles/$name/route.tsx",
-      "parent": "/_authenticated/_dashboard/roles",
-      "children": [
-        "/_authenticated/_dashboard/roles/$name/members",
-        "/_authenticated/_dashboard/roles/$name/permissions",
-        "/_authenticated/_dashboard/roles/$name/"
-      ]
-    },
-    "/_authenticated/_dashboard/roles/": {
-      "filePath": "_authenticated/_dashboard/roles/index.tsx",
-      "parent": "/_authenticated/_dashboard/roles"
-    },
-    "/_authenticated/_dashboard/users/": {
-      "filePath": "_authenticated/_dashboard/users/index.tsx",
-      "parent": "/_authenticated/_dashboard/users"
-    },
-    "/_authenticated/_dashboard/roles/$name/members": {
-      "filePath": "_authenticated/_dashboard/roles/$name/members.tsx",
-      "parent": "/_authenticated/_dashboard/roles/$name"
-    },
-    "/_authenticated/_dashboard/roles/$name/permissions": {
-      "filePath": "_authenticated/_dashboard/roles/$name/permissions.tsx",
-      "parent": "/_authenticated/_dashboard/roles/$name"
-    },
-    "/_authenticated/_dashboard/roles/$name/": {
-      "filePath": "_authenticated/_dashboard/roles/$name/index.tsx",
-      "parent": "/_authenticated/_dashboard/roles/$name"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

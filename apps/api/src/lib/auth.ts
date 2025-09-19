@@ -8,8 +8,8 @@ const SECRET_KEY = env.JWT_SECRET;
 export const ACCESS_TOKEN_EXPIRATION_SECONDS = 60 * 15; // 15 minutes
 export const REFRESH_TOKEN_EXPIRATION_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
-export type JwtPayload =
-  | {
+export type JwtPayload
+  = | {
     sub: string;
     iat: number;
     exp: number;

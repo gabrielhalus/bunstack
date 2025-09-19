@@ -15,6 +15,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@bunstack/shared": path.resolve(__dirname, "../../packages/shared/src"),
+      "@bunstack/ui/": path.resolve(__dirname, "../../packages/ui/src"),
     },
   },
   server: {
