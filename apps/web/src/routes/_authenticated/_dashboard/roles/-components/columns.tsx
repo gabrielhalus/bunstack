@@ -1,13 +1,13 @@
 import type { RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
+import { Button } from "@bunstack/ui/components/button";
+import { Checkbox } from "@bunstack/ui/components/checkbox";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 import { Link } from "@tanstack/react-router";
 import { UserRound } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { SortableHeader } from "@/components/ui/sortable-header";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { SortableHeader } from "@bunstack/ui/components/sortable-header";
 
 import { ActionDropdown } from "./action-dropdown";
 

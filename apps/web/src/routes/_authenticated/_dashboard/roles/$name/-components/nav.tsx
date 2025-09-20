@@ -1,10 +1,9 @@
 import type { RoleWithMembers } from "@bunstack/shared/db/types/roles";
 import type { LinkOptions } from "@tanstack/react-router";
 
+import { Button } from "@bunstack/ui/components/button";
 import { Link, useLoaderData } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-
-import { Button } from "@/components/ui/button";
 
 export function Nav() {
   const { t } = useTranslation("roles");

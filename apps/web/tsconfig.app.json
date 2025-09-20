@@ -12,7 +12,7 @@
     "paths": {
       "@/*": ["./*"],
       "@bunstack/shared/*": ["../../../packages/shared/src/*"],
-      "@bunstack/ui/*": ["../../packages/ui/src/*"]
+      "@bunstack/ui/*": ["../../../packages/ui/src/*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,

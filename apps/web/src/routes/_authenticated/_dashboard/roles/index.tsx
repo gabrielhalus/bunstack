@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from "@bunstack/ui/components/data-table";
 import { debounceSync } from "@/lib/debounce";
 import { getRolesPaginatedQueryOptions } from "@/lib/queries/roles";
 

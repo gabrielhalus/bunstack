@@ -1,11 +1,11 @@
+import { Button } from "@bunstack/ui/components/button";
+import { DropdownMenuItem } from "@bunstack/ui/components/dropdown-menu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Loader2, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { logoutMutationOptions } from "@/lib/queries/auth";
 
 type Variant = "button" | "dropdown";

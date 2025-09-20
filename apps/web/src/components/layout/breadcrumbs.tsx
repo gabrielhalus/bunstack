@@ -1,14 +1,13 @@
-import { Link, useMatches } from "@tanstack/react-router";
-import React from "react";
-import { useTranslation } from "react-i18next";
-
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@bunstack/ui/components/breadcrumb";
+import { Link, useMatches } from "@tanstack/react-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export function Breadcrumbs() {
   const { t } = useTranslation("app");

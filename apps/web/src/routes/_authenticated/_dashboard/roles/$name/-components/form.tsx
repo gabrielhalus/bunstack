@@ -1,15 +1,15 @@
 import type { Role } from "@bunstack/shared/db/types/roles";
 
 import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
+import { Button } from "@bunstack/ui/components/button";
+import { Input } from "@bunstack/ui/components/input";
+import { Label } from "@bunstack/ui/components/label";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { updateRole } from "@/lib/api/roles";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/lib/queries/roles";
 

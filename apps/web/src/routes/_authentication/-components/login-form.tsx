@@ -1,15 +1,15 @@
 import { loginInputSchema, loginOutputSchema } from "@bunstack/shared/contracts/auth";
+import { Button } from "@bunstack/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
+import { Input } from "@bunstack/ui/components/input";
+import { Label } from "@bunstack/ui/components/label";
+import { cn } from "@bunstack/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { login } from "@/lib/api/auth";
-import { cn } from "@/lib/utils";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const navigate = useNavigate();

@@ -8,7 +8,7 @@ export const getAllRolesQueryOptions = queryOptions({
   staleTime: 1000 * 60 * 5,
 });
 
-export const getRolesPaginatedQueryOptions = ({
+export function getRolesPaginatedQueryOptions({
   page,
   pageSize,
   sortField,
@@ -20,16 +20,18 @@ export const getRolesPaginatedQueryOptions = ({
   sortField?: string;
   sortDirection?: "asc" | "desc";
   search?: string;
-}) =>
-  queryOptions({
+}) {
+  return queryOptions({
     queryKey: ["get-roles-paginated", page, pageSize, sortField, sortDirection, search],
     queryFn: () => getRolesPaginated({ page, pageSize, sortField, sortDirection, search }),
     staleTime: 1000 * 60 * 5,
   });
+}
 
-export const getRoleByNameQueryOptions = (name: string) =>
-  queryOptions({
+export function getRoleByNameQueryOptions(name: string) {
+  return queryOptions({
     queryKey: ["get-role-by-name", name],
     queryFn: () => getRoleByName(name),
     staleTime: 1000 * 60 * 5,
   });
+}

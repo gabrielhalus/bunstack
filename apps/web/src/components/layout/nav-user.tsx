@@ -1,12 +1,8 @@
-import { Languages } from "lucide-react";
-import { useTranslation } from "react-i18next";
-
-import { LogoutButton } from "@/components/layout/logout-button";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/ui/avatar";
+} from "@bunstack/ui/components/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,17 +13,20 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@bunstack/ui/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@bunstack/ui/components/sidebar";
+import { Skeleton } from "@bunstack/ui/components/skeleton";
+import { Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import { LogoutButton } from "@/components/layout/logout-button";
 import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
 import { useAuth } from "@/hooks/use-auth";
-
-import { Skeleton } from "../ui/skeleton";
 
 export function NavUser() {
   const { isMobile } = useSidebar();

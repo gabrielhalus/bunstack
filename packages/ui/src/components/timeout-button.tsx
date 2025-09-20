@@ -1,16 +1,19 @@
-import * as React from "react"
-import { motion } from "framer-motion"
-import { Button, type ButtonProps } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { motion } from "framer-motion";
+import * as React from "react";
 
-interface TimeoutButtonProps extends Omit<ButtonProps, "onClick"> {
-  onClick: () => void
-  timeout?: number // in milliseconds
-  onTimeoutStart?: () => void
-  onTimeoutCancel?: () => void
-  onTimeoutComplete?: () => void
-  noExpansion?: boolean
-}
+import type { ButtonProps } from "@bunstack/ui/components/button";
+
+import { Button } from "@bunstack/ui/components/button";
+import { cn } from "@bunstack/ui/lib/utils";
+
+type TimeoutButtonProps = {
+  onClick: () => void;
+  timeout?: number; // in milliseconds
+  onTimeoutStart?: () => void;
+  onTimeoutCancel?: () => void;
+  onTimeoutComplete?: () => void;
+  noExpansion?: boolean;
+} & Omit<ButtonProps, "onClick">;
 
 const TimeoutButton = React.forwardRef<HTMLButtonElement, TimeoutButtonProps>(
   (
@@ -30,56 +33,57 @@ const TimeoutButton = React.forwardRef<HTMLButtonElement, TimeoutButtonProps>(
     },
     ref,
   ) => {
-    const [isActive, setIsActive] = React.useState(false)
-    const [progress, setProgress] = React.useState(0)
-    const [isRunning, setIsRunning] = React.useState(false)
+    const [isActive, setIsActive] = React.useState(false);
+    const [progress, setProgress] = React.useState(0);
+    const [isRunning, setIsRunning] = React.useState(false);
 
     React.useEffect(() => {
-      if (!isRunning) return
+      if (!isRunning)
+        return;
 
-      const startTime = Date.now()
+      const startTime = Date.now();
       const interval = setInterval(() => {
-        const elapsed = Date.now() - startTime
-        const newProgress = Math.min((elapsed / timeout) * 100, 100)
+        const elapsed = Date.now() - startTime;
+        const newProgress = Math.min((elapsed / timeout) * 100, 100);
 
-        setProgress(newProgress)
+        setProgress(newProgress);
 
         if (newProgress >= 100) {
-          setIsActive(true)
-          setIsRunning(false)
-          onTimeoutComplete?.()
-          clearInterval(interval)
+          setIsActive(true);
+          setIsRunning(false);
+          onTimeoutComplete?.();
+          clearInterval(interval);
         }
-      }, 16) // ~60fps
+      }, 16); // ~60fps
 
-      return () => clearInterval(interval)
-    }, [isRunning, timeout, onTimeoutComplete])
+      return () => clearInterval(interval);
+    }, [isRunning, timeout, onTimeoutComplete]);
 
     const handleMouseEnter = () => {
       if (!isRunning && !disabled && !isActive) {
-        setIsRunning(true)
-        setProgress(0)
-        onTimeoutStart?.()
+        setIsRunning(true);
+        setProgress(0);
+        onTimeoutStart?.();
       }
-    }
+    };
 
     const handleMouseLeave = () => {
       if (isRunning && !isActive) {
-        setIsRunning(false)
-        setProgress(0)
-        onTimeoutCancel?.()
+        setIsRunning(false);
+        setProgress(0);
+        onTimeoutCancel?.();
       }
-    }
+    };
 
     const handleClick = () => {
       if (isActive && !disabled) {
-        onClick()
+        onClick();
         // Reset after click
-        setIsActive(false)
-        setProgress(0)
-        setIsRunning(false)
+        setIsActive(false);
+        setProgress(0);
+        setIsRunning(false);
       }
-    }
+    };
 
     return (
       <Button
@@ -110,10 +114,10 @@ const TimeoutButton = React.forwardRef<HTMLButtonElement, TimeoutButtonProps>(
         {/* Button content */}
         <span className="relative z-10 flex items-center gap-2">{children}</span>
       </Button>
-    )
+    );
   },
-)
+);
 
-TimeoutButton.displayName = "TimeoutButton"
+TimeoutButton.displayName = "TimeoutButton";
 
-export { TimeoutButton, type TimeoutButtonProps }
+export { TimeoutButton, type TimeoutButtonProps };

@@ -1,15 +1,15 @@
 import type { User } from "@bunstack/shared/db/types/users";
 import type { Row } from "@tanstack/react-table";
 
+import { Button } from "@bunstack/ui/components/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@bunstack/ui/components/dropdown-menu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, Loader2, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { deleteUser } from "@/lib/api/users";
-import sayno from "@/lib/sayno";
+import sayno from "@bunstack/ui/lib/sayno";
 
 export function ActionDropdown({ row }: { row: Row<User> }) {
   const { can, loading } = useAuth();

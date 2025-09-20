@@ -9,7 +9,6 @@ export default createConfig({
     "@tanstack/query": pluginQuery,
   },
   rules: {
-    "antfu/top-level-function": "off",
     "@tanstack/query/exhaustive-deps": "error",
     "unicorn/filename-case": ["error", {
       case: "kebabCase",

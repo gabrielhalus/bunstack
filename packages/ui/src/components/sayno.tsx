@@ -1,28 +1,29 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { handleDialogResult } from "@/lib/sayno";
 import { useTranslation } from "react-i18next";
 
-interface DialogState {
+import { handleDialogResult } from "@bunstack/ui/lib/sayno";
+import { Button } from "@bunstack/ui/components/button";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@bunstack/ui/components/dialog";
+
+type DialogState = {
   open: boolean;
   options: {
     title?: string;
     description?: string;
     confirmText?: string;
     cancelText?: string;
-    variant?: 'default' | 'destructive';
+    variant?: "default" | "destructive";
   };
   resolve: ((value: boolean) => void) | null;
-}
+};
 
 function Sayno() {
   const { t } = useTranslation();
-  
+
   const [dialogState, setDialogState] = useState<DialogState>({
     open: false,
     options: {},
-    resolve: null
+    resolve: null,
   });
 
   useEffect(() => {
@@ -30,10 +31,10 @@ function Sayno() {
       setDialogState(event.detail);
     };
 
-    window.addEventListener('sayno-update', handleUpdate as EventListener);
-    
+    window.addEventListener("sayno-update", handleUpdate as EventListener);
+
     return () => {
-      window.removeEventListener('sayno-update', handleUpdate as EventListener);
+      window.removeEventListener("sayno-update", handleUpdate as EventListener);
     };
   }, []);
 
@@ -42,7 +43,7 @@ function Sayno() {
     description = t("dialog.confirmDescription"),
     confirmText = t("actions.confirm"),
     cancelText = t("actions.cancel"),
-    variant = 'default'
+    variant = "default",
   } = dialogState.options;
 
   const handleConfirm = () => {
@@ -54,7 +55,7 @@ function Sayno() {
   };
 
   return (
-    <Dialog open={dialogState.open} onOpenChange={(open) => !open && handleCancel()}>
+    <Dialog open={dialogState.open} onOpenChange={open => !open && handleCancel()}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -68,8 +69,8 @@ function Sayno() {
               {cancelText}
             </Button>
           </DialogClose>
-          <Button 
-            variant={variant === 'destructive' ? 'destructive' : 'default'}
+          <Button
+            variant={variant === "destructive" ? "destructive" : "default"}
             onClick={handleConfirm}
           >
             {confirmText}
@@ -77,7 +78,7 @@ function Sayno() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 };
 
 export { Sayno };

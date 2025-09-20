@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "@/*": ["./*"]
-    }
+    "baseUrl": "src"
   },
   "references": [
     { "path": "./tsconfig.app.json" },

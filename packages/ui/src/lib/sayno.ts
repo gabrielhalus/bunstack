@@ -26,7 +26,7 @@ export default (options: ConfirmOptions = {}): Promise<boolean> => {
 };
 
 // Function to handle dialog result
-export const handleDialogResult = (confirmed: boolean) => {
+export function handleDialogResult(confirmed: boolean) {
   if (resolvePromise) {
     resolvePromise(confirmed);
     resolvePromise = null;
@@ -36,11 +36,13 @@ export const handleDialogResult = (confirmed: boolean) => {
   window.dispatchEvent(new CustomEvent("sayno-update", {
     detail: { open: false, options: {}, resolve: null },
   }));
-};
+}
 
 // Export for use in the component
-export const getDialogState = () => ({
-  open: false,
-  options: currentOptions,
-  resolve: resolvePromise,
-});
+export function getDialogState() {
+  return {
+    open: false,
+    options: currentOptions,
+    resolve: resolvePromise,
+  };
+}

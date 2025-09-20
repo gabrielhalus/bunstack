@@ -1,9 +1,10 @@
 import type { UserWithRoles } from "@bunstack/shared/db/types/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Checkbox } from "@/components/ui/checkbox";
-import { SortableHeader } from "@/components/ui/sortable-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
+import { Checkbox } from "@bunstack/ui/components/checkbox";
+
+import { SortableHeader } from "@bunstack/ui/components/sortable-header";
 
 import { ActionDropdown } from "./action-dropdown";
 

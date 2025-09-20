@@ -1,9 +1,9 @@
+import { Button } from "@bunstack/ui/components/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
 export function Sidebar() {

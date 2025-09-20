@@ -1,3 +1,5 @@
 import createConfig from "@bunstack/eslint-config/create-config";
 
-export default createConfig();
+export default createConfig({
+  ignores: ["public/*", ".next/*"],
+});

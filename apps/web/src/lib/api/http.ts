@@ -1,4 +1,4 @@
-export const fetchAuthenticated = async (input: RequestInfo, init?: RequestInit) => {
+export async function fetchAuthenticated(input: RequestInfo, init?: RequestInit) {
   const accessToken = localStorage.getItem("accessToken");
 
   const headers = new Headers(init?.headers || {});
@@ -32,4 +32,4 @@ export const fetchAuthenticated = async (input: RequestInfo, init?: RequestInit)
   }
 
   return res;
-};
+}
