@@ -1,10 +1,10 @@
 import type { SortingState } from "@tanstack/react-table";
 
+import { DataTable } from "@bunstack/ui/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { DataTable } from "@bunstack/ui/components/data-table";
 import { debounceSync } from "@/lib/debounce";
 import { getUsersPaginatedQueryOptions } from "@/lib/queries/users";
 
