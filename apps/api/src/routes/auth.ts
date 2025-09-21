@@ -1,12 +1,16 @@
+import { loginSchema } from "@bunstack/shared/contracts/auth";
 import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
-import { getUser, insertUser } from "@bunstack/shared/db/queries/users";
+import { getUserExists, insertUser } from "@bunstack/shared/db/queries/users";
 import { insertUserSchema } from "@bunstack/shared/db/types/users";
 import env from "@bunstack/shared/env";
+import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
+import z from "zod";
 
 import { getClientInfo } from "@/helpers/get-client-info";
+import { rpcValidator } from "@/helpers/rpc-validator";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
 import { getAuthContext } from "@/middlewares/auth";
 
@@ -57,13 +61,14 @@ export default new Hono()
    * @param c - The context
    * @returns The access token
    */
-  .post("/login", async (c) => {
+  .post("/login", rpcValidator("json", loginSchema), async (c) => {
     const credentials = await c.req.json();
 
     try {
       const userId = await validateUser(credentials);
-      if (!userId)
-        return c.json({ success: false, error: "Invalid credentials" }, 400);
+      if (!userId) {
+        return c.json({ success: false, error: "Invalid credentials" }, 200);
+      }
 
       const { userAgent, ip } = getClientInfo(c);
 
@@ -100,7 +105,7 @@ export default new Hono()
   .post("/refresh", async (c) => {
     const refreshToken = getCookie(c, "refreshToken");
     if (!refreshToken) {
-      return c.json({ success: false, error: "No refresh token provided" }, 401);
+      return c.json({ error: "No refresh token provided" }, 401);
     }
 
     try {
@@ -173,16 +178,12 @@ export default new Hono()
    * @param c - The context
    * @returns Whether the email is available
    */
-  .get("/email-available", async (c) => {
-    const email = c.req.query("email");
-    if (!email) {
-      return c.json({ success: false, error: "Email is required" }, 400);
-    }
-
+  .get("/available", zValidator("query", z.object({ email: z.string().email() })), async (c) => {
     try {
-      const user = await getUser("email", email);
-      const available = !user;
-      return c.json({ success: true, available });
+      const { email } = c.req.valid("query");
+      const exists = await getUserExists("email", email);
+
+      return c.json({ success: true, available: !exists });
     } catch (error) {
       return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }

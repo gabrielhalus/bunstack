@@ -13,7 +13,7 @@ const app = new Hono({ strict: false });
 app.use(logger(), serveEmojiFavicon("🔥"));
 
 // API routes
-app.basePath("/api")
+const _routes = app.basePath("/api")
   .route("/auth", auth)
   .route("/users", users)
   .route("/roles", roles);
@@ -23,3 +23,4 @@ app.use("/*", serveStatic({ root: "../web/dist" }));
 app.use("*", serveStatic({ root: "../web/dist", path: "index.html" }));
 
 export default app;
+export type AppType = typeof _routes;

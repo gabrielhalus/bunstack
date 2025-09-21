@@ -14,20 +14,20 @@ export const getAuthContext = factory.createMiddleware(async (c, next) => {
   const token = c.req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
-    return c.json({ success: false, error: "Unauthorized" }, 401);
+    return c.json({ error: "Unauthorized" }, 401);
   }
 
   let decoded;
   try {
     decoded = await verify(token, env.JWT_SECRET);
   } catch {
-    return c.json({ success: false, error: "Unauthorized" }, 401);
+    return c.json({ error: "Unauthorized" }, 401);
   }
 
   const { user, ...context } = await getUserWithContext("id", decoded.sub as string);
 
   if (!user) {
-    return c.json({ success: false, error: "Unauthorized" }, 401);
+    return c.json({ error: "Unauthorized" }, 401);
   }
 
   c.set("authContext", { user, ...context });
