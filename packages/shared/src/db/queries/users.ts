@@ -87,6 +87,12 @@ export async function getUser<T extends keyof UserUniqueFields>(key: T, value: t
   return enrichedUser;
 }
 
+export async function getUserExists<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<boolean> {
+  const exists = await db.select({ exists: Users[key] }).from(Users).where(eq(Users[key], value)).limit(1);
+
+  return exists.length > 0;
+}
+
 /**
  * Get a user along with their associated roles by its ID, always including the password (for auth).
  *
