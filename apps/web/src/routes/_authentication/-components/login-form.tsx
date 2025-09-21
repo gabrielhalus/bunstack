@@ -1,4 +1,4 @@
-import { loginInputSchema, loginOutputSchema } from "@bunstack/shared/contracts/auth";
+import { loginSchema } from "@bunstack/shared/contracts/auth";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
@@ -18,28 +18,20 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const redirectTo = searchParams.get("redirect") || "/";
 
   const form = useForm({
-    validators: {
-      onChange: loginInputSchema,
-    },
+    validators: { onChange: loginSchema },
     defaultValues: {
       email: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const json = await login(value);
+      const res = await login(value);
 
-      const parsed = loginOutputSchema.safeParse(json);
-      if (!parsed.success) {
-        toast.error("Something went wrong");
-        return;
+      if (res.success) {
+        localStorage.setItem("accessToken", res.accessToken);
+        return navigate({ to: redirectTo });
       }
 
-      if (parsed.data.success) {
-        localStorage.setItem("accessToken", parsed.data.accessToken);
-        navigate({ to: redirectTo });
-      } else {
-        toast.error(parsed.data.error);
-      }
+      toast.error(res.error);
     },
   });
 

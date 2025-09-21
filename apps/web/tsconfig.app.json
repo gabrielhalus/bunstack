@@ -11,6 +11,7 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./*"],
+      "@bunstack/api/*": ["../../api/src/*"],
       "@bunstack/shared/*": ["../../../packages/shared/src/*"],
       "@bunstack/ui/*": ["../../../packages/ui/src/*"]
     },
@@ -18,5 +19,10 @@
     "noEmit": true,
     "skipLibCheck": true
   },
+  "references": [
+    {
+      "path": "../api/tsconfig.json"
+    }
+  ],
   "include": ["src"]
 }

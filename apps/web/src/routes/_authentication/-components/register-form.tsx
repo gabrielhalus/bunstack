@@ -11,13 +11,19 @@ import { toast } from "sonner";
 
 import { register } from "@/lib/api/auth";
 import { debounceAsync } from "@/lib/debounce";
+import { api } from "@/lib/http";
 
 const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
-  const res = await fetch(`/api/auth/email-available?email=${encodeURIComponent(email)}`);
-  const json = await res.json();
+  const res = await api.auth.available.$get({ query: { email } });
 
-  if (!json.available) {
-    return "Email is already taken";
+  if (!res.ok) {
+    return "Failed to check email availability";
+  }
+
+  const resData = await res.json();
+
+  if (!resData.available) {
+    return "Email is already in use";
   }
 }, 500);
 

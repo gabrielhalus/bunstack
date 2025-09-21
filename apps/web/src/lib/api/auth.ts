@@ -4,6 +4,8 @@ import type { User } from "@bunstack/shared/db/types/users";
 
 import { fetchAuthenticated } from "@/lib/api/http";
 
+import { api } from "../http";
+
 export async function getCurrentUser(): Promise<{ user: User; roles: RoleWithPermissions[]; policies: Policy[] }> {
   const accessToken = localStorage.getItem("accessToken");
 
@@ -26,17 +28,17 @@ export async function getCurrentUser(): Promise<{ user: User; roles: RoleWithPer
 }
 
 export async function login(credentials: { email: string; password: string }) {
-  const res = await fetchAuthenticated("/api/auth/login", { method: "POST", body: JSON.stringify(credentials) });
+  const res = await api.auth.login.$post({ json: credentials });
   return res.json();
 }
 
 export async function register(credentials: { name: string; email: string; password: string }) {
-  const res = await fetchAuthenticated("/api/auth/register", { method: "POST", body: JSON.stringify(credentials) });
+  const res = await api.auth.register.$post({ json: credentials });
   return res.json();
 }
 
 export async function logout() {
-  const res = await fetchAuthenticated("/api/auth/logout", { method: "POST" });
+  const res = await api.auth.logout.$post();
 
   if (!res.ok) {
     throw new Error("Failed to logout");
