@@ -1,7 +1,15 @@
 {
-  "nav": {
-    "display": "Affichage",
-    "members": "Gérer les membres ({{count}})",
-    "permissions": "Permissions"
+  "list": {
+    "title": "Gestion des rôles",
+    "subtitle": "Gérez vos rôles avec des capacités de filtrage et de recherche avancées."
+  },
+  "detail": {
+    "title": "Informations du rôle",
+    "subtitle": "Vous pouvez consulter et mettre à jour les détails de ce rôle.",
+    "nav": {
+      "display": "Affichage",
+      "members": "Gérer les membres ({{count}})",
+      "permissions": "Permissions"
+    }
   }
 }

@@ -28,7 +28,10 @@
   "form": {
     "required": "Ce champ est obligatoire",
     "optional": "Optionnel",
-    "invalid": "Saisie invalide"
+    "invalid": "Saisie invalide",
+    "noChanges": "Aucun changement",
+    "save": "Enregistrer",
+    "saving": "Enregistrement en cours..."
   },
   "dialog": {
     "confirmTitle": "Êtes-vous sûr ?",

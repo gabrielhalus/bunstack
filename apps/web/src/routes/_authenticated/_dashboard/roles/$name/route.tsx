@@ -36,7 +36,7 @@ function RoleLayout() {
   return (
     <div className="h-full flex">
       <Sidebar />
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-3xl mx-4">
         <Nav />
         <div className="p-4">
           <Outlet />

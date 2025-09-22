@@ -12,21 +12,21 @@ export function Nav() {
 
   const nav = (role: RoleWithMembers) => [
     {
-      label: t("nav.display"),
+      label: t("detail.nav.display"),
       linkOptions: {
         to: "/roles/$name",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
-      label: t("nav.members", { count: role.members.length }),
+      label: t("detail.nav.members", { count: role.members.length }),
       linkOptions: {
         to: "/roles/$name/members",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
-      label: "Permissions",
+      label: t("detail.nav.permissions"),
       linkOptions: {
         to: "/roles/$name/permissions",
         params: { name: role.name },

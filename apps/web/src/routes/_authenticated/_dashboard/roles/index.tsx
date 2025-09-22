@@ -4,6 +4,7 @@ import { DataTable } from "@bunstack/ui/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { debounceSync } from "@/lib/debounce";
 import { getRolesPaginatedQueryOptions } from "@/lib/queries/roles";
@@ -15,6 +16,8 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
 });
 
 function Roles() {
+  const { t } = useTranslation("roles");
+
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
   const [pagination, setPagination] = useState({ page: 0, pageSize: 10 });
@@ -62,8 +65,8 @@ function Roles() {
     <div className="w-full py-10 px-10">
       <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold">Roles Management</h1>
-          <p className="text-muted-foreground">Manage your roles with advanced filtering and search capabilities.</p>
+          <h1 className="text-3xl font-bold">{t("list.title")}</h1>
+          <p className="text-muted-foreground">{t("list.subtitle")}</p>
         </div>
         <DataTable
           columns={columns}

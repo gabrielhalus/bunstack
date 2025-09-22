@@ -28,7 +28,10 @@
   "form": {
     "required": "This field is required",
     "optional": "Optional",
-    "invalid": "Invalid input"
+    "invalid": "Invalid input",
+    "noChanges": "No changes",
+    "save": "Save",
+    "saving": "Saving..."
   },
   "dialog": {
     "confirmTitle": "Are you sure?",

@@ -11,9 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticationRouteRouteImport } from './routes/_authentication/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthenticationRegisterRouteImport } from './routes/_authentication/register'
-import { Route as AuthenticationLoginRouteImport } from './routes/_authentication/login'
 import { Route as AuthenticatedDashboardRouteRouteImport } from './routes/_authenticated/_dashboard/route'
+import { Route as AuthenticationRegisterIndexRouteImport } from './routes/_authentication/register/index'
+import { Route as AuthenticationLoginIndexRouteImport } from './routes/_authentication/login/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/_dashboard/index'
 import { Route as AuthenticatedDashboardProfileRouteImport } from './routes/_authenticated/_dashboard/profile'
 import { Route as AuthenticatedDashboardUsersRouteRouteImport } from './routes/_authenticated/_dashboard/users/route'
@@ -33,20 +33,22 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticationRegisterRoute = AuthenticationRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => AuthenticationRouteRoute,
-} as any)
-const AuthenticationLoginRoute = AuthenticationLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthenticationRouteRoute,
-} as any)
 const AuthenticatedDashboardRouteRoute =
   AuthenticatedDashboardRouteRouteImport.update({
     id: '/_dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticationRegisterIndexRoute =
+  AuthenticationRegisterIndexRouteImport.update({
+    id: '/register/',
+    path: '/register/',
+    getParentRoute: () => AuthenticationRouteRoute,
+  } as any)
+const AuthenticationLoginIndexRoute =
+  AuthenticationLoginIndexRouteImport.update({
+    id: '/login/',
+    path: '/login/',
+    getParentRoute: () => AuthenticationRouteRoute,
   } as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
@@ -110,12 +112,12 @@ const AuthenticatedDashboardRolesNameMembersRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/login': typeof AuthenticationLoginRoute
-  '/register': typeof AuthenticationRegisterRoute
   '/roles': typeof AuthenticatedDashboardRolesRouteRouteWithChildren
   '/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
+  '/login': typeof AuthenticationLoginIndexRoute
+  '/register': typeof AuthenticationRegisterIndexRoute
   '/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
   '/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/users/': typeof AuthenticatedDashboardUsersIndexRoute
@@ -124,10 +126,10 @@ export interface FileRoutesByFullPath {
   '/roles/$name/': typeof AuthenticatedDashboardRolesNameIndexRoute
 }
 export interface FileRoutesByTo {
-  '/login': typeof AuthenticationLoginRoute
-  '/register': typeof AuthenticationRegisterRoute
   '/profile': typeof AuthenticatedDashboardProfileRoute
   '/': typeof AuthenticatedDashboardIndexRoute
+  '/login': typeof AuthenticationLoginIndexRoute
+  '/register': typeof AuthenticationRegisterIndexRoute
   '/roles': typeof AuthenticatedDashboardRolesIndexRoute
   '/users': typeof AuthenticatedDashboardUsersIndexRoute
   '/roles/$name/members': typeof AuthenticatedDashboardRolesNameMembersRoute
@@ -139,12 +141,12 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authentication': typeof AuthenticationRouteRouteWithChildren
   '/_authenticated/_dashboard': typeof AuthenticatedDashboardRouteRouteWithChildren
-  '/_authentication/login': typeof AuthenticationLoginRoute
-  '/_authentication/register': typeof AuthenticationRegisterRoute
   '/_authenticated/_dashboard/roles': typeof AuthenticatedDashboardRolesRouteRouteWithChildren
   '/_authenticated/_dashboard/users': typeof AuthenticatedDashboardUsersRouteRouteWithChildren
   '/_authenticated/_dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/_dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authentication/login/': typeof AuthenticationLoginIndexRoute
+  '/_authentication/register/': typeof AuthenticationRegisterIndexRoute
   '/_authenticated/_dashboard/roles/$name': typeof AuthenticatedDashboardRolesNameRouteRouteWithChildren
   '/_authenticated/_dashboard/roles/': typeof AuthenticatedDashboardRolesIndexRoute
   '/_authenticated/_dashboard/users/': typeof AuthenticatedDashboardUsersIndexRoute
@@ -155,12 +157,12 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/login'
-    | '/register'
     | '/roles'
     | '/users'
     | '/profile'
     | '/'
+    | '/login'
+    | '/register'
     | '/roles/$name'
     | '/roles/'
     | '/users/'
@@ -169,10 +171,10 @@ export interface FileRouteTypes {
     | '/roles/$name/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/login'
-    | '/register'
     | '/profile'
     | '/'
+    | '/login'
+    | '/register'
     | '/roles'
     | '/users'
     | '/roles/$name/members'
@@ -183,12 +185,12 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_authentication'
     | '/_authenticated/_dashboard'
-    | '/_authentication/login'
-    | '/_authentication/register'
     | '/_authenticated/_dashboard/roles'
     | '/_authenticated/_dashboard/users'
     | '/_authenticated/_dashboard/profile'
     | '/_authenticated/_dashboard/'
+    | '/_authentication/login/'
+    | '/_authentication/register/'
     | '/_authenticated/_dashboard/roles/$name'
     | '/_authenticated/_dashboard/roles/'
     | '/_authenticated/_dashboard/users/'
@@ -218,26 +220,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authentication/register': {
-      id: '/_authentication/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof AuthenticationRegisterRouteImport
-      parentRoute: typeof AuthenticationRouteRoute
-    }
-    '/_authentication/login': {
-      id: '/_authentication/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthenticationLoginRouteImport
-      parentRoute: typeof AuthenticationRouteRoute
-    }
     '/_authenticated/_dashboard': {
       id: '/_authenticated/_dashboard'
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedDashboardRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authentication/register/': {
+      id: '/_authentication/register/'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthenticationRegisterIndexRouteImport
+      parentRoute: typeof AuthenticationRouteRoute
+    }
+    '/_authentication/login/': {
+      id: '/_authentication/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthenticationLoginIndexRouteImport
+      parentRoute: typeof AuthenticationRouteRoute
     }
     '/_authenticated/_dashboard/': {
       id: '/_authenticated/_dashboard/'
@@ -401,13 +403,13 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface AuthenticationRouteRouteChildren {
-  AuthenticationLoginRoute: typeof AuthenticationLoginRoute
-  AuthenticationRegisterRoute: typeof AuthenticationRegisterRoute
+  AuthenticationLoginIndexRoute: typeof AuthenticationLoginIndexRoute
+  AuthenticationRegisterIndexRoute: typeof AuthenticationRegisterIndexRoute
 }
 
 const AuthenticationRouteRouteChildren: AuthenticationRouteRouteChildren = {
-  AuthenticationLoginRoute: AuthenticationLoginRoute,
-  AuthenticationRegisterRoute: AuthenticationRegisterRoute,
+  AuthenticationLoginIndexRoute: AuthenticationLoginIndexRoute,
+  AuthenticationRegisterIndexRoute: AuthenticationRegisterIndexRoute,
 }
 
 const AuthenticationRouteRouteWithChildren =

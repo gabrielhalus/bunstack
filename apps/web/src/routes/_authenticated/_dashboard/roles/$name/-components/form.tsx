@@ -8,12 +8,15 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { updateRole } from "@/lib/api/roles";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/lib/queries/roles";
 
 export function Form() {
+  const { t } = useTranslation("common");
+
   const queryClient = useQueryClient();
   const params = useParams({ from: "/_authenticated/_dashboard/roles/$name" });
 
@@ -116,10 +119,10 @@ export function Form() {
                   ? (
                       <span className="flex items-center space-x-2">
                         <Loader2 className="size-4 animate-spin" />
-                        Saving...
+                        {t("form.saving")}
                       </span>
                     )
-                  : isDefaultValue ? (<span>No changes to save</span>) : (<span>Save changes</span>) }
+                  : isDefaultValue ? t("form.noChanges") : t("form.save") }
               </Button>
             </>
           )}

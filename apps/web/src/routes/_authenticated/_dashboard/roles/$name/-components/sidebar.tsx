@@ -3,10 +3,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
 
 export function Sidebar() {
+  const { t } = useTranslation("common");
   const { isPending, isError, data } = useQuery(getAllRolesQueryOptions);
 
   if (isPending) {
@@ -23,7 +25,7 @@ export function Sidebar() {
         <Button variant="link" asChild>
           <Link to="/roles">
             <ArrowLeft />
-            Retour
+            {t("navigation.back")}
           </Link>
         </Button>
         <Tooltip>
