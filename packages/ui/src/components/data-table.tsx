@@ -33,10 +33,10 @@ type DataTableProps<TData, TValue> = {
   searchInputRef?: React.RefObject<HTMLInputElement | null>;
   pageCount?: number;
   pagination?: {
-    pageIndex: number;
+    page: number;
     pageSize: number;
   };
-  onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
+  onPaginationChange?: (pagination: { page: number; pageSize: number }) => void;
   manualPagination?: boolean;
   // Add sorting props
   sorting?: SortingState;
@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [internalPagination, setInternalPagination] = React.useState({
-    pageIndex: 0,
+    page: 0,
     pageSize: 10,
   });
 
@@ -311,7 +311,7 @@ export function DataTable<TData, TValue>({
                 <p className="text-sm font-medium">
                   Page
                   {" "}
-                  {currentPagination.pageIndex + 1}
+                  {currentPagination.page + 1}
                   {" "}
                   of
                   {" "}
