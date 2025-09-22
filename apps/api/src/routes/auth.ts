@@ -1,18 +1,16 @@
-import { loginSchema } from "@bunstack/shared/contracts/auth";
+import { Constants } from "@bunstack/shared/constants";
+import { availableSchema, loginSchema, registerSchema } from "@bunstack/shared/contracts/auth";
 import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
 import { getUserExists, insertUser } from "@bunstack/shared/db/queries/users";
-import { insertUserSchema } from "@bunstack/shared/db/types/users";
 import env from "@bunstack/shared/env";
-import { zValidator } from "@hono/zod-validator";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
-import z from "zod";
 
 import { getClientInfo } from "@/helpers/get-client-info";
-import { rpcValidator } from "@/helpers/rpc-validator";
 import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
 import { getAuthContext } from "@/middlewares/auth";
+import { validationMiddleware } from "@/middlewares/validation";
 
 export default new Hono()
   /**
@@ -20,10 +18,8 @@ export default new Hono()
    * @param c - The context
    * @returns The access token
    */
-  .post("/register", async (c) => {
-    const rawUser = await c.req.json();
-
-    const user = insertUserSchema.parse(rawUser);
+  .post("/register", validationMiddleware("json", registerSchema), async (c) => {
+    const user = c.req.valid("json");
     const hashedPassword = await password.hash(user.password);
 
     try {
@@ -61,8 +57,8 @@ export default new Hono()
    * @param c - The context
    * @returns The access token
    */
-  .post("/login", rpcValidator("json", loginSchema), async (c) => {
-    const credentials = await c.req.json();
+  .post("/login", validationMiddleware("json", loginSchema), async (c) => {
+    const credentials = c.req.valid("json");
 
     try {
       const userId = await validateUser(credentials);
@@ -83,7 +79,7 @@ export default new Hono()
       const accessToken = await createAccessToken(userId);
       const refreshToken = await createRefreshToken(userId, insertedToken.id);
 
-      setCookie(c, "refreshToken", refreshToken, {
+      setCookie(c, Constants.refreshToken, refreshToken, {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
         sameSite: "strict",
@@ -103,7 +99,8 @@ export default new Hono()
    * @returns The new access token
    */
   .post("/refresh", async (c) => {
-    const refreshToken = getCookie(c, "refreshToken");
+    const refreshToken = getCookie(c, Constants.refreshToken);
+
     if (!refreshToken) {
       return c.json({ error: "No refresh token provided" }, 401);
     }
@@ -141,7 +138,7 @@ export default new Hono()
    * @returns Success
    */
   .post("/logout", async (c) => {
-    const refreshToken = getCookie(c, "refreshToken");
+    const refreshToken = getCookie(c, Constants.refreshToken);
 
     if (refreshToken) {
       try {
@@ -149,7 +146,9 @@ export default new Hono()
         if (payload?.jti) {
           await deleteToken("id", payload.jti);
         }
-      } catch {}
+      } catch {
+        return c.json({ success: false, error: "Failed to delete refresh token" }, 401);
+      }
     }
 
     setCookie(c, "refreshToken", "", {
@@ -178,7 +177,7 @@ export default new Hono()
    * @param c - The context
    * @returns Whether the email is available
    */
-  .get("/available", zValidator("query", z.object({ email: z.string().email() })), async (c) => {
+  .get("/available", validationMiddleware("query", availableSchema), async (c) => {
     try {
       const { email } = c.req.valid("query");
       const exists = await getUserExists("email", email);
