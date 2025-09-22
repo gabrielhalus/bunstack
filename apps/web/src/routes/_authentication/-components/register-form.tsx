@@ -1,5 +1,5 @@
 import { Constants } from "@bunstack/shared/constants";
-import { registerSchema } from "@bunstack/shared/contracts/auth";
+import { registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
@@ -35,7 +35,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
 
   const form = useForm({
     validators: {
-      onChange: registerSchema,
+      onChange: registerInputSchema,
     },
     defaultValues: {
       name: "",

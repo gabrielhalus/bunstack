@@ -1,5 +1,5 @@
 import { Constants } from "@bunstack/shared/constants";
-import { availableSchema, loginSchema, registerSchema } from "@bunstack/shared/contracts/auth";
+import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
 import { getUserExists, insertUser } from "@bunstack/shared/db/queries/users";
 import env from "@bunstack/shared/env";
@@ -18,7 +18,7 @@ export default new Hono()
    * @param c - The context
    * @returns The access token
    */
-  .post("/register", validationMiddleware("json", registerSchema), async (c) => {
+  .post("/register", validationMiddleware("json", registerInputSchema), async (c) => {
     const user = c.req.valid("json");
     const hashedPassword = await password.hash(user.password);
 
@@ -57,7 +57,7 @@ export default new Hono()
    * @param c - The context
    * @returns The access token
    */
-  .post("/login", validationMiddleware("json", loginSchema), async (c) => {
+  .post("/login", validationMiddleware("json", loginInputSchema), async (c) => {
     const credentials = c.req.valid("json");
 
     try {

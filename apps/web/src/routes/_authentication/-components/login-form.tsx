@@ -1,5 +1,5 @@
 import { Constants } from "@bunstack/shared/constants";
-import { loginSchema } from "@bunstack/shared/contracts/auth";
+import { loginInputSchema } from "@bunstack/shared/contracts/auth";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
@@ -19,7 +19,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const redirectTo = searchParams.get("redirect") || "/";
 
   const form = useForm({
-    validators: { onChange: loginSchema },
+    validators: { onChange: loginInputSchema },
     defaultValues: {
       email: "",
       password: "",

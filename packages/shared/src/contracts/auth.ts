@@ -17,19 +17,15 @@ const passwordSchema = z
     message: "specialCharacterErrorMessage",
   });
 
-export const registerSchema = z.object({
+export const registerInputSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: passwordSchema,
 });
 
-export const loginSchema = z.object({
+export const loginInputSchema = z.object({
   email: z.string().email(),
   password: z.string(),
-});
-
-export const refreshSchema = z.object({
-  [Constants.refreshToken]: z.string(),
 });
 
 export const availableSchema = z.object({
