@@ -45,8 +45,8 @@ function Roles() {
   const sortDirection = sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined;
 
   const { isPending, data } = useQuery(getRolesPaginatedQueryOptions({
-    page: pagination.page,
-    pageSize: pagination.pageSize,
+    page: String(pagination.page),
+    pageSize: String(pagination.pageSize),
     sortField,
     sortDirection,
     search: debouncedFilter || undefined,

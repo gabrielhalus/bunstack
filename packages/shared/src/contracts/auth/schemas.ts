@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { Constants } from "../constants";
-
 const passwordSchema = z
   .string()
   .min(8, { message: "minLengthErrorMessage" })

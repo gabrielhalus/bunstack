@@ -1,6 +1,6 @@
 import type { User } from "@bunstack/shared/db/types/users";
 
-import { paginationInputSchema } from "@bunstack/shared/contracts/generic";
+import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 

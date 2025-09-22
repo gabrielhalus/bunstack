@@ -5,7 +5,7 @@
   "exports": {
     "./access": "./dist/access/index.js",
     "./access/types": "./dist/access/types.js",
-    "./contracts/*": "./dist/contracts/*.js",
+    "./contracts/*": "./dist/contracts/*/index.js",
     "./constants": "./dist/constants/index.js",
     "./db": "./dist/db/index.js",
     "./db/queries/*": "./dist/db/queries/*.js",

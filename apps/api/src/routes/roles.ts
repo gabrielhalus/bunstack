@@ -1,6 +1,6 @@
 import type { Role } from "@bunstack/shared/db/types/roles";
 
-import { paginationInputSchema } from "@bunstack/shared/contracts/generic";
+import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { deleteRole, getRole, getRoles, updateRole } from "@bunstack/shared/db/queries/roles";
 import { Hono } from "hono";

@@ -49,8 +49,8 @@ function Users() {
 
   const { isPending, data } = useQuery(
     getUsersPaginatedQueryOptions({
-      page: pagination.page,
-      pageSize: pagination.pageSize,
+      page: String(pagination.page),
+      pageSize: String(pagination.pageSize),
       search: debouncedFilter || undefined,
       sortField,
       sortDirection,

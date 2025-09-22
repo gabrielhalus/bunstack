@@ -13,7 +13,7 @@ export async function getAllRoles() {
   return res.json();
 }
 
-export async function getRolesPaginated({ page = 0, pageSize = 10, sortField, sortDirection, search }: PaginationInput) {
+export async function getRolesPaginated({ page = "0", pageSize = "10", sortField, sortDirection, search }: PaginationInput) {
   const params = {
     page: String(page),
     pageSize: String(pageSize),
