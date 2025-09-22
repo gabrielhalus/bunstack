@@ -1,4 +1,6 @@
 import type { Policy as PolicyDB } from "../db/types/policies";
+import type { Role } from "../db/types/roles";
+import type { User } from "../db/types/users";
 import type { permissions } from "./permissions";
 
 export type Permission = (typeof permissions)[number];
@@ -18,14 +20,8 @@ export type Condition
 
 export type Policy = Omit<PolicyDB, "id">;
 
-export type UserContext = {
-  id: string;
-  [key: string]: unknown;
-};
+export type UserContext = User;
 
-export type RoleContext = {
-  id: number;
-  index: number;
-  isSuperAdmin: boolean;
+export type RoleContext = Role & {
   permissions: Permission[];
 };
