@@ -1,5 +1,7 @@
+import { Constants } from "@bunstack/shared/constants";
+
 export async function fetchAuthenticated(input: RequestInfo, init?: RequestInit) {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem(Constants.accessToken);
 
   const headers = new Headers(init?.headers || {});
   if (accessToken) {
@@ -21,7 +23,7 @@ export async function fetchAuthenticated(input: RequestInfo, init?: RequestInit)
       const data = await refreshRes.json();
       const newAccessToken = data.accessToken;
       if (newAccessToken) {
-        localStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem(Constants.accessToken, newAccessToken);
         headers.set("Authorization", `Bearer ${newAccessToken}`);
         res = await fetch(input, {
           ...init,

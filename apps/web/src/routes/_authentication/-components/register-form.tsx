@@ -1,4 +1,5 @@
-import { registerInputSchema, registerOutputSchema } from "@bunstack/shared/contracts/auth";
+import { Constants } from "@bunstack/shared/constants";
+import { registerSchema } from "@bunstack/shared/contracts/auth";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
@@ -9,7 +10,6 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { register } from "@/lib/api/auth";
 import { debounceAsync } from "@/lib/debounce";
 import { api } from "@/lib/http";
 
@@ -35,7 +35,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
 
   const form = useForm({
     validators: {
-      onChange: registerInputSchema,
+      onChange: registerSchema,
     },
     defaultValues: {
       name: "",
@@ -43,22 +43,15 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const json = await register(value);
+      const res = await api.auth.register.$post({ json: value });
+      const json = await res.json();
 
-      const parsed = registerOutputSchema.safeParse(json);
-      if (!parsed.success) {
-        toast.error("Something went wrong");
-        return;
+      if (json.success) {
+        localStorage.setItem(Constants.accessToken, json.accessToken);
+        return navigate({ to: redirectTo });
       }
 
-      const data = parsed.data;
-
-      if (data.success) {
-        localStorage.setItem("accessToken", data.accessToken);
-        navigate({ to: redirectTo });
-      } else {
-        toast.error(data.error);
-      }
+      throw toast.error(json.error);
     },
   });
 

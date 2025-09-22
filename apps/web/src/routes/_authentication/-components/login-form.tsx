@@ -1,3 +1,4 @@
+import { Constants } from "@bunstack/shared/constants";
 import { loginSchema } from "@bunstack/shared/contracts/auth";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
@@ -9,7 +10,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { login } from "@/lib/api/auth";
+import { api } from "@/lib/http";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
@@ -24,14 +25,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const res = await login(value);
+      const res = await api.auth.login.$post({ json: value });
+      const json = await res.json();
 
-      if (res.success) {
-        localStorage.setItem("accessToken", res.accessToken);
+      if (json.success) {
+        localStorage.setItem(Constants.accessToken, json.accessToken);
         return navigate({ to: redirectTo });
       }
 
-      toast.error(res.error);
+      toast.error(json.error);
     },
   });
 
