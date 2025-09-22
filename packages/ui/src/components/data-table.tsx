@@ -279,16 +279,27 @@ export function DataTable<TData, TValue>({
                 <Skeleton className="h-4 w-32" />
               )
             : (
-                <>
-                  {table.getFilteredSelectedRowModel().rows.length}
-                  {" "}
-                  of
-                  {" "}
-                  {table.getFilteredRowModel().rows.length}
-                  {" "}
-                  row(s)
-                  selected.
-                </>
+                columns.some(col => col.id === "select")
+                  ? (
+                      <>
+                        {table.getFilteredSelectedRowModel().rows.length}
+                        {" "}
+                        of
+                        {" "}
+                        {table.getFilteredRowModel().rows.length}
+                        {" "}
+                        row(s)
+                        selected.
+                      </>
+                    )
+                  : (
+                      <>
+                        {table.getFilteredRowModel().rows.length}
+                        {" "}
+                        row(s)
+                        total.
+                      </>
+                    )
               )}
         </div>
         <div className="flex items-center space-x-2">
