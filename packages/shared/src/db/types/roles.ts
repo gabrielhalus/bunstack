@@ -23,7 +23,7 @@ export const insertRoleSchema = createInsertSchema(Roles, {
   id: z.never(),
 });
 
-export const updateRoleSchema = z.object({
+export const updateRoleInputSchema = z.object({
   label: z.string().min(1, "Label is required"),
   description: z.string().min(1, "Description is required"),
 });
