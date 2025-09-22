@@ -1,10 +1,12 @@
 import type { User } from "@bunstack/shared/db/types/users";
 
+import { paginationInputSchema } from "@bunstack/shared/contracts/generic";
 import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
 import { requirePermission } from "@/middlewares/access-control";
 import { getAuthContext } from "@/middlewares/auth";
+import { validationMiddleware } from "@/middlewares/validation";
 
 export default new Hono()
   .use(getAuthContext)
@@ -14,26 +16,11 @@ export default new Hono()
    * @param c - The context
    * @returns All users
    */
-  .get("/", requirePermission("user:list"), async (c) => {
+  .get("/", requirePermission("user:list"), validationMiddleware("query", paginationInputSchema), async (c) => {
     try {
-      const params = c.req.query();
+      const { page, pageSize, search, sortField, sortDirection } = c.req.valid("query");
 
-      const page = params.page ? Number(params.page) : 0;
-      const pageSize = params.pageSize ? Number(params.pageSize) : Number.MAX_SAFE_INTEGER;
-      const search = params.search;
-      const sortField = params.sortField as keyof User | undefined;
-      const sortDirection = (params.sortDirection as "asc" | "desc" | undefined) ?? "desc";
-
-      if (Number.isNaN(page) || page < 0 || Number.isNaN(pageSize) || pageSize < 1) {
-        return c.json({ success: false, error: "Invalid pagination parameters" }, 400);
-      }
-
-      if (sortDirection && !["asc", "desc"].includes(sortDirection)) {
-        return c.json({ success: false, error: "Invalid sort direction" }, 400);
-      }
-
-      const orderBy = sortField ? { field: sortField, direction: sortDirection } : undefined;
-
+      const orderBy = sortField ? { field: sortField as keyof User, direction: sortDirection } : undefined;
       const { users, total } = await getUsers(page, pageSize, orderBy, search);
 
       return c.json({ success: true, users, total });
