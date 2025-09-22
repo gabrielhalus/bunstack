@@ -1,3 +1,5 @@
+import type { PaginationInput } from "@bunstack/shared/contracts/pagination";
+
 import { queryOptions } from "@tanstack/react-query";
 
 import { getAllRoles, getRoleByName, getRolesPaginated } from "@/lib/api/roles";
@@ -8,19 +10,7 @@ export const getAllRolesQueryOptions = queryOptions({
   staleTime: 1000 * 60 * 5,
 });
 
-export function getRolesPaginatedQueryOptions({
-  page,
-  pageSize,
-  sortField,
-  sortDirection,
-  search,
-}: {
-  page?: number;
-  pageSize?: number;
-  sortField?: string;
-  sortDirection?: "asc" | "desc";
-  search?: string;
-}) {
+export function getRolesPaginatedQueryOptions({ page, pageSize, sortField, sortDirection, search }: PaginationInput) {
   return queryOptions({
     queryKey: ["get-roles-paginated", page, pageSize, sortField, sortDirection, search],
     queryFn: () => getRolesPaginated({ page, pageSize, sortField, sortDirection, search }),

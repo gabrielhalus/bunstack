@@ -18,7 +18,7 @@ function Users() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
   const [pagination, setPagination] = useState({
-    pageIndex: 0,
+    page: 0,
     pageSize: 10,
   });
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -29,7 +29,7 @@ function Users() {
     () => debounceSync((searchValue: string) => {
       setDebouncedFilter(searchValue);
       // Reset to first page when searching
-      setPagination(prev => ({ ...prev, pageIndex: 0 }));
+      setPagination(prev => ({ ...prev, page: 0 }));
     }, 300),
     [],
   );
@@ -46,7 +46,7 @@ function Users() {
 
   const { isPending, data } = useQuery(
     getUsersPaginatedQueryOptions({
-      page: pagination.pageIndex,
+      page: pagination.page,
       pageSize: pagination.pageSize,
       search: debouncedFilter || undefined,
       sortField,

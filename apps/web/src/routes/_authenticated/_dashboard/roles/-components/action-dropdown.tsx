@@ -53,7 +53,7 @@ export function ActionDropdown({ row }: { row: Row<Role> }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(role.id.toString())}>
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(role.id))}>
           <Copy className="h-4 w-4" />
           Copy Role ID
         </DropdownMenuItem>

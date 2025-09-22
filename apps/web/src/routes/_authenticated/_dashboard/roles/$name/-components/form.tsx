@@ -1,6 +1,6 @@
-import type { Role } from "@bunstack/shared/db/types/roles";
+import type { UpdateRoleInput } from "@bunstack/shared/contracts/roles";
 
-import { updateRoleSchema } from "@bunstack/shared/db/types/roles";
+import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
@@ -18,10 +18,10 @@ export function Form() {
   const params = useParams({ from: "/_authenticated/_dashboard/roles/$name" });
 
   const { data } = useQuery(getRoleByNameQueryOptions(params.name));
-  const role = data!.role;
+  const { role } = data!;
 
   const mutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<Role> }) => updateRole(id, data),
+    mutationFn: ({ id, data }: { id: number; data: UpdateRoleInput }) => updateRole(id, data),
     onSuccess: ({ role: data }) => {
       toast.success(`Role successfully updated`);
       queryClient.refetchQueries(getAllRolesQueryOptions);
@@ -37,7 +37,7 @@ export function Form() {
 
   const form = useForm({
     validators: {
-      onChange: updateRoleSchema,
+      onChange: updateRoleInputSchema,
     },
     defaultValues: {
       label: role.label,

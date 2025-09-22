@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
 function Roles() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [pagination, setPagination] = useState({ page: 0, pageSize: 10 });
   const [sorting, setSorting] = useState<SortingState>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,7 +26,7 @@ function Roles() {
     () => debounceSync((searchValue: string) => {
       setDebouncedFilter(searchValue);
       // Reset to first page when searching
-      setPagination(prev => ({ ...prev, pageIndex: 0 }));
+      setPagination(prev => ({ ...prev, page: 0 }));
     }, 300),
     [],
   );
@@ -42,7 +42,7 @@ function Roles() {
   const sortDirection = sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined;
 
   const { isPending, data } = useQuery(getRolesPaginatedQueryOptions({
-    page: pagination.pageIndex,
+    page: pagination.page,
     pageSize: pagination.pageSize,
     sortField,
     sortDirection,

@@ -1,72 +1,48 @@
-import type { Role, RoleWithMembers, RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
+import type { PaginationInput } from "@bunstack/shared/contracts/pagination";
+import type { UpdateRoleInput } from "@bunstack/shared/contracts/roles";
 
-import { fetchAuthenticated } from "./http";
+import { api } from "../http";
 
-export async function getAllRoles(): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
-  const res = await fetchAuthenticated("/api/roles");
+export async function getAllRoles() {
+  const res = await api.roles.$get({ query: {} });
 
   if (!res.ok) {
-    throw new Error("Failed to get roles");
+    throw new Error("Failed to fetch roles");
   }
 
   return res.json();
 }
 
-export async function getRolesPaginated({
-  page = 0,
-  pageSize = 10,
-  sortField,
-  sortDirection,
-  search,
-}: {
-  page?: number;
-  pageSize?: number;
-  sortField?: string;
-  sortDirection?: "asc" | "desc";
-  search?: string;
-}): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
-  const params = new URLSearchParams({
-    page: page.toString(),
-    pageSize: pageSize.toString(),
-  });
+export async function getRolesPaginated({ page = 0, pageSize = 10, sortField, sortDirection, search }: PaginationInput) {
+  const params = {
+    page: String(page),
+    pageSize: String(pageSize),
+    search,
+    sortField,
+    sortDirection,
+  };
 
-  // Add sorting parameters if provided
-  if (sortField) {
-    params.append("sortField", sortField);
-  }
-  if (sortDirection) {
-    params.append("sortDirection", sortDirection);
-  }
-
-  // Add search parameter if provided
-  if (search) {
-    params.append("search", search);
-  }
-
-  const res = await fetchAuthenticated(`/api/roles?${params}`);
+  const res = await api.roles.$get({ query: params });
 
   if (!res.ok) {
-    throw new Error("Failed to get roles");
+    throw new Error("Failed to fetch roles");
   }
 
   return res.json();
 }
 
-export async function getRoleByName(name: string): Promise<{ role: RoleWithMembers }> {
-  const res = await fetchAuthenticated(`/api/roles/${name}`);
+export async function getRoleByName(name: string) {
+  const res = await api.roles[":name"].$get({ param: { name } });
 
   if (!res.ok) {
-    throw new Error("Failed to get role");
+    throw new Error("Failed to fetch role");
   }
 
   return res.json();
 }
 
-export async function updateRole(id: number, data: Partial<Role>): Promise<{ role: Role }> {
-  const res = await fetchAuthenticated(`/api/roles/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(data),
-  });
+export async function updateRole(id: number, data: UpdateRoleInput) {
+  const res = await api.roles[":id"].$put({ param: { id: String(id) }, json: data });
 
   if (!res.ok) {
     throw new Error("Failed to update role");
@@ -75,10 +51,8 @@ export async function updateRole(id: number, data: Partial<Role>): Promise<{ rol
   return res.json();
 };
 
-export async function deleteRole({ id }: { id: number }): Promise<{ role: Role }> {
-  const res = await fetchAuthenticated(`/api/roles/${id}`, {
-    method: "DELETE",
-  });
+export async function deleteRole({ id }: { id: number }) {
+  const res = await api.roles[":id"].$delete({ param: { id: String(id) } });
 
   if (!res.ok) {
     throw new Error("Failed to delete role");

@@ -1,3 +1,5 @@
+import type { PaginationInput } from "@bunstack/shared/contracts/pagination";
+
 import { api } from "../http";
 
 export async function getAllUsers() {
@@ -5,10 +7,10 @@ export async function getAllUsers() {
   return res.json();
 }
 
-export async function getUsersPaginated({ page = 0, pageSize = 10, search, sortField, sortDirection }: { page?: number; pageSize?: number; search?: string; sortField?: string; sortDirection?: "asc" | "desc" }) {
+export async function getUsersPaginated({ page = 0, pageSize = 10, sortField, sortDirection, search }: PaginationInput) {
   const params = {
-    page: page?.toString(),
-    pageSize: pageSize?.toString(),
+    page: String(page),
+    pageSize: String(pageSize),
     search,
     sortField,
     sortDirection,
