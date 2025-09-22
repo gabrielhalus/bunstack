@@ -283,6 +283,7 @@ export function DataTable<TData, TValue>({
                   {table.getFilteredSelectedRowModel().rows.length}
                   {" "}
                   of
+                  {" "}
                   {table.getFilteredRowModel().rows.length}
                   {" "}
                   row(s)
