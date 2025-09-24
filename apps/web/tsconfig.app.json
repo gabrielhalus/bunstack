@@ -12,8 +12,8 @@
     "paths": {
       "@/*": ["./*"],
       "@bunstack/api/*": ["../../api/src/*"],
-      "@bunstack/shared/*": ["../../../packages/shared/src/*"],
-      "@bunstack/ui/*": ["../../../packages/ui/src/*"]
+      "@bunstack/shared/*": ["../../packages/shared/src/*"],
+      "@bunstack/ui/*": ["../../packages/ui/src/*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,
