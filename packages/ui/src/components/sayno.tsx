@@ -26,9 +26,18 @@ function Sayno() {
     resolve: null,
   });
 
+  // Separate state to hold the displayed options that only updates when dialog is closed
+  const [displayedOptions, setDisplayedOptions] = useState<DialogState["options"]>({});
+
   useEffect(() => {
     const handleUpdate = (event: CustomEvent) => {
-      setDialogState(event.detail);
+      const newState = event.detail;
+      setDialogState(newState);
+
+      // If dialog is opening, update the displayed options immediately
+      if (newState.open && !dialogState.open) {
+        setDisplayedOptions(newState.options);
+      }
     };
 
     window.addEventListener("sayno-update", handleUpdate as EventListener);
@@ -36,7 +45,19 @@ function Sayno() {
     return () => {
       window.removeEventListener("sayno-update", handleUpdate as EventListener);
     };
-  }, []);
+  }, [dialogState.open]);
+
+  // Update displayed options only after dialog closes
+  useEffect(() => {
+    if (!dialogState.open && dialogState.options !== displayedOptions) {
+      // Wait a bit for the dialog to fully close before updating text
+      const timer = setTimeout(() => {
+        setDisplayedOptions(dialogState.options);
+      }, 300); // Adjust timing as needed for your dialog animation
+
+      return () => clearTimeout(timer);
+    }
+  }, [dialogState.open, dialogState.options, displayedOptions]);
 
   const {
     title = t("dialog.confirmTitle"),
@@ -44,7 +65,7 @@ function Sayno() {
     confirmText = t("actions.confirm"),
     cancelText = t("actions.cancel"),
     variant = "default",
-  } = dialogState.options;
+  } = displayedOptions;
 
   const handleConfirm = () => {
     handleDialogResult(true);
