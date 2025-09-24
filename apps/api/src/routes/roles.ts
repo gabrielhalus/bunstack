@@ -19,9 +19,9 @@ export default new Hono()
       const orderBy = sortField ? { field: sortField as keyof Role, direction: sortDirection } : undefined;
       const { roles, total } = await getRoles(page, pageSize, orderBy, search);
 
-      return c.json({ success: true, roles, total });
+      return c.json({ success: true as const, roles, total });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -32,12 +32,12 @@ export default new Hono()
       const role = await getRole("name", name);
 
       if (!role) {
-        return c.json({ success: false, error: "Role not found" }, 404);
+        return c.json({ success: false as const, error: "Role not found" }, 404);
       }
 
-      return c.json({ success: true, role });
+      return c.json({ success: true as const, role });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -49,9 +49,9 @@ export default new Hono()
       const role = updateRoleInputSchema.parse(rawRole);
 
       const updatedRole = await updateRole("id", id, role);
-      return c.json({ success: true, role: updatedRole });
+      return c.json({ success: true as const, role: updatedRole });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -60,8 +60,8 @@ export default new Hono()
 
     try {
       const role = await deleteRole("id", id);
-      return c.json({ success: true, role });
+      return c.json({ success: true as const, role });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });

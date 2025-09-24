@@ -10,7 +10,7 @@ export function validationMiddleware<
   return zValidator(target, schema, (result, c) => {
     if (!result.success) {
       return c.json({
-        success: false,
+        success: false as const,
         error: {
           code: 400,
           message: result.error.issues[0].message,

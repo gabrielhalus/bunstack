@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [internalPagination, setInternalPagination] = React.useState({
-    page: 0,
+    pageIndex: 0,
     pageSize: 10,
   });
 
@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
     }
   }, [isLoading, searchValue]);
 
-  const currentPagination = externalPagination || internalPagination;
+  const currentPagination = externalPagination ? { pageIndex: externalPagination.page, pageSize: externalPagination.pageSize } : internalPagination;
   const currentSorting = externalSorting || sorting;
   const handlePaginationChange = React.useCallback(
     (updaterOrValue: any) => {
@@ -311,7 +311,7 @@ export function DataTable<TData, TValue>({
                 <p className="text-sm font-medium">
                   Page
                   {" "}
-                  {currentPagination.page + 1}
+                  {currentPagination.pageIndex + 1}
                   {" "}
                   of
                   {" "}

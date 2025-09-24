@@ -11,6 +11,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  envDir: path.resolve(__dirname, "../../"),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -22,8 +23,15 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "http://localhost:4000",
         changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ""),
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyReq) => {
+            // Host attendu par Hono pour matcher api routes
+            proxyReq.setHeader("host", "api.localhost:4000");
+          });
+        },
       },
     },
   },

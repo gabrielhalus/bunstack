@@ -23,9 +23,9 @@ export default new Hono()
       const orderBy = sortField ? { field: sortField as keyof User, direction: sortDirection } : undefined;
       const { users, total } = await getUsers(page, pageSize, orderBy, search);
 
-      return c.json({ success: true, users, total });
+      return c.json({ success: true as const, users, total });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -39,9 +39,9 @@ export default new Hono()
 
     try {
       const user = await getUser("id", id);
-      return c.json({ success: true, user });
+      return c.json({ success: true as const, user });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -55,8 +55,8 @@ export default new Hono()
 
     try {
       const user = await deleteUser("id", id);
-      return c.json({ success: true, user });
+      return c.json({ success: true as const, user });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });

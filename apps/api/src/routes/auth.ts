@@ -37,18 +37,18 @@ export default new Hono()
       setCookie(c, "refreshToken", refreshToken, {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/api/auth",
+        sameSite: "none",
+        path: "/",
         maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
       });
 
-      return c.json({ success: true, accessToken });
+      return c.json({ success: true as const, accessToken });
     } catch (error) {
       if (error instanceof Error && error.message.includes("UNIQUE constraint failed: users.email")) {
-        return c.json({ success: false, error: "Email is already taken" }, 400);
+        return c.json({ success: false as const, error: "Email is already taken" }, 400);
       }
 
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -63,7 +63,7 @@ export default new Hono()
     try {
       const userId = await validateUser(credentials);
       if (!userId) {
-        return c.json({ success: false, error: "Invalid credentials" }, 200);
+        return c.json({ success: false as const, error: "Invalid credentials" }, 200);
       }
 
       const { userAgent, ip } = getClientInfo(c);
@@ -82,14 +82,14 @@ export default new Hono()
       setCookie(c, Constants.refreshToken, refreshToken, {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/api/auth",
+        sameSite: "none",
+        path: "/",
         maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
       });
 
-      return c.json({ success: true, accessToken });
+      return c.json({ success: true as const, accessToken });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   })
 
@@ -116,11 +116,11 @@ export default new Hono()
       if (!tokenRecord || tokenRecord.expiresAt < Date.now()) {
         if (jti)
           await deleteToken("id", jti);
-        return c.json({ success: false, error: "Refresh token expired or invalid" }, 401);
+        return c.json({ success: false as const, error: "Refresh token expired or invalid" }, 401);
       }
 
       const accessToken = await createAccessToken(sub);
-      return c.json({ success: true, accessToken });
+      return c.json({ success: true as const, accessToken });
     } catch {
       // Attempt to clean up invalid token if possible
       try {
@@ -128,7 +128,7 @@ export default new Hono()
         if (payload?.jti)
           await deleteToken("id", payload.jti);
       } catch {}
-      return c.json({ success: false, error: "Invalid refresh token" }, 401);
+      return c.json({ success: false as const, error: "Invalid refresh token" }, 401);
     }
   })
 
@@ -147,7 +147,7 @@ export default new Hono()
           await deleteToken("id", payload.jti);
         }
       } catch {
-        return c.json({ success: false, error: "Failed to delete refresh token" }, 401);
+        return c.json({ success: false as const, error: "Failed to delete refresh token" }, 401);
       }
     }
 
@@ -159,7 +159,7 @@ export default new Hono()
       maxAge: 0,
     });
 
-    return c.json({ success: true });
+    return c.json({ success: true as const });
   })
 
   /**
@@ -169,7 +169,7 @@ export default new Hono()
    */
   .get("/me", getAuthContext, async (c) => {
     const authContext = c.var.authContext;
-    return c.json({ success: true, ...authContext });
+    return c.json({ success: true as const, ...authContext });
   })
 
   /**
@@ -182,8 +182,8 @@ export default new Hono()
       const { email } = c.req.valid("query");
       const exists = await getUserExists("email", email);
 
-      return c.json({ success: true, available: !exists });
+      return c.json({ success: true as const, available: !exists });
     } catch (error) {
-      return c.json({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
   });

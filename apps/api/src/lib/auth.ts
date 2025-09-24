@@ -17,12 +17,12 @@ export type JwtPayload
     iss: string;
   }
   | {
-    sub: string;
-    iat: number;
-    exp: number;
-    ttyp: "refresh";
-    jti: string;
-    iss: string;
+    sub: string; // Subscriber (user id)
+    iat: number; // Issued At
+    exp: number; // Expire At
+    ttyp: "refresh"; // JWT Type
+    jti: string; // JWT ID
+    iss: string; // Issuer
   };
 
 export async function validateUser({ email, password: pwd }: { email: string; password: string }): Promise<string | null> {

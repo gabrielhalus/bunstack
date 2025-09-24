@@ -17,11 +17,11 @@ async function fetchWithRefresh(
   let res = await fetch(input, { ...init, headers, credentials: "include" });
 
   if (res.status === 401) {
-    const client = hc<AppType>("/", {
+    const client = hc<AppType>(import.meta.env.DEV ? "/api" : import.meta.env.VITE_API_URL!, {
       init: { credentials: "include" },
     });
 
-    const refreshRes = await client.api.auth.refresh.$post();
+    const refreshRes = await client.auth.refresh.$post();
 
     if (refreshRes.ok) {
       const data = await refreshRes.json();
@@ -40,9 +40,9 @@ async function fetchWithRefresh(
 // add dummy `preconnect` to satisfy hc typing
 (fetchWithRefresh as any).preconnect = undefined;
 
-const client = hc<AppType>("/", {
+const client = hc<AppType>(import.meta.env.DEV ? "/api" : import.meta.env.VITE_API_URL!, {
   init: { credentials: "include" },
   fetch: fetchWithRefresh,
 });
 
-export const api = client.api;
+export const api = client;

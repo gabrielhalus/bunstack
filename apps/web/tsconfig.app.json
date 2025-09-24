@@ -20,9 +20,8 @@
     "skipLibCheck": true
   },
   "references": [
-    {
-      "path": "../api/tsconfig.json"
-    }
+    { "path": "../api" },
+    { "path": "../../packages/shared" }
   ],
   "include": ["src"]
 }
