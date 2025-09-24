@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Form } from "./-components/form";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name/")({
+export const Route = createFileRoute("/_dashboard/roles/$name/")({
   component: RoleDetails,
 });
 

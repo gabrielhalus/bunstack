@@ -2,19 +2,19 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { auth } from "@/hooks/use-auth";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/users")({
+export const Route = createFileRoute("/_dashboard/roles")({
   beforeLoad: async () => {
     const authResult = await auth();
-    if (!(authResult.can("user:list") || authResult.isAdmin)) {
+    if (!(authResult.can("role:list") || authResult.isAdmin)) {
       throw redirect({ to: "/" });
     }
   },
+  component: RolesLayout,
   loader: () => ({
-    crumb: "pages.users",
+    crumb: "pages.roles",
   }),
-  component: UsersLayout,
 });
 
-function UsersLayout() {
+function RolesLayout() {
   return <Outlet />;
 }

@@ -11,7 +11,7 @@ import { getRolesPaginatedQueryOptions } from "@/lib/queries/roles";
 
 import { columns } from "./-components/columns";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/roles/")({
+export const Route = createFileRoute("/_dashboard/roles/")({
   component: Roles,
 });
 

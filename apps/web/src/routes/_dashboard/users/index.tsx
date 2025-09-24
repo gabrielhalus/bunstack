@@ -11,7 +11,7 @@ import { getUsersPaginatedQueryOptions } from "@/lib/queries/users";
 
 import { columns } from "./-components/columns";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/users/")({
+export const Route = createFileRoute("/_dashboard/users/")({
   component: Users,
 });
 

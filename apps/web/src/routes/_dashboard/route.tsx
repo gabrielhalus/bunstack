@@ -5,7 +5,7 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 
-export const Route = createFileRoute("/_authenticated/_dashboard")({
+export const Route = createFileRoute("/_dashboard")({
   loader: () => {
     return {
       crumb: "pages.home",

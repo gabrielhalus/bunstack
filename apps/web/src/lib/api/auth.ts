@@ -2,21 +2,12 @@ import type { Policy } from "@bunstack/shared/access/types";
 import type { RoleWithPermissions } from "@bunstack/shared/db/types/roles";
 import type { User } from "@bunstack/shared/db/types/users";
 
-import { Constants } from "@bunstack/shared/constants";
-
 import { api } from "../http";
 
 export async function getCurrentUser(): Promise<{ user: User; roles: RoleWithPermissions[]; policies: Policy[] }> {
-  const accessToken = localStorage.getItem(Constants.accessToken);
-
-  if (!accessToken) {
-    throw new Error("Not authenticated: missing access token");
-  }
-
   const res = await api.auth.me.$get();
 
   if (res.status === 401) {
-    localStorage.removeItem(Constants.accessToken);
     throw new Error("Not authenticated: invalid token");
   }
 

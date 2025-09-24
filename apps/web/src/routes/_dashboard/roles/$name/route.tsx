@@ -6,7 +6,7 @@ import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
 import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
 
-export const Route = createFileRoute("/_authenticated/_dashboard/roles/$name")({
+export const Route = createFileRoute("/_dashboard/roles/$name")({
   beforeLoad: async ({ params, context }) => {
     const { queryClient } = context;
     const authResult = await auth();

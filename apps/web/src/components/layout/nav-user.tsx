@@ -30,7 +30,7 @@ import { useAuth } from "@/hooks/use-auth";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user, loading, isAuthenticated } = useAuth({ redirect: "/login" });
+  const { user, loading, isAuthenticated } = useAuth();
   const { t, i18n } = useTranslation("common");
 
   const locales = [

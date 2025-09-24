@@ -25,12 +25,6 @@ export default defineConfig({
         target: "http://localhost:4000",
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ""),
-        configure: (proxy) => {
-          proxy.on("proxyReq", (proxyReq) => {
-            // Host attendu par Hono pour matcher api routes
-            proxyReq.setHeader("host", "api.localhost:4000");
-          });
-        },
       },
     },
   },
