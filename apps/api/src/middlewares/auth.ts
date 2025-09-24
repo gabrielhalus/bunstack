@@ -1,5 +1,7 @@
+import { Constants } from "@bunstack/shared/constants";
 import { getUserWithContext } from "@bunstack/shared/db/queries/users";
 import env from "@bunstack/shared/env";
+import { getCookie } from "hono/cookie";
 import { verify } from "hono/jwt";
 
 import { factory } from "@/utils/hono";
@@ -11,15 +13,15 @@ import { factory } from "@/utils/hono";
  * @returns The user
  */
 export const getAuthContext = factory.createMiddleware(async (c, next) => {
-  const token = c.req.header("Authorization")?.split(" ")[1];
+  const accessToken = getCookie(c, Constants.accessToken);
 
-  if (!token) {
+  if (!accessToken) {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
   let decoded;
   try {
-    decoded = await verify(token, env.JWT_SECRET);
+    decoded = await verify(accessToken, env.JWT_SECRET);
   } catch {
     return c.json({ error: "Unauthorized" }, 401);
   }

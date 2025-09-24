@@ -8,7 +8,7 @@ import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
 import { getClientInfo } from "@/helpers/get-client-info";
-import { createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
+import { ACCESS_TOKEN_EXPIRATION_SECONDS, createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@/lib/auth";
 import { getAuthContext } from "@/middlewares/auth";
 import { validationMiddleware } from "@/middlewares/validation";
 
@@ -32,9 +32,16 @@ export default new Hono()
       });
 
       const accessToken = await createAccessToken(insertedUser.id);
-      const refreshToken = await createRefreshToken(insertedUser.id, insertedToken.id);
+      setCookie(c, Constants.accessToken, accessToken, {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: "none",
+        path: "/",
+        maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
+      });
 
-      setCookie(c, "refreshToken", refreshToken, {
+      const refreshToken = await createRefreshToken(insertedUser.id, insertedToken.id);
+      setCookie(c, Constants.refreshToken, refreshToken, {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
         sameSite: "none",
@@ -42,7 +49,7 @@ export default new Hono()
         maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
       });
 
-      return c.json({ success: true as const, accessToken });
+      return c.json({ success: true as const });
     } catch (error) {
       if (error instanceof Error && error.message.includes("UNIQUE constraint failed: users.email")) {
         return c.json({ success: false as const, error: "Email is already taken" }, 400);
@@ -77,8 +84,15 @@ export default new Hono()
       });
 
       const accessToken = await createAccessToken(userId);
-      const refreshToken = await createRefreshToken(userId, insertedToken.id);
+      setCookie(c, Constants.accessToken, accessToken, {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: "none",
+        path: "/",
+        maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
+      });
 
+      const refreshToken = await createRefreshToken(userId, insertedToken.id);
       setCookie(c, Constants.refreshToken, refreshToken, {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
@@ -87,7 +101,7 @@ export default new Hono()
         maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
       });
 
-      return c.json({ success: true as const, accessToken });
+      return c.json({ success: true as const });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
@@ -120,7 +134,15 @@ export default new Hono()
       }
 
       const accessToken = await createAccessToken(sub);
-      return c.json({ success: true as const, accessToken });
+      setCookie(c, Constants.accessToken, accessToken, {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: "none",
+        path: "/",
+        maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
+      });
+
+      return c.json({ success: true as const });
     } catch {
       // Attempt to clean up invalid token if possible
       try {
@@ -151,7 +173,15 @@ export default new Hono()
       }
     }
 
-    setCookie(c, "refreshToken", "", {
+    setCookie(c, Constants.accessToken, "accessToken", {
+      httpOnly: true,
+      secure: env.NODE_ENV === "production",
+      sameSite: "none",
+      path: "/",
+      maxAge: 0,
+    });
+
+    setCookie(c, Constants.refreshToken, "", {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
       sameSite: "strict",
