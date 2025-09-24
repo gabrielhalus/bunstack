@@ -1,14 +1,14 @@
 import { asc, count, desc, eq, like, or } from "drizzle-orm";
 
-import type { Policy } from "../../access/types";
-import type { RoleWithPermissions } from "../types/roles";
-import type { insertUserSchema, User, UserOrderBy, UserUniqueFields, UserWithRoles } from "../types/users";
+import type { Policy } from "@bunstack/shared/access/types";
+import type { RoleWithPermissions } from "@bunstack/shared/db/types/roles";
+import type { insertUserSchema, User, UserOrderBy, UserUniqueFields, UserWithRoles } from "@bunstack/shared/db/types/users";
 
-import { db } from "../";
-import { Users } from "../schemas/users";
-import { getApplicablePolicies } from "./policies";
-import { getRolePermissions } from "./role-permissions";
-import { getUserRoles } from "./roles";
+import { db } from "@bunstack/shared/db/";
+import { getApplicablePolicies } from "@bunstack/shared/db/queries/policies";
+import { getRolePermissions } from "@bunstack/shared/db/queries/role-permissions";
+import { getUserRoles } from "@bunstack/shared/db/queries/roles";
+import { Users } from "@bunstack/shared/db/schemas/users";
 
 /**
  * Retrieves a paginated list of users, each including their associated roles.

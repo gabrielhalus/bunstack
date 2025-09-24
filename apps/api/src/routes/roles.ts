@@ -1,13 +1,13 @@
+import { Hono } from "hono";
+
 import type { Role } from "@bunstack/shared/db/types/roles";
 
+import { requirePermission } from "@bunstack/api/middlewares/access-control";
+import { getAuthContext } from "@bunstack/api/middlewares/auth";
+import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { deleteRole, getRole, getRoles, updateRole } from "@bunstack/shared/db/queries/roles";
-import { Hono } from "hono";
-
-import { requirePermission } from "@/middlewares/access-control";
-import { getAuthContext } from "@/middlewares/auth";
-import { validationMiddleware } from "@/middlewares/validation";
 
 export default new Hono()
   .use(getAuthContext)

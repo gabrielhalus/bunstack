@@ -1,4 +1,4 @@
-import type { Permission, Policy, RoleContext, UserContext } from "./types";
+import type { Permission, Policy, RoleContext, UserContext } from "@bunstack/shared/access/types";
 
 import { evaluateCondition } from "./evalutate-condition";
 

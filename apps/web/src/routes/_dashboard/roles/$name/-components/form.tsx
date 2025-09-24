@@ -18,7 +18,7 @@ export function Form() {
   const { t } = useTranslation("common");
 
   const queryClient = useQueryClient();
-  const params = useParams({ from: "/_authenticated/_dashboard/roles/$name" });
+  const params = useParams({ from: "/_dashboard/roles/$name" });
 
   const { data } = useQuery(getRoleByNameQueryOptions(params.name));
   const { role } = data!;

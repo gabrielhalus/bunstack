@@ -1,12 +1,12 @@
-import type { User } from "@bunstack/shared/db/types/users";
-
-import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
-import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 import { Hono } from "hono";
 
-import { requirePermission } from "@/middlewares/access-control";
-import { getAuthContext } from "@/middlewares/auth";
-import { validationMiddleware } from "@/middlewares/validation";
+import type { User } from "@bunstack/shared/db/types/users";
+
+import { requirePermission } from "@bunstack/api/middlewares/access-control";
+import { getAuthContext } from "@bunstack/api/middlewares/auth";
+import { validationMiddleware } from "@bunstack/api/middlewares/validation";
+import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
+import { deleteUser, getUser, getUsers } from "@bunstack/shared/db/queries/users";
 
 export default new Hono()
   .use(getAuthContext)

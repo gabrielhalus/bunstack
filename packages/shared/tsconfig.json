@@ -3,11 +3,14 @@
   "compilerOptions": {
     "composite": true,
     "lib": ["ESNext", "DOM"],
-    "baseUrl": "src",
-    "rootDir": "src",
+    "baseUrl": "./src",
+    "paths": {
+      "@bunstack/api/*": ["../../apps/api/src/*"],
+      "@bunstack/shared/*": ["./*"]
+    },
     "declaration": true,
     "declarationMap": true,
-    "outDir": "dist"
+    "outDir": "./dist"
   },
   "include": ["src"],
   "exclude": ["src/db/migrations/*", "src/db/seeds/*"]

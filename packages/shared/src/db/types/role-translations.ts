@@ -1,3 +1,3 @@
-import type { RoleTranslations } from "../schemas/role-translations";
+import type { RoleTranslations } from "@bunstack/shared/db/schemas/role-translations";
 
 export type RolePermission = typeof RoleTranslations.$inferSelect;

@@ -8,5 +8,5 @@ export const Route = createFileRoute("/_dashboard/profile")({
 });
 
 function Profile() {
-  return <div>Hello "/_authenticated/_dashboard/profile"!</div>;
+  return <div>Hello "/_dashboard/profile"!</div>;
 }

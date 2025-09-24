@@ -1,8 +1,8 @@
 import { defineConfig } from "drizzle-kit";
 import { join } from "node:path";
 
-import { __root } from "./src/constants/__root";
-import env from "./src/lib/env";
+import { __root } from "@bunstack/shared/constants/__root";
+import env from "@bunstack/shared/lib/env";
 
 export default defineConfig({
   schema: join(__dirname, "src/db/schemas/*.ts"),

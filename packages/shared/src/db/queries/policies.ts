@@ -1,10 +1,10 @@
 import { and, eq, isNull, or } from "drizzle-orm";
 
-import type { Permission } from "../../access/types";
-import type { Policy } from "../types/policies";
+import type { Permission } from "@bunstack/shared/access/types";
+import type { Policy } from "@bunstack/shared/db/types/policies";
 
-import { db } from "../";
-import { Policies } from "../schemas/policies";
+import { db } from "@bunstack/shared/db/";
+import { Policies } from "@bunstack/shared/db/schemas/policies";
 
 export async function getApplicablePolicies(roleId?: number, permission?: Permission, effect?: Policy["effect"]): Promise<Policy[]> {
   const conditions = [];

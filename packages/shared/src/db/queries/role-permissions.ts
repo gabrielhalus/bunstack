@@ -1,10 +1,10 @@
 import { eq } from "drizzle-orm";
 
-import type { RolePermission } from "../types/role-permissions";
-import type { Role } from "../types/roles";
+import type { RolePermission } from "@bunstack/shared/db/types/role-permissions";
+import type { Role } from "@bunstack/shared/db/types/roles";
 
-import { db } from "../";
-import { RolePermissions } from "../schemas/role-permissions";
+import { db } from "@bunstack/shared/db/";
+import { RolePermissions } from "@bunstack/shared/db/schemas/role-permissions";
 
 /**
  * Retrieves all permissions associated with a given role.

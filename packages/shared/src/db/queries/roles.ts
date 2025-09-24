@@ -1,12 +1,13 @@
 import { asc, count, desc, eq, inArray, like, or } from "drizzle-orm";
 
-import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
-import type { User } from "../types/users";
+import type { User } from "@bunstack/shared/db/types/users";
 
-import { db } from "../";
-import { Roles } from "../schemas/roles";
-import { UserRoles } from "../schemas/user-roles";
-import { Users } from "../schemas/users";
+import { db } from "@bunstack/shared/db/";
+import { Roles } from "@bunstack/shared/db/schemas/roles";
+import { UserRoles } from "@bunstack/shared/db/schemas/user-roles";
+import { Users } from "@bunstack/shared/db/schemas/users";
+
+import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 
 /**
  * Fetches a paginated list of roles, each with the count of assigned members.

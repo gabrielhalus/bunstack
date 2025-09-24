@@ -1,4 +1,5 @@
 import { Box } from "lucide-react";
+import { Suspense } from "react";
 
 import { LoginForm } from "./_components/form";
 
@@ -13,7 +14,9 @@ export default function Login() {
           Bunstack.
         </a>
       </div>
-      <LoginForm />
+      <Suspense>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }

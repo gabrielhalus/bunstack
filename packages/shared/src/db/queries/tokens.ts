@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
 
-import type { insertTokenSchema, Token, TokenUniqueFields } from "../types/tokens";
+import { db } from "@bunstack/shared/db/";
+import { Tokens } from "@bunstack/shared/db/schemas/tokens";
 
-import { db } from "../";
-import { Tokens } from "../schemas/tokens";
+import type { insertTokenSchema, Token, TokenUniqueFields } from "../types/tokens";
 
 /**
  * Get all tokens.

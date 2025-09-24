@@ -14,7 +14,6 @@ export const __root = (() => {
 
   let current = dirname(fileURLToPath(import.meta.url));
 
-  // Ensure we walk past `/packages/shared/dist/constants/__root.js` up to `/`
   for (let i = 0; i < 10; i++) {
     const git = join(current, ".git");
     const pkg = join(current, "package.json");

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 export function Nav() {
   const { t } = useTranslation("roles");
 
-  const { role } = useLoaderData({ from: "/_authenticated/_dashboard/roles/$name" });
+  const { role } = useLoaderData({ from: "/_dashboard/roles/$name" });
 
   const nav = (role: RoleWithMembers) => [
     {

@@ -4,11 +4,12 @@
     "composite": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"],
-      "@bunstack/shared/": ["../../../packages/shared/src/*"]
+      "@bunstack/api/*": ["./*"],
+      "@bunstack/shared/*": ["../../packages/shared/src/*"]
     },
     "outDir": "./dist"
-  }
+  },
+  "include": ["src"]
 }

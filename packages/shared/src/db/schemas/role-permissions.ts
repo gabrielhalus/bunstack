@@ -1,8 +1,8 @@
 import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import type { Permission } from "../../access/types";
+import type { Permission } from "@bunstack/shared/access/types";
 
-import { Roles } from "./roles";
+import { Roles } from "@bunstack/shared/db/schemas/roles";
 
 export const RolePermissions = sqliteTable("role_permissions", {
   roleId: integer("role_id").notNull().references(() => Roles.id, { onDelete: "cascade", onUpdate: "cascade" }),

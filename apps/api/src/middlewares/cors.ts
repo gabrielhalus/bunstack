@@ -1,6 +1,6 @@
 import type { MiddlewareHandler } from "hono";
 
-import env from "@bunstack/shared/env";
+import env from "@bunstack/shared/lib/env";
 import { cors } from "hono/cors";
 
 export default function (): MiddlewareHandler {

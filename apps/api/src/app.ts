@@ -1,12 +1,11 @@
 import { Hono } from "hono";
-import { serveStatic } from "hono/bun";
 import { logger } from "hono/logger";
 
-import cors from "@/middlewares/cors";
-import serveEmojiFavicon from "@/middlewares/serve-emoji-favicon";
-import auth from "@/routes/auth";
-import roles from "@/routes/roles";
-import users from "@/routes/users";
+import cors from "@bunstack/api/middlewares/cors";
+import serveEmojiFavicon from "@bunstack/api/middlewares/serve-emoji-favicon";
+import auth from "@bunstack/api/routes/auth";
+import roles from "@bunstack/api/routes/roles";
+import users from "@bunstack/api/routes/users";
 
 const app = new Hono({ strict: false });
 

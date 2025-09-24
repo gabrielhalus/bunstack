@@ -1,4 +1,5 @@
 import { Box } from "lucide-react";
+import { Suspense } from "react";
 
 import { RegisterForm } from "./_components/form";
 
@@ -12,7 +13,9 @@ export default function Register() {
           </div>
           Bunstack.
         </a>
-        <RegisterForm />
+        <Suspense>
+          <RegisterForm />
+        </Suspense>
       </div>
     </div>
   );
