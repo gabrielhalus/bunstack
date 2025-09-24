@@ -1,6 +1,6 @@
 "use client";
 
-import { loginInputSchema } from "@bunstack/shared/contracts/auth";
+import { registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { useForm } from "@tanstack/react-form";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -14,27 +14,45 @@ import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
 import { cn } from "@bunstack/ui/lib/utils";
 
-export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+// TODO: Debounce
+async function checkEmailAvailable(email: string): Promise<string | undefined> {
+  const res = await api.auth.available.$get({ query: { email } });
+
+  if (!res.ok) {
+    return "Failed to check email availability";
+  }
+
+  const resData = await res.json();
+
+  if (!resData.available) {
+    return "Email is already in use";
+  }
+}
+
+export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const redirectTo = searchParams.get("redirect") || "/";
 
   const form = useForm({
-    validators: { onChange: loginInputSchema },
+    validators: {
+      onChange: registerInputSchema,
+    },
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const res = await api.auth.login.$post({ json: value });
+      const res = await api.auth.register.$post({ json: value });
       const json = await res.json();
 
       if (json.success) {
         return router.push(redirectTo);
       }
 
-      toast.error(json.error);
+      throw toast.error(json.error);
     },
   });
 
@@ -42,7 +60,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back!</CardTitle>
+          <CardTitle className="text-xl">Welcome aboard!</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={(e) => {
@@ -55,7 +73,39 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               <div className="grid gap-6">
                 <div className="grid gap-3">
                   <form.Field
+                    name="name"
+                    children={field => (
+                      <>
+                        <Label htmlFor={field.name}>Full Name</Label>
+                        <Input
+                          name={field.name}
+                          value={field.state.value}
+                          onBlur={field.handleBlur}
+                          onChange={e => field.handleChange(e.target.value)}
+                          type="text"
+                          placeholder="John Doe"
+                          required
+                        />
+                        {field.state.meta.isTouched && !field.state.meta.isValid
+                          ? (
+                              <p className="text-destructive text-sm">
+                                {field.state.meta.errors[0]?.message}
+                              </p>
+                            )
+                          : null}
+                      </>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <form.Field
                     name="email"
+                    validators={{
+                      onChangeAsync: async ({ value }) => {
+                        const error = await checkEmailAvailable(value);
+                        return error ? { message: error } : undefined;
+                      },
+                    }}
                     children={field => (
                       <>
                         <Label htmlFor={field.name}>Email</Label>
@@ -114,20 +164,20 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                               <span className="flex items-center gap-2">
                                 <Loader2 className="size-4 animate-spin" />
                                 {" "}
-                                Signing in...
+                                Signing up...
                               </span>
                             )
-                          : "Sign in"}
+                          : "Sign up"}
                       </Button>
                     </>
                   )}
                 />
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account yet?
+                Already have an account?
                 {" "}
-                <Link href={`/register${searchParams.toString() ? `?${searchParams.toString()}` : ""}`} className="underline underline-offset-4">
-                  Sign up
+                <Link href={`/login${searchParams.toString() ? `?${searchParams.toString()}` : ""}`} className="underline underline-offset-4">
+                  Sign in
                 </Link>
               </div>
             </div>
