@@ -2,7 +2,7 @@ import type { AppType } from "@bunstack/api";
 
 import { hc } from "hono/client";
 
-const api = hc<AppType>(import.meta.env.DEV ? "/api" : import.meta.env.VITE_API_URL!, {
+const api = hc<AppType>("http://api.localhost", {
   init: { credentials: "include" },
 });
 
