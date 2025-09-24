@@ -1,13 +1,15 @@
 import { Constants } from "@bunstack/shared/constants";
 import { Button } from "@bunstack/ui/components/button";
 import { DropdownMenuItem } from "@bunstack/ui/components/dropdown-menu";
+import sayno from "@bunstack/ui/lib/sayno";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Loader2, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { logoutMutationOptions } from "@/lib/queries/auth";
+import { useAuth } from "@/hooks/use-auth";
+import { logout } from "@/lib/api/auth";
 
 type Variant = "button" | "dropdown";
 
@@ -21,12 +23,26 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const { isAuthenticated } = useAuth();
+
   const mutation = useMutation({
-    ...logoutMutationOptions,
-    onSuccess: () => {
-      localStorage.removeItem(Constants.accessToken);
-      queryClient.resetQueries();
-      return navigate({ href: `http://localhost:4001/login?redirect=${encodeURIComponent(location.href)}` });
+    mutationFn: async () => {
+      const confirmation = await sayno({
+        description: t("sign-out.dialog"),
+      });
+
+      if (confirmation) {
+        logout();
+      }
+
+      return confirmation;
+    },
+    onSuccess: (loggedOut) => {
+      if (loggedOut) {
+        localStorage.removeItem(Constants.accessToken);
+        queryClient.resetQueries();
+        return navigate({ href: `http://localhost:4001/login?redirect=${encodeURIComponent(location.href)}` });
+      }
     },
     onError: () => {
       toast.error(t("sign-out.error"));
@@ -41,6 +57,10 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
       {t("sign-out")}
     </>
   );
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   if (variant === "dropdown") {
     return (
