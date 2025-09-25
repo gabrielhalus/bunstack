@@ -10,6 +10,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@bunstack/api/*": ["../api/src/*"],
+      "@bunstack/env/*": ["../../packages/env/src/*"],
       "@bunstack/ui/*": ["../../packages/ui/src/*"]
     },
     "resolveJsonModule": true,

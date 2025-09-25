@@ -2,8 +2,9 @@ import type { AppType } from "@bunstack/api";
 
 import { hc } from "hono/client";
 
-// eslint-disable-next-line node/no-process-env
-const api = hc<AppType>(process.env.NODE_ENV === "production" ? "http://api.localhost" : "/api", {
+import { env } from "./env";
+
+const api = hc<AppType>(env.NODE_ENV === "production" ? env.NEXT_PUBLIC_API_URL : "/api", {
   init: { credentials: "include" },
 });
 
