@@ -1,7 +1,8 @@
 import type { MiddlewareHandler } from "hono";
 
-import env from "@bunstack/shared/lib/env";
 import { cors } from "hono/cors";
+
+import env from "@bunstack/shared/lib/env";
 
 export default function (): MiddlewareHandler {
   return cors({
@@ -11,7 +12,7 @@ export default function (): MiddlewareHandler {
       }
 
       const url = new URL(originHeader);
-      return url.hostname.endsWith(env.HOSTNAME) ? originHeader : null;
+      return url.hostname === env.HOSTNAME || url.hostname.endsWith(`.${env.HOSTNAME}`) ? originHeader : null;
     },
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
