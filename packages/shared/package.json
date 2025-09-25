@@ -39,10 +39,6 @@
       "types": "./dist/db/types/*.d.ts",
       "import": "./dist/db/types/*.js"
     },
-    "./lib/*": {
-      "types": "./dist/lib/*.d.ts",
-      "import": "./dist/lib/*.js"
-    },
     "./types/*": {
       "types": "./dist/types/*.d.ts",
       "import": "./dist/types/*.js"
@@ -64,7 +60,7 @@
     "drizzle-zod": "^0.7.1",
     "hono": "^4.9.8",
     "nanoid": "^5.1.5",
-    "zod": "^3.25.55"
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.1",

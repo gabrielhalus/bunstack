@@ -4,6 +4,7 @@
     "composite": true,
     "lib": ["ESNext", "DOM"],
     "baseUrl": "./src",
+    "rootDir": "./src",
     "paths": {
       "@bunstack/api/*": ["../../apps/api/src/*"],
       "@bunstack/shared/*": ["./*"]
