@@ -1,10 +1,10 @@
-import env from "@bunstack/shared/lib/env";
+import { Constants } from "@bunstack/shared/constants";
+import { getUserWithContext } from "@bunstack/shared/db/queries/users";
 import { getCookie } from "hono/cookie";
 import { verify } from "hono/jwt";
 
+import { env } from "@bunstack/api/lib/env";
 import { factory } from "@bunstack/api/utils/hono";
-import { Constants } from "@bunstack/shared/constants";
-import { getUserWithContext } from "@bunstack/shared/db/queries/users";
 
 /**
  * Get the user from the JWT token and set the auth context

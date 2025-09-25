@@ -1,10 +1,8 @@
-import env from "@bunstack/shared/lib/env";
+import { getUser } from "@bunstack/shared/db/queries/users";
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
 
-import { getUser } from "@bunstack/shared/db/queries/users";
-
-const SECRET_KEY = env.JWT_SECRET;
+import { env } from "@bunstack/api/lib/env";
 
 export const ACCESS_TOKEN_EXPIRATION_SECONDS = 60 * 15; // 15 minutes
 export const REFRESH_TOKEN_EXPIRATION_SECONDS = 60 * 60 * 24 * 30; // 30 days
@@ -44,7 +42,7 @@ export async function createAccessToken(userId: string): Promise<string> {
     iss: "bunstack",
   };
 
-  return await sign(payload, SECRET_KEY);
+  return await sign(payload, env.JWT_SECRET);
 }
 
 export async function createRefreshToken(userId: string, tokenId: string): Promise<string> {
@@ -57,7 +55,7 @@ export async function createRefreshToken(userId: string, tokenId: string): Promi
     iss: "bunstack",
   };
 
-  return await sign(payload, SECRET_KEY);
+  return await sign(payload, env.JWT_SECRET);
 }
 
 export async function verifyToken<T extends JwtPayload["ttyp"]>(
@@ -65,7 +63,7 @@ export async function verifyToken<T extends JwtPayload["ttyp"]>(
   type: T,
 ): Promise<Extract<JwtPayload, { ttyp: T }> | null> {
   try {
-    const payload = await verify(token, SECRET_KEY) as JwtPayload;
+    const payload = await verify(token, env.JWT_SECRET) as JwtPayload;
     return payload.ttyp === type ? payload as Extract<JwtPayload, { ttyp: T }> : null;
   } catch {
     return null;

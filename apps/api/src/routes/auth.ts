@@ -1,16 +1,41 @@
-import env from "@bunstack/shared/lib/env";
+import { Constants } from "@bunstack/shared/constants";
+import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
+import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
+import { getUserExists, insertUser } from "@bunstack/shared/db/queries/users";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
 import { getClientInfo } from "@bunstack/api/helpers/get-client-info";
 import { ACCESS_TOKEN_EXPIRATION_SECONDS, createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@bunstack/api/lib/auth";
+import { env } from "@bunstack/api/lib/env";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
-import { Constants } from "@bunstack/shared/constants";
-import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
-import { getUserExists, insertUser } from "@bunstack/shared/db/queries/users";
+
+// Global cookie settings
+const baseCookieSettings = {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: "none" as const,
+  partitioned: true,
+  domain: `.${env.HOSTNAME}`,
+  path: "/",
+};
+
+const accessTokenCookieSettings = {
+  ...baseCookieSettings,
+  maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
+};
+
+const refreshTokenCookieSettings = {
+  ...baseCookieSettings,
+  maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
+};
+
+const clearCookieSettings = {
+  ...baseCookieSettings,
+  maxAge: 0,
+};
 
 export default new Hono()
   /**
@@ -32,22 +57,10 @@ export default new Hono()
       });
 
       const accessToken = await createAccessToken(insertedUser.id);
-      setCookie(c, Constants.accessToken, accessToken, {
-        httpOnly: true,
-        secure: env.NODE_ENV === "production",
-        sameSite: "none",
-        path: "/",
-        maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
-      });
+      setCookie(c, Constants.accessToken, accessToken, accessTokenCookieSettings);
 
       const refreshToken = await createRefreshToken(insertedUser.id, insertedToken.id);
-      setCookie(c, Constants.refreshToken, refreshToken, {
-        httpOnly: true,
-        secure: env.NODE_ENV === "production",
-        sameSite: "none",
-        path: "/",
-        maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
-      });
+      setCookie(c, Constants.refreshToken, refreshToken, refreshTokenCookieSettings);
 
       return c.json({ success: true as const });
     } catch (error) {
@@ -84,22 +97,10 @@ export default new Hono()
       });
 
       const accessToken = await createAccessToken(userId);
-      setCookie(c, Constants.accessToken, accessToken, {
-        httpOnly: true,
-        secure: env.NODE_ENV === "production",
-        sameSite: "none",
-        path: "/",
-        maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
-      });
+      setCookie(c, Constants.accessToken, accessToken, accessTokenCookieSettings);
 
       const refreshToken = await createRefreshToken(userId, insertedToken.id);
-      setCookie(c, Constants.refreshToken, refreshToken, {
-        httpOnly: true,
-        secure: env.NODE_ENV === "production",
-        sameSite: "none",
-        path: "/",
-        maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
-      });
+      setCookie(c, Constants.refreshToken, refreshToken, refreshTokenCookieSettings);
 
       return c.json({ success: true as const });
     } catch (error) {
@@ -134,13 +135,7 @@ export default new Hono()
       }
 
       const accessToken = await createAccessToken(sub);
-      setCookie(c, Constants.accessToken, accessToken, {
-        httpOnly: true,
-        secure: env.NODE_ENV === "production",
-        sameSite: "none",
-        path: "/",
-        maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
-      });
+      setCookie(c, Constants.accessToken, accessToken, accessTokenCookieSettings);
 
       return c.json({ success: true as const });
     } catch {
@@ -173,21 +168,9 @@ export default new Hono()
       }
     }
 
-    setCookie(c, Constants.accessToken, "accessToken", {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: "none",
-      path: "/",
-      maxAge: 0,
-    });
+    setCookie(c, Constants.accessToken, "", clearCookieSettings);
 
-    setCookie(c, Constants.refreshToken, "", {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/api/auth",
-      maxAge: 0,
-    });
+    setCookie(c, Constants.refreshToken, "", clearCookieSettings);
 
     return c.json({ success: true as const });
   })
