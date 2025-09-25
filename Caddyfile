@@ -13,5 +13,7 @@ api.localhost:80 {
 }
 
 auth.localhost:80 {
-    reverse_proxy localhost:4001
+    root * /Users/gabrielhalus/Developer/bunstack/apps/web/dist
+    file_server
+    try_files {path} /index.html
 }

@@ -18,7 +18,6 @@ const baseCookieSettings = {
   secure: env.NODE_ENV === "production",
   sameSite: "none" as const,
   partitioned: true,
-  domain: `.${env.HOSTNAME}`,
   path: "/",
 };
 

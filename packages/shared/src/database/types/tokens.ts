@@ -1,6 +1,5 @@
-import { createInsertSchema } from "drizzle-zod";
-
 import { Tokens } from "@bunstack/shared/database/schemas/tokens";
+import { createInsertSchema } from "drizzle-zod";
 
 export type Token = typeof Tokens.$inferSelect;
 

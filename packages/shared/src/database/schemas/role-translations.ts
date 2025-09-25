@@ -1,6 +1,5 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-
 import { Roles } from "@bunstack/shared/database/schemas/roles";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const RoleTranslations = sqliteTable("role_translations", {
   id: integer("id").primaryKey({ autoIncrement: true }),

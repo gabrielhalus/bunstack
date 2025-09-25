@@ -40,9 +40,8 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
     },
     onSuccess: (loggedOut) => {
       if (loggedOut) {
-        localStorage.removeItem(Constants.accessToken);
         queryClient.resetQueries();
-        return navigate({ href: `${env.VITE_AUTH_URL}/login?redirect=${encodeURIComponent(location.href)}` });
+        return navigate({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}` });
       }
     },
     onError: () => {

@@ -1,9 +1,9 @@
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
-
 import type { Permission } from "@bunstack/shared/access/types";
 import type { User } from "@bunstack/shared/database/types/users";
 import type { Merge } from "@bunstack/shared/types/utils";
+
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
 import { Roles } from "../schemas/roles";
 
