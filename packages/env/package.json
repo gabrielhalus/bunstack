@@ -1,0 +1,21 @@
+{
+  "name": "@bunstack/env",
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@bunstack/eslint-config": "workspace:*",
+    "@bunstack/typescript-config": "workspace:*",
+    "zod": "^4.1.11"
+  }
+}

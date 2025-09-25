@@ -34,12 +34,14 @@
       "name": "@bunstack/auth",
       "version": "0.0.0",
       "dependencies": {
+        "@bunstack/env": "workspace:*",
         "@bunstack/ui": "workspace:*",
         "hono": "^4.9.8",
         "lucide-react": "^0.544.0",
         "next": "15.5.3",
         "react": "19.1.0",
         "react-dom": "19.1.0",
+        "zod": "^4.1.11",
       },
       "devDependencies": {
         "@tailwindcss/postcss": "^4",
@@ -105,6 +107,15 @@
         "typescript": "~5.8.3",
         "typescript-eslint": "^8.30.1",
         "vite": "^6.3.5",
+      },
+    },
+    "packages/env": {
+      "name": "@bunstack/env",
+      "version": "0.0.0",
+      "dependencies": {
+        "@bunstack/eslint-config": "workspace:*",
+        "@bunstack/typescript-config": "workspace:*",
+        "zod": "^4.1.11",
       },
     },
     "packages/eslint-config": {
@@ -244,6 +255,8 @@
     "@bunstack/api": ["@bunstack/api@workspace:apps/api"],
 
     "@bunstack/auth": ["@bunstack/auth@workspace:apps/auth"],
+
+    "@bunstack/env": ["@bunstack/env@workspace:packages/env"],
 
     "@bunstack/eslint-config": ["@bunstack/eslint-config@workspace:packages/eslint-config"],
 
@@ -1952,6 +1965,10 @@
     "@babel/code-frame/js-tokens": ["js-tokens@4.0.0", "", {}, "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="],
 
     "@bunstack/auth/typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
+
+    "@bunstack/auth/zod": ["zod@4.1.11", "", {}, "sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg=="],
+
+    "@bunstack/env/zod": ["zod@4.1.11", "", {}, "sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg=="],
 
     "@bunstack/web/typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
 
