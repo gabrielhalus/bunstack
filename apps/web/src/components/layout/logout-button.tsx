@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
 import { logout } from "@/lib/api/auth";
+import { env } from "@/lib/env";
 
 type Variant = "button" | "dropdown";
 
@@ -41,7 +42,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
       if (loggedOut) {
         localStorage.removeItem(Constants.accessToken);
         queryClient.resetQueries();
-        return navigate({ href: `http://localhost:4001/login?redirect=${encodeURIComponent(location.href)}` });
+        return navigate({ href: `${env.VITE_AUTH_URL}/login?redirect=${encodeURIComponent(location.href)}` });
       }
     },
     onError: () => {

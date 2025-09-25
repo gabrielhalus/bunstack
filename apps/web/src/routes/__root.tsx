@@ -2,6 +2,7 @@ import type { QueryClient } from "@tanstack/react-query";
 
 import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
 
+import { env } from "@/lib/env";
 import { userQueryOptions } from "@/lib/queries/auth";
 
 export type RouterContext = {
@@ -15,7 +16,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     try {
       await queryClient.fetchQuery(userQueryOptions);
     } catch {
-      throw redirect({ href: `http://localhost:4001/login?redirect=${encodeURIComponent(location.href)}` });
+      throw redirect({ href: `${env.VITE_AUTH_URL}/login?redirect=${encodeURIComponent(location.href)}` });
     }
   },
   component: RootLayout,

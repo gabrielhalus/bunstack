@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bunstack/env": "workspace:*",
     "@bunstack/shared": "workspace:*",
     "@bunstack/ui": "workspace:*",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -40,7 +41,8 @@
     "react-i18next": "^15.6.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.0",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@bunstack/eslint-config": "workspace:*",

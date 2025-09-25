@@ -12,6 +12,7 @@
     "paths": {
       "@/*": ["./*"],
       "@bunstack/api/*": ["../../api/src/*"],
+      "@bunstack/env/*": ["../../env/src/*"],
       "@bunstack/shared/*": ["../../packages/shared/src/*"],
       "@bunstack/ui/*": ["../../packages/ui/src/*"]
     },
