@@ -1,5 +1,5 @@
 import { Constants } from "@bunstack/shared/constants";
-import { getUserWithContext } from "@bunstack/shared/db/queries/users";
+import { getUserWithContext } from "@bunstack/shared/database/queries/users";
 import { getCookie } from "hono/cookie";
 import { verify } from "hono/jwt";
 

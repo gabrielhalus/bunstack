@@ -23,21 +23,25 @@
       "types": "./dist/contracts/*/index.d.ts",
       "import": "./dist/contracts/*/index.js"
     },
-    "./db": {
-      "types": "./dist/db/index.d.ts",
-      "import": "./dist/db/index.js"
+    "./database": {
+      "types": "./dist/database/index.d.ts",
+      "import": "./dist/database/index.js"
     },
-    "./db/queries/*": {
-      "types": "./dist/db/queries/*.d.ts",
-      "import": "./dist/db/queries/*.js"
+    "./database/queries/*": {
+      "types": "./dist/database/queries/*.d.ts",
+      "import": "./dist/database/queries/*.js"
     },
-    "./db/schemas/*": {
-      "types": "./dist/db/schemas/*.d.ts",
-      "import": "./dist/db/schemas/*.js"
+    "./database/schemas/*": {
+      "types": "./dist/database/schemas/*.d.ts",
+      "import": "./dist/database/schemas/*.js"
     },
-    "./db/types/*": {
-      "types": "./dist/db/types/*.d.ts",
-      "import": "./dist/db/types/*.js"
+    "./database/types/*": {
+      "types": "./dist/database/types/*.d.ts",
+      "import": "./dist/database/types/*.js"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js"
     },
     "./types/*": {
       "types": "./dist/types/*.d.ts",
@@ -54,6 +58,7 @@
     "drizzle:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@bunstack/env": "workspace:*",
     "@bunstack/eslint-config": "workspace:*",
     "@bunstack/typescript-config": "workspace:*",
     "drizzle-orm": "^0.44.2",

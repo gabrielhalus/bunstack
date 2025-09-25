@@ -1,6 +1,6 @@
 import type { Permission, Policy } from "@bunstack/shared/access/types";
-import type { Role, RoleWithPermissions } from "@bunstack/shared/db/types/roles";
-import type { User } from "@bunstack/shared/db/types/users";
+import type { Role, RoleWithPermissions } from "@bunstack/shared/database/types/roles";
+import type { User } from "@bunstack/shared/database/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
 import { can as sharedCan } from "@bunstack/shared/access";

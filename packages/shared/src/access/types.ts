@@ -1,7 +1,7 @@
 import type { permissions } from "@bunstack/shared/access/permissions";
-import type { Policy as PolicyDB } from "@bunstack/shared/db/types/policies";
-import type { Role } from "@bunstack/shared/db/types/roles";
-import type { User } from "@bunstack/shared/db/types/users";
+import type { Policy as PolicyDB } from "@bunstack/shared/database/types/policies";
+import type { Role } from "@bunstack/shared/database/types/roles";
+import type { User } from "@bunstack/shared/database/types/users";
 
 export type Permission = (typeof permissions)[number];
 

@@ -1,7 +1,7 @@
 import { Constants } from "@bunstack/shared/constants";
 import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, getToken, insertToken } from "@bunstack/shared/db/queries/tokens";
-import { getUserExists, insertUser } from "@bunstack/shared/db/queries/users";
+import { deleteToken, getToken, insertToken } from "@bunstack/shared/database/queries/tokens";
+import { getUserExists, insertUser } from "@bunstack/shared/database/queries/users";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";

@@ -1,5 +1,0 @@
-NODE_ENV=development
-HOSTNAME=.localhost
-DATABASE_URL=sqlite.dev.db
-JWT_SECRET=change_me
-

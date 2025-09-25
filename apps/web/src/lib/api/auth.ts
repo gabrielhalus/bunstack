@@ -1,6 +1,6 @@
 import type { Policy } from "@bunstack/shared/access/types";
-import type { RoleWithPermissions } from "@bunstack/shared/db/types/roles";
-import type { User } from "@bunstack/shared/db/types/users";
+import type { RoleWithPermissions } from "@bunstack/shared/database/types/roles";
+import type { User } from "@bunstack/shared/database/types/users";
 
 import { api } from "../http";
 

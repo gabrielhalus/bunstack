@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/db/types/users";
+import type { User } from "@bunstack/shared/database/types/users";
 import type { Row } from "@tanstack/react-table";
 
 import { Button } from "@bunstack/ui/components/button";

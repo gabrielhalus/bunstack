@@ -1,4 +1,4 @@
-import { getUser } from "@bunstack/shared/db/queries/users";
+import { getUser } from "@bunstack/shared/database/queries/users";
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
 

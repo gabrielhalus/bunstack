@@ -1,4 +1,4 @@
-import type { RoleWithMembersCount } from "@bunstack/shared/db/types/roles";
+import type { RoleWithMembersCount } from "@bunstack/shared/database/types/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@bunstack/ui/components/button";

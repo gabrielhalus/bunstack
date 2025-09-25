@@ -57,6 +57,7 @@
       "name": "@bunstack/web",
       "version": "0.0.0",
       "dependencies": {
+        "@bunstack/env": "workspace:*",
         "@bunstack/shared": "workspace:*",
         "@bunstack/ui": "workspace:*",
         "@radix-ui/react-avatar": "^1.1.10",
@@ -89,6 +90,7 @@
         "sonner": "^2.0.7",
         "tailwind-merge": "^3.3.0",
         "tailwindcss": "^4.1.8",
+        "zod": "^4.1.11",
       },
       "devDependencies": {
         "@bunstack/eslint-config": "workspace:*",
@@ -134,6 +136,7 @@
       "name": "@bunstack/shared",
       "version": "0.0.0",
       "dependencies": {
+        "@bunstack/env": "workspace:*",
         "@bunstack/eslint-config": "workspace:*",
         "@bunstack/typescript-config": "workspace:*",
         "drizzle-orm": "^0.44.2",

@@ -1,0 +1,3 @@
+HOSTNAME=.localhost
+JWT_SECRET=change_me
+NODE_ENV=development
