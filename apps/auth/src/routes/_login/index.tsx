@@ -4,9 +4,7 @@ import { Box } from "lucide-react";
 import { LoginForm } from "./-components/form";
 
 export const Route = createFileRoute("/_login/")({
-
   component: Login,
-
 });
 
 function Login() {

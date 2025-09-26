@@ -1,9 +1,4 @@
 import { registerInputSchema } from "@bunstack/shared/contracts/auth";
-import { Button } from "@bunstack/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
-import { Input } from "@bunstack/ui/components/input";
-import { Label } from "@bunstack/ui/components/label";
-import { cn } from "@bunstack/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
@@ -11,6 +6,11 @@ import { toast } from "sonner";
 
 import { debounceAsync } from "@/lib/debounce";
 import { api } from "@/lib/http";
+import { Button } from "@bunstack/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
+import { Input } from "@bunstack/ui/components/input";
+import { Label } from "@bunstack/ui/components/label";
+import { cn } from "@bunstack/ui/lib/utils";
 
 const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
   const res = await api.auth.available.$get({ query: { email } });
@@ -46,7 +46,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
       const json = await res.json();
 
       if (json.success) {
-        return navigate({ href: redirectTo });
+        return navigate({ href: redirectTo, replace: true });
       }
 
       throw toast.error(json.error);
