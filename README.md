@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite Badge" />
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Badge" />
   <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite Badge" />
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Badge" />
+  <img src="https://img.shields.io/badge/Caddy-2496ED?style=for-the-badge&logo=caddy&logoColor=white" alt="Caddy Badge" />
 </p>
 
 ## Development
@@ -70,6 +70,53 @@ bun run dev
 cd apps/web
 bun run dev
 ```
+
+### 6. Local Reverse Proxy with Caddy
+
+To run multiple apps on custom local domains (localhost, api.localhost, auth.localhost), you can use [Caddy](https://caddyserver.com/).
+
+#### 1. Install Caddy
+
+##### macOS (Homebrew):
+
+```bash
+brew install caddy
+```
+
+##### Linux (Debian/Ubuntu)
+
+```bash
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy
+```
+
+#### 2. Configure `/etc/hosts` (Linux/macOS)
+
+Add these lines to map custom local domains to `127.0.0.1`:
+
+```text
+127.0.0.1 api.localhost
+127.0.0.1 auth.localhost
+```
+
+- On Linux: `sudo vim /etc/hosts`
+- On macOS: `sudo vim /etc/hosts`
+
+#### 3. Run Caddy
+
+```bash
+caddy run --config Caddyfile
+```
+
+- Your apps are now available at:
+   - http://localhost → Web
+   - http://api.localhost → API
+   - http://auth.localhost → Auth
+
+> Optional: You can also use caddy stop and caddy start to manage it in the background.
 
 ## Linting (ESLint)
 
