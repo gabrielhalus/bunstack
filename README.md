@@ -22,20 +22,27 @@ cd bunstack
 bun install
 ```
 
-### 3. Create `.env` File
+### 3. Create `.env` Files
 
-Before running the database migration, copy the `env` file for the backend:
+Each app/package has its own `.env.example` file. Copy it to `.env.local` (ignored by Git) and customize values as needed.
 
 ```bash
-cp env .env.local
+# Backend
+cp apps/api/.env.example apps/api/.env.local
+
+# Web frontend
+cp apps/web/.env.example apps/web/.env.local
+
+# Auth frontend
+cp apps/auth/.env.example apps/auth/.env.local
 ```
 
-Then **customize any variables** as needed, such as `DATABASE_URL`.
+> For a complete list of all environment variables, their purpose, default values, and which apps use them, check the [Environment Variables Documentation](docs/env.md).
 
 ### 4. Generate SQLite Database
 
 ```bash
-bun run db:migrate
+bun run drizzle:push
 ```
 
 > This will create the SQLite database with the required schema.
@@ -51,11 +58,15 @@ bun run dev
 Or start individually:
 
 ```bash
-# Backend
+# API
 cd apps/api
 bun run dev
 
-# Frontend
+# Auth
+cd apps/auth
+bun run dev
+
+# Web
 cd apps/web
 bun run dev
 ```
@@ -68,7 +79,7 @@ This monorepo includes ESLint configs for all apps and packages. To check code s
 bun run lint
 ```
 
-This will run linting across all workspaces (backend, frontend, shared packages).
+This will run linting across all workspaces.
 
 Make sure to fix lint warnings/errors before committing to maintain code quality.
 

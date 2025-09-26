@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Box } from "lucide-react";
 
+import { env } from "@/lib/env";
+
 import { LoginForm } from "./-components/form";
 
 export const Route = createFileRoute("/_login/")({
@@ -16,6 +18,7 @@ function Login() {
             <Box className="size-4" />
           </div>
           Bunstack.
+          {env.NODE_ENV}
         </a>
         <LoginForm />
       </div>
