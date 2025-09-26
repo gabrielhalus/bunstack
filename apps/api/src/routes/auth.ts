@@ -1,35 +1,15 @@
 import { Constants } from "@bunstack/shared/constants";
 import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, getToken, insertToken } from "@bunstack/shared/database/queries/tokens";
+import { deleteToken, insertToken } from "@bunstack/shared/database/queries/tokens";
 import { getUserExists, insertUser } from "@bunstack/shared/database/queries/users";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 
 import { getClientInfo } from "@bunstack/api/helpers/get-client-info";
-import { ACCESS_TOKEN_EXPIRATION_SECONDS, createAccessToken, createRefreshToken, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@bunstack/api/lib/auth";
-import { env } from "@bunstack/api/lib/env";
+import { createAccessToken, createRefreshToken, getCookieSettings, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@bunstack/api/lib/auth";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
-
-function getCookieSettings(type: "access" | "refresh" | "clear") {
-  const base = {
-    httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    domain: env.NODE_ENV === "production" ? env.HOSTNAME : undefined,
-  } as const;
-
-  switch (type) {
-    case "access":
-      return { ...base, maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS };
-    case "refresh":
-      return { ...base, maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS };
-    case "clear":
-      return { ...base, maxAge: 0, expires: new Date(0) };
-  }
-}
 
 export default new Hono()
   /**
@@ -99,47 +79,6 @@ export default new Hono()
       return c.json({ success: true as const });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
-    }
-  })
-
-  /**
-   * Refresh the access token using the refresh token cookie
-   * @param c - The context
-   * @returns The new access token
-   */
-  .post("/refresh", async (c) => {
-    const refreshToken = getCookie(c, Constants.refreshToken);
-
-    if (!refreshToken) {
-      return c.json({ error: "No refresh token provided" }, 401);
-    }
-
-    try {
-      const payload = await verifyToken(refreshToken, "refresh");
-      if (!payload)
-        throw new Error("Invalid refresh token");
-
-      const { sub, jti } = payload;
-      const tokenRecord = await getToken("id", jti);
-
-      if (!tokenRecord || tokenRecord.expiresAt < Date.now()) {
-        if (jti)
-          await deleteToken("id", jti);
-        return c.json({ success: false as const, error: "Refresh token expired or invalid" }, 401);
-      }
-
-      const accessToken = await createAccessToken(sub);
-      setCookie(c, Constants.accessToken, accessToken, getCookieSettings("access"));
-
-      return c.json({ success: true as const });
-    } catch {
-      // Attempt to clean up invalid token if possible
-      try {
-        const payload = await verifyToken(refreshToken, "refresh");
-        if (payload?.jti)
-          await deleteToken("id", payload.jti);
-      } catch {}
-      return c.json({ success: false as const, error: "Invalid refresh token" }, 401);
     }
   })
 

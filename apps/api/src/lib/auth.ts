@@ -69,3 +69,22 @@ export async function verifyToken<T extends JwtPayload["ttyp"]>(
     return null;
   }
 }
+
+export function getCookieSettings(type: "access" | "refresh" | "clear") {
+  const base = {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
+    domain: env.NODE_ENV === "production" ? env.HOSTNAME : undefined,
+  } as const;
+
+  switch (type) {
+    case "access":
+      return { ...base, maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS };
+    case "refresh":
+      return { ...base, maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS };
+    case "clear":
+      return { ...base, maxAge: 0, expires: new Date(0) };
+  }
+}
