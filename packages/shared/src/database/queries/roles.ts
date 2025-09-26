@@ -1,10 +1,11 @@
+import { asc, count, desc, eq, inArray, like, or } from "drizzle-orm";
+
 import type { User } from "@bunstack/shared/database/types/users";
 
 import { db } from "@bunstack/shared/database";
 import { Roles } from "@bunstack/shared/database/schemas/roles";
 import { UserRoles } from "@bunstack/shared/database/schemas/user-roles";
 import { Users } from "@bunstack/shared/database/schemas/users";
-import { asc, count, desc, eq, inArray, like, or } from "drizzle-orm";
 
 import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 
@@ -82,6 +83,15 @@ export async function getRole<T extends keyof RoleUniqueFields>(key: T, value: t
   };
 
   return enrichedRole;
+}
+
+/**
+ * Retrieves the default role from the database.
+ *
+ * @returns The default Role if found, undefined otherwise.
+ */
+export async function getDefaultRole(): Promise<Role | undefined> {
+  return await db.select().from(Roles).where(eq(Roles.isDefault, true)).get();
 }
 
 /**
