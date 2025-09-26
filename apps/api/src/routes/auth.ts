@@ -12,29 +12,24 @@ import { env } from "@bunstack/api/lib/env";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 
-// Global cookie settings
-const baseCookieSettings = {
-  httpOnly: true,
-  secure: env.NODE_ENV === "production",
-  sameSite: "none" as const,
-  partitioned: true,
-  path: "/",
-};
+function getCookieSettings(type: "access" | "refresh" | "clear") {
+  const base = {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
+    domain: env.NODE_ENV === "production" ? env.HOSTNAME : undefined,
+  } as const;
 
-const accessTokenCookieSettings = {
-  ...baseCookieSettings,
-  maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS,
-};
-
-const refreshTokenCookieSettings = {
-  ...baseCookieSettings,
-  maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS,
-};
-
-const clearCookieSettings = {
-  ...baseCookieSettings,
-  maxAge: 0,
-};
+  switch (type) {
+    case "access":
+      return { ...base, maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS };
+    case "refresh":
+      return { ...base, maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS };
+    case "clear":
+      return { ...base, maxAge: 0, expires: new Date(0) };
+  }
+}
 
 export default new Hono()
   /**
@@ -56,10 +51,10 @@ export default new Hono()
       });
 
       const accessToken = await createAccessToken(insertedUser.id);
-      setCookie(c, Constants.accessToken, accessToken, accessTokenCookieSettings);
+      setCookie(c, Constants.accessToken, accessToken, getCookieSettings("access"));
 
       const refreshToken = await createRefreshToken(insertedUser.id, insertedToken.id);
-      setCookie(c, Constants.refreshToken, refreshToken, refreshTokenCookieSettings);
+      setCookie(c, Constants.refreshToken, refreshToken, getCookieSettings("refresh"));
 
       return c.json({ success: true as const });
     } catch (error) {
@@ -96,10 +91,10 @@ export default new Hono()
       });
 
       const accessToken = await createAccessToken(userId);
-      setCookie(c, Constants.accessToken, accessToken, accessTokenCookieSettings);
+      setCookie(c, Constants.accessToken, accessToken, getCookieSettings("access"));
 
       const refreshToken = await createRefreshToken(userId, insertedToken.id);
-      setCookie(c, Constants.refreshToken, refreshToken, refreshTokenCookieSettings);
+      setCookie(c, Constants.refreshToken, refreshToken, getCookieSettings("refresh"));
 
       return c.json({ success: true as const });
     } catch (error) {
@@ -134,7 +129,7 @@ export default new Hono()
       }
 
       const accessToken = await createAccessToken(sub);
-      setCookie(c, Constants.accessToken, accessToken, accessTokenCookieSettings);
+      setCookie(c, Constants.accessToken, accessToken, getCookieSettings("access"));
 
       return c.json({ success: true as const });
     } catch {
@@ -167,9 +162,8 @@ export default new Hono()
       }
     }
 
-    setCookie(c, Constants.accessToken, "", clearCookieSettings);
-
-    setCookie(c, Constants.refreshToken, "", clearCookieSettings);
+    setCookie(c, Constants.accessToken, "", getCookieSettings("clear"));
+    setCookie(c, Constants.refreshToken, "", getCookieSettings("clear"));
 
     return c.json({ success: true as const });
   })
