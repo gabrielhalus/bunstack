@@ -16,7 +16,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     try {
       await queryClient.fetchQuery(userQueryOptions);
     } catch {
-      throw redirect({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}` });
+      throw redirect({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}`, replace: true });
     }
   },
   component: RootLayout,

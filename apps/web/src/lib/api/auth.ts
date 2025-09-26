@@ -24,6 +24,4 @@ export async function logout() {
   if (!res.ok) {
     throw new Error("Failed to logout");
   }
-
-  return res.json();
 }

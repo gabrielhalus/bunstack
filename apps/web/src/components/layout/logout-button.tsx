@@ -27,21 +27,24 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const confirmation = await sayno({
-        description: t("sign-out.dialog"),
-      });
-
-      if (confirmation) {
-        logout();
+      const confirmation = await sayno({ description: t("sign-out.dialog") });
+      if (!confirmation) {
+        return false;
       }
 
-      return confirmation;
+      await logout();
+      return true;
     },
     onSuccess: (loggedOut) => {
-      if (loggedOut) {
-        queryClient.resetQueries();
-        return navigate({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}` });
+      if (!loggedOut) {
+        return;
       }
+
+      // Clear cached queries
+      queryClient.resetQueries();
+
+      // Redirect to SSO login
+      navigate({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}`, replace: true });
     },
     onError: () => {
       toast.error(t("sign-out.error"));
