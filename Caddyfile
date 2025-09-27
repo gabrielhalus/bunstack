@@ -13,7 +13,7 @@ api.localhost:80 {
 }
 
 auth.localhost:80 {
-    root * /Users/gabrielhalus/Developer/bunstack/apps/web/dist
+    root * /Users/gabrielhalus/Developer/bunstack/apps/auth/dist
     file_server
     try_files {path} /index.html
 }
