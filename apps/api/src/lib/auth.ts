@@ -70,20 +70,31 @@ export async function verifyToken<T extends JwtPayload["ttyp"]>(
   }
 }
 
-export function getCookieSettings(type: "access" | "refresh" | "clear") {
+type CookieType = "access" | "refresh" | "clear";
+
+export function getCookieSettings(type: CookieType) {
+  const isProd = env.NODE_ENV === "production";
+
+  // Detect if we are using subdomain testing builds
+  const isSubdomainDev = !isProd && env.HOSTNAME?.endsWith(".localhost.dev");
+
   const base = {
     httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
-    domain: env.NODE_ENV === "production" ? env.HOSTNAME : undefined,
-  } as const;
+    domain: isProd
+      ? `.${env.HOSTNAME}` // prod: example.com → .example.com
+      : isSubdomainDev
+        ? `.${env.HOSTNAME}` // dev subdomains → .localhost.dev
+        : undefined, // real dev with ports → no domain, host-only
+    secure: isProd || isSubdomainDev, // must be true for SameSite=None
+    sameSite: isProd || isSubdomainDev ? "none" as const : "lax" as const,
+  };
 
   switch (type) {
     case "access":
-      return { ...base, maxAge: ACCESS_TOKEN_EXPIRATION_SECONDS };
+      return { ...base, maxAge: Number(ACCESS_TOKEN_EXPIRATION_SECONDS) };
     case "refresh":
-      return { ...base, maxAge: REFRESH_TOKEN_EXPIRATION_SECONDS };
+      return { ...base, maxAge: Number(REFRESH_TOKEN_EXPIRATION_SECONDS) };
     case "clear":
       return { ...base, maxAge: 0, expires: new Date(0) };
   }
