@@ -1,31 +1,24 @@
 import { z } from "zod";
 
-const passwordSchema = z
+export const passwordSchema = z
   .string()
-  .min(8, { message: "minLengthErrorMessage" })
-  .max(20, { message: "maxLengthErrorMessage" })
-  .refine(password => /[A-Z]/.test(password), {
-    message: "uppercaseErrorMessage",
-  })
-  .refine(password => /[a-z]/.test(password), {
-    message: "lowercaseErrorMessage",
-  })
-  .refine(password => /\d/.test(password), { message: "numberErrorMessage" })
-  .refine(password => /[!@#$%^&*]/.test(password), {
-    message: "specialCharacterErrorMessage",
-  });
+  .min(8, { error: "minLengthErrorMessage" })
+  .regex(/[A-Z]/, { error: "uppercaseErrorMessage" })
+  .regex(/[a-z]/, { error: "lowercaseErrorMessage" })
+  .regex(/\d/, { error: "numberErrorMessage" })
+  .regex(/[!@#$%^&*()\-=+[\]{};:'",.<>/?\\|`]/, { error: "specialCharacterErrorMessage" });
 
 export const registerInputSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
+  name: z.string().min(1, { error: "requiredErrorMessage" }).min(3, { error: "minLengthErrorMessage" }).max(20, { error: "maxLengthErrorMessage" }),
+  email: z.email({ error: "invalidErrorMessage" }).toLowerCase(),
   password: passwordSchema,
 });
 
 export const loginInputSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z.email({ error: "invalidErrorMessage" }).toLowerCase(),
+  password: z.string().min(1, { error: "requiredErrorMessage" }),
 });
 
 export const availableSchema = z.object({
-  email: z.string().email(),
+  email: z.email({ error: "invalidErrorMessage" }),
 });
