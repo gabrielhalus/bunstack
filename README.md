@@ -71,9 +71,9 @@ cd apps/web
 bun run dev
 ```
 
-### 6. Local Reverse Proxy with Caddy
+### 6. Local Reverse Proxy with Caddy (HTTPS Subdomains)
 
-To run multiple apps on custom local domains (localhost, api.localhost, auth.localhost), you can use [Caddy](https://caddyserver.com/).
+To test production-like cookie behavior (cross-subdomain cookies with SameSite=None), we serve apps via HTTPS subdomains using `Caddyfile.dev`.
 
 #### 1. Install Caddy
 
@@ -98,8 +98,7 @@ sudo apt install caddy
 Add these lines to map custom local domains to `127.0.0.1`:
 
 ```text
-127.0.0.1 api.localhost
-127.0.0.1 auth.localhost
+127.0.0.1 localhost.dev api.localhost auth.localhost.dev
 ```
 
 - On Linux: `sudo vim /etc/hosts`
@@ -112,11 +111,34 @@ caddy run --config Caddyfile
 ```
 
 - Your apps are now available at:
-   - http://localhost → Web
-   - http://api.localhost → API
-   - http://auth.localhost → Auth
+   - https://localhost.dev → Web
+   - https://api.localhost.dev → API
+   - https://auth.localhost.dev → Auth
 
 > Optional: You can also use caddy stop and caddy start to manage it in the background.
+
+#### 4. Trust the Caddy Root Certificate
+
+Caddy generates a local CA for HTTPS. Add it to your system trust store to avoid browser warnings:
+
+##### macOS:
+
+- Open `~/Library/Application Support/Caddy/pki/authorities/local/root.crt`
+- Add to Keychain → Always Trust
+
+##### Windows:
+
+- Open `%AppData%\Caddy\pki/authorities/local/root.crt`
+- Install → Local Machine → Trusted Root Certification Authorities
+
+Once trusted, cross-subdomain cookies will work correctly in dev.
+
+##### Linux (Ubuntu/Debian):
+
+```bash
+sudo cp $HOME/.local/share/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/caddy-root.crt
+sudo update-ca-certificates
+```
 
 ## Linting (ESLint)
 
