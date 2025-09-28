@@ -8,26 +8,27 @@ import { cn } from "@bunstack/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { debounceAsync } from "@/lib/debounce";
 import { api } from "@/lib/http";
 
 const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
   const res = await api.auth.available.$get({ query: { email } });
 
   if (!res.ok) {
-    return "Failed to check email availability";
+    return "failRequestErrorMessage";
   }
 
   const resData = await res.json();
 
   if (!resData.available) {
-    return "Email is already in use";
+    return "alreadyTakenErrorMessage";
   }
 }, 500);
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const location = useRouterState({ select: s => s.location });
   const searchParams = new URLSearchParams(location.searchStr);
@@ -87,7 +88,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                         {field.state.meta.isTouched && !field.state.meta.isValid
                           ? (
                               <p className="text-destructive text-sm">
-                                {field.state.meta.errors[0]?.message}
+                                {t(`errors.${field.name}.${field.state.meta.errors[0]?.message}`)}
                               </p>
                             )
                           : null}
@@ -119,7 +120,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                         {field.state.meta.isTouched && !field.state.meta.isValid
                           ? (
                               <p className="text-destructive text-sm">
-                                {field.state.meta.errors[0]?.message}
+                                {t(`errors.${field.name}.${field.state.meta.errors[0]?.message}`)}
                               </p>
                             )
                           : null}
@@ -144,7 +145,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                         {field.state.meta.isTouched && !field.state.meta.isValid
                           ? (
                               <p className="text-destructive text-sm">
-                                {field.state.meta.errors[0]?.message}
+                                {t(`errors.${field.name}.${field.state.meta.errors[0]?.message}`)}
                               </p>
                             )
                           : null}
