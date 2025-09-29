@@ -1,14 +1,15 @@
-import type { Permission, Policy } from "@bunstack/shared/access/types";
-import type { Role, RoleWithPermissions } from "@bunstack/shared/database/types/roles";
-import type { User } from "@bunstack/shared/database/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
-import { can as sharedCan } from "@bunstack/shared/access";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 
+import type { Permission, Policy } from "@bunstack/shared/access/types";
+import type { Role, RoleWithPermissions } from "@bunstack/shared/database/types/roles";
+import type { User } from "@bunstack/shared/database/types/users";
+
 import { userQueryOptions } from "@/lib/queries/auth";
 import { queryClient } from "@/main";
+import { can as sharedCan } from "@bunstack/shared/access";
 
 // Core auth state types
 type AuthState = {

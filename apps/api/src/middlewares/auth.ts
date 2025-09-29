@@ -1,12 +1,12 @@
-import { Constants } from "@bunstack/shared/constants";
-import { deleteToken, getToken } from "@bunstack/shared/database/queries/tokens";
-import { getUserWithContext } from "@bunstack/shared/database/queries/users";
 import { getCookie, setCookie } from "hono/cookie";
 import { verify } from "hono/jwt";
 
 import { createAccessToken, getCookieSettings, verifyToken } from "@bunstack/api/lib/auth";
 import { env } from "@bunstack/api/lib/env";
 import { factory } from "@bunstack/api/utils/hono";
+import { Constants } from "@bunstack/shared/constants";
+import { deleteToken, getToken } from "@bunstack/shared/database/queries/tokens";
+import { getUserWithContext } from "@bunstack/shared/database/queries/users";
 
 /**
  * Get the user from the JWT token and set the auth context

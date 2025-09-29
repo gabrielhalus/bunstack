@@ -1,8 +1,8 @@
-import { getUser } from "@bunstack/shared/database/queries/users";
 import { password } from "bun";
 import { sign, verify } from "hono/jwt";
 
 import { env } from "@bunstack/api/lib/env";
+import { getUser } from "@bunstack/shared/database/queries/users";
 
 export const ACCESS_TOKEN_EXPIRATION_SECONDS = 60 * 15; // 15 minutes
 export const REFRESH_TOKEN_EXPIRATION_SECONDS = 60 * 60 * 24 * 30; // 30 days

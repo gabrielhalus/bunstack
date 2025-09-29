@@ -1,6 +1,5 @@
 import type { SortingState } from "@tanstack/react-table";
 
-import { debounceSync } from "@bunstack/shared/lib/debounce";
 import { DataTable } from "@bunstack/ui/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -8,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getUsersPaginatedQueryOptions } from "@/lib/queries/users";
+import { debounceSync } from "@bunstack/shared/lib/debounce";
 
 import { columns } from "./-components/columns";
 

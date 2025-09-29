@@ -1,7 +1,3 @@
-import { Constants } from "@bunstack/shared/constants";
-import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, insertToken } from "@bunstack/shared/database/queries/tokens";
-import { getUserExists, insertUser } from "@bunstack/shared/database/queries/users";
 import { password } from "bun";
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
@@ -10,6 +6,10 @@ import { getClientInfo } from "@bunstack/api/helpers/get-client-info";
 import { createAccessToken, createRefreshToken, getCookieSettings, REFRESH_TOKEN_EXPIRATION_SECONDS, validateUser, verifyToken } from "@bunstack/api/lib/auth";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
+import { Constants } from "@bunstack/shared/constants";
+import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
+import { deleteToken, insertToken } from "@bunstack/shared/database/queries/tokens";
+import { getUserExists, insertUser } from "@bunstack/shared/database/queries/users";
 
 export default new Hono()
   /**

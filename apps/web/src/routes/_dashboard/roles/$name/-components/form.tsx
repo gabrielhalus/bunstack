@@ -1,6 +1,3 @@
-import type { UpdateRoleInput } from "@bunstack/shared/contracts/roles";
-
-import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
@@ -11,8 +8,11 @@ import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
+import type { UpdateRoleInput } from "@bunstack/shared/contracts/roles";
+
 import { updateRole } from "@/lib/api/roles";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/lib/queries/roles";
+import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 
 export function Form() {
   const { t } = useTranslation("common");

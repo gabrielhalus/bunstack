@@ -1,8 +1,7 @@
+import { cn } from "@bunstack/ui/lib/utils";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 import * as React from "react";
-
-import { cn } from "@bunstack/ui/lib/utils";
 
 function Dialog({
   ...props

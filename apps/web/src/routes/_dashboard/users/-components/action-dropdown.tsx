@@ -1,4 +1,3 @@
-import type { User } from "@bunstack/shared/database/types/users";
 import type { Row } from "@tanstack/react-table";
 
 import { Button } from "@bunstack/ui/components/button";
@@ -7,6 +6,8 @@ import sayno from "@bunstack/ui/lib/sayno";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, Loader2, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "sonner";
+
+import type { User } from "@bunstack/shared/database/types/users";
 
 import { useAuth } from "@/hooks/use-auth";
 import { deleteUser } from "@/lib/api/users";

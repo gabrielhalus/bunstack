@@ -1,6 +1,6 @@
-import type { PaginationInput } from "@bunstack/shared/contracts/pagination";
-
 import { queryOptions } from "@tanstack/react-query";
+
+import type { PaginationInput } from "@bunstack/shared/contracts/pagination";
 
 import { getAllRoles, getRoleByName, getRolesPaginated } from "@/lib/api/roles";
 

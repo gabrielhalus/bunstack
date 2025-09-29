@@ -1,4 +1,3 @@
-import type { RoleWithMembersCount } from "@bunstack/shared/database/types/roles";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@bunstack/ui/components/button";
@@ -7,6 +6,8 @@ import { SortableHeader } from "@bunstack/ui/components/sortable-header";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 import { Link } from "@tanstack/react-router";
 import { UserRound } from "lucide-react";
+
+import type { RoleWithMembersCount } from "@bunstack/shared/database/types/roles";
 
 import { ActionDropdown } from "./action-dropdown";
 

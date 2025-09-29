@@ -1,4 +1,3 @@
-import { loginInputSchema } from "@bunstack/shared/contracts/auth";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
@@ -10,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
+import { loginInputSchema } from "@bunstack/shared/contracts/auth";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
