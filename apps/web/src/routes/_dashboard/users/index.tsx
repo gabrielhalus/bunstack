@@ -44,8 +44,8 @@ function Users() {
   }, [debouncedSearch]);
 
   // Convert sorting state to API parameters
-  const sortField = sorting.length > 0 ? sorting[0].id : undefined;
-  const sortDirection = sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined;
+  const sortField = sorting.length ? sorting[0]?.id : undefined;
+  const sortDirection = sorting.length ? (sorting[0]?.desc ? "desc" : "asc") : undefined;
 
   const { isPending, data } = useQuery(
     getUsersPaginatedQueryOptions({

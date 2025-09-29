@@ -123,7 +123,7 @@ export function NavUser() {
                 <span>
                   {t("generic.language")}
                   {" "}
-                  {currentLocale.name}
+                  {currentLocale?.name}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>

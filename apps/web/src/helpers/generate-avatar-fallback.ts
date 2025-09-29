@@ -1,5 +1,5 @@
 export function generateAvatarFallback(name?: string | null): string {
-  if (!name)
+  if (!name || typeof name !== "string")
     return "?";
 
   // Allow Unicode letters, numbers, and spaces
@@ -14,11 +14,15 @@ export function generateAvatarFallback(name?: string | null): string {
   const parts = cleanedName.split(" ");
 
   if (parts.length === 1) {
-    return parts[0].slice(0, 2).toUpperCase();
+    const firstPart = parts[0];
+    return firstPart?.slice(0, 2).toUpperCase() || "?";
   }
 
-  const firstInitial = parts[0][0];
-  const secondInitial = parts[1][0];
+  const firstInitial = parts[0]?.[0];
+  const secondInitial = parts[1]?.[0];
+
+  if (!firstInitial || !secondInitial)
+    return "?";
 
   return (firstInitial + secondInitial).toUpperCase();
 }
