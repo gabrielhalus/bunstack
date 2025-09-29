@@ -59,15 +59,14 @@
   },
   "dependencies": {
     "@bunstack/env": "workspace:*",
-    "@bunstack/eslint-config": "workspace:*",
-    "@bunstack/typescript-config": "workspace:*",
     "drizzle-orm": "^0.44.2",
     "drizzle-zod": "^0.7.1",
-    "hono": "^4.9.8",
     "nanoid": "^5.1.5",
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@bunstack/eslint-config": "workspace:*",
+    "@bunstack/typescript-config": "workspace:*",
     "drizzle-kit": "^0.31.1",
     "eslint": "^9.28.0",
     "eslint-plugin-drizzle": "^0.2.3"

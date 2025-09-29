@@ -8,7 +8,7 @@
     ".": "./eslint.config.js",
     "./create-config": "./create-config.js"
   },
-  "dependencies": {
+  "peerDependencies": {
     "eslint": "^9.28.0"
   },
   "devDependencies": {

@@ -14,8 +14,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@bunstack/eslint-config": "workspace:*",
-    "@bunstack/typescript-config": "workspace:*",
     "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@bunstack/eslint-config": "workspace:*",
+    "@bunstack/typescript-config": "workspace:*"
   }
 }
