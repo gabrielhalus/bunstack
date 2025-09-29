@@ -2,17 +2,16 @@
   "extends": "@bunstack/typescript-config/base.json",
   "compilerOptions": {
     "composite": true,
-    "lib": ["ESNext", "DOM"],
     "rootDir": "src",
-    "paths": {
-      "@bunstack/api/*": ["../../apps/api/src/*"],
-      "@bunstack/env/*": ["../../apps/env/src/*"],
-      "@bunstack/shared/*": ["./*"]
-    },
+    "types": ["bun", "node"],
     "declaration": true,
-    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
     "outDir": "dist"
   },
+  "references": [
+    { "path": "../env" }
+  ],
   "include": ["src"],
-  "exclude": ["src/database/migrations/*", "src/database/seeds/*"]
+  "exclude": ["node_modules", "dist"]
 }

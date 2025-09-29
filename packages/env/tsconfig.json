@@ -2,11 +2,13 @@
   "extends": "@bunstack/typescript-config/base.json",
   "compilerOptions": {
     "composite": true,
-    "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "src",
+    "types": ["bun", "node"],
     "declaration": true,
-    "declarationMap": true,
-    "outDir": "./dist"
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "outDir": "dist"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

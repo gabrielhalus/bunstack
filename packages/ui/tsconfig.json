@@ -1,13 +1,11 @@
 {
-  "extends": "@bunstack/typescript-config/base.json",
+  "extends": "@bunstack/typescript-config/react.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["ESNext", "DOM"],
-    "baseUrl": ".",
-    "paths": {
-      "@bunstack/ui/*": ["./src/*"]
-    },
-    "types": ["react", "react-dom"]
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "dist"
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

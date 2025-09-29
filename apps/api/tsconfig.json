@@ -2,15 +2,22 @@
   "extends": "@bunstack/typescript-config/base.json",
   "compilerOptions": {
     "composite": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@bunstack/api/*": ["./*"],
-      "@bunstack/env/*": ["../../packages/env/src/*"],
+      "@bunstack/api/*": ["./src/*"],
+
+      "@bunstack/env": ["../../packages/env/src/index.ts"],
       "@bunstack/shared/*": ["../../packages/shared/src/*"]
     },
-    "outDir": "./dist"
+    "types": ["bun", "node"],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "dist"
   },
+  "references": [
+    { "path": "../../packages/env" },
+    { "path": "../../packages/shared" }
+  ],
   "include": ["src"]
 }
