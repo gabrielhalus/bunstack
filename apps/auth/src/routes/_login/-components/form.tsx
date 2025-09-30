@@ -2,6 +2,7 @@ import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
+import { PasswordInput } from "@bunstack/ui/components/password-input";
 import { cn } from "@bunstack/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
@@ -82,12 +83,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                     children={field => (
                       <>
                         <Label htmlFor={field.name}>Password</Label>
-                        <Input
+                        <PasswordInput
                           name={field.name}
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={e => field.handleChange(e.target.value)}
-                          type="password"
                           required
                         />
                         {field.state.meta.isTouched && !field.state.meta.isValid

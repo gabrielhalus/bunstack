@@ -2,6 +2,7 @@ import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
+import { PasswordInput } from "@bunstack/ui/components/password-input";
 import { cn } from "@bunstack/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
@@ -10,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
-import { registerInputSchema } from "@bunstack/shared/contracts/auth";
+import { passwordSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { debounceAsync } from "@bunstack/shared/lib/debounce";
 
 const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
@@ -134,21 +135,15 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                     children={field => (
                       <>
                         <Label htmlFor={field.name}>Password</Label>
-                        <Input
+                        <PasswordInput
                           name={field.name}
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={e => field.handleChange(e.target.value)}
-                          type="password"
+                          schema={passwordSchema}
+                          showRequirements
                           required
                         />
-                        {field.state.meta.isTouched && !field.state.meta.isValid
-                          ? (
-                              <p className="text-destructive text-sm">
-                                {t(`errors.${field.name}.${field.state.meta.errors[0]?.message}`)}
-                              </p>
-                            )
-                          : null}
                       </>
                     )}
                   />
