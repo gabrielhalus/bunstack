@@ -1,13 +1,15 @@
-import type { PasswordRules } from "@bunstack/ui/lib/passwords";
 import type { MouseEvent } from "react";
 import type z from "zod";
+
+import { Check, Eye, EyeOff, X } from "lucide-react";
+import React from "react";
+
+import type { PasswordRules } from "@bunstack/ui/lib/passwords";
 
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
 import { inferPasswordRules } from "@bunstack/ui/lib/passwords";
 import { cn } from "@bunstack/ui/lib/utils";
-import { Check, Eye, EyeOff, X } from "lucide-react";
-import React from "react";
 
 export type PasswordInputProps = {
   schema?: z.ZodString;
@@ -129,6 +131,7 @@ export function PasswordInput({ ref, className, schema, showRequirements = true,
           variant="ghost"
           className="absolute right-0 top-0 h-full hover:bg-transparent"
           aria-label={showPassword ? "Hide password" : "Show password"}
+          type="button"
           tabIndex={-1}
           onClick={e => togglePasswordVisibility(e)}
         >
