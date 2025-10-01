@@ -4,6 +4,8 @@ import { logger } from "hono/logger";
 import cors from "@bunstack/api/middlewares/cors";
 import serveEmojiFavicon from "@bunstack/api/middlewares/serve-emoji-favicon";
 import auth from "@bunstack/api/routes/auth";
+import email from "@bunstack/api/routes/email";
+import preview from "@bunstack/api/routes/preview";
 import roles from "@bunstack/api/routes/roles";
 import users from "@bunstack/api/routes/users";
 
@@ -25,8 +27,10 @@ app.use(cors());
 // -------------------
 const _api = app
   .route("/auth", auth)
-  .route("/users", users)
-  .route("/roles", roles);
+  .route("/email", email)
+  .route("/preview", preview)
+  .route("/roles", roles)
+  .route("/users", users);
 
 export default app;
 export type AppType = typeof _api;

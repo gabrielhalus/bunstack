@@ -1,5 +1,5 @@
 {
-  "extends": "@bunstack/typescript-config/base.json",
+  "extends": "@bunstack/typescript-config/react.json",
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",

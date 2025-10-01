@@ -7,9 +7,9 @@ import { createAccessToken, createRefreshToken, getCookieSettings, REFRESH_TOKEN
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { Constants } from "@bunstack/shared/constants";
-import { availableSchema, loginInputSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
+import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bunstack/shared/contracts/auth";
 import { deleteToken, insertToken } from "@bunstack/shared/database/queries/tokens";
-import { getUserExists, insertUser } from "@bunstack/shared/database/queries/users";
+import { insertUser, verifyUser } from "@bunstack/shared/database/queries/users";
 
 export default new Hono()
   /**
@@ -118,16 +118,28 @@ export default new Hono()
   })
 
   /**
-   * Check if an email is available
+   * Verify account
    * @param c - The context
-   * @returns Whether the email is available
+   * @returns Success
    */
-  .get("/available", validationMiddleware("query", availableSchema), async (c) => {
-    try {
-      const { email } = c.req.valid("query");
-      const exists = await getUserExists("email", email);
+  .get("/verify-account", validationMiddleware("query", verifyAccountSchema), async (c) => {
+    const { token } = c.req.valid("query");
 
-      return c.json({ success: true as const, available: !exists });
+    try {
+      const payload = await verifyToken(token, "verification");
+      if (!payload) {
+        return c.json({ success: false as const, error: "Invalid Token" }, 401);
+      }
+
+      const { sub } = payload;
+
+      const user = await verifyUser("id", sub);
+
+      if (!user) {
+        return c.json({ success: false as const, error: "Not Found" }, 404);
+      }
+
+      return c.json({ success: true as const });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }

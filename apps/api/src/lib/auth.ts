@@ -6,6 +6,7 @@ import { getUser } from "@bunstack/shared/database/queries/users";
 
 export const ACCESS_TOKEN_EXPIRATION_SECONDS = 60 * 15; // 15 minutes
 export const REFRESH_TOKEN_EXPIRATION_SECONDS = 60 * 60 * 24 * 30; // 30 days
+export const VERIFICATION_TOKEN_EXPIRATION_SECONDS = 60 * 60 * 24; // 1 day
 
 export type JwtPayload
   = | {
@@ -16,12 +17,19 @@ export type JwtPayload
     iss: string;
   }
   | {
-    sub: string; // Subscriber (user id)
-    iat: number; // Issued At
-    exp: number; // Expire At
-    ttyp: "refresh"; // JWT Type
-    jti: string; // JWT ID
-    iss: string; // Issuer
+    sub: string;
+    iat: number;
+    exp: number;
+    ttyp: "refresh";
+    jti: string; // Token ID
+    iss: string;
+  }
+  | {
+    sub: string;
+    iat: number;
+    exp: number;
+    ttyp: "verification";
+    iss: string;
   };
 
 export async function validateUser({ email, password: pwd }: { email: string; password: string }): Promise<string | null> {
@@ -52,6 +60,18 @@ export async function createRefreshToken(userId: string, tokenId: string): Promi
     ttyp: "refresh",
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + REFRESH_TOKEN_EXPIRATION_SECONDS,
+    iss: "bunstack",
+  };
+
+  return await sign(payload, env.JWT_SECRET);
+}
+
+export async function createVerificationToken(userId: string): Promise<string> {
+  const payload: JwtPayload = {
+    sub: userId,
+    ttyp: "verification",
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + VERIFICATION_TOKEN_EXPIRATION_SECONDS,
     iss: "bunstack",
   };
 
