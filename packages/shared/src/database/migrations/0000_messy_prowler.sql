@@ -17,6 +17,17 @@ CREATE TABLE `role_permissions` (
 	FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `role_translations` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`role_id` integer NOT NULL,
+	`locale` text NOT NULL,
+	`field` text NOT NULL,
+	`value` text NOT NULL,
+	`created_at` integer NOT NULL,
+	`updated_at` integer NOT NULL,
+	FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE cascade ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `roles` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
@@ -30,6 +41,7 @@ CREATE TABLE `roles` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `roles_name_unique` ON `roles` (`name`);--> statement-breakpoint
+CREATE UNIQUE INDEX `roles_index_unique` ON `roles` (`index`);--> statement-breakpoint
 CREATE TABLE `tokens` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
@@ -54,6 +66,7 @@ CREATE TABLE `users` (
 	`email` text NOT NULL,
 	`password` text NOT NULL,
 	`avatar` text,
+	`verified_at` integer,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL
 );

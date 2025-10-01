@@ -2,7 +2,7 @@ import type { Permission } from "@bunstack/shared/access/types";
 
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { Roles } from "@bunstack/shared/database/schemas/roles";
+import { Roles } from "./roles";
 
 export const Policies = sqliteTable("policies", {
   id: integer("id").primaryKey({ autoIncrement: true }),
