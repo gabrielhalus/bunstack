@@ -19,6 +19,6 @@ export const loginInputSchema = z.object({
   password: z.string().min(1, "requiredErrorMessage"),
 });
 
-export const availableSchema = z.object({
-  email: z.email("invalidErrorMessage"),
+export const verifyAccountSchema = z.object({
+  token: z.string(),
 });
