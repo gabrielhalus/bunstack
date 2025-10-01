@@ -1,9 +1,10 @@
 import type { Role } from "@bunstack/shared/database/types/roles";
 import type { Merge } from "@bunstack/shared/types/utils";
 
-import { Users } from "@bunstack/shared/database/schemas/users";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+import { Users } from "@bunstack/shared/database/schemas/users";
 
 export type User = Merge<typeof Users.$inferSelect, { password?: string }>;
 

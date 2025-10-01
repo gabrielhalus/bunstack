@@ -1,10 +1,9 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { auth } from "@/hooks/use-auth";
-import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
-
 import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
+import { auth } from "@/hooks/use-auth";
+import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
 
 export const Route = createFileRoute("/_dashboard/roles/$name")({
   beforeLoad: async ({ params, context }) => {

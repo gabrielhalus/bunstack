@@ -1,9 +1,3 @@
-import { Button } from "@bunstack/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
-import { Input } from "@bunstack/ui/components/input";
-import { Label } from "@bunstack/ui/components/label";
-import { PasswordInput } from "@bunstack/ui/components/password-input";
-import { cn } from "@bunstack/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
@@ -13,6 +7,12 @@ import { toast } from "sonner";
 import { api } from "@/lib/http";
 import { passwordSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { debounceAsync } from "@bunstack/shared/lib/debounce";
+import { Button } from "@bunstack/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
+import { Input } from "@bunstack/ui/components/input";
+import { Label } from "@bunstack/ui/components/label";
+import { PasswordInput } from "@bunstack/ui/components/password-input";
+import { cn } from "@bunstack/ui/lib/utils";
 
 const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
   const res = await api.auth.available.$get({ query: { email } });

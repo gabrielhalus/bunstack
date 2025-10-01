@@ -1,15 +1,5 @@
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
 
-import { Button } from "@bunstack/ui/components/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@bunstack/ui/components/dropdown-menu";
-import { Input } from "@bunstack/ui/components/input";
-import { Skeleton } from "@bunstack/ui/components/skeleton";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@bunstack/ui/components/table";
 import {
 
   flexRender,
@@ -21,6 +11,17 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, Search, Settings2 } from "lucide-react";
 import * as React from "react";
+
+import { Button } from "@bunstack/ui/components/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@bunstack/ui/components/dropdown-menu";
+import { Input } from "@bunstack/ui/components/input";
+import { Skeleton } from "@bunstack/ui/components/skeleton";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@bunstack/ui/components/table";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];

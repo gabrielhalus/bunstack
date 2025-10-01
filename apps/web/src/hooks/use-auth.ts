@@ -1,11 +1,10 @@
+import type { Permission, Policy } from "@bunstack/shared/access/types";
+import type { Role, RoleWithPermissions } from "@bunstack/shared/database/types/roles";
+import type { User } from "@bunstack/shared/database/types/users";
 import type { LinkOptions } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-
-import type { Permission, Policy } from "@bunstack/shared/access/types";
-import type { Role, RoleWithPermissions } from "@bunstack/shared/database/types/roles";
-import type { User } from "@bunstack/shared/database/types/users";
 
 import { userQueryOptions } from "@/lib/queries/auth";
 import { queryClient } from "@/main";

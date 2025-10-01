@@ -1,10 +1,9 @@
+import type { PasswordRules } from "@bunstack/ui/lib/passwords";
 import type { MouseEvent } from "react";
 import type z from "zod";
 
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import React from "react";
-
-import type { PasswordRules } from "@bunstack/ui/lib/passwords";
 
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";

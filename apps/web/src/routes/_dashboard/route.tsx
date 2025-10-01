@@ -1,9 +1,9 @@
-import { Separator } from "@bunstack/ui/components/separator";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@bunstack/ui/components/sidebar";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import { Separator } from "@bunstack/ui/components/separator";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@bunstack/ui/components/sidebar";
 
 export const Route = createFileRoute("/_dashboard")({
   loader: () => {

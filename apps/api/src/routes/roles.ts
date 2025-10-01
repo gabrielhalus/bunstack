@@ -1,6 +1,6 @@
-import { Hono } from "hono";
-
 import type { Role } from "@bunstack/shared/database/types/roles";
+
+import { Hono } from "hono";
 
 import { requirePermission } from "@bunstack/api/middlewares/access-control";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";

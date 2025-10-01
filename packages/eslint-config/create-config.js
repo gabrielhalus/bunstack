@@ -26,6 +26,12 @@ export default function createConfig(options, ...userConfigs) {
           "error",
           {
             tsconfigRootDir: ".",
+            groups: [
+              "type",
+              ["builtin", "external"],
+              ["internal", "parent", "sibling", "index"],
+            ],
+            internalPattern: ["^@bunstack/", "^@/"],
           },
         ],
         "unicorn/filename-case": [

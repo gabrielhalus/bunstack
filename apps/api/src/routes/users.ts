@@ -1,6 +1,6 @@
-import { Hono } from "hono";
-
 import type { User } from "@bunstack/shared/database/types/users";
+
+import { Hono } from "hono";
 
 import { requirePermission } from "@bunstack/api/middlewares/access-control";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";

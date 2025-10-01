@@ -1,10 +1,10 @@
+import type { insertTokenSchema, Token, TokenUniqueFields } from "../types/tokens";
 import type z from "zod";
+
+import { eq } from "drizzle-orm";
 
 import { db } from "@bunstack/shared/database";
 import { Tokens } from "@bunstack/shared/database/schemas/tokens";
-import { eq } from "drizzle-orm";
-
-import type { insertTokenSchema, Token, TokenUniqueFields } from "../types/tokens";
 
 /**
  * Get all tokens.

@@ -1,15 +1,14 @@
 import type { SortingState } from "@tanstack/react-table";
 
-import { DataTable } from "@bunstack/ui/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { columns } from "./-components/columns";
 import { getRolesPaginatedQueryOptions } from "@/lib/queries/roles";
 import { debounceSync } from "@bunstack/shared/lib/debounce";
-
-import { columns } from "./-components/columns";
+import { DataTable } from "@bunstack/ui/components/data-table";
 
 export const Route = createFileRoute("/_dashboard/roles/")({
   component: Roles,

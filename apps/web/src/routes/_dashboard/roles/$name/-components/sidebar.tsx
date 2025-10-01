@@ -1,11 +1,11 @@
-import { Button } from "@bunstack/ui/components/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { getAllRolesQueryOptions } from "@/lib/queries/roles";
+import { Button } from "@bunstack/ui/components/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 
 export function Sidebar() {
   const { t } = useTranslation("common");

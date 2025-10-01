@@ -1,15 +1,14 @@
 import "@bunstack/ui/globals.css";
-
 import "@/i18n";
 
-import { Sayno } from "@bunstack/ui/components/sayno";
-import { Toaster } from "@bunstack/ui/components/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { routeTree } from "@/routeTree.gen";
+import { Sayno } from "@bunstack/ui/components/sayno";
+import { Toaster } from "@bunstack/ui/components/sonner";
 
 export const queryClient = new QueryClient();
 

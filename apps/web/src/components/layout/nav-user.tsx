@@ -1,3 +1,9 @@
+import { Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import { LogoutButton } from "@/components/layout/logout-button";
+import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Avatar,
   AvatarFallback,
@@ -21,12 +27,6 @@ import {
   useSidebar,
 } from "@bunstack/ui/components/sidebar";
 import { Skeleton } from "@bunstack/ui/components/skeleton";
-import { Languages } from "lucide-react";
-import { useTranslation } from "react-i18next";
-
-import { LogoutButton } from "@/components/layout/logout-button";
-import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
-import { useAuth } from "@/hooks/use-auth";
 
 export function NavUser() {
   const { isMobile } = useSidebar();

@@ -1,14 +1,13 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@bunstack/ui/components/sidebar";
 import { Link } from "@tanstack/react-router";
 import { Box, Home, ShieldUser, UsersRound } from "lucide-react";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { NavSettings } from "./nav-settings";
 import { NavMain } from "@/components/layout/nav-main";
 import { NavUser } from "@/components/layout/nav-user";
 import { useAuth } from "@/hooks/use-auth";
-
-import { NavSettings } from "./nav-settings";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@bunstack/ui/components/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { can } = useAuth();

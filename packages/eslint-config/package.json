@@ -1,13 +1,13 @@
 {
   "name": "@bunstack/eslint-config",
-  "version": "0.0.1",
   "type": "module",
+  "version": "0.0.1",
   "private": true,
-  "main": "index.js",
   "exports": {
     ".": "./eslint.config.js",
     "./create-config": "./create-config.js"
   },
+  "main": "index.js",
   "peerDependencies": {
     "eslint": "^9.28.0"
   },
