@@ -14,8 +14,8 @@ import { Label } from "@bunstack/ui/components/label";
 import { PasswordInput } from "@bunstack/ui/components/password-input";
 import { cn } from "@bunstack/ui/lib/utils";
 
-const checkEmailAvailable = debounceAsync(async (email: string): Promise<string | void> => {
-  const res = await api.auth.available.$get({ query: { email } });
+const checkEmail = debounceAsync(async (email: string): Promise<string | void> => {
+  const res = await api.users["check-email"].$get({ query: { email } });
 
   if (!res.ok) {
     return "failRequestErrorMessage";
@@ -102,7 +102,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                     name="email"
                     validators={{
                       onChangeAsync: async ({ value }) => {
-                        const error = await checkEmailAvailable(value);
+                        const error = await checkEmail(value);
                         return error ? { message: error } : undefined;
                       },
                     }}
