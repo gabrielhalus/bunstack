@@ -107,7 +107,7 @@ Add these lines to map custom local domains to `127.0.0.1`:
 #### 3. Run Caddy
 
 ```bash
-caddy run --config Caddyfile
+PROJECT_ROOT=$(pwd) caddy run --config Caddyfile.dev
 ```
 
 - Your apps are now available at:
