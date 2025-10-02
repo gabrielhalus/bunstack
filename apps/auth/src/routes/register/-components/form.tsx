@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
-import { passwordSchema, registerInputSchema } from "@bunstack/shared/contracts/auth";
+import { passwordChecks, passwordRules, registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { debounceAsync } from "@bunstack/shared/lib/debounce";
 import { Button } from "@bunstack/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
@@ -141,7 +141,8 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={e => field.handleChange(e.target.value)}
-                          schema={passwordSchema}
+                          rules={passwordRules}
+                          checks={passwordChecks}
                           showRequirements
                           required
                         />
