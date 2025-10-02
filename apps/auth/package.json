@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@bunstack/env": "workspace:*",
+    "@bunstack/i18n": "workspace:*",
     "@bunstack/shared": "workspace:*",
     "@bunstack/ui": "workspace:*",
     "@radix-ui/react-avatar": "^1.1.10",
