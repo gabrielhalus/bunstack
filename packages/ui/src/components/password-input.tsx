@@ -1,6 +1,5 @@
-import type { PasswordRules } from "@bunstack/ui/lib/passwords";
+import type { PasswordRules } from "@bunstack/shared/contracts/auth";
 import type { MouseEvent } from "react";
-import type z from "zod";
 
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import React from "react";
@@ -8,33 +7,21 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
-import { inferPasswordRules } from "@bunstack/ui/lib/passwords";
 import { cn } from "@bunstack/ui/lib/utils";
 
 export type PasswordInputProps = {
-  schema?: z.ZodString;
+  rules: PasswordRules;
+  checks: Record<keyof PasswordRules, (val: string) => boolean>;
   showRequirements?: boolean;
   onValidationChange?: (isValid: boolean) => void;
 } & Omit<React.ComponentProps<"input">, "type">;
 
-type RequirementStatus = {
-  length: boolean;
-  uppercase: boolean;
-  lowercase: boolean;
-  digits: boolean;
-  specialChars: boolean;
-};
+type RequirementStatus = Record<keyof PasswordRules, boolean>;
 
-function checkRequirements(password: string, rules: PasswordRules): RequirementStatus {
-  return {
-    length: rules.minLength ? password.length >= rules.minLength : true,
-    uppercase: rules.minUppercase ? (password.match(/[A-Z]/g) || []).length >= rules.minUppercase : true,
-    lowercase: rules.minLowercase ? (password.match(/[a-z]/g) || []).length >= rules.minLowercase : true,
-    digits: rules.minDigits ? (password.match(/\d/g) || []).length >= rules.minDigits : true,
-    specialChars: rules.minSpecialChars
-      ? (password.match(/[^A-Z0-9]/gi) || []).length >= rules.minSpecialChars
-      : true,
-  };
+function checkRequirements(password: string, checks: Record<string, (val: string) => boolean>): RequirementStatus {
+  return Object.fromEntries(
+    Object.entries(checks).map(([key, fn]) => [key, fn(password)]),
+  ) as RequirementStatus;
 }
 
 const RequirementItem = React.memo<{
@@ -52,13 +39,7 @@ const RequirementItem = React.memo<{
         satisfied ? "text-green-600 dark:text-green-400" : "text-muted-foreground",
       )}
     >
-      {satisfied
-        ? (
-            <Check className="size-3 text-green-600 dark:text-green-400" />
-          )
-        : (
-            <X className="size-3 text-muted-foreground" />
-          )}
+      {satisfied ? <Check className="size-3 text-green-600 dark:text-green-400" /> : <X className="size-3 text-muted-foreground" />}
       <span>{label}</span>
     </div>
   );
@@ -66,37 +47,36 @@ const RequirementItem = React.memo<{
 
 RequirementItem.displayName = "RequirementItem";
 
-export function PasswordInput({ ref, className, schema, showRequirements = true, onValidationChange, onChange, value, ...props }: PasswordInputProps & { ref?: React.RefObject<HTMLInputElement | null> }) {
+export function PasswordInput({
+  ref,
+  className,
+  rules,
+  checks,
+  showRequirements = true,
+  onValidationChange,
+  onChange,
+  value,
+  ...props
+}: PasswordInputProps & { ref?: React.RefObject<HTMLInputElement | null> }) {
   const { t } = useTranslation("ui");
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState(value?.toString() || "");
 
-  const rules = React.useMemo(() => inferPasswordRules(schema), [schema]);
+  const requirements = React.useMemo(() => checkRequirements(password, checks), [password, checks]);
 
-  // Memoize requirements checking to avoid unnecessary recalculations
-  const requirements = React.useMemo(() => checkRequirements(password, rules), [password, rules]);
+  const isValid = React.useMemo(() => Object.values(requirements).every(Boolean), [requirements]);
 
-  const isValid = React.useMemo(() => {
-    if (!schema)
-      return true;
-    const result = schema.safeParse(password);
-    return result.success;
-  }, [password, schema]);
-
-  // Notify parent of validation changes
   React.useEffect(() => {
     onValidationChange?.(isValid);
   }, [isValid, onValidationChange]);
 
-  // Memoized toggle function
   const togglePasswordVisibility = React.useCallback((e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setShowPassword(prev => !prev);
   }, []);
 
-  // Handle input changes
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
@@ -106,16 +86,16 @@ export function PasswordInput({ ref, className, schema, showRequirements = true,
     [onChange],
   );
 
-  // Memoize requirement labels to avoid recreating on every render
+  // Requirement labels
   const requirementLabels = React.useMemo(
     () => ({
-      length: rules.minLength ? t("passwordInput.requirements.rules.minLength", { count: rules.minLength }) : "",
-      uppercase: rules.minUppercase ? t("passwordInput.requirements.rules.minUppercase") : "",
-      lowercase: rules.minLowercase ? t("passwordInput.requirements.rules.minLowercase") : "",
-      digits: rules.minDigits ? t("passwordInput.requirements.rules.minDigits") : "",
-      specialChars: rules.minSpecialChars ? t("passwordInput.requirements.rules.minSpecialChars") : "",
+      minLength: rules.minLength ? t("passwordInput.requirements.rules.minLength", { count: rules.minLength }) : "",
+      minUppercase: rules.minUppercase ? t("passwordInput.requirements.rules.minUppercase", { count: rules.minUppercase }) : "",
+      minLowercase: rules.minLowercase ? t("passwordInput.requirements.rules.minLowercase", { count: rules.minLowercase }) : "",
+      minDigits: rules.minDigits ? t("passwordInput.requirements.rules.minDigits", { count: rules.minDigits }) : "",
+      minSpecialChars: rules.minSpecialChars ? t("passwordInput.requirements.rules.minSpecialChars", { count: rules.minSpecialChars }) : "",
     }),
-    [rules],
+    [rules, t],
   );
 
   return (
@@ -129,40 +109,24 @@ export function PasswordInput({ ref, className, schema, showRequirements = true,
           aria-label={!showPassword ? t("passwordInput.ariaLabels.showPassword") : t("passwordInput.ariaLabels.hidePassword")}
           type="button"
           tabIndex={-1}
-          onClick={e => togglePasswordVisibility(e)}
+          onClick={togglePasswordVisibility}
         >
           {!showPassword ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
         </Button>
       </div>
-      {showRequirements && schema && (
+
+      {showRequirements && (
         <div className="space-y-1 rounded-md border border-border bg-muted/30 p-3">
           <p className="text-sm font-medium text-foreground">{t("passwordInput.requirements.label")}</p>
           <div className="space-y-1">
-            <RequirementItem
-              label={requirementLabels.length}
-              satisfied={requirements.length}
-              show={!!rules.minLength}
-            />
-            <RequirementItem
-              label={requirementLabels.uppercase}
-              satisfied={requirements.uppercase}
-              show={!!rules.minUppercase}
-            />
-            <RequirementItem
-              label={requirementLabels.lowercase}
-              satisfied={requirements.lowercase}
-              show={!!rules.minLowercase}
-            />
-            <RequirementItem
-              label={requirementLabels.digits}
-              satisfied={requirements.digits}
-              show={!!rules.minDigits}
-            />
-            <RequirementItem
-              label={requirementLabels.specialChars}
-              satisfied={requirements.specialChars}
-              show={!!rules.minSpecialChars}
-            />
+            {(Object.keys(rules) as (keyof PasswordRules)[]).map(ruleKey => (
+              <RequirementItem
+                key={ruleKey}
+                label={requirementLabels[ruleKey]}
+                satisfied={requirements[ruleKey]}
+                show={!!rules[ruleKey]}
+              />
+            ))}
           </div>
         </div>
       )}
