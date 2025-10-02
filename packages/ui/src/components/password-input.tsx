@@ -4,6 +4,7 @@ import type z from "zod";
 
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
@@ -66,6 +67,8 @@ const RequirementItem = React.memo<{
 RequirementItem.displayName = "RequirementItem";
 
 export function PasswordInput({ ref, className, schema, showRequirements = true, onValidationChange, onChange, value, ...props }: PasswordInputProps & { ref?: React.RefObject<HTMLInputElement | null> }) {
+  const { t } = useTranslation("ui");
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState(value?.toString() || "");
 
@@ -106,17 +109,11 @@ export function PasswordInput({ ref, className, schema, showRequirements = true,
   // Memoize requirement labels to avoid recreating on every render
   const requirementLabels = React.useMemo(
     () => ({
-      length: rules.minLength ? `At least ${rules.minLength} characters` : "",
-      uppercase: rules.minUppercase
-        ? `At least ${rules.minUppercase} uppercase letter${rules.minUppercase > 1 ? "s" : ""}`
-        : "",
-      lowercase: rules.minLowercase
-        ? `At least ${rules.minLowercase} lowercase letter${rules.minLowercase > 1 ? "s" : ""}`
-        : "",
-      digits: rules.minDigits ? `At least ${rules.minDigits} digit${rules.minDigits > 1 ? "s" : ""}` : "",
-      specialChars: rules.minSpecialChars
-        ? `At least ${rules.minSpecialChars} special character${rules.minSpecialChars > 1 ? "s" : ""}`
-        : "",
+      length: rules.minLength ? t("passwordInput.requirements.rules.minLength", { count: rules.minLength }) : "",
+      uppercase: rules.minUppercase ? t("passwordInput.requirements.rules.minUppercase") : "",
+      lowercase: rules.minLowercase ? t("passwordInput.requirements.rules.minLowercase") : "",
+      digits: rules.minDigits ? t("passwordInput.requirements.rules.minDigits") : "",
+      specialChars: rules.minSpecialChars ? t("passwordInput.requirements.rules.minSpecialChars") : "",
     }),
     [rules],
   );
@@ -129,7 +126,7 @@ export function PasswordInput({ ref, className, schema, showRequirements = true,
           size="icon"
           variant="ghost"
           className="absolute right-0 top-0 h-full hover:bg-transparent"
-          aria-label={showPassword ? "Hide password" : "Show password"}
+          aria-label={!showPassword ? t("passwordInput.ariaLabels.showPassword") : t("passwordInput.ariaLabels.hidePassword")}
           type="button"
           tabIndex={-1}
           onClick={e => togglePasswordVisibility(e)}
@@ -139,7 +136,7 @@ export function PasswordInput({ ref, className, schema, showRequirements = true,
       </div>
       {showRequirements && schema && (
         <div className="space-y-1 rounded-md border border-border bg-muted/30 p-3">
-          <p className="text-sm font-medium text-foreground">Password requirements:</p>
+          <p className="text-sm font-medium text-foreground">{t("passwordInput.requirements.label")}</p>
           <div className="space-y-1">
             <RequirementItem
               label={requirementLabels.length}
