@@ -49,6 +49,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
       const json = await res.json();
 
       if (json.success) {
+        await api.email["send-account-verification"].$post();
         return navigate({ href: redirectTo, replace: true });
       }
 

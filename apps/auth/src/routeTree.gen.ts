@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyIndexRouteImport } from './routes/verify/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as LoginIndexRouteImport } from './routes/_login/index'
 
+const VerifyIndexRoute = VerifyIndexRouteImport.update({
+  id: '/verify/',
+  path: '/verify/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterIndexRoute = RegisterIndexRouteImport.update({
   id: '/register/',
   path: '/register/',
@@ -26,31 +32,42 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof LoginIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/verify': typeof VerifyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof LoginIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/verify': typeof VerifyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_login/': typeof LoginIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/verify/': typeof VerifyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/register'
+  fullPaths: '/' | '/register' | '/verify'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/register'
-  id: '__root__' | '/_login/' | '/register/'
+  to: '/' | '/register' | '/verify'
+  id: '__root__' | '/_login/' | '/register/' | '/verify/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   LoginIndexRoute: typeof LoginIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
+  VerifyIndexRoute: typeof VerifyIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify/': {
+      id: '/verify/'
+      path: '/verify'
+      fullPath: '/verify'
+      preLoaderRoute: typeof VerifyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register/': {
       id: '/register/'
       path: '/register'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   LoginIndexRoute: LoginIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
+  VerifyIndexRoute: VerifyIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
