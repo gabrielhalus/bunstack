@@ -1,13 +1,23 @@
 {
   "passwordInput": {
-    "label": "Votre mot de passe doit inclure :",
+    "ariaLabels": {
+      "hidePassword": "Masquer le mot de passe",
+      "showPassword": "Afficher le mot de passe"
+    },
     "requirements": {
-      "minLength_one": "Au moins {{count}} caractère",
-      "minLength_other": "Au moins {{count}} caractères",
-      "minUppercase": "Une lettre majuscule",
-      "minLowercase": "Une lettre minuscule",
-      "minDigits": "Un chiffre",
-      "minSpecialChars": "Un caractère spécial (ex: !@#$%)"
+      "label": "Votre mot de passe doit inclure :",
+      "rules": {
+        "minLength_one": "Au moins {{count}} caractère",
+        "minLength_other": "Au moins {{count}} caractères",
+        "minUppercase_one": "Une lettre majuscule",
+        "minUppercase_other": "Au moins {{count}} lettres majuscules",
+        "minLowercase_one": "Une lettre minuscule",
+        "minLowercase_other": "Au moins {{count}} lettres minuscules",
+        "minDigits_one": "Un chiffre",
+        "minDigits_other": "Au moins {{count}} chiffres",
+        "minSpecialChars_one": "Un caractère spécial (ex : !@#$%)",
+        "minSpecialChars_other": "Au moins {{count}} caractères spéciaux (ex : !@#$%)"
+      }
     }
   }
 }

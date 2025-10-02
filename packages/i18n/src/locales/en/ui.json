@@ -9,10 +9,14 @@
       "rules": {
         "minLength_one": "At least {{count}} character",
         "minLength_other": "At least {{count}} characters",
-        "minUppercase": "An uppercase letter",
-        "minLowercase": "A lowercase letter",
-        "minDigits": "A number",
-        "minSpecialChars": "A special character (e.g., !@#$%)"
+        "minUppercase_one": "An uppercase letter",
+        "minUppercase_other": "At least {{count}} uppercase letters",
+        "minLowercase_one": "A lowercase letter",
+        "minLowercase_other": "At least {count}} lowercase letters",
+        "minDigits_one": "A number",
+        "minDigits_other": "At least {{count}} numbers",
+        "minSpecialChars_one": "A special character (e.g., !@#$%)",
+        "minSpecialChars_other": "At least {{count}} special characters (e.g., !@#$%)"
       }
     }
   }
