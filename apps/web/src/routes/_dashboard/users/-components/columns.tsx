@@ -3,30 +3,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import { ActionDropdown } from "./action-dropdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
-import { Checkbox } from "@bunstack/ui/components/checkbox";
 import { SortableHeader } from "@bunstack/ui/components/sortable-header";
 
 export const columns: ColumnDef<UserWithRoles>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-    size: 50,
-  },
   {
     accessorKey: "name",
     header: ({ column }) => <SortableHeader column={column} title="Name" />,

@@ -6,31 +6,10 @@ import { UserRound } from "lucide-react";
 
 import { ActionDropdown } from "./action-dropdown";
 import { Button } from "@bunstack/ui/components/button";
-import { Checkbox } from "@bunstack/ui/components/checkbox";
 import { SortableHeader } from "@bunstack/ui/components/sortable-header";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 
 export const columns: ColumnDef<RoleWithMembersCount>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-    size: 50,
-  },
   {
     accessorKey: "label",
     header: ({ column }) => <SortableHeader column={column} title="Name" />,
