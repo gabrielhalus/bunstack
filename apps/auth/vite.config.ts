@@ -17,7 +17,7 @@ export default defineConfig(() => {
         "@": path.resolve(__dirname, "./src"),
         "@bunstack/api": path.resolve(__dirname, "../api/src"),
         "@bunstack/shared": path.resolve(__dirname, "../../packages/shared/src"),
-        "@bunstack/ui/": path.resolve(__dirname, "../../packages/ui/src"),
+        "@bunstack/ui": path.resolve(__dirname, "../../packages/ui/src"),
       },
     },
     server: {

@@ -1,4 +1,4 @@
-import "@bunstack/ui/globals.css";
+import "@bunstack/ui/styles/globals.css";
 import "@/i18n";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

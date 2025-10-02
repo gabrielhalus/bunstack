@@ -12,12 +12,21 @@ export default defineConfig(() => {
       react(),
       tailwindcss(),
     ],
+    optimizeDeps: {
+      exclude: ["i18next-fs-backend"],
+    },
+    build: {
+      rollupOptions: {
+        external: ["i18next-fs-backend"],
+      },
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
         "@bunstack/api": path.resolve(__dirname, "../api/src"),
+        "@bunstack/i18n": path.resolve(__dirname, "../../packages/i18n/src"),
         "@bunstack/shared": path.resolve(__dirname, "../../packages/shared/src"),
-        "@bunstack/ui/": path.resolve(__dirname, "../../packages/ui/src"),
+        "@bunstack/ui": path.resolve(__dirname, "../../packages/ui/src"),
       },
     },
     server: {
