@@ -1,19 +1,8 @@
-import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import HttpBackend from "i18next-http-backend";
-import { initReactI18next } from "react-i18next";
+import { createClientI18n } from "@bunstack/i18n";
 
-i18n
-  .use(HttpBackend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: "en",
-    supportedLngs: ["en", "fr"],
-    defaultNS: "common",
-    backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
-    interpolation: { escapeValue: false },
-    react: { useSuspense: false },
-  });
+const i18n = createClientI18n({
+  lng: "en",
+  supportedLngs: ["en", "fr"],
+});
 
 export default i18n;

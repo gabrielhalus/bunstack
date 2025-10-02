@@ -1,11 +1,10 @@
 import "@bunstack/ui/styles/globals.css";
-import "@/i18n";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import i18n from "@/i18n";
 import { routeTree } from "@/routeTree.gen";
 import { Sayno } from "@bunstack/ui/components/sayno";
 import { Toaster } from "@bunstack/ui/components/sonner";
@@ -27,10 +26,12 @@ declare module "@tanstack/react-router" {
   }
 }
 
-// Render the app
-const rootElement = document.getElementById("root")!;
-if (!rootElement.innerHTML) {
+async function bootstrap() {
+  await i18n.init({ react: { useSuspense: false } });
+
+  const rootElement = document.getElementById("root")!;
   const root = createRoot(rootElement);
+
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
@@ -41,3 +42,5 @@ if (!rootElement.innerHTML) {
     </StrictMode>,
   );
 }
+
+bootstrap();
