@@ -1,0 +1,19 @@
+{
+  "passwordInput": {
+    "ariaLabels": {
+      "hidePassword": "Hide password",
+      "showPassword": "Show password"
+    },
+    "requirements": {
+      "label": "Your password should include:",
+      "rules": {
+        "minLength_one": "At least {{count}} character",
+        "minLength_other": "At least {{count}} characters",
+        "minUppercase": "An uppercase letter",
+        "minLowercase": "A lowercase letter",
+        "minDigits": "A number",
+        "minSpecialChars": "A special character (e.g., !@#$%)"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "passwordInput": {
+    "label": "Votre mot de passe doit inclure :",
+    "requirements": {
+      "minLength_one": "Au moins {{count}} caractère",
+      "minLength_other": "Au moins {{count}} caractères",
+      "minUppercase": "Une lettre majuscule",
+      "minLowercase": "Une lettre minuscule",
+      "minDigits": "Un chiffre",
+      "minSpecialChars": "Un caractère spécial (ex: !@#$%)"
+    }
+  }
+}

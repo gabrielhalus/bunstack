@@ -3,12 +3,16 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "src",
+    "resolveJsonModule": true,
     "types": ["bun", "node"],
     "declaration": true,
     "emitDeclarationOnly": false,
     "noEmit": false,
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": [
+    "src/**/*",
+    "src/locales/**/*.json"
+  ],
   "exclude": ["node_modules", "dist"]
 }
