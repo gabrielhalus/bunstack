@@ -2,6 +2,7 @@
 | -------------- | --------------------------------- | ----------- | -------- | -------------- |
 | NODE_ENV       | Node runtime environment          | development | ❌        | api            |
 | HOSTNAME       | Hostname or base URL of the app   | -           | ✅        | api            |
+| AUTH_URL       | Authentication service URL        | -           | ✅        | api            |
 | SITE_URL       | Public URL of the website         | -           | ✅        | api            |
 | SUPPORT_EMAIL  | Email address for support contact | -           | ✅        | api            |
 | DATABASE_URL   | Database connection string        | -           | ✅        | api            |
