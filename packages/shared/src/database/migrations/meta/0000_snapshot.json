@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "61ca2914-f7f2-480f-a0d5-7fc81ce8f02b",
+  "id": "4298e718-13be-43c2-9d76-0ea9c1b900bd",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "policies": {
@@ -76,8 +76,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},

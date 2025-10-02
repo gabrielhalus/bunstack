@@ -8,7 +8,7 @@ export const Policies = sqliteTable("policies", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   effect: text("effect", { enum: ["allow", "deny"] }).notNull(),
   permission: text("permission").$type<Permission>(),
-  roleId: integer("role_id").references(() => Roles.id),
+  roleId: integer("role_id").references(() => Roles.id, { onDelete: "cascade", onUpdate: "cascade" }),
   condition: text("condition"),
   description: text("description"),
   createdAt: integer("created_at").notNull().$defaultFn(() => Date.now()),

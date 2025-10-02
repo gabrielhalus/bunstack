@@ -167,6 +167,18 @@ export async function insertUser(user: z.infer<typeof insertUserSchema>): Promis
 }
 
 /**
+ * Update a user.
+ *
+ * @param key - The field to search by.
+ * @param value - The value to search for.
+ * @param data - The data to update.
+ * @returns The updated user.
+ */
+export async function updateUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"], data: Partial<User>): Promise<User | undefined> {
+  return await db.update(Users).set(data).where(eq(Users[key], value)).returning().get();
+}
+
+/**
  * Delete a user by its ID.
  *
  * @param key - The field to search by.
@@ -175,14 +187,4 @@ export async function insertUser(user: z.infer<typeof insertUserSchema>): Promis
  */
 export async function deleteUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<User | undefined> {
   return await db.delete(Users).where(eq(Users[key], value)).returning().get();
-}
-
-/**
- * Verifies a user account by setting the verification timestamp
- * @param key - The field to search by.
- * @param value - The value to search for.
- * @returns The updated user.
- */
-export async function verifyUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<User | undefined> {
-  return await db.update(Users).set({ verifiedAt: Date.now() }).where(eq(Users[key], value)).returning().get();
 }
