@@ -1,6 +1,8 @@
+import type { PasswordRules } from "./types";
+
 import { z } from "zod";
 
-export const passwordRules = {
+export const passwordRules: PasswordRules = {
   minLength: 8,
   minUppercase: 1,
   minLowercase: 1,
