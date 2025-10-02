@@ -1,11 +1,11 @@
 import { env } from "../lib/env";
 
-type AccountVerificationProps = {
+type UserVerificationProps = {
   name: string;
   link: string;
 };
 
-export function AccountVerification({ name, link }: AccountVerificationProps) {
+export function UserVerification({ name, link }: UserVerificationProps) {
   return (
     <div style={{
       fontFamily: "sans-serif",

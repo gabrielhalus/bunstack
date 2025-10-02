@@ -10,10 +10,30 @@ import { checkEmailSchema } from "@bunstack/shared/contracts/users";
 import { deleteUser, getUser, getUserExists, getUsers } from "@bunstack/shared/database/queries/users";
 
 export default new Hono()
+  /**
+   * Check if an email is available
+   * This endpoint does NOT require authentication.
+   *
+   * @param c - The context
+   * @returns Whether the email is available
+   */
+  .get("/check-email", validationMiddleware("query", checkEmailSchema), async (c) => {
+    try {
+      const { email } = c.req.valid("query");
+      const exists = await getUserExists("email", email);
+
+      return c.json({ success: true as const, available: !exists });
+    } catch (error) {
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+    }
+  })
+
+  // --- All routes below this point require authentication
   .use(getAuthContext)
 
   /**
    * Get all users
+   *
    * @param c - The context
    * @returns All users
    */
@@ -32,6 +52,7 @@ export default new Hono()
 
   /**
    * Get a user by their ID
+   *
    * @param c - The context
    * @returns The user
    */
@@ -48,6 +69,7 @@ export default new Hono()
 
   /**
    * Delete a user by their ID
+   *
    * @param c - The context
    * @returns The user
    */
@@ -57,22 +79,6 @@ export default new Hono()
     try {
       const user = await deleteUser("id", id);
       return c.json({ success: true as const, user });
-    } catch (error) {
-      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
-    }
-  })
-
-  /**
-   * Check if an email is available
-   * @param c - The context
-   * @returns Whether the email is available
-   */
-  .get("/check-email", validationMiddleware("query", checkEmailSchema), async (c) => {
-    try {
-      const { email } = c.req.valid("query");
-      const exists = await getUserExists("email", email);
-
-      return c.json({ success: true as const, available: !exists });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }

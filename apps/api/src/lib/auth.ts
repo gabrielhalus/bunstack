@@ -21,13 +21,14 @@ export type JwtPayload
     iat: number;
     exp: number;
     ttyp: "refresh";
-    jti: string; // Token ID
+    jti: string;
     iss: string;
   }
   | {
     sub: string;
     iat: number;
     exp: number;
+    jti: string;
     ttyp: "verification";
     iss: string;
   };
@@ -53,10 +54,10 @@ export async function createAccessToken(userId: string): Promise<string> {
   return await sign(payload, env.JWT_SECRET);
 }
 
-export async function createRefreshToken(userId: string, tokenId: string): Promise<string> {
+export async function createRefreshToken(userId: string, jti: string): Promise<string> {
   const payload: JwtPayload = {
     sub: userId,
-    jti: tokenId,
+    jti,
     ttyp: "refresh",
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + REFRESH_TOKEN_EXPIRATION_SECONDS,
@@ -66,9 +67,10 @@ export async function createRefreshToken(userId: string, tokenId: string): Promi
   return await sign(payload, env.JWT_SECRET);
 }
 
-export async function createVerificationToken(userId: string): Promise<string> {
+export async function createVerificationToken(userId: string, jti: string): Promise<string> {
   const payload: JwtPayload = {
     sub: userId,
+    jti,
     ttyp: "verification",
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + VERIFICATION_TOKEN_EXPIRATION_SECONDS,

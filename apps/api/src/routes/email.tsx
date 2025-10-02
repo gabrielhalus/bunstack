@@ -1,14 +1,17 @@
 import { Hono } from "hono";
 import { Resend } from "resend";
 
-import { createVerificationToken } from "../lib/auth";
-import { AccountVerification } from "@bunstack/api/emails/account-verification";
+import { createVerificationToken, VERIFICATION_TOKEN_EXPIRATION_SECONDS } from "../lib/auth";
+import { UserVerification } from "@bunstack/api/emails/user-verification";
 import { env } from "@bunstack/api/lib/env";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
+import { insertToken } from "@bunstack/shared/database/queries/tokens";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
 export default new Hono()
+
+  // --- All routes below this point require authentication
   .use(getAuthContext)
 
   /**
@@ -19,14 +22,24 @@ export default new Hono()
   .post("/send-account-verification", async (c) => {
     const { user } = c.var.authContext;
 
-    const verificationToken = await createVerificationToken(user.id);
-    const confirmationLink = `http://localhost:4000/auth/verify-account?token=${encodeURIComponent(verificationToken)}`;
+    if (user.verifiedAt) {
+      return c.json({ success: false, error: "Already verified" });
+    }
+
+    const insertedToken = await insertToken({
+      userId: user.id,
+      issuedAt: Date.now(),
+      expiresAt: Date.now() + VERIFICATION_TOKEN_EXPIRATION_SECONDS * 1000,
+    });
+
+    const verificationToken = await createVerificationToken(user.id, insertedToken.id);
+    const confirmationLink = `${env.AUTH_URL}/verify?token=${verificationToken}`;
 
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: `Bunstack <${env.NO_REPLY_EMAIL}>`,
       to: [user.email],
-      subject: "An action is required",
-      react: <AccountVerification name={user.name} link={confirmationLink} />,
+      subject: "Verify your Bunstack account",
+      react: <UserVerification name={user.name} link={confirmationLink} />,
     });
 
     if (error) {

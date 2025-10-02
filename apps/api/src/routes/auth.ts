@@ -8,12 +8,13 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { Constants } from "@bunstack/shared/constants";
 import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, insertToken } from "@bunstack/shared/database/queries/tokens";
-import { insertUser, verifyUser } from "@bunstack/shared/database/queries/users";
+import { deleteToken, getToken, insertToken } from "@bunstack/shared/database/queries/tokens";
+import { insertUser, updateUser } from "@bunstack/shared/database/queries/users";
 
 export default new Hono()
   /**
    * Register a new user
+   *
    * @param c - The context
    * @returns The access token
    */
@@ -48,6 +49,7 @@ export default new Hono()
 
   /**
    * Login a user
+   *
    * @param c - The context
    * @returns The access token
    */
@@ -84,6 +86,7 @@ export default new Hono()
 
   /**
    * Logout a user by clearing the refresh token cookie
+   *
    * @param c - The context
    * @returns Success
    */
@@ -108,39 +111,58 @@ export default new Hono()
   })
 
   /**
-   * Get the current user
-   * @param c - The context
-   * @returns The current user
-   */
-  .get("/me", getAuthContext, async (c) => {
-    const authContext = c.var.authContext;
-    return c.json({ success: true as const, ...authContext });
-  })
-
-  /**
-   * Verify account
+   * Verify user
+   *
    * @param c - The context
    * @returns Success
    */
-  .get("/verify-account", validationMiddleware("query", verifyAccountSchema), async (c) => {
+  .get("/verify", validationMiddleware("query", verifyAccountSchema), async (c) => {
     const { token } = c.req.valid("query");
 
     try {
       const payload = await verifyToken(token, "verification");
       if (!payload) {
-        return c.json({ success: false as const, error: "Invalid Token" }, 401);
+        return c.json({ success: false as const, error: "Invalid token" }, 401);
       }
 
-      const { sub } = payload;
+      const { sub: userId, jti } = payload;
+      if (!jti) {
+        return c.json({ success: false as const, error: "Invalid token" }, 401);
+      }
 
-      const user = await verifyUser("id", sub);
+      const tokenRecord = await getToken("id", jti);
+      if (!tokenRecord || tokenRecord.expiresAt < Date.now() || tokenRecord.revokedAt) {
+        if (tokenRecord) {
+          await deleteToken("id", jti);
+        }
+        return c.json({ success: false as const, error: "Invalid token" }, 401);
+      }
 
+      const user = await updateUser("id", userId, { verifiedAt: Date.now() });
       if (!user) {
-        return c.json({ success: false as const, error: "Not Found" }, 404);
+        return c.json({ success: false as const, error: "User not found" }, 404);
       }
+
+      await deleteToken("id", jti);
 
       return c.json({ success: true as const });
-    } catch (error) {
-      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Unknown error";
+      console.error("Verify account error:", errorMsg);
+      return c.json({ success: false as const, error: errorMsg }, 500);
     }
+  })
+
+  // --- All routes below this point require authentication
+  .use(getAuthContext)
+
+  /**
+   * Get the current user
+   *
+   * @param c - The context
+   * @returns The current user
+   */
+  .get("/me", async (c) => {
+    const authContext = c.var.authContext;
+    return c.json({ success: true as const, ...authContext });
   });

@@ -70,7 +70,7 @@ async function attemptTokenRefresh(c: any) {
     const { sub, jti } = payload;
     const tokenRecord = await getToken("id", jti);
 
-    if (!tokenRecord || tokenRecord.expiresAt < Date.now()) {
+    if (!tokenRecord || tokenRecord.expiresAt < Date.now() || tokenRecord.revokedAt) {
       // Clean up expired token
       if (jti) {
         await deleteToken("id", jti);

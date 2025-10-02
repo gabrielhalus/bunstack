@@ -10,6 +10,7 @@ import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { deleteRole, getRole, getRoles, updateRole } from "@bunstack/shared/database/queries/roles";
 
 export default new Hono()
+  // --- All routes below this point require authentication
   .use(getAuthContext)
 
   .get("/", requirePermission("role:list"), validationMiddleware("query", paginationInputSchema), async (c) => {
