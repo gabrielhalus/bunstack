@@ -61,6 +61,11 @@ export default new Hono()
 
     try {
       const user = await getUser("id", id);
+
+      if (!user) {
+        return c.json({ success: false, error: "Not Found" }, 404);
+      }
+
       return c.json({ success: true as const, user });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
