@@ -1,0 +1,27 @@
+{
+  "name": "@bunstack/i18n",
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc -b",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "i18next-fs-backend": "^2.6.0"
+  },
+  "devDependencies": {
+    "@bunstack/eslint-config": "workspace:*",
+    "@bunstack/typescript-config": "workspace:*"
+  }
+}
