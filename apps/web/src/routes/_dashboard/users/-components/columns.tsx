@@ -1,6 +1,8 @@
 import type { UserWithRoles } from "@bunstack/shared/database/types/users";
 import type { ColumnDef } from "@tanstack/react-table";
 
+import { Link } from "@tanstack/react-router";
+
 import { ActionDropdown } from "./action-dropdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
 import { SortableHeader } from "@bunstack/ui/components/sortable-header";
@@ -21,7 +23,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
               .join("")}
           </AvatarFallback>
         </Avatar>
-        <div className="text-foreground">{row.getValue("name")}</div>
+        <Link to="/users/$userId" params={{ userId: row.original.id }} className="text-foreground hover:underline">{row.getValue("name")}</Link>
       </div>
     ),
     size: 250,

@@ -17,6 +17,7 @@ import { Route as DashboardRolesRouteRouteImport } from './routes/_dashboard/rol
 import { Route as DashboardUsersIndexRouteImport } from './routes/_dashboard/users/index'
 import { Route as DashboardRolesIndexRouteImport } from './routes/_dashboard/roles/index'
 import { Route as DashboardRolesNameRouteRouteImport } from './routes/_dashboard/roles/$name/route'
+import { Route as DashboardUsersUserIdIndexRouteImport } from './routes/_dashboard/users/$userId/index'
 import { Route as DashboardRolesNameIndexRouteImport } from './routes/_dashboard/roles/$name/index'
 import { Route as DashboardRolesNamePermissionsRouteImport } from './routes/_dashboard/roles/$name/permissions'
 import { Route as DashboardRolesNameMembersRouteImport } from './routes/_dashboard/roles/$name/members'
@@ -60,6 +61,12 @@ const DashboardRolesNameRouteRoute = DashboardRolesNameRouteRouteImport.update({
   path: '/$name',
   getParentRoute: () => DashboardRolesRouteRoute,
 } as any)
+const DashboardUsersUserIdIndexRoute =
+  DashboardUsersUserIdIndexRouteImport.update({
+    id: '/$userId/',
+    path: '/$userId/',
+    getParentRoute: () => DashboardUsersRouteRoute,
+  } as any)
 const DashboardRolesNameIndexRoute = DashboardRolesNameIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/roles/$name/members': typeof DashboardRolesNameMembersRoute
   '/roles/$name/permissions': typeof DashboardRolesNamePermissionsRoute
   '/roles/$name/': typeof DashboardRolesNameIndexRoute
+  '/users/$userId': typeof DashboardUsersUserIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/profile': typeof DashboardProfileRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
   '/roles/$name/members': typeof DashboardRolesNameMembersRoute
   '/roles/$name/permissions': typeof DashboardRolesNamePermissionsRoute
   '/roles/$name': typeof DashboardRolesNameIndexRoute
+  '/users/$userId': typeof DashboardUsersUserIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -112,6 +121,7 @@ export interface FileRoutesById {
   '/_dashboard/roles/$name/members': typeof DashboardRolesNameMembersRoute
   '/_dashboard/roles/$name/permissions': typeof DashboardRolesNamePermissionsRoute
   '/_dashboard/roles/$name/': typeof DashboardRolesNameIndexRoute
+  '/_dashboard/users/$userId/': typeof DashboardUsersUserIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/roles/$name/members'
     | '/roles/$name/permissions'
     | '/roles/$name/'
+    | '/users/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/profile'
@@ -135,6 +146,7 @@ export interface FileRouteTypes {
     | '/roles/$name/members'
     | '/roles/$name/permissions'
     | '/roles/$name'
+    | '/users/$userId'
   id:
     | '__root__'
     | '/_dashboard'
@@ -148,6 +160,7 @@ export interface FileRouteTypes {
     | '/_dashboard/roles/$name/members'
     | '/_dashboard/roles/$name/permissions'
     | '/_dashboard/roles/$name/'
+    | '/_dashboard/users/$userId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRolesNameRouteRouteImport
       parentRoute: typeof DashboardRolesRouteRoute
     }
+    '/_dashboard/users/$userId/': {
+      id: '/_dashboard/users/$userId/'
+      path: '/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof DashboardUsersUserIdIndexRouteImport
+      parentRoute: typeof DashboardUsersRouteRoute
+    }
     '/_dashboard/roles/$name/': {
       id: '/_dashboard/roles/$name/'
       path: '/'
@@ -269,10 +289,12 @@ const DashboardRolesRouteRouteWithChildren =
 
 interface DashboardUsersRouteRouteChildren {
   DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
+  DashboardUsersUserIdIndexRoute: typeof DashboardUsersUserIdIndexRoute
 }
 
 const DashboardUsersRouteRouteChildren: DashboardUsersRouteRouteChildren = {
   DashboardUsersIndexRoute: DashboardUsersIndexRoute,
+  DashboardUsersUserIdIndexRoute: DashboardUsersUserIdIndexRoute,
 }
 
 const DashboardUsersRouteRouteWithChildren =

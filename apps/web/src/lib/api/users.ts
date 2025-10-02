@@ -2,7 +2,7 @@ import type { PaginationInput } from "@bunstack/shared/contracts/pagination";
 
 import { api } from "../http";
 
-export async function getAllUsers() {
+export async function fetchAllUsers() {
   const res = await api.users.$get({ query: {} });
 
   if (!res.ok) {
@@ -12,7 +12,7 @@ export async function getAllUsers() {
   return res.json();
 }
 
-export async function getUsersPaginated({ page = "0", pageSize = "10", sortField, sortDirection, search }: PaginationInput) {
+export async function fetchUsersPaginated({ page = "0", pageSize = "10", sortField, sortDirection, search }: PaginationInput) {
   const params = {
     page: String(page),
     pageSize: String(pageSize),
@@ -32,6 +32,16 @@ export async function getUsersPaginated({ page = "0", pageSize = "10", sortField
 
 export async function deleteUser({ id }: { id: string }) {
   const res = await api.users[":id"].$delete({ param: { id } });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete user");
+  }
+
+  return res.json();
+}
+
+export async function fetchUser(id: string) {
+  const res = await api.users[":id"].$get({ param: { id } });
 
   if (!res.ok) {
     throw new Error("Failed to delete user");
