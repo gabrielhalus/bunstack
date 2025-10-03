@@ -10,15 +10,18 @@ import { Input } from "@bunstack/ui/components/input";
 import { cn } from "@bunstack/ui/lib/utils";
 
 export type PasswordInputProps = {
-  rules: PasswordRules;
-  checks: Record<keyof PasswordRules, (val: string) => boolean>;
+  rules?: PasswordRules;
+  checks?: Record<keyof PasswordRules, (val: string) => boolean>;
   showRequirements?: boolean;
   onValidationChange?: (isValid: boolean) => void;
 } & Omit<React.ComponentProps<"input">, "type">;
 
 type RequirementStatus = Record<keyof PasswordRules, boolean>;
 
-function checkRequirements(password: string, checks: Record<string, (val: string) => boolean>): RequirementStatus {
+function checkRequirements(password: string, checks?: Record<string, (val: string) => boolean>): RequirementStatus {
+  if (!checks)
+    return {} as RequirementStatus;
+
   return Object.fromEntries(
     Object.entries(checks).map(([key, fn]) => [key, fn(password)]),
   ) as RequirementStatus;
@@ -65,7 +68,13 @@ export function PasswordInput({
 
   const requirements = React.useMemo(() => checkRequirements(password, checks), [password, checks]);
 
-  const isValid = React.useMemo(() => Object.values(requirements).every(Boolean), [requirements]);
+  const isValid = React.useMemo(() => {
+    if (!checks || Object.keys(checks).length === 0) {
+      // If no checks are provided, consider the password valid
+      return true;
+    }
+    return Object.values(requirements).every(Boolean);
+  }, [requirements, checks]);
 
   React.useEffect(() => {
     onValidationChange?.(isValid);
@@ -88,13 +97,18 @@ export function PasswordInput({
 
   // Requirement labels
   const requirementLabels = React.useMemo(
-    () => ({
-      minLength: rules.minLength ? t("passwordInput.requirements.rules.minLength", { count: rules.minLength }) : "",
-      minUppercase: rules.minUppercase ? t("passwordInput.requirements.rules.minUppercase", { count: rules.minUppercase }) : "",
-      minLowercase: rules.minLowercase ? t("passwordInput.requirements.rules.minLowercase", { count: rules.minLowercase }) : "",
-      minDigits: rules.minDigits ? t("passwordInput.requirements.rules.minDigits", { count: rules.minDigits }) : "",
-      minSpecialChars: rules.minSpecialChars ? t("passwordInput.requirements.rules.minSpecialChars", { count: rules.minSpecialChars }) : "",
-    }),
+    () => {
+      if (!rules)
+        return {};
+
+      return {
+        minLength: rules.minLength ? t("passwordInput.requirements.rules.minLength", { count: rules.minLength }) : "",
+        minUppercase: rules.minUppercase ? t("passwordInput.requirements.rules.minUppercase", { count: rules.minUppercase }) : "",
+        minLowercase: rules.minLowercase ? t("passwordInput.requirements.rules.minLowercase", { count: rules.minLowercase }) : "",
+        minDigits: rules.minDigits ? t("passwordInput.requirements.rules.minDigits", { count: rules.minDigits }) : "",
+        minSpecialChars: rules.minSpecialChars ? t("passwordInput.requirements.rules.minSpecialChars", { count: rules.minSpecialChars }) : "",
+      };
+    },
     [rules, t],
   );
 
@@ -115,15 +129,15 @@ export function PasswordInput({
         </Button>
       </div>
 
-      {showRequirements && (
+      {showRequirements && rules && (
         <div className="space-y-1 rounded-md border border-border bg-muted/30 p-3">
           <p className="text-sm font-medium text-foreground">{t("passwordInput.requirements.label")}</p>
           <div className="space-y-1">
             {(Object.keys(rules) as (keyof PasswordRules)[]).map(ruleKey => (
               <RequirementItem
                 key={ruleKey}
-                label={requirementLabels[ruleKey]}
-                satisfied={requirements[ruleKey]}
+                label={requirementLabels[ruleKey] || ""}
+                satisfied={requirements[ruleKey] || false}
                 show={!!rules[ruleKey]}
               />
             ))}
