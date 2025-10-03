@@ -8,7 +8,8 @@
       "@bunstack/api/*": ["../api/src/*"],
       "@bunstack/i18n/*": ["../../packages/i18n/src/*"],
       "@bunstack/env": ["../../packages/env/src/index.ts"],
-      "@bunstack/shared/*": ["../../packages/shared/src/*"]
+      "@bunstack/shared/*": ["../../packages/shared/src/*"],
+      "@bunstack/ui/*": ["../../packages/ui/src/*"]
     },
     "types": ["bun", "node"],
     "outDir": "dist"

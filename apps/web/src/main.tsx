@@ -27,7 +27,7 @@ declare module "@tanstack/react-router" {
 }
 
 async function bootstrap() {
-  await i18n.init({ react: { useSuspense: false } });
+  await i18n.init();
 
   const rootElement = document.getElementById("root")!;
   const root = createRoot(rootElement);
