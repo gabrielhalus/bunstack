@@ -1,4 +1,5 @@
+import auth from "./auth.json";
 import common from "./common.json";
 import ui from "./ui.json";
 
-export default { common, ui } as const;
+export default { auth, common, ui } as const;
