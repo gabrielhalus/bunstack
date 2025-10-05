@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Box } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { RegisterForm } from "./-components/form";
 
@@ -8,6 +9,8 @@ export const Route = createFileRoute("/register/")({
 });
 
 function Register() {
+  const { t } = useTranslation("common");
+
   return (
     <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="flex w-full max-w-xl flex-col gap-8">
@@ -15,7 +18,7 @@ function Register() {
           <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
             <Box className="size-4" />
           </div>
-          Bunstack.
+          {t("core.name")}
         </a>
         <RegisterForm />
       </div>

@@ -1,7 +1,7 @@
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
@@ -30,6 +30,7 @@ const checkEmail = debounceAsync(async (email: string): Promise<string | void> =
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const { t } = useTranslation("auth");
+
   const navigate = useNavigate();
   const location = useRouterState({ select: s => s.location });
   const searchParams = new URLSearchParams(location.searchStr);
@@ -61,7 +62,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome aboard!</CardTitle>
+          <CardTitle className="text-xl">{t("register.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={(e) => {
@@ -77,7 +78,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                     name="name"
                     children={field => (
                       <>
-                        <Label htmlFor={field.name}>Full Name</Label>
+                        <Label htmlFor={field.name}>{t("fields.name")}</Label>
                         <Input
                           name={field.name}
                           value={field.state.value}
@@ -109,7 +110,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                     }}
                     children={field => (
                       <>
-                        <Label htmlFor={field.name}>Email</Label>
+                        <Label htmlFor={field.name}>{t("fields.email")}</Label>
                         <Input
                           name={field.name}
                           value={field.state.value}
@@ -135,7 +136,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                     name="password"
                     children={field => (
                       <>
-                        <Label htmlFor={field.name}>Password</Label>
+                        <Label htmlFor={field.name}>{t("fields.password")}</Label>
                         <PasswordInput
                           name={field.name}
                           value={field.state.value}
@@ -159,22 +160,17 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                           ? (
                               <span className="flex items-center gap-2">
                                 <Loader2 className="size-4 animate-spin" />
-                                {" "}
-                                Signing up...
+                                {t("register.pending")}
                               </span>
                             )
-                          : "Sign up"}
+                          : t("register.submit")}
                       </Button>
                     </>
                   )}
                 />
               </div>
               <div className="text-center text-sm">
-                Already have an account?
-                {" "}
-                <Link to="/" search={location.search} className="underline underline-offset-4">
-                  Sign in
-                </Link>
+                <Trans i18nKey="register.cta" ns="auth" components={{ Link: <Link key="link" to="/" search={location.search} className="underline underline-offset-4" /> }} />
               </div>
             </div>
           </form>
