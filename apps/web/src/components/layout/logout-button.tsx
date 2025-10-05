@@ -27,7 +27,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const confirmation = await sayno({ description: t("sign-out.dialog") });
+      const confirmation = await sayno({ description: t("logout.dialog") });
       if (!confirmation) {
         return false;
       }
@@ -47,7 +47,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
       navigate({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}`, replace: true });
     },
     onError: () => {
-      toast.error(t("sign-out.error"));
+      toast.error(t("logout.error"));
     },
   });
 
@@ -56,7 +56,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
   const content = (
     <>
       {mutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <LogOut />}
-      {t("sign-out")}
+      {t("logout.label")}
     </>
   );
 
