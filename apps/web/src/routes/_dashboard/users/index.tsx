@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_dashboard/users/")({
 });
 
 function Users() {
-  const { t } = useTranslation("users");
+  const { t } = useTranslation("web");
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
@@ -69,8 +69,8 @@ function Users() {
     <div className="w-full py-10 px-10">
       <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold">{t("list.title")}</h1>
-          <p className="text-muted-foreground">{t("list.subtitle")}</p>
+          <h1 className="text-3xl font-bold">{t("pages.users.list.title")}</h1>
+          <p className="text-muted-foreground">{t("pages.users.list.subtitle")}</p>
         </div>
         <DataTable
           columns={columns}

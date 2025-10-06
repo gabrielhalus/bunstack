@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_dashboard/users/$userId/")({
 });
 
 function User() {
-  const { t: _t } = useTranslation("users");
+  const { t: _t } = useTranslation("web");
 
   const { user } = Route.useLoaderData();
 

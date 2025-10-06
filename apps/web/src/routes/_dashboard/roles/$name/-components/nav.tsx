@@ -7,27 +7,27 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@bunstack/ui/components/button";
 
 export function Nav() {
-  const { t } = useTranslation("roles");
+  const { t } = useTranslation("web");
 
   const { role } = useLoaderData({ from: "/_dashboard/roles/$name" });
 
   const nav = (role: RoleWithMembers) => [
     {
-      label: t("detail.nav.display"),
+      label: t("pages.roles.detail.nav.display"),
       linkOptions: {
         to: "/roles/$name",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
-      label: t("detail.nav.members", { count: role.members.length }),
+      label: t("pages.roles.detail.nav.members", { count: role.members.length }),
       linkOptions: {
         to: "/roles/$name/members",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
-      label: t("detail.nav.permissions"),
+      label: t("pages.roles.detail.nav.permissions"),
       linkOptions: {
         to: "/roles/$name/permissions",
         params: { name: role.name },

@@ -11,7 +11,7 @@ import {
 } from "@bunstack/ui/components/breadcrumb";
 
 export function Breadcrumbs() {
-  const { t } = useTranslation("app");
+  const { t } = useTranslation("web");
   const matches = useMatches();
 
   const items = matches
@@ -32,12 +32,12 @@ export function Breadcrumbs() {
                 {isLast
                   ? (
                       <BreadcrumbPage className="line-clamp-1">
-                        {t(item.label as string)}
+                        {t(`${item.label}.title`)}
                       </BreadcrumbPage>
                     )
                   : (
                       <Link to={item.pathname} params={item.params} className="line-clamp-1 hover:underline">
-                        {t(item.label as string)}
+                        {t(`${item.label}.title`)}
                       </Link>
                     )}
               </BreadcrumbItem>

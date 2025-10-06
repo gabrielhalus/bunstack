@@ -11,12 +11,12 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { can } = useAuth();
-  const { t } = useTranslation("app");
+  const { t } = useTranslation("web");
 
   const data = useMemo(() => ({
     navMain: [
       {
-        title: t("pages.home"),
+        title: t("pages.home.title"),
         icon: Home,
         href: { to: "/" } as const,
       },
@@ -24,14 +24,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navSettings: [
       ...(can("user:list")
         ? [{
-            title: t("pages.users"),
+            title: t("pages.users.title"),
             icon: UsersRound,
             href: { to: "/users" } as const,
           }]
         : []),
       ...(can("role:list")
         ? [{
-            title: t("pages.roles"),
+            title: t("pages.roles.title"),
             icon: ShieldUser,
             href: { to: "/roles" } as const,
           }]

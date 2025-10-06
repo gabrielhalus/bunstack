@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_dashboard/roles/")({
 });
 
 function Roles() {
-  const { t } = useTranslation("roles");
+  const { t } = useTranslation("web");
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
@@ -64,8 +64,8 @@ function Roles() {
     <div className="w-full py-10 px-10">
       <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold">{t("list.title")}</h1>
-          <p className="text-muted-foreground">{t("list.subtitle")}</p>
+          <h1 className="text-3xl font-bold">{t("pages.roles.list.title")}</h1>
+          <p className="text-muted-foreground">{t("pages.roles.list.subtitle")}</p>
         </div>
         <DataTable
           columns={columns}
