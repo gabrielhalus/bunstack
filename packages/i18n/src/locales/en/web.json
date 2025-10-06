@@ -1,0 +1,30 @@
+{
+  "pages": {
+    "home": {
+      "title": "Dashboard"
+    },
+    "users": {
+      "title": "Users",
+      "list": {
+        "title": "Users Management",
+        "subtitle": "Manage your users with advanced filtering and search capabilities."
+      }
+    },
+    "roles": {
+      "title": "Roles",
+      "list": {
+        "title": "Roles Management",
+        "subtitle": "Manage your roles with advanced filtering and search capabilities."
+      },
+      "detail": {
+        "title": "Role Information",
+        "subtitle": "You can view and update this role's details here.",
+        "nav": {
+          "display": "Display",
+          "members": "Manage Members ({{count}})",
+          "permissions": "Permissions"
+        }
+      }
+    }
+  }
+}

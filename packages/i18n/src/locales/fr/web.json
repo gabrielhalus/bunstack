@@ -1,0 +1,30 @@
+{
+  "pages": {
+    "home": {
+      "title": "Tableau de bord"
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "list": {
+        "title": "Gestion des utilisateurs",
+        "subtitle": "Gérez vos utilisateurs avec des capacités avancées de filtrage et de recherche."
+      }
+    },
+    "roles": {
+      "title": "Rôles",
+      "list": {
+        "title": "Gestion des rôles",
+        "subtitle": "Gérez vos rôles avec des capacités avancées de filtrage et de recherche."
+      },
+      "detail": {
+        "title": "Informations sur le rôle",
+        "subtitle": "Vous pouvez voir et mettre à jour les détails de ce rôle ici.",
+        "nav": {
+          "display": "Affichage",
+          "members": "Gérer les membres ({{count}})",
+          "permissions": "Permissions"
+        }
+      }
+    }
+  }
+}
