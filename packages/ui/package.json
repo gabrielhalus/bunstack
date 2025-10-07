@@ -10,6 +10,8 @@
     "./hooks/*": "./src/hooks/*.ts"
   },
   "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc -b",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {

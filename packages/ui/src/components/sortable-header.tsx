@@ -16,10 +16,10 @@ export function SortableHeader<TData>({ column, title, className }: SortableHead
 
   const getSortIcon = () => {
     if (sortState === "asc")
-      return <ArrowUpNarrowWide className="ml-2 h-4 w-4 text-muted-foreground" />;
+      return <ArrowUpNarrowWide className="ml-2 size-4 text-muted-foreground" />;
     if (sortState === "desc")
-      return <ArrowDownNarrowWide className="ml-2 h-4 w-4 text-muted-foreground" />;
-    return <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground" />;
+      return <ArrowDownNarrowWide className="ml-2 size-4 text-muted-foreground" />;
+    return <ArrowUpDown className="ml-2 size-4 text-muted-foreground" />;
   };
 
   const handleSort = () => {

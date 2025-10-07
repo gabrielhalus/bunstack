@@ -187,7 +187,7 @@ body {
     @apply bg-background text-foreground;
   }
   *::selection {
-    @apply bg-primary text-primary-foreground;
+    @apply bg-secondary text-secondary-foreground;
   }
 
   img {

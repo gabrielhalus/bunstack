@@ -172,7 +172,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2 top-2.5 size-4 text-muted-foreground" />
             <Input
               ref={searchInputRef}
               placeholder={searchPlaceholder}
@@ -186,10 +186,10 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto bg-transparent" disabled={isLoading}>
-              <Settings2 className="mr-2 h-4 w-4" />
+              <Settings2 className="mr-2 size-4" />
               Columns
               {" "}
-              <ChevronDown className="ml-2 h-4 w-4" />
+              <ChevronDown className="ml-2 size-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
