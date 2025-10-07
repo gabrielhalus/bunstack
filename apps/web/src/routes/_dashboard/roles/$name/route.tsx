@@ -3,22 +3,17 @@ import { useTranslation } from "react-i18next";
 
 import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
-import { auth } from "@/hooks/use-auth";
-import { getRoleByNameQueryOptions } from "@/lib/queries/roles";
+import { auth } from "@/lib/auth";
+import { getRoleByNameQueryOptions } from "@/queries/roles";
 
 export const Route = createFileRoute("/_dashboard/roles/$name")({
   beforeLoad: async ({ params, context }) => {
     const { queryClient } = context;
-    const authResult = await auth();
+    const { can } = await auth();
 
-    let role;
-    try {
-      role = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
-    } catch {
-      throw redirect({ to: "/" });
-    }
+    const role = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
 
-    if (!authResult.can("role:read", role) && !authResult.isAdmin) {
+    if (!can("role:read", role)) {
       throw redirect({ to: "/" });
     }
   },

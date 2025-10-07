@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { auth } from "@/hooks/use-auth";
+import { auth } from "@/lib/auth";
 
 export const Route = createFileRoute("/_dashboard/users")({
   beforeLoad: async () => {

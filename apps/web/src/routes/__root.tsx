@@ -2,26 +2,32 @@ import type { QueryClient } from "@tanstack/react-query";
 
 import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
 
+import { auth } from "@/lib/auth";
 import { env } from "@/lib/env";
-import { userQueryOptions } from "@/lib/queries/auth";
+import { AuthProvider } from "@/providers/auth-provider";
 
 export type RouterContext = {
   queryClient: QueryClient;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  beforeLoad: async ({ context }) => {
-    const { queryClient } = context;
-
+  beforeLoad: async () => {
     try {
-      await queryClient.fetchQuery(userQueryOptions);
+      await auth();
     } catch {
-      throw redirect({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}`, replace: true });
+      throw redirect({
+        href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(window.location.href)}`,
+        replace: true,
+      });
     }
   },
   component: RootLayout,
 });
 
 function RootLayout() {
-  return <Outlet />;
+  return (
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
 }

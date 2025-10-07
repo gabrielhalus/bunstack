@@ -6,20 +6,28 @@ import { Copy, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
-import { deleteUser } from "@/lib/api/users";
+import { api } from "@/lib/http";
 import { Button } from "@bunstack/ui/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@bunstack/ui/components/dropdown-menu";
 import { Spinner } from "@bunstack/ui/components/spinner";
 import sayno from "@bunstack/ui/lib/sayno";
 
 export function ActionDropdown({ row }: { row: Row<User> }) {
-  const { can, loading } = useAuth();
+  const { can } = useAuth();
   const queryClient = useQueryClient();
 
   const user = row.original;
 
   const mutation = useMutation({
-    mutationFn: deleteUser,
+    mutationFn: async (id: string) => {
+      const res = await api.users[":id"].$delete({ param: { id } });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete user");
+      }
+
+      return res.json();
+    },
     onError: () => toast.error("Failed to delete user"),
     onSuccess: () => {
       toast.success("User deleted successfully");
@@ -35,13 +43,9 @@ export function ActionDropdown({ row }: { row: Row<User> }) {
     });
 
     if (confirmation) {
-      mutation.mutate(user);
+      mutation.mutate(user.id);
     }
   };
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <DropdownMenu>

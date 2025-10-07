@@ -6,8 +6,8 @@ import { useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { updateRole } from "@/lib/api/roles";
-import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/lib/queries/roles";
+import { api } from "@/lib/http";
+import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/queries/roles";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
@@ -24,7 +24,15 @@ export function Form() {
   const { role } = data!;
 
   const mutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: UpdateRoleInput }) => updateRole(id, data),
+    mutationFn: async ({ id, data }: { id: number; data: UpdateRoleInput }) => {
+      const res = await api.roles[":id"].$put({ param: { id: String(id) }, json: data });
+
+      if (!res.ok) {
+        throw new Error("Failed to update role");
+      }
+
+      return res.json();
+    },
     onSuccess: ({ role: data }) => {
       toast.success(`Role successfully updated`);
       queryClient.refetchQueries(getAllRolesQueryOptions);

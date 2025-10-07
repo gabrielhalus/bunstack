@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { columns } from "./-components/columns";
-import { getRolesPaginatedQueryOptions } from "@/lib/queries/roles";
+import { getRolesPaginatedQueryOptions } from "@/queries/roles";
 import { debounceSync } from "@bunstack/shared/lib/debounce";
 import { DataTable } from "@bunstack/ui/components/data-table";
 

@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { getAllRolesQueryOptions } from "@/lib/queries/roles";
+import { getAllRolesQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/ui/components/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
 

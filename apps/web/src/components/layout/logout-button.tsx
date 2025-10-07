@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
-import { logout } from "@/lib/api/auth";
 import { env } from "@/lib/env";
+import { api } from "@/lib/http";
 import { Button } from "@bunstack/ui/components/button";
 import { DropdownMenuItem } from "@bunstack/ui/components/dropdown-menu";
 import { Spinner } from "@bunstack/ui/components/spinner";
@@ -33,16 +33,18 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
         return false;
       }
 
-      await logout();
+      const res = await api.auth.logout.$post();
+
+      if (!res.ok) {
+        throw new Error("Failed to logout");
+      }
+
       return true;
     },
     onSuccess: (loggedOut) => {
       if (!loggedOut) {
         return;
       }
-
-      // Clear cached queries
-      queryClient.resetQueries();
 
       // Redirect to SSO login
       navigate({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}`, replace: true });

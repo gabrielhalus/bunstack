@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Trans, useTranslation } from "react-i18next";
 
 import { Route as Layout } from "../../route";
-import { getAllRolesQueryOptions } from "@/lib/queries/roles";
+import { getAllRolesQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/ui/components/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@bunstack/ui/components/dialog";
 import { Input } from "@bunstack/ui/components/input";

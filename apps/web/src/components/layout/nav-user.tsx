@@ -26,11 +26,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@bunstack/ui/components/sidebar";
-import { Skeleton } from "@bunstack/ui/components/skeleton";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user, loading, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { t, i18n } = useTranslation("common");
 
   const locales = [
@@ -45,20 +44,6 @@ export function NavUser() {
     event.stopPropagation();
     i18n.changeLanguage(localeCode);
   };
-
-  if (loading) {
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem className="flex w-full items-center gap-2 p-2 ">
-          <Skeleton className="h-8 w-8 rounded-lg" />
-          <div className="grid flex-1 gap-1">
-            <Skeleton className="h-3.75 w-24" />
-            <Skeleton className="h-3.75 w-32" />
-          </div>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  }
 
   if (!isAuthenticated) {
     return null;
