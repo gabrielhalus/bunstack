@@ -32,12 +32,12 @@ export function Breadcrumbs() {
                 {isLast
                   ? (
                       <BreadcrumbPage className="line-clamp-1">
-                        {t(`${item.label}.title`)}
+                        {t(item.label!)}
                       </BreadcrumbPage>
                     )
                   : (
                       <Link to={item.pathname} params={item.params} className="line-clamp-1 hover:underline">
-                        {t(`${item.label}.title`)}
+                        {t(item.label!)}
                       </Link>
                     )}
               </BreadcrumbItem>

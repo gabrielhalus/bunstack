@@ -34,7 +34,7 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
           <Button asChild variant="ghost" size="sm">
             <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
               {row.original.members}
-              <UserRound className="h-4 w-4" />
+              <UserRound className="size-4" />
             </Link>
           </Button>
         </TooltipTrigger>

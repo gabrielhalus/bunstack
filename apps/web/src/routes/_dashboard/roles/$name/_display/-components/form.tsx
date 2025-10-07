@@ -3,7 +3,6 @@ import type { UpdateRoleInput } from "@bunstack/shared/contracts/roles";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
@@ -13,9 +12,10 @@ import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { Button } from "@bunstack/ui/components/button";
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
+import { Spinner } from "@bunstack/ui/components/spinner";
 
 export function Form() {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "web"]);
 
   const queryClient = useQueryClient();
   const params = useParams({ from: "/_dashboard/roles/$name" });
@@ -57,13 +57,13 @@ export function Form() {
       form.handleSubmit(e);
     }}
     >
-      <div className="grid gap-6">
-        <div className="grid gap-3">
+      <div className="grid gap-4">
+        <div className="grid gap-4">
           <form.Field
             name="label"
             children={field => (
               <>
-                <Label htmlFor={field.name}>Label</Label>
+                <Label htmlFor={field.name}>{t("web:pages.roles.detail.pages.display.fields.label")}</Label>
                 <Input
                   name={field.name}
                   value={field.state.value}
@@ -89,7 +89,7 @@ export function Form() {
             name="description"
             children={field => (
               <>
-                <Label htmlFor={field.name}>Description</Label>
+                <Label htmlFor={field.name}>{t("web:pages.roles.detail.pages.display.fields.description")}</Label>
                 <Input
                   name={field.name}
                   value={field.state.value ?? ""}
@@ -118,7 +118,7 @@ export function Form() {
                 { isSubmitting
                   ? (
                       <span className="flex items-center space-x-2">
-                        <Loader2 className="size-4 animate-spin" />
+                        <Spinner />
                         {t("form.saving")}
                       </span>
                     )

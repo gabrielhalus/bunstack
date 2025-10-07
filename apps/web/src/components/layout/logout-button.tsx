@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Loader2, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
@@ -9,6 +9,7 @@ import { logout } from "@/lib/api/auth";
 import { env } from "@/lib/env";
 import { Button } from "@bunstack/ui/components/button";
 import { DropdownMenuItem } from "@bunstack/ui/components/dropdown-menu";
+import { Spinner } from "@bunstack/ui/components/spinner";
 import sayno from "@bunstack/ui/lib/sayno";
 
 type Variant = "button" | "dropdown";
@@ -55,7 +56,7 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
 
   const content = (
     <>
-      {mutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <LogOut />}
+      {mutation.isPending ? <Spinner /> : <LogOut />}
       {t("logout.label")}
     </>
   );

@@ -119,7 +119,7 @@ export function NavUser() {
             {/* Locale submenu */}
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="flex items-center gap-2">
-                <Languages className="h-4 w-4 text-muted-foreground" />
+                <Languages className="size-4 text-muted-foreground" />
                 <span>
                   {t("generic.language")}
                   {" "}

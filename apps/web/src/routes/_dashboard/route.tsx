@@ -8,7 +8,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@bunstack/ui/comp
 export const Route = createFileRoute("/_dashboard")({
   loader: () => {
     return {
-      crumb: "pages.home",
+      crumb: "pages.home.title",
     };
   },
   component: DashboardLayout,

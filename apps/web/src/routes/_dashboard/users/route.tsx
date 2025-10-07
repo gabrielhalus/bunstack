@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_dashboard/users")({
     }
   },
   loader: () => ({
-    crumb: "pages.users",
+    crumb: "pages.users.title",
   }),
   component: UsersLayout,
 });

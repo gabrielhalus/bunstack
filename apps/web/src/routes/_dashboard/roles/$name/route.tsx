@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
@@ -32,14 +33,16 @@ export const Route = createFileRoute("/_dashboard/roles/$name")({
 });
 
 function RoleLayout() {
+  const { t } = useTranslation("web");
+  const { role } = Route.useLoaderData();
+
   return (
     <div className="h-full flex">
       <Sidebar />
-      <div className="w-full max-w-3xl mx-4">
+      <div className="w-full max-w-3xl m-4 space-y-8">
+        <h1>{t("pages.roles.detail.title", { role: role.label })}</h1>
         <Nav />
-        <div className="p-4">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </div>
   );
