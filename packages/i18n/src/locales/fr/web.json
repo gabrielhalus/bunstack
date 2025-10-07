@@ -17,8 +17,26 @@
         "subtitle": "Gérez vos rôles avec des capacités avancées de filtrage et de recherche."
       },
       "detail": {
-        "title": "Informations sur le rôle",
-        "subtitle": "Vous pouvez voir et mettre à jour les détails de ce rôle ici.",
+        "title": "Modifier le rôle - {{role}}",
+        "pages": {
+          "display": {
+            "fields": {
+              "label": "Libelle",
+              "description": "Description"
+            }
+          },
+          "members": {
+            "title": "Membres",
+            "addMembers": {
+              "label": "Ajouter des membres",
+              "description": "Ajouter des membres au rôle <b>{{role}}</b>."
+            },
+            "searchMembers": "Chercher des membres..."
+          },
+          "permissions": {
+            "title": "Permissions"
+          }
+        },
         "nav": {
           "display": "Affichage",
           "members": "Gérer les membres ({{count}})",

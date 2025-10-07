@@ -1,1 +1,1 @@
-export { createServerI18n } from "./config.server";
+export { createServerI18n } from "./config-server";

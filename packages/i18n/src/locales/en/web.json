@@ -17,8 +17,26 @@
         "subtitle": "Manage your roles with advanced filtering and search capabilities."
       },
       "detail": {
-        "title": "Role Information",
-        "subtitle": "You can view and update this role's details here.",
+        "title": "Edit role - {{role}}",
+        "pages": {
+          "display": {
+            "fields": {
+              "label": "Label",
+              "description": "Description"
+            }
+          },
+          "members": {
+            "title": "Members",
+            "addMembers": {
+              "label": "Add members",
+              "description": "Add members to the <b>{{role}}</b> role."
+            },
+            "searchMembers": "Search members..."
+          },
+          "permissions": {
+            "title": "Permissions"
+          }
+        },
         "nav": {
           "display": "Display",
           "members": "Manage Members ({{count}})",
