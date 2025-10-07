@@ -157,12 +157,12 @@ export default new Hono()
   .use(getAuthContext)
 
   /**
-   * Get the current user
+   * Get the authenticated user
    *
    * @param c - The context
-   * @returns The current user
+   * @returns The authenticated user
    */
-  .get("/me", async (c) => {
+  .get("/", async (c) => {
     const authContext = c.var.authContext;
     return c.json({ success: true as const, ...authContext });
   });
