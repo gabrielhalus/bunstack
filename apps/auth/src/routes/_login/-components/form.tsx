@@ -1,6 +1,5 @@
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
@@ -10,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/component
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
 import { PasswordInput } from "@bunstack/ui/components/password-input";
+import { Spinner } from "@bunstack/ui/components/spinner";
 import { cn } from "@bunstack/ui/lib/utils";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -109,8 +109,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         {isSubmitting
                           ? (
                               <span className="flex items-center gap-2">
-                                <Loader2 className="size-4 animate-spin" />
-                                {" "}
+                                <Spinner />
                                 Signing in...
                               </span>
                             )

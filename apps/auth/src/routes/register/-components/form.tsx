@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/component
 import { Input } from "@bunstack/ui/components/input";
 import { Label } from "@bunstack/ui/components/label";
 import { PasswordInput } from "@bunstack/ui/components/password-input";
+import { Spinner } from "@bunstack/ui/components/spinner";
 import { cn } from "@bunstack/ui/lib/utils";
 
 const checkEmail = debounceAsync(async (email: string): Promise<string | void> => {
@@ -159,7 +160,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                         {isSubmitting
                           ? (
                               <span className="flex items-center gap-2">
-                                <Loader2 className="size-4 animate-spin" />
+                                <Spinner />
                                 {t("register.pending")}
                               </span>
                             )
