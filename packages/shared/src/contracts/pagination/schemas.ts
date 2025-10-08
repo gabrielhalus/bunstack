@@ -1,4 +1,4 @@
-import z from "zod";
+import { z } from "zod";
 
 export const paginationInputSchema = z.object({
   page: z.string().optional().transform(val => (Number(val) ?? 0)),

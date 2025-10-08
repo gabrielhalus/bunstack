@@ -11,6 +11,9 @@ export const permissions = [
   "role:edit",
   "role:delete",
 
+  "userRole:create",
+  "userRole:delete",
+
   "settings:read",
   "settings:update",
 
