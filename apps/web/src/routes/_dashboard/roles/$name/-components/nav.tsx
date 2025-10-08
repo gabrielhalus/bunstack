@@ -1,15 +1,23 @@
 import type { RoleWithMembers } from "@bunstack/shared/database/types/roles";
 import type { LinkOptions } from "@tanstack/react-router";
 
-import { Link, useLoaderData } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
+import { Route } from "../route";
+import { getRoleByNameQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/ui/components/button";
 
 export function Nav() {
   const { t } = useTranslation("web");
 
-  const { role } = useLoaderData({ from: "/_dashboard/roles/$name" });
+  const { role } = Route.useLoaderData();
+
+  const query = useQuery({
+    ...getRoleByNameQueryOptions(role.name),
+    initialData: { success: true, role },
+  });
 
   const nav = (role: RoleWithMembers) => [
     {
@@ -37,7 +45,7 @@ export function Nav() {
 
   return (
     <nav className="flex items-center space-x-2 text-sm">
-      {nav(role).map(link => (
+      {nav(query.data.role).map(link => (
         <Button
           key={`${link.label}-${link.linkOptions.to}`}
           asChild

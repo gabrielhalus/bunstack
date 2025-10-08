@@ -5,6 +5,7 @@ import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
 import { auth } from "@/lib/auth";
 import { getRoleByNameQueryOptions } from "@/queries/roles";
+import { getAllUsersQueryOptions } from "@/queries/users";
 
 export const Route = createFileRoute("/_dashboard/roles/$name")({
   beforeLoad: async ({ params, context }) => {
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/_dashboard/roles/$name")({
   loader: async ({ params, context }) => {
     const { queryClient } = context;
 
+    await queryClient.ensureQueryData(getAllUsersQueryOptions);
     const { role } = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
     return { role, crumb: role.label };
   },

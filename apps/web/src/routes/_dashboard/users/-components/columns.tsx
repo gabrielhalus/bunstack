@@ -4,7 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "@tanstack/react-router";
 
 import { ActionDropdown } from "./action-dropdown";
-import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
+import { AvatarUser } from "@/components/avatar-user";
 import { SortableHeader } from "@bunstack/ui/components/sortable-header";
 
 export const columns: ColumnDef<UserWithRoles>[] = [
@@ -13,16 +13,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
     header: ({ column }) => <SortableHeader column={column} title="Name" />,
     cell: ({ row }) => (
       <div className="flex items-center space-x-3">
-        <Avatar className="h-8 w-8 rounded-lg">
-          <AvatarImage src={row.original.avatar as string} className="object-cover" />
-          <AvatarFallback className="rounded-lg">
-            {row
-              .getValue<string>("name")
-              .split(" ")
-              .map(n => n[0])
-              .join("")}
-          </AvatarFallback>
-        </Avatar>
+        <AvatarUser {...row.original} />
         <Link to="/users/$userId" params={{ userId: row.original.id }} className="text-foreground hover:underline">{row.getValue("name")}</Link>
       </div>
     ),

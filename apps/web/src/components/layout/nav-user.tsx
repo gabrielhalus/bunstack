@@ -1,14 +1,9 @@
 import { Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { AvatarUser } from "../avatar-user";
 import { LogoutButton } from "@/components/layout/logout-button";
-import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
 import { useAuth } from "@/hooks/use-auth";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@bunstack/ui/components/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,25 +44,13 @@ export function NavUser() {
     return null;
   }
 
-  const avatarFallback = !user.avatar ? generateAvatarFallback(user.name) : undefined;
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              <Avatar className="h-8 w-8 rounded-lg overflow-visible">
-                {user.avatar && (
-                  <AvatarImage
-                    src={user.avatar}
-                    alt={user.name}
-                    className="object-cover h-8 w-8 rounded-lg"
-                    style={{ objectFit: "cover" }}
-                  />
-                )}
-                <AvatarFallback className="rounded-lg">{avatarFallback}</AvatarFallback>
-              </Avatar>
+              <AvatarUser {...user} />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
@@ -82,17 +65,7 @@ export function NavUser() {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  {user.avatar && (
-                    <AvatarImage
-                      src={user.avatar}
-                      alt={user.name}
-                      className="object-cover h-8 w-8 rounded-lg"
-                      style={{ objectFit: "cover" }}
-                    />
-                  )}
-                  <AvatarFallback className="rounded-lg">{avatarFallback}</AvatarFallback>
-                </Avatar>
+                <AvatarUser {...user} />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="truncate text-xs">{user.email}</span>

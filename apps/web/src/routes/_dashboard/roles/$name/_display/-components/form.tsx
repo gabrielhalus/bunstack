@@ -2,10 +2,10 @@ import type { UpdateRoleInput } from "@bunstack/shared/contracts/roles";
 
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
+import { Route } from "../index";
 import { api } from "@/lib/http";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/queries/roles";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
@@ -18,7 +18,7 @@ export function Form() {
   const { t } = useTranslation(["common", "web"]);
 
   const queryClient = useQueryClient();
-  const params = useParams({ from: "/_dashboard/roles/$name" });
+  const params = Route.useParams();
 
   const { data } = useQuery(getRoleByNameQueryOptions(params.name));
   const { role } = data!;

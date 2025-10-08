@@ -1,15 +1,74 @@
+import type { Role, RoleWithMembers } from "@bunstack/shared/database/types/roles";
 import type { User } from "@bunstack/shared/database/types/users";
 
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { XIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import { Route as Layout } from "../../route";
-import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
+import { AvatarUser } from "@/components/avatar-user";
+import { useAuth } from "@/hooks/use-auth";
+import { api } from "@/lib/http";
+import { getRoleByNameQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/ui/components/button";
+import { Spinner } from "@bunstack/ui/components/spinner";
 import sayno from "@bunstack/ui/lib/sayno";
 
-export function MembersList() {
-  const { role: { members, ...role } } = Layout.useLoaderData();
+export function RoleMembersList({ search }: { search: string }) {
+  const { role } = Layout.useLoaderData();
+
+  const query = useQuery({
+    ...getRoleByNameQueryOptions(role.name),
+    initialData: { success: true, role: role as RoleWithMembers },
+  });
+
+  const filteredMembers = query.data?.role.members.filter(member =>
+    member.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  return (
+    <>
+      {filteredMembers?.map(user => (
+        <RoleMemberItem key={user.id} user={user} role={query.data.role} />
+      ))}
+    </>
+  );
+}
+
+function RoleMemberItem({ user, role }: { user: User; role: Role }) {
+  const { can } = useAuth();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (userId: string) => {
+      const res = await api.roles.remove.$post({ json: { userId, roleId: role.id } });
+
+      if (!res.ok) {
+        throw new Error("Failed to remove user role");
+      }
+
+      const data = await res.json();
+      return data.userRole;
+    },
+    onError: () => toast.error("Failed to remove user role 2222"),
+    onSuccess: () => {
+      toast.success("User role removed successfully");
+      queryClient.setQueryData<{ success: true; role: RoleWithMembers }>(getRoleByNameQueryOptions(role.name).queryKey, (old) => {
+        if (!old) {
+          return old;
+        }
+
+        return ({
+          ...old,
+          role: {
+            ...old.role,
+            members: old.role.members.filter((member: User) => member.id !== user.id),
+          },
+        });
+      });
+    },
+  });
 
   async function handleRemove(user: User, event: React.MouseEvent) {
     if (!event.shiftKey) {
@@ -20,30 +79,21 @@ export function MembersList() {
       }
     }
 
-    console.log("Removing user:", user.name);
+    mutation.mutate(user.id);
   }
 
   return (
-    <div>
-      {members.map(user => (
-        <div key={user.id} className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarImage src={user.avatar as string} className="object-cover" />
-              <AvatarFallback className="rounded-lg">
-                {user.name
-                  .split(" ")
-                  .map(n => n[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
-            <Link to="/users/$userId" params={{ userId: user.id }} className="text-sm text-foreground hover:underline">{user.name}</Link>
-          </div>
+    <div key={user.id} className="flex items-center justify-between">
+      <div className="flex items-center space-x-3">
+        <AvatarUser {...user} />
+        <Link to="/users/$userId" params={{ userId: user.id }} className="text-sm text-foreground hover:underline">{user.name}</Link>
+      </div>
+      { can("userRole:delete")
+        && (
           <Button variant="ghost" size="icon" onClick={event => handleRemove(user, event)}>
-            <XIcon className="size-4" />
+            {mutation.isPending ? <Spinner /> : <XIcon className="size-4" />}
           </Button>
-        </div>
-      ))}
+        )}
     </div>
   );
 }
