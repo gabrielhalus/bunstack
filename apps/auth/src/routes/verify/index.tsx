@@ -1,6 +1,6 @@
 import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { Box } from "lucide-react";
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { api } from "@/lib/http";
 import { Constants } from "@bunstack/shared/constants";
@@ -18,10 +18,10 @@ function RouteComponent() {
   const searchParams = new URLSearchParams(location.searchStr);
   const token = searchParams.get("token");
 
-  const [status, setStatus] = React.useState<Status>("pending");
-  const ranOnce = React.useRef(false);
+  const [status, setStatus] = useState<Status>("pending");
+  const ranOnce = useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function verify() {
       if (!token) {
         setStatus("error");
