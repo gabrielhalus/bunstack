@@ -7,7 +7,9 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
+import { assignRoleInputSchema, removeRoleInputSchema } from "@bunstack/shared/contracts/user-roles";
 import { deleteRole, getRole, getRoles, updateRole } from "@bunstack/shared/database/queries/roles";
+import { assignUserRole, removeUserRole } from "@bunstack/shared/database/queries/user-roles";
 
 export default new Hono()
   // --- All routes below this point require authentication
@@ -45,9 +47,7 @@ export default new Hono()
   .put("/:id", requirePermission("role:edit", c => ({ id: c.req.param("id") })), validationMiddleware("json", updateRoleInputSchema), async (c) => {
     try {
       const id = Number(c.req.param("id"));
-      const rawRole = await c.req.json();
-
-      const role = updateRoleInputSchema.parse(rawRole);
+      const role = c.req.valid("json");
 
       const updatedRole = await updateRole("id", id, role);
       return c.json({ success: true as const, role: updatedRole });
@@ -62,6 +62,28 @@ export default new Hono()
     try {
       const role = await deleteRole("id", id);
       return c.json({ success: true as const, role });
+    } catch (error) {
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+    }
+  })
+
+  .post("/assign", requirePermission("userRole:create"), validationMiddleware("json", assignRoleInputSchema), async (c) => {
+    const { userId, roleId } = c.req.valid("json");
+
+    try {
+      const userRole = await assignUserRole({ userId, roleId });
+      return c.json({ success: true as const, userRole });
+    } catch (error) {
+      return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+    }
+  })
+
+  .post("/remove", requirePermission("userRole:create"), validationMiddleware("json", removeRoleInputSchema), async (c) => {
+    const { userId, roleId } = c.req.valid("json");
+
+    try {
+      const userRole = await removeUserRole({ userId, roleId });
+      return c.json({ success: true as const, userRole });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);
     }
