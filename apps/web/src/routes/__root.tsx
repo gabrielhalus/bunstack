@@ -1,3 +1,4 @@
+import type { Session } from "@bunstack/shared/types/auth";
 import type { QueryClient } from "@tanstack/react-query";
 
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
@@ -7,13 +8,15 @@ import { AuthProvider } from "@/providers/auth-provider";
 
 export type RouterContext = {
   queryClient: QueryClient;
+  session: Session;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  beforeLoad: async () => {
-    await auth({ redirect: true });
-  },
   component: RootLayout,
+  beforeLoad: async () => {
+    const session = await auth();
+    return { session };
+  },
 });
 
 function RootLayout() {

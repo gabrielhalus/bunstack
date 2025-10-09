@@ -1,18 +1,15 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { auth } from "@/lib/auth";
-
 export const Route = createFileRoute("/_dashboard/users")({
-  beforeLoad: async () => {
-    const authResult = await auth();
-    if (!(authResult.can("user:list") || authResult.isAdmin)) {
+  component: UsersLayout,
+  beforeLoad: async ({ context: { session: { can } } }) => {
+    if (!can("user:list")) {
       throw redirect({ to: "/" });
     }
   },
   loader: () => ({
     crumb: "pages.users.title",
   }),
-  component: UsersLayout,
 });
 
 function UsersLayout() {

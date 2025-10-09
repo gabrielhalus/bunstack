@@ -5,9 +5,7 @@ import { getUserQueryOptions } from "@/queries/users";
 
 export const Route = createFileRoute("/_dashboard/users/$userId/")({
   component: User,
-  loader: async ({ params: { userId }, context }) => {
-    const { queryClient } = context;
-
+  loader: async ({ params: { userId }, context: { queryClient } }) => {
     const { user } = await queryClient.ensureQueryData(getUserQueryOptions(userId));
     return { user, crumb: user.name };
   },

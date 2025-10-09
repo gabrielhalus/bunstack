@@ -19,7 +19,7 @@ function Roles() {
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
-  const [pagination, setPagination] = useState({ page: 0, pageSize: 10 });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState<SortingState>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -44,7 +44,7 @@ function Roles() {
   const sortDirection = sorting.length ? (sorting[0]?.desc ? "desc" : "asc") : undefined;
 
   const { isPending, data } = useQuery(getRolesPaginatedQueryOptions({
-    page: String(pagination.page),
+    page: String(pagination.pageIndex),
     pageSize: String(pagination.pageSize),
     sortField,
     sortDirection,

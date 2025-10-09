@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_dashboard/profile")({
+  component: Profile,
   loader: () => ({
     crumb: "pages.profile.title",
   }),
-  component: Profile,
 });
 
 function Profile() {

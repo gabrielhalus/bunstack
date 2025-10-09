@@ -1,10 +1,9 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 import { Route as Layout } from "../../route";
 import { AvatarUser } from "@/components/avatar-user";
-import { api } from "@/lib/http";
 import { getAllUsersQueryOptions } from "@/queries/users";
 import { Button } from "@bunstack/ui/components/button";
 import { Checkbox } from "@bunstack/ui/components/checkbox";

@@ -3,30 +3,26 @@ import { useTranslation } from "react-i18next";
 
 import { Nav } from "./-components/nav";
 import { Sidebar } from "./-components/sidebar";
-import { auth } from "@/lib/auth";
 import { getRoleByNameQueryOptions } from "@/queries/roles";
 import { getAllUsersQueryOptions } from "@/queries/users";
 
 export const Route = createFileRoute("/_dashboard/roles/$name")({
-  beforeLoad: async ({ params, context }) => {
-    const { queryClient } = context;
-    const { can } = await auth();
-
-    const role = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
+  component: RoleLayout,
+  beforeLoad: async ({ params, context: { queryClient, session: { can } } }) => {
+    const { role } = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
 
     if (!can("role:read", role)) {
       throw redirect({ to: "/" });
     }
+
+    return { role };
   },
-
-  loader: async ({ params, context }) => {
-    const { queryClient } = context;
-
-    await queryClient.ensureQueryData(getAllUsersQueryOptions);
+  loader: async ({ params, context: { queryClient } }) => {
     const { role } = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
+    await queryClient.ensureQueryData(getAllUsersQueryOptions);
+
     return { role, crumb: role.label };
   },
-  component: RoleLayout,
 });
 
 function RoleLayout() {

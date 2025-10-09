@@ -4,6 +4,7 @@ import { cva } from "class-variance-authority";
 
 import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
 import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
+import { cn } from "@bunstack/ui/lib/utils";
 
 type AvatarUserProps = {
   avatar: string | null;
@@ -31,9 +32,8 @@ export function AvatarUser({ avatar, name, size }: AvatarUserProps & VariantProp
 
   return (
     <Avatar className={avatarVariants({ size })}>
-      { avatar
-        ? <AvatarImage src={avatar} className="object-cover" />
-        : <AvatarFallback className={avatarVariants({ size })}>{avatarFallback}</AvatarFallback>}
+      {avatar ? <AvatarImage src={avatar} className="object-cover" /> : null}
+      <AvatarFallback className={cn(avatarVariants({ size }))}>{avatarFallback}</AvatarFallback>
     </Avatar>
   );
 }

@@ -1,28 +1,21 @@
-export function generateAvatarFallback(name?: string | null): string {
-  if (!name || typeof name !== "string")
-    return "?";
-
-  // Allow Unicode letters, numbers, and spaces
-  const cleanedName = name
-    .trim()
-    .replace(/[^\p{L}\p{N}\s]+/gu, "") // remove anything that's not letter, number, or space
-    .replace(/\s+/g, " "); // normalize whitespace
-
-  if (cleanedName.length === 0)
-    return "?";
-
-  const parts = cleanedName.split(" ");
-
-  if (parts.length === 1) {
-    const firstPart = parts[0];
-    return firstPart?.slice(0, 2).toUpperCase() || "?";
+/**
+ * Returns the initials of a given string.
+ * @param input - The string to extract initials from.
+ * @param length - Number of initials to return (default 2).
+ */
+export function generateAvatarFallback(input: string | null, length: number = 2): string {
+  if (!input) {
+    return "";
   }
 
-  const firstInitial = parts[0]?.[0];
-  const secondInitial = parts[1]?.[0];
+  const words = input
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
 
-  if (!firstInitial || !secondInitial)
-    return "?";
+  const initials = words
+    .map(word => word[0]?.toUpperCase()) // optional chaining ensures safety
+    .filter(Boolean) as string[]; // remove possible undefineds
 
-  return (firstInitial + secondInitial).toUpperCase();
+  return initials.slice(0, length).join("");
 }

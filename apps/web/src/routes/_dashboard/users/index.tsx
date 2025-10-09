@@ -19,10 +19,7 @@ function Users() {
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    page: 0,
-    pageSize: 10,
-  });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState<SortingState>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -48,7 +45,7 @@ function Users() {
 
   const { isPending, data } = useQuery(
     getUsersPaginatedQueryOptions({
-      page: String(pagination.page),
+      page: String(pagination.pageIndex),
       pageSize: String(pagination.pageSize),
       search: debouncedFilter || undefined,
       sortField,

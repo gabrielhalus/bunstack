@@ -6,12 +6,12 @@ import { Separator } from "@bunstack/ui/components/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@bunstack/ui/components/sidebar";
 
 export const Route = createFileRoute("/_dashboard")({
+  component: DashboardLayout,
   loader: () => {
     return {
       crumb: "pages.home.title",
     };
   },
-  component: DashboardLayout,
 });
 
 function DashboardLayout() {

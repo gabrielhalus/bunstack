@@ -1,10 +1,10 @@
-import type { AuthResult } from "@bunstack/shared/types/auth";
+import type { Session } from "@bunstack/shared/types/auth";
 
 import { createContext, use } from "react";
 
-export const AuthContext = createContext<AuthResult | null>(null);
+export const AuthContext = createContext<Session | null>(null);
 
-export function useAuth(): AuthResult {
+export function useAuth(): Session {
   const ctx = use(AuthContext);
   if (!ctx)
     throw new Error("useAuth must be used within <AuthProvider>");

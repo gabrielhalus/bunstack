@@ -1,10 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { auth } from "@/lib/auth";
-
 export const Route = createFileRoute("/_dashboard/roles")({
-  beforeLoad: async () => {
-    const { can } = await auth();
+  beforeLoad: async ({ context: { session: { can } } }) => {
     if (!can("role:list")) {
       throw redirect({ to: "/" });
     }

@@ -12,12 +12,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Spinner } from "@bunstack/ui/components/spinner";
 import sayno from "@bunstack/ui/lib/sayno";
 
-export function ActionDropdown({ row }: { row: Row<Role> }) {
+export function ActionDropdown({ row: { original: role } }: { row: Row<Role> }) {
   const { can } = useAuth();
 
   const queryClient = useQueryClient();
-
-  const role = row.original;
 
   const mutation = useMutation({
     mutationFn: async (id: number) => {

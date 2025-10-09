@@ -47,7 +47,7 @@ export function getUserQueryOptions(id: string) {
       const res = await api.users[":id"].$get({ param: { id } });
 
       if (!res.ok) {
-        throw new Error("Failed to delete user");
+        throw new Error("Failed to fetch user");
       }
 
       return res.json();
