@@ -32,11 +32,8 @@ type DataTableProps<TData, TValue> = {
   searchValue?: string;
   searchInputRef?: React.RefObject<HTMLInputElement | null>;
   pageCount?: number;
-  pagination?: {
-    page: number;
-    pageSize: number;
-  };
-  onPaginationChange?: (pagination: { page: number; pageSize: number }) => void;
+  pagination?: { pageIndex: number; pageSize: number };
+  onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
   manualPagination?: boolean;
   // Add sorting props
   sorting?: SortingState;
@@ -101,8 +98,9 @@ export function DataTable<TData, TValue>({
     }
   }, [isLoading, searchValue]);
 
-  const currentPagination = externalPagination ? { pageIndex: externalPagination.page, pageSize: externalPagination.pageSize } : internalPagination;
+  const currentPagination = externalPagination ?? internalPagination;
   const currentSorting = externalSorting || sorting;
+
   const handlePaginationChange = React.useCallback(
     (updaterOrValue: any) => {
       const newPagination = typeof updaterOrValue === "function"
