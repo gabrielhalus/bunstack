@@ -1,5 +1,6 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { nanoid } from "nanoid";
+
+import { nanoid } from "@bunstack/shared/lib/nanoid";
 
 export const Users = sqliteTable("users", {
   id: text("id").primaryKey().$defaultFn(() => nanoid()),
