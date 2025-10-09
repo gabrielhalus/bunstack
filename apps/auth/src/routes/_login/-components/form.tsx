@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
@@ -13,6 +14,8 @@ import { Spinner } from "@bunstack/ui/components/spinner";
 import { cn } from "@bunstack/ui/lib/utils";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+  const { t } = useTranslation("auth");
+
   const navigate = useNavigate();
   const location = useRouterState({ select: s => s.location });
   const searchParams = new URLSearchParams(location.searchStr);
@@ -40,7 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back!</CardTitle>
+          <CardTitle className="text-xl">{t("login.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={(e) => {
@@ -56,7 +59,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                     name="email"
                     children={field => (
                       <>
-                        <Label htmlFor={field.name}>Email</Label>
+                        <Label htmlFor={field.name}>{t("fields.email")}</Label>
                         <Input
                           name={field.name}
                           value={field.state.value}
@@ -69,7 +72,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         {field.state.meta.isTouched && !field.state.meta.isValid
                           ? (
                               <p className="text-destructive text-sm">
-                                {field.state.meta.errors[0]?.message}
+                                {t(`errors.${field.name}.${field.state.meta.errors[0]?.message}`)}
                               </p>
                             )
                           : null}
@@ -82,7 +85,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                     name="password"
                     children={field => (
                       <>
-                        <Label htmlFor={field.name}>Password</Label>
+                        <Label htmlFor={field.name}>{t("fields.password")}</Label>
                         <PasswordInput
                           name={field.name}
                           value={field.state.value}
@@ -93,7 +96,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         {field.state.meta.isTouched && !field.state.meta.isValid
                           ? (
                               <p className="text-destructive text-sm">
-                                {field.state.meta.errors[0]?.message}
+                                {t(`errors.${field.name}.${field.state.meta.errors[0]?.message}`)}
                               </p>
                             )
                           : null}
@@ -110,21 +113,17 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                           ? (
                               <span className="flex items-center gap-2">
                                 <Spinner />
-                                Signing in...
+                                {t("login.pending")}
                               </span>
                             )
-                          : "Sign in"}
+                          : t("login.submit")}
                       </Button>
                     </>
                   )}
                 />
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account yet?
-                {" "}
-                <Link to="/register" search={location.search} className="underline underline-offset-4">
-                  Sign up
-                </Link>
+                <Trans i18nKey="login.cta" ns="auth" components={{ Link: <Link key="link" to="/register" search={location.search} className="underline underline-offset-4" /> }} />
               </div>
             </div>
           </form>
