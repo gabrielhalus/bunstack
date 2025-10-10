@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc -b && tsc-alias",
+    "build": "tsc -b",
     "lint": "eslint ."
   },
   "dependencies": {
