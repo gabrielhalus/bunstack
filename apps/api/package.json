@@ -1,13 +1,15 @@
 {
   "name": "@bunstack/api",
   "version": "0.0.1",
+  "private": true,
   "exports": {
     ".": "./src/app.ts"
   },
   "scripts": {
-    "start": "bun run src/index.ts",
     "dev": "bun run --watch src/index.ts",
+    "build": "tsc -b",
     "lint": "eslint .",
+    "start": "bun run src/index.ts",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {

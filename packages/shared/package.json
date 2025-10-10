@@ -50,7 +50,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc -b",
+    "build": "tsc -b && tsc-alias",
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
     "drizzle:generate": "drizzle-kit generate",

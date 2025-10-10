@@ -8,7 +8,7 @@ import { AuthProvider } from "@/providers/auth-provider";
 
 export type RouterContext = {
   queryClient: QueryClient;
-  session: Session;
+  session: Session | null;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
