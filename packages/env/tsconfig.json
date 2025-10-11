@@ -2,12 +2,16 @@
   "extends": "@bunstack/typescript-config/base.json",
   "compilerOptions": {
     "composite": true,
+    "target": "ES2022",
     "rootDir": "src",
-    "types": ["bun", "node"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
     "declaration": true,
     "emitDeclarationOnly": false,
     "noEmit": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "skipLibCheck": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

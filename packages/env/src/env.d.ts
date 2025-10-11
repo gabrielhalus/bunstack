@@ -1,7 +1,10 @@
-declare let process: {
-  env: Record<string, string | undefined>;
-};
+// Extend ImportMeta type to include env property for Vite/Bun compatibility
+declare global {
+  // We need to use interface here to extend the global ImportMeta type
+  /* eslint-disable-next-line */
+  interface ImportMeta {
+    readonly env?: Record<string, string | undefined>;
+  }
+}
 
-type ImportMeta = {
-  readonly env: Record<string, string | undefined>;
-};
+export {};
