@@ -16,8 +16,7 @@ export async function getRolePermissions(role: Role): Promise<RolePermission[]> 
   const rolePermissions = await db
     .select()
     .from(RolePermissions)
-    .where(eq(RolePermissions.roleId, role.id))
-    .all();
+    .where(eq(RolePermissions.roleId, role.id));
 
   return rolePermissions.map(({ roleId, permission }) => ({ roleId, permission }));
 }

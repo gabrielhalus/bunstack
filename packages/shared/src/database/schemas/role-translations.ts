@@ -8,6 +8,6 @@ export const RoleTranslations = pgTable("role_translations", {
   locale: text("locale").$type<"fr" | "en">().notNull(),
   field: text("field").notNull(),
   value: text("value").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });

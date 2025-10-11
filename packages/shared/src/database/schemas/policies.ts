@@ -11,6 +11,6 @@ export const Policies = pgTable("policies", {
   roleId: integer("role_id").references(() => Roles.id, { onDelete: "cascade", onUpdate: "cascade" }),
   condition: text("condition"),
   description: text("description"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });

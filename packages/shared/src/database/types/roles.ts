@@ -13,8 +13,6 @@ export type RoleWithMembersCount = Merge<Role, { members: number }>;
 
 export type RoleWithMembers = Merge<Role, { members: User[] }>;
 
-export type RoleUniqueFields = Pick<Role, "id" | "index" | "name">;
-
 export type RoleWithPermissions = Merge<Role, { permissions: Permission[] }>;
 
 export type RoleOrderBy = keyof Role | { field: keyof Role; direction: "asc" | "desc" };

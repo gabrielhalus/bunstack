@@ -1,4 +1,4 @@
-import type { Role, RoleOrderBy, RoleUniqueFields, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
+import type { Role, RoleOrderBy, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 import type { User } from "@bunstack/shared/database/types/users";
 
 import { asc, count, desc, eq, inArray, like, or } from "drizzle-orm";
@@ -44,7 +44,7 @@ export async function getRoles(page: number, limit: number, orderBy?: RoleOrderB
     return baseQuery;
   })();
 
-  const roles = await orderedQuery.limit(limit).offset(offset).all();
+  const roles = await orderedQuery.limit(limit).offset(offset);
 
   const enrichedRoles = await Promise.all(
     roles.map(async role => ({
@@ -53,35 +53,30 @@ export async function getRoles(page: number, limit: number, orderBy?: RoleOrderB
     })),
   );
 
-  const { count: total = 0 } = (await db
+  const totalResult = await db
     .select({ count: count() })
     .from(Roles)
-    .where(searchConditions)
-    .get()) ?? {};
+    .where(searchConditions);
+
+  const { count: total = 0 } = totalResult[0] ?? {};
 
   return { roles: enrichedRoles, total };
 }
 
 /**
- * Retrieves a single role by a unique field, including all users assigned to that role.
+ * Fetches a role by its name and includes all assigned members.
  *
- * @param key - The unique field of the role to search by (e.g., "id", "name").
- * @param value - The value to match for the specified field.
- * @returns The matching role with its members, or undefined if not found.
+ * @param name - The role name to search for.
+ * @returns The role with its members, or undefined if not found.
  */
-export async function getRole<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"]): Promise<RoleWithMembers | undefined> {
-  const role = await db.select().from(Roles).where(eq(Roles[key], value)).get();
-
-  if (!role) {
+export async function getRoleByName(name: Role["name"]): Promise<RoleWithMembers | undefined> {
+  const roles = await db.select().from(Roles).where(eq(Roles.name, name));
+  if (!roles[0]) {
     return undefined;
   }
 
-  const enrichedRole = {
-    ...role,
-    members: await getRoleMembers(role),
-  };
-
-  return enrichedRole;
+  const members = await getRoleMembers(roles[0].id);
+  return { ...roles[0], members };
 }
 
 /**
@@ -90,7 +85,8 @@ export async function getRole<T extends keyof RoleUniqueFields>(key: T, value: t
  * @returns The default Role if found, undefined otherwise.
  */
 export async function getDefaultRole(): Promise<Role | undefined> {
-  return await db.select().from(Roles).where(eq(Roles.isDefault, true)).get();
+  const roles = await db.select().from(Roles).where(eq(Roles.isDefault, true));
+  return roles[0];
 }
 
 /**
@@ -100,7 +96,8 @@ export async function getDefaultRole(): Promise<Role | undefined> {
  * @returns A promise that resolves to the number of users assigned to the role.
  */
 async function getRoleMembersCount(role: Role): Promise<number> {
-  const total = await db.select({ count: count() }).from(UserRoles).where(eq(UserRoles.roleId, role.id)).get();
+  const totalResult = await db.select({ count: count() }).from(UserRoles).where(eq(UserRoles.roleId, role.id));
+  const total = totalResult[0];
 
   return Number(total?.count ?? 0);
 }
@@ -108,14 +105,14 @@ async function getRoleMembersCount(role: Role): Promise<number> {
 /**
  * Retrieves all users who are members of the specified role.
  *
- * @param role - The role for which to retrieve members.
+ * @param roleId - The ID of role for which to retrieve members.
  * @returns A promise that resolves to an array of users who are members of the role.
  */
-export async function getRoleMembers(role: Role): Promise<User[]> {
-  const userToRoles = await db.select().from(UserRoles).where(eq(UserRoles.roleId, role.id)).all();
-  const userIds = userToRoles.map(ur => ur.userId);
+export async function getRoleMembers(roleId: Role["id"]): Promise<User[]> {
+  const userToRoles = await db.select().from(UserRoles).where(eq(UserRoles.roleId, roleId));
+  const userIds = userToRoles.map(userRole => userRole.userId);
 
-  const users = await db.select().from(Users).where(inArray(Users.id, userIds)).all();
+  const users = await db.select().from(Users).where(inArray(Users.id, userIds));
 
   return users;
 }
@@ -127,8 +124,8 @@ export async function getRoleMembers(role: Role): Promise<User[]> {
  * @returns An array of roles assigned to the user.
  */
 export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
-  const userRoles = await db.select().from(UserRoles).where(eq(UserRoles.userId, user.id)).all();
-  const roleIds = userRoles.map(ur => ur.roleId);
+  const userRoles = await db.select().from(UserRoles).where(eq(UserRoles.userId, user.id));
+  const roleIds = userRoles.map(userRole => userRole.roleId);
 
   const baseQuery = db.select().from(Roles).where(inArray(Roles.id, roleIds));
 
@@ -146,27 +143,28 @@ export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
     return baseQuery;
   })();
 
-  return await orderedQuery.all();
+  return await orderedQuery;
 }
 
 /**
  * Update any fields of a role by its ID.
- * @param key - The field to search by
- * @param value - The value to search for
- * @param updates - The fields to update
+ *
+ * @param id - The role ID to search for.
+ * @param data - The fields to update
  * @returns The updated role
  */
-export async function updateRole<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"], updates: Partial<Omit<Role, "id">>): Promise<Role | undefined> {
-  return await db.update(Roles).set(updates).where(eq(Roles[key], value)).returning().get();
+export async function updateRoleById(id: Role["id"], data: Partial<Omit<Role, "id">>): Promise<Role | undefined> {
+  const updatedRoles = await db.update(Roles).set(data).where(eq(Roles.id, id)).returning();
+  return updatedRoles[0];
 }
 
 /**
  * Delete a role by its ID.
  *
- * @param key - The field to search by.
- * @param value - The value to search for
+ * @param id - The role ID to search for.
  * @returns The deleted role.
  */
-export async function deleteRole<T extends keyof RoleUniqueFields>(key: T, value: typeof Roles[T]["_"]["data"]): Promise<Role | undefined> {
-  return await db.delete(Roles).where(eq(Roles[key], value)).returning().get();
+export async function deleteRoleById(id: Role["id"]): Promise<Role | undefined> {
+  const deletedRoles = await db.delete(Roles).where(eq(Roles.id, id)).returning();
+  return deletedRoles[0];
 }

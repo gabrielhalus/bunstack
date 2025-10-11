@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { SQL } from "bun";
-import { drizzle } from "drizzle-orm/bun-sql";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 import { env } from "@bunstack/shared/lib/env";
 
-const client = new SQL(env.DATABASE_URL);
-export const db = drizzle({ client });
+const client = postgres(env.DATABASE_URL);
+export const db = drizzle(client);

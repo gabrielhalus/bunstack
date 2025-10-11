@@ -25,5 +25,5 @@ export async function getApplicablePolicies(roleId?: number, permission?: Permis
 
   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-  return await db.select().from(Policies).where(whereClause).all();
+  return await db.select().from(Policies).where(whereClause);
 }

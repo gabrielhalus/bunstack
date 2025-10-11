@@ -1,6 +1,6 @@
 import type { Policy } from "@bunstack/shared/access/types";
 import type { RoleWithPermissions } from "@bunstack/shared/database/types/roles";
-import type { insertUserSchema, User, UserOrderBy, UserUniqueFields, UserWithRoles } from "@bunstack/shared/database/types/users";
+import type { insertUserSchema, User, UserOrderBy, UserWithRoles } from "@bunstack/shared/database/types/users";
 import type z from "zod";
 
 import { asc, count, desc, eq, like, or } from "drizzle-orm";
@@ -25,12 +25,7 @@ export async function getUsers(page: number, limit: number, orderBy?: UserOrderB
   const offset = (page) * limit;
 
   // Build search conditions
-  const searchConditions = search
-    ? or(
-        like(Users.name, `%${search}%`),
-        like(Users.email, `%${search}%`),
-      )
-    : undefined;
+  const searchConditions = search ? or(like(Users.name, `%${search}%`), like(Users.email, `%${search}%`)) : undefined;
 
   const baseQuery = db.select().from(Users).where(searchConditions);
 
@@ -48,73 +43,65 @@ export async function getUsers(page: number, limit: number, orderBy?: UserOrderB
     return baseQuery;
   })();
 
-  const users = await orderedQuery.limit(limit).offset(offset).all();
+  const users = await orderedQuery.limit(limit).offset(offset);
 
-  const enrichedUsers = await Promise.all(users.map(async user => ({
+  const enrichedUsers = await Promise.all(users.map(async (user: User) => ({
     ...user,
     password: undefined,
     roles: await getUserRoles(user, { field: "index", direction: "desc" }),
   })));
 
-  const { count: total = 0 } = (await db
-    .select({ count: count() })
-    .from(Users)
-    .where(searchConditions)
-    .get()) ?? {};
+  const totalResult = await db.select({ count: count() }).from(Users).where(searchConditions);
+
+  const { count: total = 0 } = totalResult[0] ?? {};
 
   return { users: enrichedUsers, total };
 }
 
 /**
- * Retrieves a single user by a unique field, including their associated roles.
+ * Retrieves a single user by their ID.
  *
- * @param key - The unique field of the user to search by (e.g., "id", "email").
- * @param value - The value to match for the specified field.
- * @param keepPassword - If true, includes the password field in the result (useful for authentication).
- * @returns The matching user with their roles, or undefined if not found.
+ * @param id - The user ID to search for.
+ * @returns The matching user, or undefined if not found.
  */
-export async function getUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"], keepPassword: boolean = false): Promise<UserWithRoles | undefined> {
-  const user = await db.select().from(Users).where(eq(Users[key], value)).get();
-
-  if (!user) {
-    return undefined;
-  }
-
-  const enrichedUser = {
-    ...user,
-    password: keepPassword ? user.password : undefined,
-    roles: await getUserRoles(user, { field: "index", direction: "desc" }),
-  };
-
-  return enrichedUser;
+export async function findUserById(id: string): Promise<User | undefined> {
+  const users = await db.select().from(Users).where(eq(Users.id, id));
+  return users[0];
 }
 
-export async function getUserExists<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<boolean> {
-  const exists = await db.select({ exists: Users[key] }).from(Users).where(eq(Users[key], value)).limit(1);
+/**
+ * Checks if a user exists by their email.
+ *
+ * @param email - The email address to check.
+ * @returns `true` if a user with the given email exists, otherwise `false`.
+ */
+export async function userEmailExists(email: User["email"]): Promise<boolean> {
+  const exists = await db.select({ exists: Users.email }).from(Users).where(eq(Users.email, email)).limit(1);
 
   return exists.length > 0;
 }
 
 /**
- * Get a user along with their associated roles by its ID, always including the password (for auth).
+ * Get a user including the password (for auth).
  *
- * @param key - The field to search by.
- * @param value - The value to search for.
+ * @param email - The email to search for.
  * @returns The matching user, with password.
  */
-export async function getUserWithPassword<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<UserWithRoles | undefined> {
-  return getUser(key, value, true);
+export async function findUserWithPassword(email: User["email"]): Promise<User | undefined> {
+  const users = await db.select().from(Users).where(eq(Users.email, email));
+  return users[0];
 }
 
 /**
  * Retrieves a user along with their associated roles and permissions.
  *
- * @param key - The unique field key to search by (e.g., "id", "email").
- * @param value - The value to search for.
+ * @param id - The ID to search for.
  * @returns An object containing the user (or undefined if not found), their roles, and their permissions.
  */
-export async function getUserWithContext<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<{ user: User | undefined; roles: RoleWithPermissions[]; policies: Policy[] }> {
-  const user = await db.select().from(Users).where(eq(Users[key], value)).get();
+export async function findUserWithContext(id: User["id"]): Promise<{ user: User | undefined; roles: RoleWithPermissions[]; policies: Policy[] }> {
+  const users = await db.select().from(Users).where(eq(Users.id, id));
+  const user = users[0];
+
   if (!user) {
     return { user: undefined, roles: [], policies: [] };
   }
@@ -123,7 +110,7 @@ export async function getUserWithContext<T extends keyof UserUniqueFields>(key: 
 
   // Assign permissions to each role
   const rolesWithPermissions = await Promise.all(
-    roles.map(async (role) => {
+    roles.map(async (role: any) => {
       const rolePermissions = await getRolePermissions(role);
       return {
         ...role,
@@ -156,7 +143,12 @@ export async function getUserWithContext<T extends keyof UserUniqueFields>(key: 
  * @returns The inserted user.
  */
 export async function insertUser(user: z.infer<typeof insertUserSchema>): Promise<User> {
-  const insertedUser = await db.insert(Users).values(user).returning().get();
+  const insertedUsers = await db.insert(Users).values(user).returning();
+  const insertedUser = insertedUsers[0];
+
+  if (!insertedUser) {
+    throw new Error("Failed to insert user");
+  }
 
   const defaultRole = await getDefaultRole();
   if (defaultRole) {
@@ -167,24 +159,24 @@ export async function insertUser(user: z.infer<typeof insertUserSchema>): Promis
 }
 
 /**
- * Update a user.
+ * Update any fields of a user by its ID.
  *
- * @param key - The field to search by.
- * @param value - The value to search for.
+ * @param id - The ID to search for.
  * @param data - The data to update.
  * @returns The updated user.
  */
-export async function updateUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"], data: Partial<User>): Promise<User | undefined> {
-  return await db.update(Users).set(data).where(eq(Users[key], value)).returning().get();
+export async function updateUserById(id: User["id"], data: Partial<User>): Promise<User | undefined> {
+  const updatedUsers = await db.update(Users).set(data).where(eq(Users.id, id)).returning();
+  return updatedUsers[0];
 }
 
 /**
  * Delete a user by its ID.
  *
- * @param key - The field to search by.
- * @param value - The value to search for.
+ * @param id - The ID to search for.
  * @returns The deleted user.
  */
-export async function deleteUser<T extends keyof UserUniqueFields>(key: T, value: typeof Users[T]["_"]["data"]): Promise<User | undefined> {
-  return await db.delete(Users).where(eq(Users[key], value)).returning().get();
+export async function deleteUserById(id: User["id"]): Promise<User | undefined> {
+  const deletedUsers = await db.delete(Users).where(eq(Users.id, id)).returning();
+  return deletedUsers[0];
 }

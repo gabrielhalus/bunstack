@@ -6,9 +6,11 @@ import { db } from "@bunstack/shared/database";
 import { UserRoles } from "@bunstack/shared/database/schemas/user-roles";
 
 export async function assignUserRole(userRole: UserRole) {
-  return await db.insert(UserRoles).values(userRole).returning().get();
+  const assignedRoles = await db.insert(UserRoles).values(userRole).returning();
+  return assignedRoles[0];
 }
 
 export async function removeUserRole({ userId, roleId }: UserRole) {
-  return await db.delete(UserRoles).where(and(eq(UserRoles.userId, userId), eq(UserRoles.roleId, roleId))).returning().get();
+  const removedRoles = await db.delete(UserRoles).where(and(eq(UserRoles.userId, userId), eq(UserRoles.roleId, roleId))).returning();
+  return removedRoles[0];
 };

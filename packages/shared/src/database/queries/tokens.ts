@@ -1,4 +1,4 @@
-import type { insertTokenSchema, Token, TokenUniqueFields } from "../types/tokens";
+import type { insertTokenSchema, Token } from "../types/tokens";
 import type z from "zod";
 
 import { eq } from "drizzle-orm";
@@ -12,18 +12,18 @@ import { Tokens } from "@bunstack/shared/database/schemas/tokens";
  * @returns All tokens.
  */
 export async function getAllTokens(): Promise<Token[]> {
-  return db.select().from(Tokens).all();
+  return db.select().from(Tokens);
 }
 
 /**
- * Get a token by its ID.
+ * Get a token by its unique field.
  *
- * @param key - The field to search by.
- * @param value - The value to search for.
+ * @param id - The ID to search for.
  * @returns The matching token.
  */
-export async function getToken<T extends keyof TokenUniqueFields>(key: T, value: typeof Tokens[T]["_"]["data"]): Promise<Token | undefined> {
-  return db.select().from(Tokens).where(eq(Tokens[key], value)).get();
+export async function getTokenById(id: Token["id"]): Promise<Token | undefined> {
+  const tokens = await db.select().from(Tokens).where(eq(Tokens.id, id));
+  return tokens[0];
 }
 
 /**
@@ -33,7 +33,14 @@ export async function getToken<T extends keyof TokenUniqueFields>(key: T, value:
  * @returns The inserted token.
  */
 export async function insertToken(token: z.infer<typeof insertTokenSchema>): Promise<Token> {
-  return db.insert(Tokens).values(token).returning().get();
+  const insertedTokens = await db.insert(Tokens).values(token).returning();
+  const insertedToken = insertedTokens[0];
+
+  if (!insertedToken) {
+    throw new Error("Failed to insert token");
+  }
+
+  return insertedToken;
 }
 
 /**
@@ -43,16 +50,16 @@ export async function insertToken(token: z.infer<typeof insertTokenSchema>): Pro
  */
 export async function deleteAllTokens(): Promise<Token[]> {
   // eslint-disable-next-line drizzle/enforce-delete-with-where
-  return db.delete(Tokens).returning().all();
+  return db.delete(Tokens).returning();
 }
 
 /**
- * Delete a token by its ID.
+ * Delete a token by its unique field.
  *
- * @param key - The field to search by.
- * @param value - The value to search for.
+ * @param id - The ID to search for.
  * @returns The deleted token.
  */
-export async function deleteToken<T extends keyof TokenUniqueFields>(key: T, value: typeof Tokens[T]["_"]["data"]): Promise<Token | undefined> {
-  return db.delete(Tokens).where(eq(Tokens[key], value)).returning().get();
+export async function deleteToken(id: Token["id"]): Promise<Token | undefined> {
+  const deletedTokens = await db.delete(Tokens).where(eq(Tokens.id, id)).returning();
+  return deletedTokens[0];
 }
