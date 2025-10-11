@@ -7,7 +7,7 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { checkEmailSchema } from "@bunstack/shared/contracts/users";
-import { deleteUser, getUser, getUserExists, getUsers } from "@bunstack/shared/database/queries/users";
+import { deleteUserById, findUserById, getUsers, userEmailExists } from "@bunstack/shared/database/queries/users";
 
 export default new Hono()
   /**
@@ -20,7 +20,7 @@ export default new Hono()
   .get("/check-email", validationMiddleware("query", checkEmailSchema), async (c) => {
     try {
       const { email } = c.req.valid("query");
-      const exists = await getUserExists("email", email);
+      const exists = await userEmailExists(email);
 
       return c.json({ success: true as const, available: !exists });
     } catch (error) {
@@ -60,7 +60,7 @@ export default new Hono()
     const { id } = c.req.param();
 
     try {
-      const user = await getUser("id", id);
+      const user = await findUserById(id);
 
       if (!user) {
         return c.json({ success: false, error: "Not Found" }, 404);
@@ -82,7 +82,7 @@ export default new Hono()
     const { id } = c.req.param();
 
     try {
-      const user = await deleteUser("id", id);
+      const user = await deleteUserById(id);
       return c.json({ success: true as const, user });
     } catch (error) {
       return c.json({ success: false as const, error: error instanceof Error ? error.message : "Unknown error" }, 500);

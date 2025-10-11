@@ -5,8 +5,8 @@ import { createAccessToken, getCookieSettings, verifyToken } from "@bunstack/api
 import { env } from "@bunstack/api/lib/env";
 import { factory } from "@bunstack/api/utils/hono";
 import { Constants } from "@bunstack/shared/constants";
-import { deleteToken, getToken } from "@bunstack/shared/database/queries/tokens";
-import { getUserWithContext } from "@bunstack/shared/database/queries/users";
+import { deleteToken, getTokenById } from "@bunstack/shared/database/queries/tokens";
+import { findUserWithContext } from "@bunstack/shared/database/queries/users";
 
 /**
  * Get the user from the JWT token and set the auth context
@@ -38,7 +38,7 @@ export const getAuthContext = factory.createMiddleware(async (c, next) => {
     }
   }
 
-  const { user, ...context } = await getUserWithContext("id", decoded.sub as string);
+  const { user, ...context } = await findUserWithContext(decoded.sub as string);
 
   if (!user) {
     return c.json({ error: "Unauthorized" }, 401);
@@ -68,12 +68,12 @@ async function attemptTokenRefresh(c: any) {
     }
 
     const { sub, jti } = payload;
-    const tokenRecord = await getToken("id", jti);
+    const tokenRecord = await getTokenById(jti);
 
-    if (!tokenRecord || tokenRecord.expiresAt < Date.now() || tokenRecord.revokedAt) {
+    if (!tokenRecord || tokenRecord.expiresAt < new Date().toISOString() || tokenRecord.revokedAt) {
       // Clean up expired token
       if (jti) {
-        await deleteToken("id", jti);
+        await deleteToken(jti);
       }
       return null;
     }

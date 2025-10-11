@@ -28,8 +28,8 @@ export default new Hono()
 
     const insertedToken = await insertToken({
       userId: user.id,
-      issuedAt: Date.now(),
-      expiresAt: Date.now() + VERIFICATION_TOKEN_EXPIRATION_SECONDS * 1000,
+      issuedAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + VERIFICATION_TOKEN_EXPIRATION_SECONDS * 1000).toISOString(),
     });
 
     const verificationToken = await createVerificationToken(user.id, insertedToken.id);

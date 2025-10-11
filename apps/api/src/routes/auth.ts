@@ -8,8 +8,8 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { Constants } from "@bunstack/shared/constants";
 import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, getToken, insertToken } from "@bunstack/shared/database/queries/tokens";
-import { insertUser, updateUser } from "@bunstack/shared/database/queries/users";
+import { deleteToken, getTokenById, insertToken } from "@bunstack/shared/database/queries/tokens";
+import { insertUser, updateUserById } from "@bunstack/shared/database/queries/users";
 
 export default new Hono()
   /**
@@ -27,8 +27,9 @@ export default new Hono()
 
       const insertedToken = await insertToken({
         userId: insertedUser.id,
-        issuedAt: Date.now(),
-        expiresAt: Date.now() + REFRESH_TOKEN_EXPIRATION_SECONDS * 1000,
+        issuedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + REFRESH_TOKEN_EXPIRATION_SECONDS * 1000).toISOString(),
+        ...getClientInfo(c),
       });
 
       const accessToken = await createAccessToken(insertedUser.id);
@@ -62,14 +63,11 @@ export default new Hono()
         return c.json({ success: false as const, error: "Invalid credentials" }, 200);
       }
 
-      const { userAgent, ip } = getClientInfo(c);
-
       const insertedToken = await insertToken({
         userId,
-        issuedAt: Date.now(),
-        expiresAt: Date.now() + REFRESH_TOKEN_EXPIRATION_SECONDS * 1000,
-        userAgent,
-        ip,
+        issuedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + REFRESH_TOKEN_EXPIRATION_SECONDS * 1000).toISOString(),
+        ...getClientInfo(c),
       });
 
       const accessToken = await createAccessToken(userId);
@@ -97,7 +95,7 @@ export default new Hono()
       try {
         const payload = await verifyToken(refreshToken, "refresh");
         if (payload?.jti) {
-          await deleteToken("id", payload.jti);
+          await deleteToken(payload.jti);
         }
       } catch {
         return c.json({ success: false as const, error: "Failed to delete refresh token" }, 401);
@@ -130,20 +128,20 @@ export default new Hono()
         return c.json({ success: false as const, error: "Invalid token" }, 401);
       }
 
-      const tokenRecord = await getToken("id", jti);
-      if (!tokenRecord || tokenRecord.expiresAt < Date.now() || tokenRecord.revokedAt) {
+      const tokenRecord = await getTokenById(jti);
+      if (!tokenRecord || tokenRecord.expiresAt < new Date().toISOString() || tokenRecord.revokedAt) {
         if (tokenRecord) {
-          await deleteToken("id", jti);
+          await deleteToken(jti);
         }
         return c.json({ success: false as const, error: "Invalid token" }, 401);
       }
 
-      const user = await updateUser("id", userId, { verifiedAt: Date.now() });
+      const user = await updateUserById(userId, { verifiedAt: new Date().toISOString() });
       if (!user) {
         return c.json({ success: false as const, error: "User not found" }, 404);
       }
 
-      await deleteToken("id", jti);
+      await deleteToken(jti);
 
       return c.json({ success: true as const });
     } catch (err) {
