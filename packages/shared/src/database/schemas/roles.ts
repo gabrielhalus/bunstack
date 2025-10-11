@@ -1,13 +1,13 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { boolean, integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const Roles = sqliteTable("roles", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const Roles = pgTable("roles", {
+  id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
   label: text("label").notNull(),
   description: text("description"),
   index: integer("index").notNull().unique(),
-  isDefault: integer("is_default", { mode: "boolean" }).notNull().default(false),
-  isSuperAdmin: integer("is_super_admin", { mode: "boolean" }).notNull().default(false),
-  createdAt: integer("created_at").notNull().$defaultFn(() => Date.now()),
-  updatedAt: integer("updated_at").notNull().$defaultFn(() => Date.now()),
+  isDefault: boolean("is_default").notNull().default(false),
+  isSuperAdmin: boolean("is_super_admin").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

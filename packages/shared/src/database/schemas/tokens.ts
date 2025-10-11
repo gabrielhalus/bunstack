@@ -1,13 +1,13 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
-import { nanoid } from "@bunstack/shared/lib/nanoid";
+import { nanoid } from "../../lib/nanoid";
 
-export const Tokens = sqliteTable("tokens", {
+export const Tokens = pgTable("tokens", {
   id: text("id").primaryKey().$defaultFn(() => nanoid()),
   userId: text("user_id").notNull(),
-  issuedAt: integer("issued_at").notNull(),
-  expiresAt: integer("expires_at").notNull(),
-  revokedAt: integer("revoked_at"),
+  issuedAt: timestamp("issued_at").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  revokedAt: timestamp("revoked_at"),
   userAgent: text("user_agent"),
   ip: text("ip"),
 });

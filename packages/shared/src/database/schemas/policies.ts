@@ -1,16 +1,16 @@
 import type { Permission } from "@bunstack/shared/access/types";
 
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 import { Roles } from "./roles";
 
-export const Policies = sqliteTable("policies", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  effect: text("effect", { enum: ["allow", "deny"] }).notNull(),
+export const Policies = pgTable("policies", {
+  id: serial("id").primaryKey(),
+  effect: text("effect").$type<"allow" | "deny">().notNull(),
   permission: text("permission").$type<Permission>(),
   roleId: integer("role_id").references(() => Roles.id, { onDelete: "cascade", onUpdate: "cascade" }),
   condition: text("condition"),
   description: text("description"),
-  createdAt: integer("created_at").notNull().$defaultFn(() => Date.now()),
-  updatedAt: integer("updated_at").notNull().$defaultFn(() => Date.now()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
