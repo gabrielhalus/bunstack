@@ -3,6 +3,6 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "types": ["react", "react-dom"]
+    "types": ["react", "react-dom", "bun", "node"]
   }
 }

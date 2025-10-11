@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -22,7 +22,6 @@ type CommonProps = {
 export function LogoutButton({ variant = "button", className }: CommonProps) {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const { isAuthenticated } = useAuth();
 

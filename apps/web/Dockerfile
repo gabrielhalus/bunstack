@@ -1,20 +1,43 @@
-# --- Build stage ---
-FROM oven/bun:1 AS builder
+# -----------------------------
+# Base image with Bun
+# -----------------------------
+FROM oven/bun:1 AS base
+WORKDIR /usr/src/app
 
-WORKDIR /app
+# -----------------------------
+# Install dependencies
+# -----------------------------
+FROM base AS install
 
-COPY . .
+# Copy only essential files for install
+COPY bun.lock package.json turbo.json ./
+COPY apps ./apps
+COPY packages ./packages
 
+# Install dev dependencies (for building)
 RUN bun install --frozen-lockfile
 
+# Install production dependencies separately
+FROM install AS install-prod
+RUN mkdir -p /temp/prod
+COPY bun.lock package.json turbo.json ./ 
+RUN bun install --frozen-lockfile --production
+
+# -----------------------------
+# Build the app
+# -----------------------------
+FROM install AS build
 RUN bun run build --filter=@bunstack/web...
 
-# --- Serve stage ---
-FROM nginx:stable-alpine
+# -----------------------------
+# Prepare final Nginx image
+# -----------------------------
+FROM nginx:stable-alpine AS release
 
-COPY --from=builder /app/apps/web/dist /usr/share/nginx/html
+# Copy built files
+COPY --from=build /usr/src/app/apps/web/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder /app/apps/web/nginx.conf /etc/nginx/conf.d/default.conf
-
+# Expose port and start
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

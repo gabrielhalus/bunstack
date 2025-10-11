@@ -1,3 +1,5 @@
+import React from "react";
+
 import { env } from "../lib/env";
 
 type UserVerificationProps = {
@@ -5,7 +7,7 @@ type UserVerificationProps = {
   link: string;
 };
 
-export function UserVerification({ name, link }: UserVerificationProps) {
+export const UserVerification: React.FC<UserVerificationProps> = ({ name, link }) => {
   return (
     <div style={{
       fontFamily: "sans-serif",

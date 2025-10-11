@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
+    "rootDir": "src",
     "paths": {
       "@bunstack/api/*": ["./src/*"],
 

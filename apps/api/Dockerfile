@@ -1,19 +1,44 @@
-FROM oven/bun:1 AS builder
+# -----------------------------
+# Base image with Bun
+# -----------------------------
+FROM oven/bun:1 AS base
+WORKDIR /usr/src/app
 
-WORKDIR /app
+# -----------------------------
+# Install dependencies
+# -----------------------------
+FROM base AS install
 
-COPY . .
+# Copy only essential files for install
+COPY bun.lock package.json turbo.json ./
+COPY apps ./apps
+COPY packages ./packages
 
+# Install dev dependencies (for building)
 RUN bun install --frozen-lockfile
 
+# Install production dependencies separately
+FROM install AS install-prod
+RUN mkdir -p /temp/prod
+COPY bun.lock package.json turbo.json ./ 
+RUN bun install --frozen-lockfile --production
+
+# -----------------------------
+# Build the app
+# -----------------------------
+FROM install AS build
 RUN bun run build --filter=@bunstack/api...
 
-FROM oven/bun:1
+# -----------------------------
+# Prepare final runtime image
+# -----------------------------
+FROM base AS release
 
-WORKDIR /app
+# Copy built files
+COPY --from=install /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/apps ./apps
+COPY --from=build /usr/src/app/packages ./packages
+COPY package.json bun.lock turbo.json ./
 
-COPY --from=builder /app ./
-
-EXPOSE 4000
-
-CMD ["bun", "run", "start", "--filter=@bunstack/api", "--ui=stream"]
+EXPOSE 4000/tcp
+ENTRYPOINT ["bun", "run", "start", "--filter=@bunstack/api", "--ui=stream"]

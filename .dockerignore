@@ -1,0 +1,102 @@
+# --- Global ignores ---
+.git
+.gitignore
+Dockerfile
+.dockerignore
+*.log
+*.tsbuildinfo
+*.lock
+*.db
+*.sqlite
+*.swp
+*.DS_Store
+*.env.local
+.env.*
+!env.example
+bun.lock
+node_modules
+dist
+coverage
+.vscode
+.idea
+.cache
+turbo
+tmp
+temp
+
+# --- Monorepo build outputs ---
+apps/**/node_modules
+apps/**/dist
+apps/**/.turbo
+apps/**/.vite
+apps/**/.cache
+apps/**/.output
+
+packages/**/node_modules
+packages/**/dist
+packages/**/.turbo
+packages/**/.vite
+packages/**/.cache
+
+# --- Tests, Docs, and misc ---
+__tests__
+__mocks__
+test
+tests
+docs
+
+# --- OS and editor cruft ---
+Thumbs.db
+ehthumbs.db
+*.orig
+*.rej
+*.bak
+*.tmp
+*.swo
+*.swp
+*.log
+*.pid
+*.seed
+*.tgz
+*.gz
+*.zip
+
+# --- Local SQLite or dev files ---
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+**/*.db-journal
+
+# --- TypeScript build info ---
+**/*.tsbuildinfo
+
+# --- Ignore build artifacts from turborepo ---
+.turbo
+.turborepo
+
+# --- Ignore build cache and temporary folders ---
+.cache
+.tmp
+temp
+tmp
+
+# --- Ignore local environment files ---
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+
+# --- Exclude IDE and config noise ---
+.vscode/
+.idea/
+*.iml
+
+# --- Keep only necessary files for build ---
+!apps/api/**
+!packages/**
+!package.json
+!tsconfig.json
+!turbo.json
+!bun.lock

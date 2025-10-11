@@ -15,6 +15,7 @@
     "outDir": "dist"
   },
   "references": [
+    { "path": "../api" },
     { "path": "../../packages/env" },
     { "path": "../../packages/shared" },
     { "path": "../../packages/ui" }
