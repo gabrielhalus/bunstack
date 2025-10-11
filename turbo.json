@@ -23,9 +23,11 @@
       "persistent": true
     },
     "drizzle:generate": {
+      "cache": false,
       "dependsOn": ["^drizzle:generate"]
     },
     "drizzle:push": {
+      "cache": false,
       "dependsOn": ["^drizzle:push"]
     },
     "drizzle:studio": {
