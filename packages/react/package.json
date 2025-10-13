@@ -14,6 +14,10 @@
     "build": "tsc -b",
     "lint": "eslint . --max-warnings 0"
   },
+  "peerDependencies": {
+    "@bunstack/api": "workspace:*",
+    "@bunstack/env": "workspace:*"
+  },
   "dependencies": {
     "@bunstack/shared": "workspace:*",
     "@radix-ui/react-avatar": "^1.1.10",

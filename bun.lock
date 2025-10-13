@@ -231,6 +231,10 @@
         "@bunstack/typescript-config": "workspace:*",
         "tw-animate-css": "^1.3.4",
       },
+      "peerDependencies": {
+        "@bunstack/api": "workspace:*",
+        "@bunstack/env": "workspace:*",
+      },
     },
     "packages/shared": {
       "name": "@bunstack/shared",

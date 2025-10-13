@@ -6,6 +6,8 @@
     "paths": {
       "@bunstack/react/*": ["./src/*"],
 
+      "@bunstack/api/*": ["../shared/src/*"],
+      "@bunstack/env/*": ["../shared/src/*"],
       "@bunstack/shared/*": ["../shared/src/*"]
     },
     "declaration": true,
@@ -13,6 +15,11 @@
     "noEmit": false,
     "outDir": "dist"
   },
+  "references": [
+    { "path": "../../apps/api" },
+    { "path": "../env" },
+    { "path": "../shared" }
+  ],
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
