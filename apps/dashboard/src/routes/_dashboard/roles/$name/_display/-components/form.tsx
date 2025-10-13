@@ -15,7 +15,7 @@ import { Spinner } from "@bunstack/react/components/spinner";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 
 export function Form() {
-  const { t } = useTranslation(["common", "web"]);
+  const { t } = useTranslation(["common", "dashboard"]);
 
   const queryClient = useQueryClient();
   const params = Route.useParams();
@@ -71,7 +71,7 @@ export function Form() {
             name="label"
             children={field => (
               <>
-                <Label htmlFor={field.name}>{t("web:pages.roles.detail.pages.display.fields.label")}</Label>
+                <Label htmlFor={field.name}>{t("dashboard:pages.roles.detail.pages.display.fields.label")}</Label>
                 <Input
                   name={field.name}
                   value={field.state.value}
@@ -97,7 +97,7 @@ export function Form() {
             name="description"
             children={field => (
               <>
-                <Label htmlFor={field.name}>{t("web:pages.roles.detail.pages.display.fields.description")}</Label>
+                <Label htmlFor={field.name}>{t("dashboard:pages.roles.detail.pages.display.fields.description")}</Label>
                 <Input
                   name={field.name}
                   value={field.state.value ?? ""}

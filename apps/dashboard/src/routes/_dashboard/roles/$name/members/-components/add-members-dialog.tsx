@@ -12,7 +12,7 @@ import { Label } from "@bunstack/react/components/label";
 import { ScrollArea } from "@bunstack/react/components/scroll-area";
 
 export function AddMembersDialog() {
-  const { t } = useTranslation(["common", "web"]);
+  const { t } = useTranslation(["common", "dashboard"]);
 
   const { role: { label, members } } = Layout.useLoaderData();
   const { data: { users } } = useSuspenseQuery(getAllUsersQueryOptions);
@@ -44,13 +44,13 @@ export function AddMembersDialog() {
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button>{t("web:pages.roles.detail.pages.members.addMembers.label")}</Button>
+          <Button>{t("dashboard:pages.roles.detail.pages.members.addMembers.label")}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{t("web:pages.roles.detail.pages.members.addMembers.label")}</DialogTitle>
+            <DialogTitle>{t("dashboard:pages.roles.detail.pages.members.addMembers.label")}</DialogTitle>
             <DialogDescription>
-              <Trans i18nKey="pages.roles.detail.pages.members.addMembers.description" ns="web" values={{ role: label }} components={{ b: <b /> }} />
+              <Trans i18nKey="pages.roles.detail.pages.members.addMembers.description" ns="dashboard" values={{ role: label }} components={{ b: <b /> }} />
             </DialogDescription>
           </DialogHeader>
 

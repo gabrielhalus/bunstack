@@ -31,7 +31,7 @@ Each app/package has its own `.env.example` file. Copy it to `.env.local` (ignor
 cp apps/api/.env.example apps/api/.env.local
 
 # Web frontend
-cp apps/web/.env.example apps/web/.env.local
+cp apps/dashboard/.env.example apps/dashboard/.env.local
 
 # Auth frontend
 cp apps/auth/.env.example apps/auth/.env.local
@@ -67,7 +67,7 @@ cd apps/auth
 bun run dev
 
 # Web
-cd apps/web
+cd apps/dashboard
 bun run dev
 ```
 
@@ -111,7 +111,7 @@ PROJECT_ROOT=$(pwd) caddy run --config Caddyfile.dev
 ```
 
 - Your apps are now available at:
-   - https://localhost.dev → Web
+   - https://localhost.dev → dashboard
    - https://api.localhost.dev → API
    - https://auth.localhost.dev → Auth
 
