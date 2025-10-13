@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { api } from "@/lib/http";
+import { api } from "@bunstack/react/lib/http";
 import { Button } from "@bunstack/react/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/react/components/card";
 import { Input } from "@bunstack/react/components/input";
