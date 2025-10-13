@@ -1,10 +1,10 @@
 {
-  "name": "@bunstack/auth",
+  "name": "@bunstack/com",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host --port 5174",
+    "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
