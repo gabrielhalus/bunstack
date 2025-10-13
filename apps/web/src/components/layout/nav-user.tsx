@@ -14,13 +14,13 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@bunstack/ui/components/dropdown-menu";
+} from "@bunstack/react/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@bunstack/ui/components/sidebar";
+} from "@bunstack/react/components/sidebar";
 
 export function NavUser() {
   const { isMobile } = useSidebar();

@@ -5,9 +5,9 @@ import { Link } from "@tanstack/react-router";
 import { UserRound } from "lucide-react";
 
 import { ActionDropdown } from "./action-dropdown";
-import { Button } from "@bunstack/ui/components/button";
-import { SortableHeader } from "@bunstack/ui/components/sortable-header";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/ui/components/tooltip";
+import { Button } from "@bunstack/react/components/button";
+import { SortableHeader } from "@bunstack/react/components/sortable-header";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@bunstack/react/components/tooltip";
 
 export const columns: ColumnDef<RoleWithMembersCount>[] = [
   {

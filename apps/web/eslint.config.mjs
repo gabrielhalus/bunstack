@@ -4,7 +4,7 @@ import createConfig from "@bunstack/eslint-config/create-config";
 
 export default createConfig({
   react: true,
-  ignores: ["src/routeTree.gen.ts", "src/components/ui"],
+  ignores: ["src/routeTree.gen.ts", "src/components/react"],
 }, {
   plugins: {
     "@tanstack/query": pluginQuery,

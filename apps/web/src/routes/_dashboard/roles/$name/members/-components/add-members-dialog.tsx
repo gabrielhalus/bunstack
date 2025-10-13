@@ -5,11 +5,11 @@ import { Trans, useTranslation } from "react-i18next";
 import { Route as Layout } from "../../route";
 import { AvatarUser } from "@/components/avatar-user";
 import { getAllUsersQueryOptions } from "@/queries/users";
-import { Button } from "@bunstack/ui/components/button";
-import { Checkbox } from "@bunstack/ui/components/checkbox";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@bunstack/ui/components/dialog";
-import { Label } from "@bunstack/ui/components/label";
-import { ScrollArea } from "@bunstack/ui/components/scroll-area";
+import { Button } from "@bunstack/react/components/button";
+import { Checkbox } from "@bunstack/react/components/checkbox";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@bunstack/react/components/dialog";
+import { Label } from "@bunstack/react/components/label";
+import { ScrollArea } from "@bunstack/react/components/scroll-area";
 
 export function AddMembersDialog() {
   const { t } = useTranslation(["common", "web"]);

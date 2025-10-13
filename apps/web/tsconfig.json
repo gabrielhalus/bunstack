@@ -9,7 +9,7 @@
       "@bunstack/i18n/*": ["../../packages/i18n/src/*"],
       "@bunstack/env": ["../../packages/env/src/index.ts"],
       "@bunstack/shared/*": ["../../packages/shared/src/*"],
-      "@bunstack/ui/*": ["../../packages/ui/src/*"]
+      "@bunstack/react/*": ["../../packages/react/src/*"]
     },
     "types": ["bun", "node"],
     "outDir": "dist"
@@ -18,7 +18,7 @@
     { "path": "../api" },
     { "path": "../../packages/env" },
     { "path": "../../packages/shared" },
-    { "path": "../../packages/ui" }
+    { "path": "../../packages/react" }
   ],
   "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules", "dist"]

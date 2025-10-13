@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 
 import { ActionDropdown } from "./action-dropdown";
 import { AvatarUser } from "@/components/avatar-user";
-import { SortableHeader } from "@bunstack/ui/components/sortable-header";
+import { SortableHeader } from "@bunstack/react/components/sortable-header";
 
 export const columns: ColumnDef<UserWithRoles>[] = [
   {

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import { Route } from "../route";
 import { getRoleByNameQueryOptions } from "@/queries/roles";
-import { Button } from "@bunstack/ui/components/button";
+import { Button } from "@bunstack/react/components/button";
 
 export function Nav() {
   const { t } = useTranslation("web");

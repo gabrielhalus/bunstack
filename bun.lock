@@ -45,8 +45,8 @@
         "@bunstack/api": "workspace:*",
         "@bunstack/env": "workspace:*",
         "@bunstack/i18n": "workspace:*",
+        "@bunstack/react": "workspace:*",
         "@bunstack/shared": "workspace:*",
-        "@bunstack/ui": "workspace:*",
         "@radix-ui/react-avatar": "^1.1.10",
         "@radix-ui/react-checkbox": "^1.3.3",
         "@radix-ui/react-collapsible": "^1.1.12",
@@ -98,8 +98,8 @@
         "@bunstack/api": "workspace:*",
         "@bunstack/env": "workspace:*",
         "@bunstack/i18n": "workspace:*",
+        "@bunstack/react": "workspace:*",
         "@bunstack/shared": "workspace:*",
-        "@bunstack/ui": "workspace:*",
         "@radix-ui/react-avatar": "^1.1.10",
         "@radix-ui/react-checkbox": "^1.3.3",
         "@radix-ui/react-collapsible": "^1.1.12",
@@ -178,31 +178,8 @@
         "i18next-browser-languagedetector": "^8.2.0",
       },
     },
-    "packages/shared": {
-      "name": "@bunstack/shared",
-      "version": "0.0.0",
-      "dependencies": {
-        "@bunstack/env": "workspace:*",
-        "drizzle-orm": "^0.44.2",
-        "drizzle-zod": "^0.7.1",
-        "nanoid": "^5.1.5",
-        "postgres": "^3.4.7",
-        "zod": "^4.1.11",
-      },
-      "devDependencies": {
-        "@bunstack/eslint-config": "workspace:*",
-        "@bunstack/typescript-config": "workspace:*",
-        "drizzle-kit": "^0.31.1",
-        "eslint": "^9.28.0",
-        "eslint-plugin-drizzle": "^0.2.3",
-      },
-    },
-    "packages/typescript-config": {
-      "name": "@bunstack/typescript-config",
-      "version": "0.0.1",
-    },
-    "packages/ui": {
-      "name": "@bunstack/ui",
+    "packages/react": {
+      "name": "@bunstack/react",
       "version": "0.0.0",
       "dependencies": {
         "@bunstack/shared": "workspace:*",
@@ -232,6 +209,29 @@
         "@bunstack/typescript-config": "workspace:*",
         "tw-animate-css": "^1.3.4",
       },
+    },
+    "packages/shared": {
+      "name": "@bunstack/shared",
+      "version": "0.0.0",
+      "dependencies": {
+        "@bunstack/env": "workspace:*",
+        "drizzle-orm": "^0.44.2",
+        "drizzle-zod": "^0.7.1",
+        "nanoid": "^5.1.5",
+        "postgres": "^3.4.7",
+        "zod": "^4.1.11",
+      },
+      "devDependencies": {
+        "@bunstack/eslint-config": "workspace:*",
+        "@bunstack/typescript-config": "workspace:*",
+        "drizzle-kit": "^0.31.1",
+        "eslint": "^9.28.0",
+        "eslint-plugin-drizzle": "^0.2.3",
+      },
+    },
+    "packages/typescript-config": {
+      "name": "@bunstack/typescript-config",
+      "version": "0.0.1",
     },
   },
   "packages": {
@@ -311,11 +311,11 @@
 
     "@bunstack/i18n": ["@bunstack/i18n@workspace:packages/i18n"],
 
+    "@bunstack/react": ["@bunstack/react@workspace:packages/react"],
+
     "@bunstack/shared": ["@bunstack/shared@workspace:packages/shared"],
 
     "@bunstack/typescript-config": ["@bunstack/typescript-config@workspace:packages/typescript-config"],
-
-    "@bunstack/ui": ["@bunstack/ui@workspace:packages/ui"],
 
     "@bunstack/web": ["@bunstack/web@workspace:apps/web"],
 

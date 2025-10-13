@@ -1,0 +1,18 @@
+{
+  "extends": "@bunstack/typescript-config/react.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "paths": {
+      "@bunstack/react/*": ["./src/*"],
+
+      "@bunstack/shared/*": ["../shared/src/*"]
+    },
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

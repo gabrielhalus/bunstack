@@ -11,9 +11,9 @@ import { AvatarUser } from "@/components/avatar-user";
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/http";
 import { getRoleByNameQueryOptions } from "@/queries/roles";
-import { Button } from "@bunstack/ui/components/button";
-import { Spinner } from "@bunstack/ui/components/spinner";
-import sayno from "@bunstack/ui/lib/sayno";
+import { Button } from "@bunstack/react/components/button";
+import { Spinner } from "@bunstack/react/components/spinner";
+import sayno from "@bunstack/react/lib/sayno";
 
 export function RoleMembersList({ search }: { search: string }) {
   const { role } = Layout.useLoaderData();

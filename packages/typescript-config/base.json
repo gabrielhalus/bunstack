@@ -21,7 +21,7 @@
       "@bunstack/web/*": ["apps/web/src/*"],
       "@bunstack/env": ["packages/env/src/index.ts"],
       "@bunstack/shared/*": ["packages/shared/src/*"],
-      "@bunstack/ui/*": ["packages/ui/src/*"],
+      "@bunstack/react/*": ["packages/react/src/*"],
       "@bunstack/eslint-config": ["packages/eslint-config/*"],
       "@bunstack/typescript-config": ["packages/typescript-config/*"]
     }

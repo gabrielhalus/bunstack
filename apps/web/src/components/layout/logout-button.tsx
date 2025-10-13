@@ -7,10 +7,10 @@ import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
 import { env } from "@/lib/env";
 import { api } from "@/lib/http";
-import { Button } from "@bunstack/ui/components/button";
-import { DropdownMenuItem } from "@bunstack/ui/components/dropdown-menu";
-import { Spinner } from "@bunstack/ui/components/spinner";
-import sayno from "@bunstack/ui/lib/sayno";
+import { Button } from "@bunstack/react/components/button";
+import { DropdownMenuItem } from "@bunstack/react/components/dropdown-menu";
+import { Spinner } from "@bunstack/react/components/spinner";
+import sayno from "@bunstack/react/lib/sayno";
 
 type Variant = "button" | "dropdown";
 

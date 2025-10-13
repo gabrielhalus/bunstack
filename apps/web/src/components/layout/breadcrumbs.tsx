@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@bunstack/ui/components/breadcrumb";
+} from "@bunstack/react/components/breadcrumb";
 
 export function Breadcrumbs() {
   const { t } = useTranslation("web");

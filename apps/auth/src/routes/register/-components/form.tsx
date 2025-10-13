@@ -4,15 +4,15 @@ import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { api } from "@/lib/http";
+import { Button } from "@bunstack/react/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/react/components/card";
+import { Input } from "@bunstack/react/components/input";
+import { Label } from "@bunstack/react/components/label";
+import { PasswordInput } from "@bunstack/react/components/password-input";
+import { Spinner } from "@bunstack/react/components/spinner";
+import { cn } from "@bunstack/react/lib/utils";
 import { passwordChecks, passwordRules, registerInputSchema } from "@bunstack/shared/contracts/auth";
 import { debounceAsync } from "@bunstack/shared/lib/debounce";
-import { Button } from "@bunstack/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
-import { Input } from "@bunstack/ui/components/input";
-import { Label } from "@bunstack/ui/components/label";
-import { PasswordInput } from "@bunstack/ui/components/password-input";
-import { Spinner } from "@bunstack/ui/components/spinner";
-import { cn } from "@bunstack/ui/lib/utils";
 
 const checkEmail = debounceAsync(async (email: string): Promise<string | void> => {
   const res = await api.users["check-email"].$get({ query: { email } });

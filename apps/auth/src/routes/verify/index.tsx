@@ -3,9 +3,9 @@ import { Box } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { api } from "@/lib/http";
+import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/react/components/card";
+import { Skeleton } from "@bunstack/react/components/skeleton";
 import { Constants } from "@bunstack/shared/constants";
-import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/ui/components/card";
-import { Skeleton } from "@bunstack/ui/components/skeleton";
 
 export const Route = createFileRoute("/verify/")({
   component: RouteComponent,

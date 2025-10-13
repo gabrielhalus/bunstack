@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "../../packages/ui/src/styles/globals.css",
+    "css": "../../packages/react/src/styles/globals.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
@@ -15,7 +15,7 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@bunstack/ui/lib/utils",
-    "ui": "@bunstack/ui/components"
+    "utils": "@bunstack/react/lib/utils",
+    "ui": "@bunstack/react/components"
   }
 }

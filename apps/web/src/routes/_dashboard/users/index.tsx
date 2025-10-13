@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 
 import { columns } from "./-components/columns";
 import { getUsersPaginatedQueryOptions } from "@/queries/users";
+import { DataTable } from "@bunstack/react/components/data-table";
 import { debounceSync } from "@bunstack/shared/lib/debounce";
-import { DataTable } from "@bunstack/ui/components/data-table";
 
 export const Route = createFileRoute("/_dashboard/users/")({
   component: Users,

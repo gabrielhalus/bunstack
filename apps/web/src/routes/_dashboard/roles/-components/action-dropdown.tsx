@@ -7,10 +7,10 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/http";
-import { Button } from "@bunstack/ui/components/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@bunstack/ui/components/dropdown-menu";
-import { Spinner } from "@bunstack/ui/components/spinner";
-import sayno from "@bunstack/ui/lib/sayno";
+import { Button } from "@bunstack/react/components/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@bunstack/react/components/dropdown-menu";
+import { Spinner } from "@bunstack/react/components/spinner";
+import sayno from "@bunstack/react/lib/sayno";
 
 export function ActionDropdown({ row: { original: role } }: { row: Row<Role> }) {
   const { can } = useAuth();

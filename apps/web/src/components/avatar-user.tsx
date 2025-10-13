@@ -3,8 +3,8 @@ import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 
 import { generateAvatarFallback } from "@/helpers/generate-avatar-fallback";
-import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/ui/components/avatar";
-import { cn } from "@bunstack/ui/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@bunstack/react/components/avatar";
+import { cn } from "@bunstack/react/lib/utils";
 
 type AvatarUserProps = {
   avatar: string | null;

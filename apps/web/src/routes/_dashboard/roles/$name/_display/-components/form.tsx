@@ -8,11 +8,11 @@ import { toast } from "sonner";
 import { Route } from "../index";
 import { api } from "@/lib/http";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/queries/roles";
+import { Button } from "@bunstack/react/components/button";
+import { Input } from "@bunstack/react/components/input";
+import { Label } from "@bunstack/react/components/label";
+import { Spinner } from "@bunstack/react/components/spinner";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
-import { Button } from "@bunstack/ui/components/button";
-import { Input } from "@bunstack/ui/components/input";
-import { Label } from "@bunstack/ui/components/label";
-import { Spinner } from "@bunstack/ui/components/spinner";
 
 export function Form() {
   const { t } = useTranslation(["common", "web"]);
