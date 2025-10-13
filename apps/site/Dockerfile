@@ -27,7 +27,7 @@ RUN bun install --frozen-lockfile --production
 # Build the app
 # -----------------------------
 FROM install AS build
-RUN bun run build --filter=@bunstack/com...
+RUN bun run build --filter=@bunstack/site...
 
 # -----------------------------
 # Prepare final Nginx image
@@ -35,8 +35,8 @@ RUN bun run build --filter=@bunstack/com...
 FROM nginx:stable-alpine AS release
 
 # Copy built files
-COPY --from=build /usr/src/app/apps/com/dist /usr/share/nginx/html
-COPY --from=build /usr/src/app/apps/com/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/src/app/apps/site/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/apps/site/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port and start
 EXPOSE 80

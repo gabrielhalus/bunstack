@@ -81,48 +81,6 @@
         "vite": "^6.3.5",
       },
     },
-    "apps/com": {
-      "name": "@bunstack/com",
-      "dependencies": {
-        "@bunstack/api": "workspace:*",
-        "@bunstack/env": "workspace:*",
-        "@bunstack/i18n": "workspace:*",
-        "@bunstack/react": "workspace:*",
-        "@bunstack/shared": "workspace:*",
-        "@tailwindcss/vite": "^4.1.8",
-        "@tanstack/react-form": "^1.12.3",
-        "@tanstack/react-query": "^5.80.6",
-        "@tanstack/react-router": "^1.120.18",
-        "@tanstack/react-router-devtools": "^1.120.18",
-        "@tanstack/react-table": "^8.21.3",
-        "class-variance-authority": "^0.7.1",
-        "hono": "^4.9.8",
-        "i18next": "^25.3.2",
-        "i18next-browser-languagedetector": "^8.2.0",
-        "i18next-http-backend": "^3.0.2",
-        "lucide-react": "^0.544.0",
-        "next-themes": "^0.4.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-        "react-i18next": "^15.6.1",
-        "sonner": "^2.0.7",
-        "zod": "^4.1.11",
-      },
-      "devDependencies": {
-        "@bunstack/eslint-config": "workspace:*",
-        "@bunstack/typescript-config": "workspace:*",
-        "@eslint-react/eslint-plugin": "^1.51.2",
-        "@eslint/js": "^9.25.0",
-        "@tanstack/eslint-plugin-query": "^5.78.0",
-        "@tanstack/router-plugin": "^1.120.18",
-        "@vitejs/plugin-react": "^4.4.1",
-        "eslint": "^9.25.0",
-        "eslint-plugin-react-hooks": "^5.2.0",
-        "eslint-plugin-react-refresh": "^0.4.19",
-        "globals": "^16.0.0",
-        "vite": "^6.3.5",
-      },
-    },
     "apps/dashboard": {
       "name": "@bunstack/dashboard",
       "version": "0.0.0",
@@ -154,6 +112,48 @@
         "@bunstack/eslint-config": "workspace:*",
         "@bunstack/typescript-config": "workspace:*",
         "@eslint-react/eslint-plugin": "^1.51.2",
+        "@tanstack/eslint-plugin-query": "^5.78.0",
+        "@tanstack/router-plugin": "^1.120.18",
+        "@vitejs/plugin-react": "^4.4.1",
+        "eslint": "^9.25.0",
+        "eslint-plugin-react-hooks": "^5.2.0",
+        "eslint-plugin-react-refresh": "^0.4.19",
+        "globals": "^16.0.0",
+        "vite": "^6.3.5",
+      },
+    },
+    "apps/site": {
+      "name": "@bunstack/site",
+      "dependencies": {
+        "@bunstack/api": "workspace:*",
+        "@bunstack/env": "workspace:*",
+        "@bunstack/i18n": "workspace:*",
+        "@bunstack/react": "workspace:*",
+        "@bunstack/shared": "workspace:*",
+        "@tailwindcss/vite": "^4.1.8",
+        "@tanstack/react-form": "^1.12.3",
+        "@tanstack/react-query": "^5.80.6",
+        "@tanstack/react-router": "^1.120.18",
+        "@tanstack/react-router-devtools": "^1.120.18",
+        "@tanstack/react-table": "^8.21.3",
+        "class-variance-authority": "^0.7.1",
+        "hono": "^4.9.8",
+        "i18next": "^25.3.2",
+        "i18next-browser-languagedetector": "^8.2.0",
+        "i18next-http-backend": "^3.0.2",
+        "lucide-react": "^0.544.0",
+        "next-themes": "^0.4.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-i18next": "^15.6.1",
+        "sonner": "^2.0.7",
+        "zod": "^4.1.11",
+      },
+      "devDependencies": {
+        "@bunstack/eslint-config": "workspace:*",
+        "@bunstack/typescript-config": "workspace:*",
+        "@eslint-react/eslint-plugin": "^1.51.2",
+        "@eslint/js": "^9.25.0",
         "@tanstack/eslint-plugin-query": "^5.78.0",
         "@tanstack/router-plugin": "^1.120.18",
         "@vitejs/plugin-react": "^4.4.1",
@@ -331,8 +331,6 @@
 
     "@bunstack/auth": ["@bunstack/auth@workspace:apps/auth"],
 
-    "@bunstack/com": ["@bunstack/com@workspace:apps/com"],
-
     "@bunstack/dashboard": ["@bunstack/dashboard@workspace:apps/dashboard"],
 
     "@bunstack/env": ["@bunstack/env@workspace:packages/env"],
@@ -344,6 +342,8 @@
     "@bunstack/react": ["@bunstack/react@workspace:packages/react"],
 
     "@bunstack/shared": ["@bunstack/shared@workspace:packages/shared"],
+
+    "@bunstack/site": ["@bunstack/site@workspace:apps/site"],
 
     "@bunstack/typescript-config": ["@bunstack/typescript-config@workspace:packages/typescript-config"],
 
@@ -1521,9 +1521,9 @@
 
     "@bunstack/auth/react-i18next": ["react-i18next@15.7.4", "", { "dependencies": { "@babel/runtime": "^7.27.6", "html-parse-stringify": "^3.0.1" }, "peerDependencies": { "i18next": ">= 23.4.0", "react": ">= 16.8.0", "typescript": "^5" }, "optionalPeers": ["typescript"] }, "sha512-nyU8iKNrI5uDJch0z9+Y5XEr34b0wkyYj3Rp+tfbahxtlswxSCjcUL9H0nqXo9IR3/t5Y5PKIA3fx3MfUyR9Xw=="],
 
-    "@bunstack/com/react-i18next": ["react-i18next@15.7.4", "", { "dependencies": { "@babel/runtime": "^7.27.6", "html-parse-stringify": "^3.0.1" }, "peerDependencies": { "i18next": ">= 23.4.0", "react": ">= 16.8.0", "typescript": "^5" }, "optionalPeers": ["typescript"] }, "sha512-nyU8iKNrI5uDJch0z9+Y5XEr34b0wkyYj3Rp+tfbahxtlswxSCjcUL9H0nqXo9IR3/t5Y5PKIA3fx3MfUyR9Xw=="],
-
     "@bunstack/dashboard/react-i18next": ["react-i18next@15.7.4", "", { "dependencies": { "@babel/runtime": "^7.27.6", "html-parse-stringify": "^3.0.1" }, "peerDependencies": { "i18next": ">= 23.4.0", "react": ">= 16.8.0", "typescript": "^5" }, "optionalPeers": ["typescript"] }, "sha512-nyU8iKNrI5uDJch0z9+Y5XEr34b0wkyYj3Rp+tfbahxtlswxSCjcUL9H0nqXo9IR3/t5Y5PKIA3fx3MfUyR9Xw=="],
+
+    "@bunstack/site/react-i18next": ["react-i18next@15.7.4", "", { "dependencies": { "@babel/runtime": "^7.27.6", "html-parse-stringify": "^3.0.1" }, "peerDependencies": { "i18next": ">= 23.4.0", "react": ">= 16.8.0", "typescript": "^5" }, "optionalPeers": ["typescript"] }, "sha512-nyU8iKNrI5uDJch0z9+Y5XEr34b0wkyYj3Rp+tfbahxtlswxSCjcUL9H0nqXo9IR3/t5Y5PKIA3fx3MfUyR9Xw=="],
 
     "@es-joy/jsdoccomment/jsdoc-type-pratt-parser": ["jsdoc-type-pratt-parser@4.1.0", "", {}, "sha512-Hicd6JK5Njt2QB6XYFS7ok9e37O8AYk3jTcppG4YVQnYjOemymvTcmc7OWsmq/Qqj5TdRFO5/x/tIPmBeRtGHg=="],
 
