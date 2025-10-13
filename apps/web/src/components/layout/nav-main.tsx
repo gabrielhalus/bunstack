@@ -1,11 +1,11 @@
 import type { LinkOptions } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
 import { Link, useLocation } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@bunstack/react/components/collapsible";
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuAction, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@bunstack/react/components/sidebar";
 
 export function NavMain({ items }: { items: { title: string; icon: LucideIcon; href: LinkOptions; items?: { title: string; href: LinkOptions }[] }[] }) {
