@@ -3,7 +3,7 @@ import type { Session } from "@bunstack/shared/types/auth";
 
 import { queryOptions } from "@tanstack/react-query";
 
-import { api } from "@/lib/http";
+import { api } from "@bunstack/react/lib/http";
 import { can } from "@bunstack/shared/access";
 
 export const authQueryOptions = queryOptions({

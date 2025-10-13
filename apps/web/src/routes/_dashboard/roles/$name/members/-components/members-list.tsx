@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Route as Layout } from "../../route";
 import { AvatarUser } from "@/components/avatar-user";
 import { useAuth } from "@/hooks/use-auth";
-import { api } from "@/lib/http";
+import { api } from "@bunstack/react/lib/http";
 import { getRoleByNameQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/react/components/button";
 import { Spinner } from "@bunstack/react/components/spinner";

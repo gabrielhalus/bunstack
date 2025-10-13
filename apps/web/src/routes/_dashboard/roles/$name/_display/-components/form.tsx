@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { Route } from "../index";
-import { api } from "@/lib/http";
+import { api } from "@bunstack/react/lib/http";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/react/components/button";
 import { Input } from "@bunstack/react/components/input";

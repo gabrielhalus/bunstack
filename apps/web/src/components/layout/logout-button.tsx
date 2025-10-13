@@ -6,10 +6,10 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
 import { env } from "@/lib/env";
-import { api } from "@/lib/http";
 import { Button } from "@bunstack/react/components/button";
 import { DropdownMenuItem } from "@bunstack/react/components/dropdown-menu";
 import { Spinner } from "@bunstack/react/components/spinner";
+import { api } from "@bunstack/react/lib/http";
 import sayno from "@bunstack/react/lib/sayno";
 
 type Variant = "button" | "dropdown";

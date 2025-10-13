@@ -6,7 +6,7 @@ import { Copy, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
-import { api } from "@/lib/http";
+import { api } from "@bunstack/react/lib/http";
 import { Button } from "@bunstack/react/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@bunstack/react/components/dropdown-menu";
 import { Spinner } from "@bunstack/react/components/spinner";
