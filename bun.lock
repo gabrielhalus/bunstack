@@ -54,7 +54,6 @@
         "@tanstack/react-router-devtools": "^1.120.18",
         "@tanstack/react-table": "^8.21.3",
         "class-variance-authority": "^0.7.1",
-        "hono": "^4.9.8",
         "i18next": "^25.3.2",
         "i18next-browser-languagedetector": "^8.2.0",
         "i18next-http-backend": "^3.0.2",
@@ -97,7 +96,6 @@
         "@tanstack/react-router-devtools": "^1.120.18",
         "@tanstack/react-table": "^8.21.3",
         "class-variance-authority": "^0.7.1",
-        "hono": "^4.9.8",
         "i18next-browser-languagedetector": "^8.2.0",
         "i18next-http-backend": "^3.0.2",
         "lucide-react": "^0.544.0",
@@ -137,7 +135,6 @@
         "@tanstack/react-router-devtools": "^1.120.18",
         "@tanstack/react-table": "^8.21.3",
         "class-variance-authority": "^0.7.1",
-        "hono": "^4.9.8",
         "i18next": "^25.3.2",
         "i18next-browser-languagedetector": "^8.2.0",
         "i18next-http-backend": "^3.0.2",
@@ -167,12 +164,12 @@
     "packages/env": {
       "name": "@bunstack/env",
       "version": "0.0.0",
-      "dependencies": {
-        "zod": "^4.1.11",
-      },
       "devDependencies": {
         "@bunstack/eslint-config": "workspace:*",
         "@bunstack/typescript-config": "workspace:*",
+      },
+      "peerDependencies": {
+        "zod": "^4.1.11",
       },
     },
     "packages/eslint-config": {
@@ -219,12 +216,14 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "framer-motion": "^12.19.2",
+        "hono": "^4.9.8",
         "input-otp": "^1.4.2",
         "lucide-react": "^0.544.0",
         "next-themes": "^0.4.6",
         "sonner": "^2.0.7",
         "tailwind-merge": "^3.3.0",
         "tailwindcss": "^4.1.8",
+        "zod": "^4.1.11",
       },
       "devDependencies": {
         "@bunstack/eslint-config": "workspace:*",
