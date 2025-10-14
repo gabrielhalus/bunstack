@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { NavSettings } from "./nav-settings";
 import { NavMain } from "@/components/layout/nav-main";
 import { NavUser } from "@/components/layout/nav-user";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@bunstack/react/hooks/use-auth";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@bunstack/react/components/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

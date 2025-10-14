@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { AvatarUser } from "../avatar-user";
 import { LogoutButton } from "@/components/layout/logout-button";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@bunstack/react/hooks/use-auth";
 import {
   DropdownMenu,
   DropdownMenuContent,

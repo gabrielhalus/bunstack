@@ -4,7 +4,7 @@ import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@bunstack/react/hooks/use-auth";
 import { env } from "@/lib/env";
 import { Button } from "@bunstack/react/components/button";
 import { DropdownMenuItem } from "@bunstack/react/components/dropdown-menu";
