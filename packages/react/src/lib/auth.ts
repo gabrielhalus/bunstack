@@ -1,13 +1,12 @@
 import type { Session } from "@bunstack/shared/types/auth";
-import type { QueryClient } from "@tanstack/react-query";
 
 import { redirect } from "@tanstack/react-router";
 
 import { env } from "../lib/env";
 import { authQueryOptions } from "../queries/auth";
+import { queryClient } from "./query-client";
 
 export type AuthDeps = {
-  queryClient: QueryClient;
   getCurrentUrl?: () => string;
 };
 
@@ -18,7 +17,7 @@ export type AuthOptionsBase = {
 
 /** Variant: redirect when authenticated → never returns */
 export type AuthOptionsRedirectAuthenticated = {
-  redirectOnAuthenticated: boolean | string;
+  redirectOnAuthenticated: boolean;
 } & AuthOptionsBase;
 
 /** Variant: doesn’t redirect when authenticated → returns Session/undefined */
@@ -34,9 +33,8 @@ export type AuthOptions = AuthOptionsNormal | AuthOptionsRedirectAuthenticated;
  * Injects app-specific dependencies (queryClient, env, etc.)
  */
 export function createAuth({
-  queryClient,
   getCurrentUrl = () => window.location.href,
-}: AuthDeps) {
+}: AuthDeps = {}) {
   // --- Overloads for proper type inference ---
   async function auth(options?: AuthOptionsNormal): Promise<Session>;
   async function auth(options: AuthOptionsRedirectAuthenticated): Promise<never>;
@@ -46,25 +44,32 @@ export function createAuth({
       redirectOnAuthenticated = false,
     } = options ?? {};
 
+    const currentUrl = getCurrentUrl();
+
+    // Helper: compute redirect URL and avoid loop
+    const computeRedirect = (shouldRedirect: boolean, fallbackUrl: string) => {
+      if (!shouldRedirect) {
+        return null;
+      }
+
+      return currentUrl !== fallbackUrl ? fallbackUrl : null;
+    };
+
     try {
-      const session = (await queryClient.ensureQueryData(authQueryOptions as any)) as Session;
+      const session = await queryClient.ensureQueryData(authQueryOptions);
 
-      if (redirectOnAuthenticated) {
-        const href
-          = typeof redirectOnAuthenticated === "string"
-            ? redirectOnAuthenticated
-            : `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(getCurrentUrl())}`;
-
-        throw redirect({ href, replace: true });
+      // Redirect if authenticated
+      const redirectToAuth = computeRedirect(redirectOnAuthenticated, env.VITE_SITE_URL);
+      if (redirectToAuth) {
+        throw redirect({ href: redirectToAuth, replace: true });
       }
 
       return session;
     } catch {
-      if (redirectOnUnauthenticated) {
-        throw redirect({
-          href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(getCurrentUrl())}`,
-          replace: true,
-        });
+      // Redirect if unauthenticated
+      const redirectToUnauth = computeRedirect(redirectOnUnauthenticated, `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(currentUrl)}`);
+      if (redirectToUnauth) {
+        throw redirect({ href: redirectToUnauth, replace: true });
       }
 
       return undefined;

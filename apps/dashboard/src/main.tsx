@@ -6,10 +6,10 @@ import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 
 import i18n from "@/i18n";
-import { queryClient } from "@/lib/query-client";
 import { routeTree } from "@/routeTree.gen";
 import { Sayno } from "@bunstack/react/components/sayno";
 import { Toaster } from "@bunstack/react/components/sonner";
+import { queryClient } from "@bunstack/react/lib/query-client";
 
 export const router = createRouter({
   routeTree,
