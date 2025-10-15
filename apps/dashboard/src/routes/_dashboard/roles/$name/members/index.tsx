@@ -15,7 +15,7 @@ export const Route = createFileRoute(
 });
 
 function RoleMembers() {
-  const { t } = useTranslation("web");
+  const { t } = useTranslation("dashboard");
 
   const [globalFilter, setGlobalFilter] = useState("");
 

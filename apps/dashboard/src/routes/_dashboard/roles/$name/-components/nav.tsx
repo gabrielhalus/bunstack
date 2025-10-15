@@ -10,7 +10,7 @@ import { getRoleByNameQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/react/components/button";
 
 export function Nav() {
-  const { t } = useTranslation("web");
+  const { t } = useTranslation("dashboard");
 
   const { role } = Route.useLoaderData();
 

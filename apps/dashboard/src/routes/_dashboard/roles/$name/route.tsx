@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_dashboard/roles/$name")({
 });
 
 function RoleLayout() {
-  const { t } = useTranslation("web");
+  const { t } = useTranslation("dashboard");
   const { role } = Route.useLoaderData();
 
   return (

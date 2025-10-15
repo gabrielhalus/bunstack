@@ -11,7 +11,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { can } = useAuth();
-  const { t } = useTranslation("web");
+  const { t } = useTranslation("dashboard");
 
   const data = useMemo(() => ({
     navMain: [

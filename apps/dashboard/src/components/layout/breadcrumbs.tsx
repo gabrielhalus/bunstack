@@ -11,7 +11,7 @@ import {
 } from "@bunstack/react/components/breadcrumb";
 
 export function Breadcrumbs() {
-  const { t } = useTranslation("web");
+  const { t } = useTranslation("dashboard");
   const matches = useMatches();
 
   const items = matches
