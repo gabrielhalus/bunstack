@@ -3,7 +3,7 @@ import type { QueryClient } from "@tanstack/react-query";
 
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
-import { auth } from "@bunstack/react/lib/auth";
+import { auth } from "@/lib/auth";
 import { AuthProvider } from "@bunstack/react/providers/auth-provider";
 
 export type RouterContext = {
