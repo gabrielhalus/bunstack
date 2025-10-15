@@ -17,7 +17,9 @@
   },
   "peerDependencies": {
     "@bunstack/api": "workspace:*",
-    "@bunstack/env": "workspace:*"
+    "@bunstack/env": "workspace:*",
+    "@tanstack/react-query": "^5.80.6",
+    "@tanstack/react-router": "^1.120.18"
   },
   "dependencies": {
     "@bunstack/shared": "workspace:*",
