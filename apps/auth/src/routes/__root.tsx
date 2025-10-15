@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth";
 export const Route = createRootRouteWithContext()({
   component: RootLayout,
   beforeLoad: async () => {
-    await auth({ redirectOnAuthenticated: true });
+    await auth({ redirectOnAuthenticated: true, redirectOnUnauthenticated: false });
   },
 });
 
