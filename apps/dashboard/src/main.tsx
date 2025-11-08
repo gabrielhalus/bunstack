@@ -1,5 +1,5 @@
 import "@bunstack/react/styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -10,6 +10,7 @@ import { routeTree } from "@/routeTree.gen";
 import { Sayno } from "@bunstack/react/components/sayno";
 import { Toaster } from "@bunstack/react/components/sonner";
 import { queryClient } from "@bunstack/react/lib/query-client";
+import { ThemeProvider } from "@bunstack/react/providers/theme-provider";
 
 export const router = createRouter({
   routeTree,
@@ -34,13 +35,15 @@ async function bootstrap() {
 
   root.render(
     <StrictMode>
-      <I18nextProvider i18n={i18n}>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <Toaster position="bottom-center" />
-          <Sayno />
-        </QueryClientProvider>
-      </I18nextProvider>
+      <ThemeProvider>
+        <I18nextProvider i18n={i18n}>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <Toaster position="bottom-center" />
+            <Sayno />
+          </QueryClientProvider>
+        </I18nextProvider>
+      </ThemeProvider>
     </StrictMode>,
   );
 }
