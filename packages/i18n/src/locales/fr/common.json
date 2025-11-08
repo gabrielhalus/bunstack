@@ -45,6 +45,10 @@
     "yes": "Oui",
     "no": "Non",
     "ok": "OK",
-    "language": "Langue :"
+    "language": "Langue : {{lang}}",
+    "theme": "Thème : {{theme}}",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "themeSystem": "Système"
   }
 }
