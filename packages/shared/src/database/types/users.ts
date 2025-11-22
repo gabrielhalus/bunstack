@@ -17,7 +17,7 @@ export const insertUserSchema = createInsertSchema(Users, {
     .string()
     .min(3, { message: "Name must be at least 3 characters long" })
     .max(20, { message: "Name must be less than 20 characters long" }),
-  email: z.string().email({ message: "Invalid email address" }).transform(val => val.toLowerCase()),
+  email: z.email({ message: "Invalid email address" }).transform(val => val.toLowerCase()),
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters long" })
