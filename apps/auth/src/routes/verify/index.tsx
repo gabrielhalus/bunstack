@@ -2,9 +2,9 @@ import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { Box } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { api } from "@bunstack/react/lib/http";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/react/components/card";
 import { Skeleton } from "@bunstack/react/components/skeleton";
+import { api } from "@bunstack/react/lib/http";
 import { Constants } from "@bunstack/shared/constants";
 
 export const Route = createFileRoute("/verify/")({

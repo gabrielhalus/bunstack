@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { Route } from "../index";
-import { api } from "@bunstack/react/lib/http";
 import { getAllRolesQueryOptions, getRoleByNameQueryOptions } from "@/queries/roles";
 import { Button } from "@bunstack/react/components/button";
 import { Input } from "@bunstack/react/components/input";
 import { Label } from "@bunstack/react/components/label";
 import { Spinner } from "@bunstack/react/components/spinner";
+import { api } from "@bunstack/react/lib/http";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 
 export function Form() {
