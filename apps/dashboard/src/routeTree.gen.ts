@@ -16,6 +16,7 @@ import { Route as DashboardUsersRouteRouteImport } from './routes/_dashboard/use
 import { Route as DashboardRolesRouteRouteImport } from './routes/_dashboard/roles/route'
 import { Route as DashboardUsersIndexRouteImport } from './routes/_dashboard/users/index'
 import { Route as DashboardRolesIndexRouteImport } from './routes/_dashboard/roles/index'
+import { Route as DashboardNotificationsIndexRouteImport } from './routes/_dashboard/notifications/index'
 import { Route as DashboardRolesNameRouteRouteImport } from './routes/_dashboard/roles/$name/route'
 import { Route as DashboardUsersUserIdIndexRouteImport } from './routes/_dashboard/users/$userId/index'
 import { Route as DashboardRolesNamePermissionsIndexRouteImport } from './routes/_dashboard/roles/$name/permissions/index'
@@ -56,6 +57,12 @@ const DashboardRolesIndexRoute = DashboardRolesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRolesRouteRoute,
 } as any)
+const DashboardNotificationsIndexRoute =
+  DashboardNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardRolesNameRouteRoute = DashboardRolesNameRouteRouteImport.update({
   id: '/$name',
   path: '/$name',
@@ -92,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof DashboardProfileRoute
   '/': typeof DashboardIndexRoute
   '/roles/$name': typeof DashboardRolesNameRouteRouteWithChildren
+  '/notifications': typeof DashboardNotificationsIndexRoute
   '/roles/': typeof DashboardRolesIndexRoute
   '/users/': typeof DashboardUsersIndexRoute
   '/users/$userId': typeof DashboardUsersUserIdIndexRoute
@@ -102,6 +110,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/profile': typeof DashboardProfileRoute
   '/': typeof DashboardIndexRoute
+  '/notifications': typeof DashboardNotificationsIndexRoute
   '/roles': typeof DashboardRolesIndexRoute
   '/users': typeof DashboardUsersIndexRoute
   '/users/$userId': typeof DashboardUsersUserIdIndexRoute
@@ -117,6 +126,7 @@ export interface FileRoutesById {
   '/_dashboard/profile': typeof DashboardProfileRoute
   '/_dashboard/': typeof DashboardIndexRoute
   '/_dashboard/roles/$name': typeof DashboardRolesNameRouteRouteWithChildren
+  '/_dashboard/notifications/': typeof DashboardNotificationsIndexRoute
   '/_dashboard/roles/': typeof DashboardRolesIndexRoute
   '/_dashboard/users/': typeof DashboardUsersIndexRoute
   '/_dashboard/users/$userId/': typeof DashboardUsersUserIdIndexRoute
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/'
     | '/roles/$name'
+    | '/notifications'
     | '/roles/'
     | '/users/'
     | '/users/$userId'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
   to:
     | '/profile'
     | '/'
+    | '/notifications'
     | '/roles'
     | '/users'
     | '/users/$userId'
@@ -156,6 +168,7 @@ export interface FileRouteTypes {
     | '/_dashboard/profile'
     | '/_dashboard/'
     | '/_dashboard/roles/$name'
+    | '/_dashboard/notifications/'
     | '/_dashboard/roles/'
     | '/_dashboard/users/'
     | '/_dashboard/users/$userId/'
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/roles/'
       preLoaderRoute: typeof DashboardRolesIndexRouteImport
       parentRoute: typeof DashboardRolesRouteRoute
+    }
+    '/_dashboard/notifications/': {
+      id: '/_dashboard/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof DashboardNotificationsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/_dashboard/roles/$name': {
       id: '/_dashboard/roles/$name'
@@ -307,6 +327,7 @@ interface DashboardRouteRouteChildren {
   DashboardUsersRouteRoute: typeof DashboardUsersRouteRouteWithChildren
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardNotificationsIndexRoute: typeof DashboardNotificationsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -314,6 +335,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardUsersRouteRoute: DashboardUsersRouteRouteWithChildren,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardNotificationsIndexRoute: DashboardNotificationsIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

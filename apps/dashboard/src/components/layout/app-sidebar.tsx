@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Box, Home, ShieldUser, UsersRound } from "lucide-react";
+import { Bell, Box, Home, ShieldUser, UsersRound } from "lucide-react";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -34,6 +34,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             title: t("pages.roles.title"),
             icon: ShieldUser,
             href: { to: "/roles" } as const,
+          }]
+        : []),
+      ...(can("notification:list")
+        ? [{
+            title: t("pages.notifications.title"),
+            icon: Bell,
+            href: { to: "/notifications" } as const,
           }]
         : []),
     ],
