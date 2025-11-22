@@ -10,7 +10,7 @@ import { getRolesPaginatedQueryOptions } from "@/queries/roles";
 import { DataTable } from "@bunstack/react/components/data-table";
 import { debounceSync } from "@bunstack/shared/lib/debounce";
 
-export const Route = createFileRoute("/_dashboard/roles/")({
+export const Route = createFileRoute("/_dashboard/settings/roles/")({
   component: Roles,
 });
 

@@ -10,7 +10,7 @@ import { getUsersPaginatedQueryOptions } from "@/queries/users";
 import { DataTable } from "@bunstack/react/components/data-table";
 import { debounceSync } from "@bunstack/shared/lib/debounce";
 
-export const Route = createFileRoute("/_dashboard/users/")({
+export const Route = createFileRoute("/_dashboard/settings/users/")({
   component: Users,
 });
 

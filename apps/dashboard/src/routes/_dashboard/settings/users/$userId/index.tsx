@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { getUserQueryOptions } from "@/queries/users";
 
-export const Route = createFileRoute("/_dashboard/users/$userId/")({
+export const Route = createFileRoute("/_dashboard/settings/users/$userId/")({
   component: User,
   loader: async ({ params: { userId }, context: { queryClient } }) => {
     const { user } = await queryClient.ensureQueryData(getUserQueryOptions(userId));

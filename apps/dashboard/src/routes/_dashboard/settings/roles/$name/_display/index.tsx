@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Form } from "./-components/form";
 
-export const Route = createFileRoute("/_dashboard/roles/$name/_display/")({
+export const Route = createFileRoute("/_dashboard/settings/roles/$name/_display/")({
   component: RoleDetails,
 });
 

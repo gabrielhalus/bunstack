@@ -6,7 +6,7 @@ import { Sidebar } from "./-components/sidebar";
 import { getRoleByNameQueryOptions } from "@/queries/roles";
 import { getAllUsersQueryOptions } from "@/queries/users";
 
-export const Route = createFileRoute("/_dashboard/roles/$name")({
+export const Route = createFileRoute("/_dashboard/settings/roles/$name")({
   component: RoleLayout,
   beforeLoad: async ({ params, context: { queryClient, session: { can } } }) => {
     const { role } = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));

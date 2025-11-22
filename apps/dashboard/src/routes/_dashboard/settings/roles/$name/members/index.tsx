@@ -8,7 +8,7 @@ import { RoleMembersList } from "./-components/members-list";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@bunstack/react/components/input-group";
 
 export const Route = createFileRoute(
-  "/_dashboard/roles/$name/members/",
+  "/_dashboard/settings/roles/$name/members/",
 )({
   component: RoleMembers,
   loader: () => ({ crumb: "pages.roles.detail.pages.members.title" }),

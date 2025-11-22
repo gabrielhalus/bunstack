@@ -12,16 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/_dashboard/route'
 import { Route as DashboardIndexRouteImport } from './routes/_dashboard/index'
 import { Route as DashboardProfileRouteImport } from './routes/_dashboard/profile'
-import { Route as DashboardUsersRouteRouteImport } from './routes/_dashboard/users/route'
-import { Route as DashboardRolesRouteRouteImport } from './routes/_dashboard/roles/route'
-import { Route as DashboardUsersIndexRouteImport } from './routes/_dashboard/users/index'
-import { Route as DashboardRolesIndexRouteImport } from './routes/_dashboard/roles/index'
-import { Route as DashboardNotificationsIndexRouteImport } from './routes/_dashboard/notifications/index'
-import { Route as DashboardRolesNameRouteRouteImport } from './routes/_dashboard/roles/$name/route'
-import { Route as DashboardUsersUserIdIndexRouteImport } from './routes/_dashboard/users/$userId/index'
-import { Route as DashboardRolesNamePermissionsIndexRouteImport } from './routes/_dashboard/roles/$name/permissions/index'
-import { Route as DashboardRolesNameMembersIndexRouteImport } from './routes/_dashboard/roles/$name/members/index'
-import { Route as DashboardRolesNameDisplayIndexRouteImport } from './routes/_dashboard/roles/$name/_display/index'
+import { Route as DashboardSettingsUsersRouteRouteImport } from './routes/_dashboard/settings/users/route'
+import { Route as DashboardSettingsRolesRouteRouteImport } from './routes/_dashboard/settings/roles/route'
+import { Route as DashboardSettingsUsersIndexRouteImport } from './routes/_dashboard/settings/users/index'
+import { Route as DashboardSettingsRolesIndexRouteImport } from './routes/_dashboard/settings/roles/index'
+import { Route as DashboardSettingsNotificationsIndexRouteImport } from './routes/_dashboard/settings/notifications/index'
+import { Route as DashboardSettingsRolesNameRouteRouteImport } from './routes/_dashboard/settings/roles/$name/route'
+import { Route as DashboardSettingsUsersUserIdIndexRouteImport } from './routes/_dashboard/settings/users/$userId/index'
+import { Route as DashboardSettingsRolesNamePermissionsIndexRouteImport } from './routes/_dashboard/settings/roles/$name/permissions/index'
+import { Route as DashboardSettingsRolesNameMembersIndexRouteImport } from './routes/_dashboard/settings/roles/$name/members/index'
+import { Route as DashboardSettingsRolesNameDisplayIndexRouteImport } from './routes/_dashboard/settings/roles/$name/_display/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/_dashboard',
@@ -37,144 +37,149 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const DashboardUsersRouteRoute = DashboardUsersRouteRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardRolesRouteRoute = DashboardRolesRouteRouteImport.update({
-  id: '/roles',
-  path: '/roles',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardUsersRouteRoute,
-} as any)
-const DashboardRolesIndexRoute = DashboardRolesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardRolesRouteRoute,
-} as any)
-const DashboardNotificationsIndexRoute =
-  DashboardNotificationsIndexRouteImport.update({
-    id: '/notifications/',
-    path: '/notifications/',
+const DashboardSettingsUsersRouteRoute =
+  DashboardSettingsUsersRouteRouteImport.update({
+    id: '/settings/users',
+    path: '/settings/users',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardRolesNameRouteRoute = DashboardRolesNameRouteRouteImport.update({
-  id: '/$name',
-  path: '/$name',
-  getParentRoute: () => DashboardRolesRouteRoute,
-} as any)
-const DashboardUsersUserIdIndexRoute =
-  DashboardUsersUserIdIndexRouteImport.update({
+const DashboardSettingsRolesRouteRoute =
+  DashboardSettingsRolesRouteRouteImport.update({
+    id: '/settings/roles',
+    path: '/settings/roles',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardSettingsUsersIndexRoute =
+  DashboardSettingsUsersIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardSettingsUsersRouteRoute,
+  } as any)
+const DashboardSettingsRolesIndexRoute =
+  DashboardSettingsRolesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardSettingsRolesRouteRoute,
+  } as any)
+const DashboardSettingsNotificationsIndexRoute =
+  DashboardSettingsNotificationsIndexRouteImport.update({
+    id: '/settings/notifications/',
+    path: '/settings/notifications/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardSettingsRolesNameRouteRoute =
+  DashboardSettingsRolesNameRouteRouteImport.update({
+    id: '/$name',
+    path: '/$name',
+    getParentRoute: () => DashboardSettingsRolesRouteRoute,
+  } as any)
+const DashboardSettingsUsersUserIdIndexRoute =
+  DashboardSettingsUsersUserIdIndexRouteImport.update({
     id: '/$userId/',
     path: '/$userId/',
-    getParentRoute: () => DashboardUsersRouteRoute,
+    getParentRoute: () => DashboardSettingsUsersRouteRoute,
   } as any)
-const DashboardRolesNamePermissionsIndexRoute =
-  DashboardRolesNamePermissionsIndexRouteImport.update({
+const DashboardSettingsRolesNamePermissionsIndexRoute =
+  DashboardSettingsRolesNamePermissionsIndexRouteImport.update({
     id: '/permissions/',
     path: '/permissions/',
-    getParentRoute: () => DashboardRolesNameRouteRoute,
+    getParentRoute: () => DashboardSettingsRolesNameRouteRoute,
   } as any)
-const DashboardRolesNameMembersIndexRoute =
-  DashboardRolesNameMembersIndexRouteImport.update({
+const DashboardSettingsRolesNameMembersIndexRoute =
+  DashboardSettingsRolesNameMembersIndexRouteImport.update({
     id: '/members/',
     path: '/members/',
-    getParentRoute: () => DashboardRolesNameRouteRoute,
+    getParentRoute: () => DashboardSettingsRolesNameRouteRoute,
   } as any)
-const DashboardRolesNameDisplayIndexRoute =
-  DashboardRolesNameDisplayIndexRouteImport.update({
+const DashboardSettingsRolesNameDisplayIndexRoute =
+  DashboardSettingsRolesNameDisplayIndexRouteImport.update({
     id: '/_display/',
     path: '/',
-    getParentRoute: () => DashboardRolesNameRouteRoute,
+    getParentRoute: () => DashboardSettingsRolesNameRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/roles': typeof DashboardRolesRouteRouteWithChildren
-  '/users': typeof DashboardUsersRouteRouteWithChildren
   '/profile': typeof DashboardProfileRoute
   '/': typeof DashboardIndexRoute
-  '/roles/$name': typeof DashboardRolesNameRouteRouteWithChildren
-  '/notifications': typeof DashboardNotificationsIndexRoute
-  '/roles/': typeof DashboardRolesIndexRoute
-  '/users/': typeof DashboardUsersIndexRoute
-  '/users/$userId': typeof DashboardUsersUserIdIndexRoute
-  '/roles/$name/': typeof DashboardRolesNameDisplayIndexRoute
-  '/roles/$name/members': typeof DashboardRolesNameMembersIndexRoute
-  '/roles/$name/permissions': typeof DashboardRolesNamePermissionsIndexRoute
+  '/settings/roles': typeof DashboardSettingsRolesRouteRouteWithChildren
+  '/settings/users': typeof DashboardSettingsUsersRouteRouteWithChildren
+  '/settings/roles/$name': typeof DashboardSettingsRolesNameRouteRouteWithChildren
+  '/settings/notifications': typeof DashboardSettingsNotificationsIndexRoute
+  '/settings/roles/': typeof DashboardSettingsRolesIndexRoute
+  '/settings/users/': typeof DashboardSettingsUsersIndexRoute
+  '/settings/users/$userId': typeof DashboardSettingsUsersUserIdIndexRoute
+  '/settings/roles/$name/': typeof DashboardSettingsRolesNameDisplayIndexRoute
+  '/settings/roles/$name/members': typeof DashboardSettingsRolesNameMembersIndexRoute
+  '/settings/roles/$name/permissions': typeof DashboardSettingsRolesNamePermissionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/profile': typeof DashboardProfileRoute
   '/': typeof DashboardIndexRoute
-  '/notifications': typeof DashboardNotificationsIndexRoute
-  '/roles': typeof DashboardRolesIndexRoute
-  '/users': typeof DashboardUsersIndexRoute
-  '/users/$userId': typeof DashboardUsersUserIdIndexRoute
-  '/roles/$name': typeof DashboardRolesNameDisplayIndexRoute
-  '/roles/$name/members': typeof DashboardRolesNameMembersIndexRoute
-  '/roles/$name/permissions': typeof DashboardRolesNamePermissionsIndexRoute
+  '/settings/notifications': typeof DashboardSettingsNotificationsIndexRoute
+  '/settings/roles': typeof DashboardSettingsRolesIndexRoute
+  '/settings/users': typeof DashboardSettingsUsersIndexRoute
+  '/settings/users/$userId': typeof DashboardSettingsUsersUserIdIndexRoute
+  '/settings/roles/$name': typeof DashboardSettingsRolesNameDisplayIndexRoute
+  '/settings/roles/$name/members': typeof DashboardSettingsRolesNameMembersIndexRoute
+  '/settings/roles/$name/permissions': typeof DashboardSettingsRolesNamePermissionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_dashboard': typeof DashboardRouteRouteWithChildren
-  '/_dashboard/roles': typeof DashboardRolesRouteRouteWithChildren
-  '/_dashboard/users': typeof DashboardUsersRouteRouteWithChildren
   '/_dashboard/profile': typeof DashboardProfileRoute
   '/_dashboard/': typeof DashboardIndexRoute
-  '/_dashboard/roles/$name': typeof DashboardRolesNameRouteRouteWithChildren
-  '/_dashboard/notifications/': typeof DashboardNotificationsIndexRoute
-  '/_dashboard/roles/': typeof DashboardRolesIndexRoute
-  '/_dashboard/users/': typeof DashboardUsersIndexRoute
-  '/_dashboard/users/$userId/': typeof DashboardUsersUserIdIndexRoute
-  '/_dashboard/roles/$name/_display/': typeof DashboardRolesNameDisplayIndexRoute
-  '/_dashboard/roles/$name/members/': typeof DashboardRolesNameMembersIndexRoute
-  '/_dashboard/roles/$name/permissions/': typeof DashboardRolesNamePermissionsIndexRoute
+  '/_dashboard/settings/roles': typeof DashboardSettingsRolesRouteRouteWithChildren
+  '/_dashboard/settings/users': typeof DashboardSettingsUsersRouteRouteWithChildren
+  '/_dashboard/settings/roles/$name': typeof DashboardSettingsRolesNameRouteRouteWithChildren
+  '/_dashboard/settings/notifications/': typeof DashboardSettingsNotificationsIndexRoute
+  '/_dashboard/settings/roles/': typeof DashboardSettingsRolesIndexRoute
+  '/_dashboard/settings/users/': typeof DashboardSettingsUsersIndexRoute
+  '/_dashboard/settings/users/$userId/': typeof DashboardSettingsUsersUserIdIndexRoute
+  '/_dashboard/settings/roles/$name/_display/': typeof DashboardSettingsRolesNameDisplayIndexRoute
+  '/_dashboard/settings/roles/$name/members/': typeof DashboardSettingsRolesNameMembersIndexRoute
+  '/_dashboard/settings/roles/$name/permissions/': typeof DashboardSettingsRolesNamePermissionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/roles'
-    | '/users'
     | '/profile'
     | '/'
-    | '/roles/$name'
-    | '/notifications'
-    | '/roles/'
-    | '/users/'
-    | '/users/$userId'
-    | '/roles/$name/'
-    | '/roles/$name/members'
-    | '/roles/$name/permissions'
+    | '/settings/roles'
+    | '/settings/users'
+    | '/settings/roles/$name'
+    | '/settings/notifications'
+    | '/settings/roles/'
+    | '/settings/users/'
+    | '/settings/users/$userId'
+    | '/settings/roles/$name/'
+    | '/settings/roles/$name/members'
+    | '/settings/roles/$name/permissions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/profile'
     | '/'
-    | '/notifications'
-    | '/roles'
-    | '/users'
-    | '/users/$userId'
-    | '/roles/$name'
-    | '/roles/$name/members'
-    | '/roles/$name/permissions'
+    | '/settings/notifications'
+    | '/settings/roles'
+    | '/settings/users'
+    | '/settings/users/$userId'
+    | '/settings/roles/$name'
+    | '/settings/roles/$name/members'
+    | '/settings/roles/$name/permissions'
   id:
     | '__root__'
     | '/_dashboard'
-    | '/_dashboard/roles'
-    | '/_dashboard/users'
     | '/_dashboard/profile'
     | '/_dashboard/'
-    | '/_dashboard/roles/$name'
-    | '/_dashboard/notifications/'
-    | '/_dashboard/roles/'
-    | '/_dashboard/users/'
-    | '/_dashboard/users/$userId/'
-    | '/_dashboard/roles/$name/_display/'
-    | '/_dashboard/roles/$name/members/'
-    | '/_dashboard/roles/$name/permissions/'
+    | '/_dashboard/settings/roles'
+    | '/_dashboard/settings/users'
+    | '/_dashboard/settings/roles/$name'
+    | '/_dashboard/settings/notifications/'
+    | '/_dashboard/settings/roles/'
+    | '/_dashboard/settings/users/'
+    | '/_dashboard/settings/users/$userId/'
+    | '/_dashboard/settings/roles/$name/_display/'
+    | '/_dashboard/settings/roles/$name/members/'
+    | '/_dashboard/settings/roles/$name/permissions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -204,138 +209,151 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/_dashboard/users': {
-      id: '/_dashboard/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof DashboardUsersRouteRouteImport
+    '/_dashboard/settings/users': {
+      id: '/_dashboard/settings/users'
+      path: '/settings/users'
+      fullPath: '/settings/users'
+      preLoaderRoute: typeof DashboardSettingsUsersRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/_dashboard/roles': {
-      id: '/_dashboard/roles'
-      path: '/roles'
-      fullPath: '/roles'
-      preLoaderRoute: typeof DashboardRolesRouteRouteImport
+    '/_dashboard/settings/roles': {
+      id: '/_dashboard/settings/roles'
+      path: '/settings/roles'
+      fullPath: '/settings/roles'
+      preLoaderRoute: typeof DashboardSettingsRolesRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/_dashboard/users/': {
-      id: '/_dashboard/users/'
+    '/_dashboard/settings/users/': {
+      id: '/_dashboard/settings/users/'
       path: '/'
-      fullPath: '/users/'
-      preLoaderRoute: typeof DashboardUsersIndexRouteImport
-      parentRoute: typeof DashboardUsersRouteRoute
+      fullPath: '/settings/users/'
+      preLoaderRoute: typeof DashboardSettingsUsersIndexRouteImport
+      parentRoute: typeof DashboardSettingsUsersRouteRoute
     }
-    '/_dashboard/roles/': {
-      id: '/_dashboard/roles/'
+    '/_dashboard/settings/roles/': {
+      id: '/_dashboard/settings/roles/'
       path: '/'
-      fullPath: '/roles/'
-      preLoaderRoute: typeof DashboardRolesIndexRouteImport
-      parentRoute: typeof DashboardRolesRouteRoute
+      fullPath: '/settings/roles/'
+      preLoaderRoute: typeof DashboardSettingsRolesIndexRouteImport
+      parentRoute: typeof DashboardSettingsRolesRouteRoute
     }
-    '/_dashboard/notifications/': {
-      id: '/_dashboard/notifications/'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof DashboardNotificationsIndexRouteImport
+    '/_dashboard/settings/notifications/': {
+      id: '/_dashboard/settings/notifications/'
+      path: '/settings/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof DashboardSettingsNotificationsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/_dashboard/roles/$name': {
-      id: '/_dashboard/roles/$name'
+    '/_dashboard/settings/roles/$name': {
+      id: '/_dashboard/settings/roles/$name'
       path: '/$name'
-      fullPath: '/roles/$name'
-      preLoaderRoute: typeof DashboardRolesNameRouteRouteImport
-      parentRoute: typeof DashboardRolesRouteRoute
+      fullPath: '/settings/roles/$name'
+      preLoaderRoute: typeof DashboardSettingsRolesNameRouteRouteImport
+      parentRoute: typeof DashboardSettingsRolesRouteRoute
     }
-    '/_dashboard/users/$userId/': {
-      id: '/_dashboard/users/$userId/'
+    '/_dashboard/settings/users/$userId/': {
+      id: '/_dashboard/settings/users/$userId/'
       path: '/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof DashboardUsersUserIdIndexRouteImport
-      parentRoute: typeof DashboardUsersRouteRoute
+      fullPath: '/settings/users/$userId'
+      preLoaderRoute: typeof DashboardSettingsUsersUserIdIndexRouteImport
+      parentRoute: typeof DashboardSettingsUsersRouteRoute
     }
-    '/_dashboard/roles/$name/permissions/': {
-      id: '/_dashboard/roles/$name/permissions/'
+    '/_dashboard/settings/roles/$name/permissions/': {
+      id: '/_dashboard/settings/roles/$name/permissions/'
       path: '/permissions'
-      fullPath: '/roles/$name/permissions'
-      preLoaderRoute: typeof DashboardRolesNamePermissionsIndexRouteImport
-      parentRoute: typeof DashboardRolesNameRouteRoute
+      fullPath: '/settings/roles/$name/permissions'
+      preLoaderRoute: typeof DashboardSettingsRolesNamePermissionsIndexRouteImport
+      parentRoute: typeof DashboardSettingsRolesNameRouteRoute
     }
-    '/_dashboard/roles/$name/members/': {
-      id: '/_dashboard/roles/$name/members/'
+    '/_dashboard/settings/roles/$name/members/': {
+      id: '/_dashboard/settings/roles/$name/members/'
       path: '/members'
-      fullPath: '/roles/$name/members'
-      preLoaderRoute: typeof DashboardRolesNameMembersIndexRouteImport
-      parentRoute: typeof DashboardRolesNameRouteRoute
+      fullPath: '/settings/roles/$name/members'
+      preLoaderRoute: typeof DashboardSettingsRolesNameMembersIndexRouteImport
+      parentRoute: typeof DashboardSettingsRolesNameRouteRoute
     }
-    '/_dashboard/roles/$name/_display/': {
-      id: '/_dashboard/roles/$name/_display/'
+    '/_dashboard/settings/roles/$name/_display/': {
+      id: '/_dashboard/settings/roles/$name/_display/'
       path: '/'
-      fullPath: '/roles/$name/'
-      preLoaderRoute: typeof DashboardRolesNameDisplayIndexRouteImport
-      parentRoute: typeof DashboardRolesNameRouteRoute
+      fullPath: '/settings/roles/$name/'
+      preLoaderRoute: typeof DashboardSettingsRolesNameDisplayIndexRouteImport
+      parentRoute: typeof DashboardSettingsRolesNameRouteRoute
     }
   }
 }
 
-interface DashboardRolesNameRouteRouteChildren {
-  DashboardRolesNameDisplayIndexRoute: typeof DashboardRolesNameDisplayIndexRoute
-  DashboardRolesNameMembersIndexRoute: typeof DashboardRolesNameMembersIndexRoute
-  DashboardRolesNamePermissionsIndexRoute: typeof DashboardRolesNamePermissionsIndexRoute
+interface DashboardSettingsRolesNameRouteRouteChildren {
+  DashboardSettingsRolesNameDisplayIndexRoute: typeof DashboardSettingsRolesNameDisplayIndexRoute
+  DashboardSettingsRolesNameMembersIndexRoute: typeof DashboardSettingsRolesNameMembersIndexRoute
+  DashboardSettingsRolesNamePermissionsIndexRoute: typeof DashboardSettingsRolesNamePermissionsIndexRoute
 }
 
-const DashboardRolesNameRouteRouteChildren: DashboardRolesNameRouteRouteChildren =
+const DashboardSettingsRolesNameRouteRouteChildren: DashboardSettingsRolesNameRouteRouteChildren =
   {
-    DashboardRolesNameDisplayIndexRoute: DashboardRolesNameDisplayIndexRoute,
-    DashboardRolesNameMembersIndexRoute: DashboardRolesNameMembersIndexRoute,
-    DashboardRolesNamePermissionsIndexRoute:
-      DashboardRolesNamePermissionsIndexRoute,
+    DashboardSettingsRolesNameDisplayIndexRoute:
+      DashboardSettingsRolesNameDisplayIndexRoute,
+    DashboardSettingsRolesNameMembersIndexRoute:
+      DashboardSettingsRolesNameMembersIndexRoute,
+    DashboardSettingsRolesNamePermissionsIndexRoute:
+      DashboardSettingsRolesNamePermissionsIndexRoute,
   }
 
-const DashboardRolesNameRouteRouteWithChildren =
-  DashboardRolesNameRouteRoute._addFileChildren(
-    DashboardRolesNameRouteRouteChildren,
+const DashboardSettingsRolesNameRouteRouteWithChildren =
+  DashboardSettingsRolesNameRouteRoute._addFileChildren(
+    DashboardSettingsRolesNameRouteRouteChildren,
   )
 
-interface DashboardRolesRouteRouteChildren {
-  DashboardRolesNameRouteRoute: typeof DashboardRolesNameRouteRouteWithChildren
-  DashboardRolesIndexRoute: typeof DashboardRolesIndexRoute
+interface DashboardSettingsRolesRouteRouteChildren {
+  DashboardSettingsRolesNameRouteRoute: typeof DashboardSettingsRolesNameRouteRouteWithChildren
+  DashboardSettingsRolesIndexRoute: typeof DashboardSettingsRolesIndexRoute
 }
 
-const DashboardRolesRouteRouteChildren: DashboardRolesRouteRouteChildren = {
-  DashboardRolesNameRouteRoute: DashboardRolesNameRouteRouteWithChildren,
-  DashboardRolesIndexRoute: DashboardRolesIndexRoute,
+const DashboardSettingsRolesRouteRouteChildren: DashboardSettingsRolesRouteRouteChildren =
+  {
+    DashboardSettingsRolesNameRouteRoute:
+      DashboardSettingsRolesNameRouteRouteWithChildren,
+    DashboardSettingsRolesIndexRoute: DashboardSettingsRolesIndexRoute,
+  }
+
+const DashboardSettingsRolesRouteRouteWithChildren =
+  DashboardSettingsRolesRouteRoute._addFileChildren(
+    DashboardSettingsRolesRouteRouteChildren,
+  )
+
+interface DashboardSettingsUsersRouteRouteChildren {
+  DashboardSettingsUsersIndexRoute: typeof DashboardSettingsUsersIndexRoute
+  DashboardSettingsUsersUserIdIndexRoute: typeof DashboardSettingsUsersUserIdIndexRoute
 }
 
-const DashboardRolesRouteRouteWithChildren =
-  DashboardRolesRouteRoute._addFileChildren(DashboardRolesRouteRouteChildren)
+const DashboardSettingsUsersRouteRouteChildren: DashboardSettingsUsersRouteRouteChildren =
+  {
+    DashboardSettingsUsersIndexRoute: DashboardSettingsUsersIndexRoute,
+    DashboardSettingsUsersUserIdIndexRoute:
+      DashboardSettingsUsersUserIdIndexRoute,
+  }
 
-interface DashboardUsersRouteRouteChildren {
-  DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
-  DashboardUsersUserIdIndexRoute: typeof DashboardUsersUserIdIndexRoute
-}
-
-const DashboardUsersRouteRouteChildren: DashboardUsersRouteRouteChildren = {
-  DashboardUsersIndexRoute: DashboardUsersIndexRoute,
-  DashboardUsersUserIdIndexRoute: DashboardUsersUserIdIndexRoute,
-}
-
-const DashboardUsersRouteRouteWithChildren =
-  DashboardUsersRouteRoute._addFileChildren(DashboardUsersRouteRouteChildren)
+const DashboardSettingsUsersRouteRouteWithChildren =
+  DashboardSettingsUsersRouteRoute._addFileChildren(
+    DashboardSettingsUsersRouteRouteChildren,
+  )
 
 interface DashboardRouteRouteChildren {
-  DashboardRolesRouteRoute: typeof DashboardRolesRouteRouteWithChildren
-  DashboardUsersRouteRoute: typeof DashboardUsersRouteRouteWithChildren
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
-  DashboardNotificationsIndexRoute: typeof DashboardNotificationsIndexRoute
+  DashboardSettingsRolesRouteRoute: typeof DashboardSettingsRolesRouteRouteWithChildren
+  DashboardSettingsUsersRouteRoute: typeof DashboardSettingsUsersRouteRouteWithChildren
+  DashboardSettingsNotificationsIndexRoute: typeof DashboardSettingsNotificationsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardRolesRouteRoute: DashboardRolesRouteRouteWithChildren,
-  DashboardUsersRouteRoute: DashboardUsersRouteRouteWithChildren,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
-  DashboardNotificationsIndexRoute: DashboardNotificationsIndexRoute,
+  DashboardSettingsRolesRouteRoute:
+    DashboardSettingsRolesRouteRouteWithChildren,
+  DashboardSettingsUsersRouteRoute:
+    DashboardSettingsUsersRouteRouteWithChildren,
+  DashboardSettingsNotificationsIndexRoute:
+    DashboardSettingsNotificationsIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

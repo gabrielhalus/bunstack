@@ -26,21 +26,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ? [{
             title: t("pages.users.title"),
             icon: UsersRound,
-            href: { to: "/users" } as const,
+            href: { to: "/settings/users" } as const,
           }]
         : []),
       ...(can("role:list")
         ? [{
             title: t("pages.roles.title"),
             icon: ShieldUser,
-            href: { to: "/roles" } as const,
+            href: { to: "/settings/roles" } as const,
           }]
         : []),
       ...(can("notification:list")
         ? [{
             title: t("pages.notifications.title"),
             icon: Bell,
-            href: { to: "/notifications" } as const,
+            href: { to: "/settings/notifications" } as const,
           }]
         : []),
     ],

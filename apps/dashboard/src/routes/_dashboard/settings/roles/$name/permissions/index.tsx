@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  "/_dashboard/roles/$name/permissions/",
+  "/_dashboard/settings/roles/$name/permissions/",
 )({
   component: RolePermissions,
   loader: () => ({ crumb: "pages.roles.detail.pages.permissions.title" }),
