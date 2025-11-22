@@ -44,7 +44,7 @@ export default new Hono()
     }
   })
 
-  .put("/:id", requirePermission("role:edit", c => ({ id: c.req.param("id") })), validationMiddleware("json", updateRoleInputSchema), async (c) => {
+  .put("/:id", requirePermission("role:update", c => ({ id: c.req.param("id") })), validationMiddleware("json", updateRoleInputSchema), async (c) => {
     try {
       const id = Number(c.req.param("id"));
       const role = c.req.valid("json");

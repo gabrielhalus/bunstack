@@ -1,22 +1,26 @@
 export const permissions = [
+  // Users
   "user:create",
   "user:read",
   "user:list",
-  "user:edit",
+  "user:update",
   "user:delete",
 
+  // Roles
   "role:create",
   "role:read",
   "role:list",
-  "role:edit",
+  "role:update",
   "role:delete",
 
+  // User-roles
   "userRole:create",
   "userRole:delete",
 
-  "settings:read",
-  "settings:update",
-
-  "session:impersonate",
-  "session:invalidate",
+  // Notifications
+  "notification:create",
+  "notification:read",
+  "notification:list",
+  "notification:update",
+  "notification:delete",
 ] as const;
