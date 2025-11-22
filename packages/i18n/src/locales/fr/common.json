@@ -17,11 +17,7 @@
   "navigation": {
     "next": "Suivant",
     "previous": "Précédent",
-    "back": "Retour",
-    "home": "Accueil",
-    "dashboard": "Tableau de bord",
-    "pages": "Pages",
-    "settings": "Administration"
+    "back": "Retour"
   },
   "status": {
     "loading": "Chargement...",

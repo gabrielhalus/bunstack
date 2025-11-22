@@ -18,11 +18,7 @@
   "navigation": {
     "next": "Next",
     "previous": "Previous",
-    "back": "Back",
-    "home": "Home",
-    "dashboard": "Dashboard",
-    "pages": "Pages",
-    "settings": "Admin Panel"
+    "back": "Back"
   },
   "status": {
     "loading": "Loading...",

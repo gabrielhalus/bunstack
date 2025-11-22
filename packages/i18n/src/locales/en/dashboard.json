@@ -3,52 +3,55 @@
     "home": {
       "title": "Dashboard"
     },
-    "users": {
-      "title": "Users",
-      "list": {
+    "settings": {
+      "title": "Settings",
+      "users": {
         "title": "Users",
-        "subtitle": "Manage your users."
-      }
-    },
-    "roles": {
-      "title": "Roles",
-      "list": {
-        "title": "Roles",
-        "subtitle": "Manage your roles."
+        "list": {
+          "title": "Users",
+          "subtitle": "Manage your users."
+        }
       },
-      "detail": {
-        "title": "Edit role - {{role}}",
-        "pages": {
-          "display": {
-            "fields": {
-              "label": "Label",
-              "description": "Description"
+      "roles": {
+        "title": "Roles",
+        "list": {
+          "title": "Roles",
+          "subtitle": "Manage your roles."
+        },
+        "detail": {
+          "title": "Edit role - {{role}}",
+          "pages": {
+            "display": {
+              "fields": {
+                "label": "Label",
+                "description": "Description"
+              }
+            },
+            "members": {
+              "title": "Members",
+              "addMembers": {
+                "label": "Add members",
+                "description": "Add members to the <b>{{role}}</b> role."
+              },
+              "searchMembers": "Search members..."
+            },
+            "permissions": {
+              "title": "Permissions"
             }
           },
-          "members": {
-            "title": "Members",
-            "addMembers": {
-              "label": "Add members",
-              "description": "Add members to the <b>{{role}}</b> role."
-            },
-            "searchMembers": "Search members..."
-          },
-          "permissions": {
-            "title": "Permissions"
+          "nav": {
+            "display": "Display",
+            "members": "Manage Members ({{count}})",
+            "permissions": "Permissions"
           }
-        },
-        "nav": {
-          "display": "Display",
-          "members": "Manage Members ({{count}})",
-          "permissions": "Permissions"
         }
-      }
-    },
-    "notifications": {
-      "title": "Notifications",
-      "list": {
+      },
+      "notifications": {
         "title": "Notifications",
-        "subtitle": "Manage your notification providers."
+        "list": {
+          "title": "Notifications",
+          "subtitle": "Manage your notification providers."
+        }
       }
     }
   }
