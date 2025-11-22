@@ -6,15 +6,15 @@
     "users": {
       "title": "Utilisateurs",
       "list": {
-        "title": "Gestion des utilisateurs",
-        "subtitle": "Gérez vos utilisateurs avec des capacités avancées de filtrage et de recherche."
+        "title": "Utilisateurs",
+        "subtitle": "Gérez vos utilisateurs."
       }
     },
     "roles": {
       "title": "Rôles",
       "list": {
-        "title": "Gestion des rôles",
-        "subtitle": "Gérez vos rôles avec des capacités avancées de filtrage et de recherche."
+        "title": "Rôles",
+        "subtitle": "Gérez vos rôles."
       },
       "detail": {
         "title": "Modifier le rôle - {{role}}",
@@ -42,6 +42,13 @@
           "members": "Gérer les membres ({{count}})",
           "permissions": "Permissions"
         }
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "list": {
+        "title": "Notifications",
+        "subtitle": "Gestion des notifications."
       }
     }
   }
