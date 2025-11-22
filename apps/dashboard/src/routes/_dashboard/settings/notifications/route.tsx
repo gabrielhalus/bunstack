@@ -1,17 +1,17 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_dashboard/settings/roles")({
+export const Route = createFileRoute("/_dashboard/settings/notifications")({
+  component: NotificationsLayout,
   beforeLoad: async ({ context: { session: { can } } }) => {
-    if (!can("role:list")) {
+    if (!can("notification:list")) {
       throw redirect({ to: "/" });
     }
   },
-  component: RolesLayout,
   loader: () => ({
-    crumb: "pages.settings.roles.title",
+    crumb: "pages.settings.notifications.title",
   }),
 });
 
-function RolesLayout() {
+function NotificationsLayout() {
   return <Outlet />;
 }

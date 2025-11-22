@@ -44,13 +44,13 @@ export function AddMembersDialog() {
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button>{t("dashboard:pages.roles.detail.pages.members.addMembers.label")}</Button>
+          <Button>{t("dashboard:pages.settings.roles.detail.pages.members.addMembers.label")}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{t("dashboard:pages.roles.detail.pages.members.addMembers.label")}</DialogTitle>
+            <DialogTitle>{t("dashboard:pages.settings.roles.detail.pages.members.addMembers.label")}</DialogTitle>
             <DialogDescription>
-              <Trans i18nKey="pages.roles.detail.pages.members.addMembers.description" ns="dashboard" values={{ role: label }} components={{ b: <b /> }} />
+              <Trans i18nKey="pages.settings.roles.detail.pages.members.addMembers.description" ns="dashboard" values={{ role: label }} components={{ b: <b /> }} />
             </DialogDescription>
           </DialogHeader>
 

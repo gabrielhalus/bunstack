@@ -9,7 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@bunstack/r
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuAction, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@bunstack/react/components/sidebar";
 
 export function NavMain({ items }: { items: { title: string; icon: LucideIcon; href: LinkOptions; items?: { title: string; href: LinkOptions }[] }[] }) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("dashboard");
   const location = useLocation();
   const isActive = (href: LinkOptions["to"]) => location.pathname === href;
 
@@ -19,7 +19,7 @@ export function NavMain({ items }: { items: { title: string; icon: LucideIcon; h
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{t("navigation.pages")}</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("pages.home.title")}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map(item => (
           <Collapsible key={item.title} asChild defaultOpen={isActive(item.href.to)}>

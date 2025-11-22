@@ -64,8 +64,8 @@ function Roles() {
     <div className="w-full py-10 px-10">
       <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold">{t("pages.roles.list.title")}</h1>
-          <p className="text-muted-foreground">{t("pages.roles.list.subtitle")}</p>
+          <h1 className="text-3xl font-bold">{t("pages.settings.roles.list.title")}</h1>
+          <p className="text-muted-foreground">{t("pages.settings.roles.list.subtitle")}</p>
         </div>
         <DataTable
           columns={columns}

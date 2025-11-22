@@ -66,8 +66,8 @@ function Users() {
     <div className="w-full py-10 px-10">
       <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold">{t("pages.users.list.title")}</h1>
-          <p className="text-muted-foreground">{t("pages.users.list.subtitle")}</p>
+          <h1 className="text-3xl font-bold">{t("pages.settings.users.list.title")}</h1>
+          <p className="text-muted-foreground">{t("pages.settings.users.list.subtitle")}</p>
         </div>
         <DataTable
           columns={columns}

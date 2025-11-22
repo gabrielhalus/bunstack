@@ -22,23 +22,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
     ],
     navSettings: [
-      ...(can("user:list")
+      ...(can("notification:list")
         ? [{
-            title: t("pages.users.title"),
+            title: t("pages.settings.users.title"),
             icon: UsersRound,
             href: { to: "/settings/users" } as const,
           }]
         : []),
       ...(can("role:list")
         ? [{
-            title: t("pages.roles.title"),
+            title: t("pages.settings.roles.title"),
             icon: ShieldUser,
             href: { to: "/settings/roles" } as const,
           }]
         : []),
       ...(can("notification:list")
         ? [{
-            title: t("pages.notifications.title"),
+            title: t("pages.settings.notifications.title"),
             icon: Bell,
             href: { to: "/settings/notifications" } as const,
           }]

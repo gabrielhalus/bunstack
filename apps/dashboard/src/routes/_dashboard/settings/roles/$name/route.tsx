@@ -33,7 +33,7 @@ function RoleLayout() {
     <div className="h-full flex">
       <Sidebar />
       <div className="w-full max-w-3xl m-4 space-y-8">
-        <h1>{t("pages.roles.detail.title", { role: role.label })}</h1>
+        <h1>{t("pages.settings.roles.detail.title", { role: role.label })}</h1>
         <Nav />
         <Outlet />
       </div>

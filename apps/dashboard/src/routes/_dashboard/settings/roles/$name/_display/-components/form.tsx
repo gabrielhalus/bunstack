@@ -71,7 +71,7 @@ export function Form() {
             name="label"
             children={field => (
               <>
-                <Label htmlFor={field.name}>{t("dashboard:pages.roles.detail.pages.display.fields.label")}</Label>
+                <Label htmlFor={field.name}>{t("dashboard:pages.settings.roles.detail.pages.display.fields.label")}</Label>
                 <Input
                   name={field.name}
                   value={field.state.value}
@@ -97,7 +97,7 @@ export function Form() {
             name="description"
             children={field => (
               <>
-                <Label htmlFor={field.name}>{t("dashboard:pages.roles.detail.pages.display.fields.description")}</Label>
+                <Label htmlFor={field.name}>{t("dashboard:pages.settings.roles.detail.pages.display.fields.description")}</Label>
                 <Input
                   name={field.name}
                   value={field.state.value ?? ""}

@@ -11,7 +11,7 @@ export const Route = createFileRoute(
   "/_dashboard/settings/roles/$name/members/",
 )({
   component: RoleMembers,
-  loader: () => ({ crumb: "pages.roles.detail.pages.members.title" }),
+  loader: () => ({ crumb: "pages.settings.roles.detail.pages.members.title" }),
 });
 
 function RoleMembers() {
@@ -26,7 +26,7 @@ function RoleMembers() {
           <InputGroupAddon>
             <Search className="size-4" />
           </InputGroupAddon>
-          <InputGroupInput placeholder={t("pages.roles.detail.pages.members.searchMembers")} value={globalFilter} onChange={e => setGlobalFilter(e.target.value)} />
+          <InputGroupInput placeholder={t("pages.settings.roles.detail.pages.members.searchMembers")} value={globalFilter} onChange={e => setGlobalFilter(e.target.value)} />
         </InputGroup>
         {/* <AddMembersDialog /> */}
       </div>

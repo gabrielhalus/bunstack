@@ -21,21 +21,21 @@ export function Nav() {
 
   const nav = (role: RoleWithMembers) => [
     {
-      label: t("pages.roles.detail.nav.display"),
+      label: t("pages.settings.roles.detail.nav.display"),
       linkOptions: {
         to: "/roles/$name",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
-      label: t("pages.roles.detail.nav.members", { count: role.members.length }),
+      label: t("pages.settings.roles.detail.nav.members", { count: role.members.length }),
       linkOptions: {
         to: "/roles/$name/members",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
-      label: t("pages.roles.detail.nav.permissions"),
+      label: t("pages.settings.roles.detail.nav.permissions"),
       linkOptions: {
         to: "/roles/$name/permissions",
         params: { name: role.name },
