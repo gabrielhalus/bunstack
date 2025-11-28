@@ -15,8 +15,6 @@ export type RoleWithMembers = Merge<Role, { members: User[] }>;
 
 export type RoleWithPermissions = Merge<Role, { permissions: Permission[] }>;
 
-export type RoleOrderBy = keyof Role | { field: keyof Role; direction: "asc" | "desc" };
-
 export const insertRoleSchema = createInsertSchema(Roles, {
   id: z.never(),
 });

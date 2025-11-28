@@ -1,6 +1,7 @@
 CREATE TABLE "notification_providers" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
+	"description" text,
 	"type" text DEFAULT 'SMTP' NOT NULL,
 	"config" json DEFAULT '{}'::json NOT NULL,
 	"enabled" boolean DEFAULT true NOT NULL

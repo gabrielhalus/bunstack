@@ -1,4 +1,5 @@
-import type { Role, RoleOrderBy, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
+import type { OrderBy } from "../../types/pagination";
+import type { Role, RoleWithMembers, RoleWithMembersCount } from "../types/roles";
 import type { User } from "@bunstack/shared/database/types/users";
 
 import { asc, count, desc, eq, inArray, like, or } from "drizzle-orm";
@@ -17,7 +18,7 @@ import { Users } from "@bunstack/shared/database/schemas/users";
  * @param search - Optional search term to filter roles by name or description.
  * @returns An object containing the paginated roles with member counts and the total number of roles.
  */
-export async function getRoles(page: number, limit: number, orderBy?: RoleOrderBy, search?: string): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
+export async function getRoles(page: number, limit: number, orderBy?: OrderBy<Role>, search?: string): Promise<{ roles: RoleWithMembersCount[]; total: number }> {
   const offset = (page) * limit;
 
   // Build search conditions
@@ -123,7 +124,7 @@ export async function getRoleMembers(roleId: Role["id"]): Promise<User[]> {
  * @param user - The user object for which to retrieve roles.
  * @returns An array of roles assigned to the user.
  */
-export async function getUserRoles(user: User, orderBy?: RoleOrderBy) {
+export async function getUserRoles(user: User, orderBy?: OrderBy<Role>) {
   const userRoles = await db.select().from(UserRoles).where(eq(UserRoles.userId, user.id));
   const roleIds = userRoles.map(userRole => userRole.roleId);
 

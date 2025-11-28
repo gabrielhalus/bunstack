@@ -10,3 +10,5 @@ export type PaginatedResult<T> = {
   limit: number;
   totalPages: number;
 };
+
+export type OrderBy<T> = keyof T | { field: keyof T; direction: "asc" | "desc" };
