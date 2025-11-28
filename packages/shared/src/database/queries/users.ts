@@ -1,6 +1,7 @@
+import type { OrderBy } from "../../types/pagination";
 import type { Policy } from "@bunstack/shared/access/types";
 import type { RoleWithPermissions } from "@bunstack/shared/database/types/roles";
-import type { insertUserSchema, User, UserOrderBy, UserWithRoles } from "@bunstack/shared/database/types/users";
+import type { insertUserSchema, User, UserWithRoles } from "@bunstack/shared/database/types/users";
 import type z from "zod";
 
 import { asc, count, desc, eq, like, or } from "drizzle-orm";
@@ -21,7 +22,7 @@ import { Users } from "@bunstack/shared/database/schemas/users";
  * @param search - Optional search term to filter by name or email.
  * @returns An object containing an array of users with their roles and the total number of users.
  */
-export async function getUsers(page: number, limit: number, orderBy?: UserOrderBy, search?: string): Promise<{ users: Array<UserWithRoles>; total: number }> {
+export async function getUsers(page: number, limit: number, orderBy?: OrderBy<User>, search?: string): Promise<{ users: Array<UserWithRoles>; total: number }> {
   const offset = (page) * limit;
 
   // Build search conditions
