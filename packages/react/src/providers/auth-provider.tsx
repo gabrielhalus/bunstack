@@ -6,5 +6,5 @@ import { authQueryOptions } from "../queries/auth";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data } = useSuspenseQuery(authQueryOptions);
 
-  return <AuthContext value={data}>{children}</AuthContext>;
+  return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 }
