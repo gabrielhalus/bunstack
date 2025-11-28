@@ -42,7 +42,7 @@ export function Sidebar() {
       <div className="flex p-2 flex-col space-y-1">
         {data.roles.map(role => (
           <Button asChild key={role.id} variant="ghost" className="justify-start">
-            <Link to="/roles/$name" params={{ name: role.name }} activeProps={() => ({ className: "bg-muted" })}>
+            <Link to="/settings/roles/$name" params={{ name: role.name }} activeProps={() => ({ className: "bg-muted" })}>
               {role.label}
             </Link>
           </Button>

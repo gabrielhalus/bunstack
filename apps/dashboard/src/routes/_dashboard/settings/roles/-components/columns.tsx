@@ -14,7 +14,7 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
     accessorKey: "label",
     header: ({ column }) => <SortableHeader column={column} title="Name" />,
     cell: ({ row }) => (
-      <Link to="/roles/$name" params={{ name: row.original.name }} className="text-foreground hover:underline">
+      <Link to="/settings/roles/$name" params={{ name: row.original.name }} className="text-foreground hover:underline">
         {row.original.label}
       </Link>
     ),
@@ -32,7 +32,7 @@ export const columns: ColumnDef<RoleWithMembersCount>[] = [
       <Tooltip>
         <TooltipTrigger asChild>
           <Button asChild variant="ghost" size="sm">
-            <Link to="/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
+            <Link to="/settings/roles/$name/members" params={{ name: row.original.name }} className="flex items-center gap-2">
               {row.original.members}
               <UserRound className="size-4" />
             </Link>

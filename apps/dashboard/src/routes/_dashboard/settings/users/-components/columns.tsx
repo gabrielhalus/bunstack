@@ -14,7 +14,7 @@ export const columns: ColumnDef<UserWithRoles>[] = [
     cell: ({ row }) => (
       <div className="flex items-center space-x-3">
         <AvatarUser {...row.original} />
-        <Link to="/users/$userId" params={{ userId: encodeURIComponent(row.original.id) }} className="text-foreground hover:underline">{row.getValue("name")}</Link>
+        <Link to="/settings/users/$userId" params={{ userId: encodeURIComponent(row.original.id) }} className="text-foreground hover:underline">{row.getValue("name")}</Link>
       </div>
     ),
     size: 250,

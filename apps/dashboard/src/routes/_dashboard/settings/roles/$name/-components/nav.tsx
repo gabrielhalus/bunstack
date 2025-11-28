@@ -23,21 +23,21 @@ export function Nav() {
     {
       label: t("pages.settings.roles.detail.nav.display"),
       linkOptions: {
-        to: "/roles/$name",
+        to: "/settings/roles/$name",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
       label: t("pages.settings.roles.detail.nav.members", { count: role.members.length }),
       linkOptions: {
-        to: "/roles/$name/members",
+        to: "/settings/roles/$name/members",
         params: { name: role.name },
       } as LinkOptions,
     },
     {
       label: t("pages.settings.roles.detail.nav.permissions"),
       linkOptions: {
-        to: "/roles/$name/permissions",
+        to: "/settings/roles/$name/permissions",
         params: { name: role.name },
       } as LinkOptions,
     },

@@ -86,7 +86,7 @@ function RoleMemberItem({ user, role }: { user: User; role: Role }) {
     <div key={user.id} className="flex items-center justify-between">
       <div className="flex items-center space-x-3">
         <AvatarUser {...user} />
-        <Link to="/users/$userId" params={{ userId: encodeURIComponent(user.id) }} className="text-sm text-foreground hover:underline">{user.name}</Link>
+        <Link to="/settings/users/$userId" params={{ userId: encodeURIComponent(user.id) }} className="text-sm text-foreground hover:underline">{user.name}</Link>
       </div>
       { can("userRole:delete")
         && (
