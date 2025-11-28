@@ -23,7 +23,7 @@ export function Sidebar() {
     <aside className="h-full w-75 p-2 border-r-1">
       <div className="flex justify-between">
         <Button variant="link" asChild>
-          <Link to="/roles">
+          <Link to="/settings/roles">
             <ArrowLeft />
             {t("navigation.back")}
           </Link>
@@ -42,7 +42,7 @@ export function Sidebar() {
       <div className="flex p-2 flex-col space-y-1">
         {data.roles.map(role => (
           <Button asChild key={role.id} variant="ghost" className="justify-start">
-            <Link to="/roles/$name" params={{ name: role.name }} activeProps={() => ({ className: "bg-muted" })}>
+            <Link to="/settings/roles/$name" params={{ name: role.name }} activeProps={() => ({ className: "bg-muted" })}>
               {role.label}
             </Link>
           </Button>
