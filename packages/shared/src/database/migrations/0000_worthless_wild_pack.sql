@@ -1,10 +1,15 @@
+CREATE TABLE "discord" (
+	"provider_id" text PRIMARY KEY NOT NULL,
+	"webhook_url" text NOT NULL,
+	"decorations" boolean NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "notification_providers" (
 	"id" text PRIMARY KEY NOT NULL,
+	"type" text NOT NULL,
 	"name" text NOT NULL,
-	"description" text,
-	"type" text DEFAULT 'SMTP' NOT NULL,
-	"config" json DEFAULT '{}'::json NOT NULL,
-	"enabled" boolean DEFAULT true NOT NULL
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "policies" (
@@ -48,6 +53,13 @@ CREATE TABLE "roles" (
 	CONSTRAINT "roles_index_unique" UNIQUE("index")
 );
 --> statement-breakpoint
+CREATE TABLE "telegram" (
+	"provider_id" text PRIMARY KEY NOT NULL,
+	"bot_token" text NOT NULL,
+	"chat_id" text NOT NULL,
+	"thread_id" text
+);
+--> statement-breakpoint
 CREATE TABLE "tokens" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
@@ -76,8 +88,10 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
+ALTER TABLE "discord" ADD CONSTRAINT "discord_provider_id_notification_providers_id_fk" FOREIGN KEY ("provider_id") REFERENCES "public"."notification_providers"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "policies" ADD CONSTRAINT "policies_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "role_translations" ADD CONSTRAINT "role_translations_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "telegram" ADD CONSTRAINT "telegram_provider_id_notification_providers_id_fk" FOREIGN KEY ("provider_id") REFERENCES "public"."notification_providers"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "user_roles" ADD CONSTRAINT "user_roles_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "user_roles" ADD CONSTRAINT "user_roles_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE cascade ON UPDATE cascade;

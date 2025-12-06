@@ -1,12 +1,11 @@
-import { boolean, json, pgTable, text } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 import { nanoid } from "../../lib/nanoid";
 
 export const NotificationProviders = pgTable("notification_providers", {
-  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+  id: text("id").primaryKey().$defaultFn(nanoid),
+  type: text("type", { enum: ["DISCORD", "TELEGRAM"] }).notNull(),
   name: text("name").notNull(),
-  description: text("description"),
-  type: text("type", { enum: ["SMTP", "DISCORD", "TELEGRAM"] }).notNull().default("SMTP"),
-  config: json("config").notNull().default({}),
-  enabled: boolean("enabled").notNull().default(true),
+  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });
