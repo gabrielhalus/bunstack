@@ -9,7 +9,7 @@ import { insertToken } from "@bunstack/shared/database/queries/tokens";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export default new Hono()
+export const emailRoutes = new Hono()
 
   // --- All routes below this point require authentication
   .use(getAuthContext)

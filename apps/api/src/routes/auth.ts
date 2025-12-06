@@ -11,7 +11,7 @@ import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bun
 import { deleteToken, getTokenById, insertToken } from "@bunstack/shared/database/queries/tokens";
 import { insertUser, updateUserById } from "@bunstack/shared/database/queries/users";
 
-export default new Hono()
+export const authRoutes = new Hono()
   /**
    * Register a new user
    *

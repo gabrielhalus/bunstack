@@ -9,7 +9,7 @@ import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { checkEmailSchema } from "@bunstack/shared/contracts/users";
 import { deleteUserById, findUserById, getUsers, userEmailExists } from "@bunstack/shared/database/queries/users";
 
-export default new Hono()
+export const usersRoutes = new Hono()
   /**
    * Check if an email is available
    * This endpoint does NOT require authentication.

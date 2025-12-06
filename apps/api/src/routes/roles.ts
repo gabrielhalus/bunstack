@@ -11,7 +11,7 @@ import { assignRoleInputSchema, removeRoleInputSchema } from "@bunstack/shared/c
 import { deleteRoleById, getRoleByName, getRoles, updateRoleById } from "@bunstack/shared/database/queries/roles";
 import { assignUserRole, removeUserRole } from "@bunstack/shared/database/queries/user-roles";
 
-export default new Hono()
+export const rolesRoutes = new Hono()
   // --- All routes below this point require authentication
   .use(getAuthContext)
 
