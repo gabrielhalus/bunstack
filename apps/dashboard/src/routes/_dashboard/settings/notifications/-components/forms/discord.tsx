@@ -3,8 +3,10 @@ import type { z } from "zod";
 
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
+import { translateErrors } from "@bunstack/i18n";
 import { Button } from "@bunstack/react/components/button";
 import { Card } from "@bunstack/react/components/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@bunstack/react/components/field";
@@ -22,6 +24,7 @@ type DiscordFormProps = {
 };
 
 export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps) {
+  const { t } = useTranslation("dashboard");
   const mode = initialValues ? "update" : "create";
   const providerId = initialValues?.id;
 
@@ -32,7 +35,7 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
       });
 
       if (!res.ok) {
-        throw new Error("Failed to create discord provider");
+        throw new Error(t("pages.settings.notifications.forms.discord.error.create"));
       }
 
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
@@ -40,10 +43,10 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
     },
     onSuccess: () => {
       setOpen(false);
-      toast.success("Discord provider created successfully");
+      toast.success(t("pages.settings.notifications.forms.discord.success.created"));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to create discord provider");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.discord.error.create"));
     },
   });
 
@@ -55,7 +58,7 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
       });
 
       if (!res.ok) {
-        throw new Error("Failed to update discord provider");
+        throw new Error(t("pages.settings.notifications.forms.discord.error.update"));
       }
 
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
@@ -63,21 +66,21 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
     },
     onSuccess: () => {
       setOpen(false);
-      toast.success("Discord provider updated successfully");
+      toast.success(t("pages.settings.notifications.forms.discord.success.updated"));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to update discord provider");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.discord.error.update"));
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const confirmation = await sayno({
-        title: "Delete Discord Provider",
-        description: "Are you sure you want to delete this discord provider?",
+        title: t("pages.settings.notifications.forms.discord.deleteConfirm.title"),
+        description: t("pages.settings.notifications.forms.discord.deleteConfirm.description"),
         variant: "destructive",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        confirmText: t("pages.settings.notifications.forms.discord.deleteConfirm.confirmText"),
+        cancelText: t("pages.settings.notifications.forms.discord.deleteConfirm.cancelText"),
       });
 
       if (!confirmation) {
@@ -89,7 +92,7 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
       });
 
       if (!res.ok) {
-        throw new Error("Failed to delete discord provider");
+        throw new Error(t("pages.settings.notifications.forms.discord.error.delete"));
       }
 
       return true;
@@ -97,11 +100,11 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
     onSuccess: (deleted) => {
       if (deleted) {
         setOpen(false);
-        toast.success("Discord provider deleted successfully");
+        toast.success(t("pages.settings.notifications.forms.discord.success.deleted"));
       }
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to delete discord provider");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.discord.error.delete"));
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
@@ -144,16 +147,16 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
       });
 
       if (!res.ok) {
-        throw new Error("Failed to test notification");
+        throw new Error(t("pages.settings.notifications.forms.discord.error.test"));
       }
 
       return true;
     },
     onSuccess: () => {
-      toast.success("Notification sent successfully");
+      toast.success(t("pages.settings.notifications.forms.discord.success.testSent"));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to test notification");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.discord.error.test"));
     },
   });
 
@@ -166,7 +169,7 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.discord.name.label")}</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -174,10 +177,10 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
                   onBlur={field.handleBlur}
                   onChange={e => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
-                  placeholder="Discord Bot"
+                  placeholder={t("pages.settings.notifications.forms.discord.name.placeholder")}
                   autoComplete="off"
                 />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -188,7 +191,7 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Webhook URL</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.discord.webhookUrl.label")}</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -196,10 +199,10 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
                   onBlur={field.handleBlur}
                   onChange={e => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
-                  placeholder="https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"
+                  placeholder={t("pages.settings.notifications.forms.discord.webhookUrl.placeholder")}
                   autoComplete="off"
                 />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -212,9 +215,9 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
               <Field data-invalid={isInvalid}>
                 <Card className="flex-row justify-between items-center p-4">
                   <div className="flex flex-col gap-1">
-                    <FieldLabel htmlFor={field.name}>Decorations</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.discord.decorations.label")}</FieldLabel>
                     <FieldDescription>
-                      Sends notifications as Discord embedded messages.
+                      {t("pages.settings.notifications.forms.discord.decorations.description")}
                     </FieldDescription>
                   </div>
                   <Switch
@@ -225,7 +228,7 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
                     aria-invalid={isInvalid}
                   />
                 </Card>
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -240,10 +243,10 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
                     ? (
                         <span className="flex items-center gap-2">
                           <Spinner />
-                          Testing...
+                          {t("pages.settings.notifications.forms.discord.testing")}
                         </span>
                       )
-                    : "Test Notification"}
+                    : t("pages.settings.notifications.forms.discord.testNotification")}
                 </Button>
                 <div className="flex items-center gap-2">
                   {mode === "update" && (
@@ -252,10 +255,10 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
                         ? (
                             <span className="flex items-center gap-2">
                               <Spinner />
-                              Deleting...
+                              {t("pages.settings.notifications.forms.discord.deleting")}
                             </span>
                           )
-                        : "Delete"}
+                        : t("pages.settings.notifications.forms.discord.delete")}
                     </Button>
                   )}
                   <Button type="submit" disabled={isSubmitting || !isValid}>
@@ -263,10 +266,10 @@ export default function DiscordForm({ setOpen, initialValues }: DiscordFormProps
                       ? (
                           <span className="flex items-center gap-2">
                             <Spinner />
-                            Submitting...
+                            {t("pages.settings.notifications.forms.discord.submitting")}
                           </span>
                         )
-                      : "Submit"}
+                      : t("pages.settings.notifications.forms.discord.submit")}
                   </Button>
                 </div>
               </div>

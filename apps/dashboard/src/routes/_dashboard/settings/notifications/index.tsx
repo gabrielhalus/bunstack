@@ -5,7 +5,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { columns } from "./-components/columns";
+import { getColumns } from "./-components/columns";
 import CreateForm from "./-components/create-form";
 import { getNotificationProvidersPaginatedQueryOption } from "@/queries/notification-providers";
 import { Button } from "@bunstack/react/components/button";
@@ -59,6 +59,7 @@ function RouteComponent() {
   }, [isPending]);
 
   const pageCount = data?.total ? Math.ceil(data.total / pagination.pageSize) : 0;
+  const columns = useMemo(() => getColumns(t), [t]);
 
   return (
     <div className="w-full py-10 px-10">
@@ -68,13 +69,13 @@ function RouteComponent() {
             <h1 className="text-3xl font-bold">{t("pages.settings.notifications.list.title")}</h1>
             <p className="text-muted-foreground">{t("pages.settings.notifications.list.subtitle")}</p>
           </div>
-          <Button onClick={() => setIsFormOpen(true)}>Create Notification</Button>
+          <Button onClick={() => setIsFormOpen(true)}>{t("pages.settings.notifications.list.createButton")}</Button>
         </div>
         <DataTable
           columns={columns}
           data={data?.providers}
           isLoading={isPending}
-          searchPlaceholder="Search providers..."
+          searchPlaceholder={t("pages.settings.notifications.list.searchPlaceholder")}
           searchValue={globalFilter}
           onSearchChange={handleSearchChange}
           searchInputRef={searchInputRef}

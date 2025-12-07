@@ -1,24 +1,31 @@
 import type { NotificationProvider } from "@bunstack/shared/database/types/notification-providers";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { TFunction } from "i18next";
 
 import Actions from "./actions";
 import { Badge } from "@bunstack/react/components/badge";
 import { SortableHeader } from "@bunstack/react/components/sortable-header";
+import { NotificationProviderType } from "@bunstack/shared/database/types/notification-providers";
 
-export const columns: ColumnDef<NotificationProvider>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => <SortableHeader column={column} title="Name" />,
-  },
-  {
-    accessorKey: "type",
-    header: ({ column }) => <SortableHeader column={column} title="Type" />,
-    cell: ({ row }) => {
-      return <Badge variant="outline">{row.original.type}</Badge>;
+export function getColumns(t: TFunction<"dashboard">): ColumnDef<NotificationProvider>[] {
+  return [
+    {
+      accessorKey: "name",
+      header: ({ column }) => <SortableHeader column={column} title={t("pages.settings.notifications.columns.name")} />,
     },
-  },
-  {
-    id: "actions",
-    cell: Actions,
-  },
-];
+    {
+      accessorKey: "type",
+      header: ({ column }) => <SortableHeader column={column} title={t("pages.settings.notifications.columns.type")} />,
+      cell: ({ row }) => {
+        const typeLabel = row.original.type === NotificationProviderType.DISCORD
+          ? t("pages.settings.notifications.providers.discord")
+          : t("pages.settings.notifications.providers.telegram");
+        return <Badge variant="outline">{typeLabel}</Badge>;
+      },
+    },
+    {
+      id: "actions",
+      cell: Actions,
+    },
+  ];
+}

@@ -3,8 +3,10 @@ import type { z } from "zod";
 
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
+import { translateErrors } from "@bunstack/i18n";
 import { Button } from "@bunstack/react/components/button";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@bunstack/react/components/field";
 import { Input } from "@bunstack/react/components/input";
@@ -20,6 +22,7 @@ type TelegramFormProps = {
 };
 
 export default function TelegramForm({ setOpen, initialValues }: TelegramFormProps) {
+  const { t } = useTranslation("dashboard");
   const mode = initialValues ? "update" : "create";
   const providerId = initialValues?.id;
 
@@ -30,7 +33,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
       });
 
       if (!res.ok) {
-        throw new Error("Failed to create telegram provider");
+        throw new Error(t("pages.settings.notifications.forms.telegram.error.create"));
       }
 
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
@@ -39,10 +42,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
     },
     onSuccess: () => {
       setOpen(false);
-      toast.success("Telegram provider created successfully");
+      toast.success(t("pages.settings.notifications.forms.telegram.success.created"));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to create telegram provider");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.telegram.error.create"));
     },
   });
 
@@ -54,7 +57,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
       });
 
       if (!res.ok) {
-        throw new Error("Failed to update telegram provider");
+        throw new Error(t("pages.settings.notifications.forms.telegram.error.update"));
       }
 
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
@@ -62,21 +65,21 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
     },
     onSuccess: () => {
       setOpen(false);
-      toast.success("Telegram provider updated successfully");
+      toast.success(t("pages.settings.notifications.forms.telegram.success.updated"));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to update telegram provider");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.telegram.error.update"));
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const confirmation = await sayno({
-        title: "Delete Telegram Provider",
-        description: "Are you sure you want to delete this telegram provider?",
+        title: t("pages.settings.notifications.forms.telegram.deleteConfirm.title"),
+        description: t("pages.settings.notifications.forms.telegram.deleteConfirm.description"),
         variant: "destructive",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        confirmText: t("pages.settings.notifications.forms.telegram.deleteConfirm.confirmText"),
+        cancelText: t("pages.settings.notifications.forms.telegram.deleteConfirm.cancelText"),
       });
 
       if (!confirmation) {
@@ -88,7 +91,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
       });
 
       if (!res.ok) {
-        throw new Error("Failed to delete telegram provider");
+        throw new Error(t("pages.settings.notifications.forms.telegram.error.delete"));
       }
 
       return true;
@@ -96,11 +99,11 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
     onSuccess: (deleted) => {
       if (deleted) {
         setOpen(false);
-        toast.success("Telegram provider deleted successfully");
+        toast.success(t("pages.settings.notifications.forms.telegram.success.deleted"));
       }
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to delete telegram provider");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.telegram.error.delete"));
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
@@ -140,16 +143,16 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
       });
 
       if (!res.ok) {
-        throw new Error("Failed to test telegram provider");
+        throw new Error(t("pages.settings.notifications.forms.telegram.error.test"));
       }
 
       return true;
     },
     onSuccess: () => {
-      toast.success("Notification sent successfully");
+      toast.success(t("pages.settings.notifications.forms.telegram.success.testSent"));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Failed to test notification");
+      toast.error(error instanceof Error ? error.message : t("pages.settings.notifications.forms.telegram.error.test"));
     },
   });
 
@@ -167,7 +170,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.telegram.name.label")}</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -175,10 +178,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                   onBlur={field.handleBlur}
                   onChange={e => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
-                  placeholder="Telegram Bot"
+                  placeholder={t("pages.settings.notifications.forms.telegram.name.placeholder")}
                   autoComplete="off"
                 />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -189,7 +192,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Bot Token</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.telegram.botToken.label")}</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -197,10 +200,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                   onBlur={field.handleBlur}
                   onChange={e => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
-                  placeholder="1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                  placeholder={t("pages.settings.notifications.forms.telegram.botToken.placeholder")}
                   autoComplete="off"
                 />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -211,7 +214,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Chat ID</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.telegram.chatId.label")}</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -219,10 +222,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                   onBlur={field.handleBlur}
                   onChange={e => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
-                  placeholder="1234567890"
+                  placeholder={t("pages.settings.notifications.forms.telegram.chatId.placeholder")}
                   autoComplete="off"
                 />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -233,7 +236,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Message Thread ID</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t("pages.settings.notifications.forms.telegram.threadId.label")}</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -241,11 +244,11 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                   onBlur={field.handleBlur}
                   onChange={e => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
-                  placeholder="1234567890"
+                  placeholder={t("pages.settings.notifications.forms.telegram.threadId.placeholder")}
                   autoComplete="off"
                 />
-                <FieldDescription>Optional. Use it when you want to send notifications to a specific topic in a group.</FieldDescription>
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                <FieldDescription>{t("pages.settings.notifications.forms.telegram.threadId.description")}</FieldDescription>
+                {isInvalid && <FieldError errors={translateErrors(field.state.meta.errors, t)} />}
               </Field>
             );
           }}
@@ -260,10 +263,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                     ? (
                         <span className="flex items-center gap-2">
                           <Spinner />
-                          Testing...
+                          {t("pages.settings.notifications.forms.telegram.testing")}
                         </span>
                       )
-                    : "Test Notification"}
+                    : t("pages.settings.notifications.forms.telegram.testNotification")}
                 </Button>
                 <div className="flex items-center gap-2">
                   {mode === "update" && (
@@ -272,10 +275,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                         ? (
                             <span className="flex items-center gap-2">
                               <Spinner />
-                              Deleting...
+                              {t("pages.settings.notifications.forms.telegram.deleting")}
                             </span>
                           )
-                        : "Delete"}
+                        : t("pages.settings.notifications.forms.telegram.delete")}
                     </Button>
                   )}
                   <Button type="submit" disabled={isSubmitting || !isValid}>
@@ -283,10 +286,10 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                       ? (
                           <span className="flex items-center gap-2">
                             <Spinner />
-                            Submitting...
+                            {t("pages.settings.notifications.forms.telegram.submitting")}
                           </span>
                         )
-                      : "Submit"}
+                      : t("pages.settings.notifications.forms.telegram.submit")}
                   </Button>
                 </div>
               </div>
