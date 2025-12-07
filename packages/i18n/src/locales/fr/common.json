@@ -46,5 +46,16 @@
     "themeLight": "Clair",
     "themeDark": "Sombre",
     "themeSystem": "Système"
+  },
+  "table": {
+    "columns": "Colonnes",
+    "noResults": "Aucun résultat.",
+    "of": "sur",
+    "rows": "ligne(s)",
+    "selected": "sélectionnée(s).",
+    "total": "au total.",
+    "page": "Page",
+    "previous": "Précédent",
+    "next": "Suivant"
   }
 }

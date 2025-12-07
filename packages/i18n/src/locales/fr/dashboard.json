@@ -3,52 +3,182 @@
     "home": {
       "title": "Tableau de bord"
     },
-    "users": {
-      "title": "Utilisateurs",
-      "list": {
+    "settings": {
+      "title": "Paramètres",
+      "users": {
         "title": "Utilisateurs",
-        "subtitle": "Gérez vos utilisateurs."
-      }
-    },
-    "roles": {
-      "title": "Rôles",
-      "list": {
-        "title": "Rôles",
-        "subtitle": "Gérez vos rôles."
+        "list": {
+          "title": "Utilisateurs",
+          "subtitle": "Gérez vos utilisateurs."
+        }
       },
-      "detail": {
-        "title": "Modifier le rôle - {{role}}",
-        "pages": {
-          "display": {
-            "fields": {
-              "label": "Libelle",
-              "description": "Description"
+      "roles": {
+        "title": "Rôles",
+        "list": {
+          "title": "Rôles",
+          "subtitle": "Gérez vos rôles."
+        },
+        "detail": {
+          "title": "Modifier le rôle - {{role}}",
+          "pages": {
+            "display": {
+              "fields": {
+                "label": "Libelle",
+                "description": "Description"
+              }
+            },
+            "members": {
+              "title": "Membres",
+              "addMembers": {
+                "label": "Ajouter des membres",
+                "description": "Ajouter des membres au rôle <b>{{role}}</b>."
+              },
+              "searchMembers": "Chercher des membres..."
+            },
+            "permissions": {
+              "title": "Permissions"
             }
           },
-          "members": {
-            "title": "Membres",
-            "addMembers": {
-              "label": "Ajouter des membres",
-              "description": "Ajouter des membres au rôle <b>{{role}}</b>."
+          "nav": {
+            "display": "Affichage",
+            "members": "Gérer les membres ({{count}})",
+            "permissions": "Permissions"
+          }
+        }
+      },
+      "notifications": {
+        "title": "Notifications",
+        "list": {
+          "title": "Notifications",
+          "subtitle": "Gérez vos fournisseurs de notifications.",
+          "searchPlaceholder": "Rechercher des fournisseurs...",
+          "createButton": "Créer une notification"
+        },
+        "create": {
+          "title": "Créer une notification",
+          "providerType": "Type de fournisseur"
+        },
+        "edit": {
+          "title": "Modifier le fournisseur de notifications"
+        },
+        "forms": {
+          "discord": {
+            "name": {
+              "label": "Nom",
+              "placeholder": "Bot Discord"
             },
-            "searchMembers": "Chercher des membres..."
+            "webhookUrl": {
+              "label": "URL du webhook",
+              "placeholder": "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"
+            },
+            "decorations": {
+              "label": "Décorations",
+              "description": "Envoie les notifications sous forme de messages Discord intégrés."
+            },
+            "testNotification": "Tester la notification",
+            "testing": "Test en cours...",
+            "delete": "Supprimer",
+            "deleting": "Suppression...",
+            "submit": "Soumettre",
+            "submitting": "Soumission...",
+            "deleteConfirm": {
+              "title": "Supprimer le fournisseur Discord",
+              "description": "Êtes-vous sûr de vouloir supprimer ce fournisseur Discord ?",
+              "confirmText": "Supprimer",
+              "cancelText": "Annuler"
+            },
+            "success": {
+              "created": "Fournisseur Discord créé avec succès",
+              "updated": "Fournisseur Discord mis à jour avec succès",
+              "deleted": "Fournisseur Discord supprimé avec succès",
+              "testSent": "Notification envoyée avec succès"
+            },
+            "error": {
+              "create": "Échec de la création du fournisseur Discord",
+              "update": "Échec de la mise à jour du fournisseur Discord",
+              "delete": "Échec de la suppression du fournisseur Discord",
+              "test": "Échec du test de notification"
+            }
           },
-          "permissions": {
-            "title": "Permissions"
+          "telegram": {
+            "name": {
+              "label": "Nom",
+              "placeholder": "Bot Telegram"
+            },
+            "botToken": {
+              "label": "Jeton du bot",
+              "placeholder": "1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            },
+            "chatId": {
+              "label": "ID du chat",
+              "placeholder": "1234567890"
+            },
+            "threadId": {
+              "label": "ID du fil de discussion",
+              "placeholder": "1234567890",
+              "description": "Optionnel. Utilisez-le lorsque vous souhaitez envoyer des notifications à un sujet spécifique dans un groupe."
+            },
+            "testNotification": "Tester la notification",
+            "testing": "Test en cours...",
+            "delete": "Supprimer",
+            "deleting": "Suppression...",
+            "submit": "Soumettre",
+            "submitting": "Soumission...",
+            "deleteConfirm": {
+              "title": "Supprimer le fournisseur Telegram",
+              "description": "Êtes-vous sûr de vouloir supprimer ce fournisseur Telegram ?",
+              "confirmText": "Supprimer",
+              "cancelText": "Annuler"
+            },
+            "success": {
+              "created": "Fournisseur Telegram créé avec succès",
+              "updated": "Fournisseur Telegram mis à jour avec succès",
+              "deleted": "Fournisseur Telegram supprimé avec succès",
+              "testSent": "Notification envoyée avec succès"
+            },
+            "error": {
+              "create": "Échec de la création du fournisseur Telegram",
+              "update": "Échec de la mise à jour du fournisseur Telegram",
+              "delete": "Échec de la suppression du fournisseur Telegram",
+              "test": "Échec du test de notification"
+            }
           }
         },
-        "nav": {
-          "display": "Affichage",
-          "members": "Gérer les membres ({{count}})",
-          "permissions": "Permissions"
+        "columns": {
+          "name": "Nom",
+          "type": "Type"
+        },
+        "providers": {
+          "discord": "Discord",
+          "telegram": "Telegram"
+        },
+        "actions": {
+          "edit": "Modifier le fournisseur de notifications"
         }
       }
-    },
-    "notifications": {
-      "title": "Notifications",
-      "list": {
-        "title": "Notifications",
-        "subtitle": "Gestion des notifications."
+    }
+  },
+  "errors": {
+    "notification": {
+      "name": {
+        "required": "Le nom est obligatoire"
+      },
+      "type": {
+        "required": "Le type de fournisseur est obligatoire"
+      },
+      "discord": {
+        "webhookUrl": {
+          "required": "L'URL du webhook est obligatoire",
+          "invalid": "L'URL du webhook doit être une URL valide"
+        }
+      },
+      "telegram": {
+        "botToken": {
+          "required": "Le jeton du bot est obligatoire"
+        },
+        "chatId": {
+          "required": "L'ID du chat est obligatoire"
+        }
       }
     }
   }
