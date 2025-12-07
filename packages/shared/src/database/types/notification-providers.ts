@@ -20,8 +20,8 @@ export type NotificationProvider = &
   | Merge<Merge<typeof NotificationProviders.$inferSelect, typeof Telegram.$inferSelect>, { type: NotificationProviderType.TELEGRAM }>;
 
 export const insertNotificationProviderSchema = z.object({
-  name: z.string().min(1),
-  type: z.enum(NotificationProviderType),
+  name: z.string().min(1, { message: "errors.notification.name.required" }),
+  type: z.enum(NotificationProviderType, { message: "errors.notification.type.required" }),
 });
 
 export const updateNotificationProviderSchema = insertNotificationProviderSchema.omit({ type: true });
