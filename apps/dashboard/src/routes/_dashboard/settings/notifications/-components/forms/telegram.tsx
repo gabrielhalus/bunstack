@@ -74,18 +74,6 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      const confirmation = await sayno({
-        title: t("pages.settings.notifications.forms.telegram.deleteConfirm.title"),
-        description: t("pages.settings.notifications.forms.telegram.deleteConfirm.description"),
-        variant: "destructive",
-        confirmText: t("pages.settings.notifications.forms.telegram.deleteConfirm.confirmText"),
-        cancelText: t("pages.settings.notifications.forms.telegram.deleteConfirm.cancelText"),
-      });
-
-      if (!confirmation) {
-        return false;
-      }
-
       const res = await api.notifications.telegram[":id"].$delete({
         param: { id: providerId as string },
       });
@@ -109,6 +97,24 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
       queryClient.invalidateQueries({ queryKey: ["get-notification-providers-paginated"] });
     },
   });
+
+  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!event.shiftKey) {
+      const confirmation = await sayno({
+        title: t("pages.settings.notifications.forms.telegram.deleteConfirm.title"),
+        description: t("pages.settings.notifications.forms.telegram.deleteConfirm.description"),
+        variant: "destructive",
+        confirmText: t("pages.settings.notifications.forms.telegram.deleteConfirm.confirmText"),
+        cancelText: t("pages.settings.notifications.forms.telegram.deleteConfirm.cancelText"),
+      });
+
+      if (!confirmation) {
+        return;
+      }
+    }
+
+    deleteMutation.mutate();
+  };
 
   const form = useForm({
     defaultValues: {
@@ -270,7 +276,7 @@ export default function TelegramForm({ setOpen, initialValues }: TelegramFormPro
                 </Button>
                 <div className="flex items-center gap-2">
                   {mode === "update" && (
-                    <Button variant="ghost" className="hover:bg-destructive/10 hover:text-destructive transition-colors" type="button" onClick={() => deleteMutation.mutate()}>
+                    <Button variant="ghost" className="hover:bg-destructive/10 hover:text-destructive transition-colors" type="button" onClick={handleDelete}>
                       {deleteMutation.isPending
                         ? (
                             <span className="flex items-center gap-2">
