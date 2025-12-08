@@ -12,13 +12,12 @@ export function validationMiddleware<
       return c.json({
         success: false as const,
         error: {
-          code: 400,
           message: result.error.issues[0]?.message,
           innerError: {
             timestamp: new Date(Date.now()),
           },
         },
-      });
+      }, 400);
     }
   });
 }
