@@ -58,7 +58,7 @@ export function createAuth({
     try {
       const session = await queryClient.ensureQueryData(authQueryOptions);
 
-      // Redirect if authenticated
+      // Redirect if authenticated (to public site)
       const redirectToAuth = computeRedirect(redirectOnAuthenticated, env.VITE_SITE_URL);
       if (redirectToAuth) {
         throw redirect({ href: redirectToAuth, replace: true });
@@ -66,7 +66,7 @@ export function createAuth({
 
       return session;
     } catch {
-      // Redirect if unauthenticated
+      // Redirect if unauthenticated (to dashboard login page)
       const redirectToUnauth = computeRedirect(redirectOnUnauthenticated, `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(currentUrl)}`);
       if (redirectToUnauth) {
         throw redirect({ href: redirectToUnauth, replace: true });

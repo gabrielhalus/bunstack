@@ -1,4 +1,4 @@
-import type { updateTelegramProviderSchema } from "@bunstack/shared/database/types/notification-providers";
+import type { updateTelegramProviderSchema } from "@bunstack/shared/types/notification-providers";
 import type { z } from "zod";
 
 import { useForm } from "@tanstack/react-form";
@@ -14,7 +14,7 @@ import { Spinner } from "@bunstack/react/components/spinner";
 import { api } from "@bunstack/react/lib/http";
 import { queryClient } from "@bunstack/react/lib/query-client";
 import sayno from "@bunstack/react/lib/sayno";
-import { insertTelegramProviderSchema, NotificationProviderType } from "@bunstack/shared/database/types/notification-providers";
+import { insertTelegramProviderSchema, NotificationProviderType } from "@bunstack/shared/types/notification-providers";
 
 type TelegramFormProps = {
   setOpen: (open: boolean) => void;

@@ -1,4 +1,4 @@
-import type { Role } from "@bunstack/shared/database/types/roles";
+import type { Role } from "@bunstack/shared/types/roles";
 import type { Row } from "@tanstack/react-table";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";

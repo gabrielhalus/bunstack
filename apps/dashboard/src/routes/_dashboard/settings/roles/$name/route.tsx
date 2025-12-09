@@ -8,10 +8,10 @@ import { getAllUsersQueryOptions } from "@/queries/users";
 
 export const Route = createFileRoute("/_dashboard/settings/roles/$name")({
   component: RoleLayout,
-  beforeLoad: async ({ params, context: { queryClient, session: { can } } }) => {
+  beforeLoad: async ({ params, context: { queryClient, session } }) => {
     const { role } = await queryClient.ensureQueryData(getRoleByNameQueryOptions(params.name));
 
-    if (!can("role:read", role)) {
+    if (!session?.can("role:read", role)) {
       throw redirect({ to: "/" });
     }
 

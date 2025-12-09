@@ -8,8 +8,8 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { Constants } from "@bunstack/shared/constants";
 import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bunstack/shared/contracts/auth";
-import { deleteToken, getTokenById, insertToken } from "@bunstack/shared/database/queries/tokens";
-import { insertUser, updateUserById } from "@bunstack/shared/database/queries/users";
+import { deleteToken, getTokenById, insertToken } from "@bunstack/db/queries/tokens";
+import { insertUser, updateUserById } from "@bunstack/db/queries/users";
 
 export const authRoutes = new Hono()
   /**

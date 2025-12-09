@@ -17,6 +17,7 @@
   },
   "references": [
     { "path": "../../apps/api" },
+    { "path": "../auth" },
     { "path": "../env" },
     { "path": "../shared" }
   ],

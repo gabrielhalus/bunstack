@@ -1,9 +1,9 @@
-import type { NotificationProvider } from "@bunstack/shared/database/types/notification-providers";
+import type { NotificationProvider } from "@bunstack/shared/types/notification-providers";
 import type { Row } from "@tanstack/react-table";
 
 import { EditIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import EditForm from "./edit-form";
 import { Button } from "@bunstack/react/components/button";

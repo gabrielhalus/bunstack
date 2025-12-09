@@ -1,10 +1,11 @@
-import type { Permission, Policy } from "@bunstack/shared/access/types";
-import type { RoleWithPermissions } from "@bunstack/shared/database/types/roles";
-import type { User } from "@bunstack/shared/database/types/users";
+import type { Permission } from "@/types/permissions";
+import type { Policy } from "@/types/policies";
+import type { Role } from "@/types/roles";
+import type { User } from "@/types/users";
 
 export type Session = {
   user: User;
-  roles: RoleWithPermissions[];
+  roles: Role[];
   policies: Policy[];
   isAdmin: boolean;
   isAuthenticated: true;

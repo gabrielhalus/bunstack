@@ -1,4 +1,4 @@
-import type { RoleWithMembers } from "@bunstack/shared/database/types/roles";
+import type { RoleWithMembers } from "@bunstack/shared/types/roles";
 import type { LinkOptions } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";

@@ -45,8 +45,8 @@ export function LogoutButton({ variant = "button", className }: CommonProps) {
         return;
       }
 
-      // Redirect to SSO login
-      navigate({ href: `${env.VITE_AUTH_URL}?redirect=${encodeURIComponent(location.href)}`, replace: true });
+      // Redirect to login
+      navigate({ href: `/?redirect=${encodeURIComponent(location.href)}`, replace: true });
     },
     onError: () => {
       toast.error(t("logout.error"));

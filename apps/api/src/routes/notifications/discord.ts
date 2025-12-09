@@ -2,10 +2,10 @@ import { Hono } from "hono";
 
 import { requirePermission } from "@bunstack/api/middlewares/access-control";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
-import { insertDiscord, updateDiscord } from "@bunstack/shared/database/queries/discord";
-import { deleteNotificationProviderById, insertNotificationProvider, updateNotificationProvider } from "@bunstack/shared/database/queries/notification-providers";
-import { discordSchema } from "@bunstack/shared/database/types/discord";
-import { insertDiscordProviderSchema, NotificationProviderType, updateDiscordProviderSchema } from "@bunstack/shared/database/types/notification-providers";
+import { insertDiscord, updateDiscord } from "@bunstack/db/queries/discord";
+import { deleteNotificationProviderById, insertNotificationProvider, updateNotificationProvider } from "@bunstack/db/queries/notification-providers";
+import { discordSchema } from "@bunstack/shared/types/discord";
+import { insertDiscordProviderSchema, NotificationProviderType, updateDiscordProviderSchema } from "@bunstack/shared/types/notification-providers";
 
 export const discordRoutes = new Hono()
   .post("/", requirePermission("notification:create"), validationMiddleware("json", insertDiscordProviderSchema), async (c) => {

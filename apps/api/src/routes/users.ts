@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/database/types/users";
+import type { User } from "@bunstack/shared/types/users";
 
 import { Hono } from "hono";
 
@@ -7,7 +7,7 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { checkEmailSchema } from "@bunstack/shared/contracts/users";
-import { deleteUserById, findUserById, getUsers, userEmailExists } from "@bunstack/shared/database/queries/users";
+import { deleteUserById, findUserById, getUsers, userEmailExists } from "@bunstack/db/queries/users";
 
 export const usersRoutes = new Hono()
   /**

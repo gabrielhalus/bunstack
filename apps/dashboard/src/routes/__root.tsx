@@ -13,7 +13,22 @@ export type RouterContext = {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootLayout,
-  beforeLoad: async () => {
+  beforeLoad: async ({ location }) => {
+    // Auth routes that should redirect if authenticated
+    const isAuthRoute = location.pathname === "/" || 
+      location.pathname.startsWith("/register") || 
+      location.pathname.startsWith("/verify");
+    
+    if (isAuthRoute) {
+      // For auth routes: redirect if authenticated, allow if unauthenticated
+      await auth({ 
+        redirectOnAuthenticated: true,
+        redirectOnUnauthenticated: false 
+      });
+      return { session: null };
+    }
+    
+    // For dashboard routes: require authentication
     const session = await auth();
     return { session };
   },

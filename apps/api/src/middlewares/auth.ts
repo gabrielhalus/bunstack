@@ -5,8 +5,8 @@ import { createAccessToken, getCookieSettings, verifyToken } from "@bunstack/api
 import { env } from "@bunstack/api/lib/env";
 import { factory } from "@bunstack/api/utils/hono";
 import { Constants } from "@bunstack/shared/constants";
-import { deleteToken, getTokenById } from "@bunstack/shared/database/queries/tokens";
-import { findUserWithContext } from "@bunstack/shared/database/queries/users";
+import { deleteToken, getTokenById } from "@bunstack/db/queries/tokens";
+import { findUserWithContext } from "@bunstack/db/queries/users";
 
 /**
  * Get the user from the JWT token and set the auth context

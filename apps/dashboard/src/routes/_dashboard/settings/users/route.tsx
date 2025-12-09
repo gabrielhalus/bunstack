@@ -2,8 +2,8 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_dashboard/settings/users")({
   component: UsersLayout,
-  beforeLoad: async ({ context: { session: { can } } }) => {
-    if (!can("notification:list")) {
+  beforeLoad: async ({ context: { session } }) => {
+    if (!session?.can("user:list")) {
       throw redirect({ to: "/" });
     }
   },

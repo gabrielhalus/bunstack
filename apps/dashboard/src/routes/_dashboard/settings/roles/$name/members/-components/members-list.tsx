@@ -1,5 +1,5 @@
-import type { Role, RoleWithMembers } from "@bunstack/shared/database/types/roles";
-import type { User } from "@bunstack/shared/database/types/users";
+import type { Role, RoleWithMembers } from "@bunstack/shared/types/roles";
+import type { User } from "@bunstack/shared/types/users";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";

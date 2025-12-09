@@ -17,6 +17,7 @@
     "outDir": "dist"
   },
   "references": [
+    { "path": "../../packages/auth" },
     { "path": "../../packages/env" },
     { "path": "../../packages/shared" }
   ],

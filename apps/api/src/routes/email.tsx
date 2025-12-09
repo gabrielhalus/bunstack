@@ -5,7 +5,7 @@ import { createVerificationToken, VERIFICATION_TOKEN_EXPIRATION_SECONDS } from "
 import { UserVerification } from "@bunstack/api/emails/user-verification";
 import { env } from "@bunstack/api/lib/env";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
-import { insertToken } from "@bunstack/shared/database/queries/tokens";
+import { insertToken } from "@bunstack/db/queries/tokens";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
@@ -33,6 +33,7 @@ export const emailRoutes = new Hono()
     });
 
     const verificationToken = await createVerificationToken(user.id, insertedToken.id);
+    // AUTH_URL points to dashboard where /verify route is hosted
     const confirmationLink = `${env.AUTH_URL}/verify?token=${verificationToken}`;
 
     const { data, error } = await resend.emails.send({

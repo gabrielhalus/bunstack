@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/_dashboard/route'
 import { Route as DashboardIndexRouteImport } from './routes/_dashboard/index'
 import { Route as DashboardProfileRouteImport } from './routes/_dashboard/profile'
+import { Route as AuthVerifyIndexRouteImport } from './routes/_auth/verify/index'
+import { Route as AuthRegisterIndexRouteImport } from './routes/_auth/register/index'
+import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as DashboardSettingsUsersRouteRouteImport } from './routes/_dashboard/settings/users/route'
 import { Route as DashboardSettingsRolesRouteRouteImport } from './routes/_dashboard/settings/roles/route'
 import { Route as DashboardSettingsNotificationsRouteRouteImport } from './routes/_dashboard/settings/notifications/route'
@@ -37,6 +40,21 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
   getParentRoute: () => DashboardRouteRoute,
+} as any)
+const AuthVerifyIndexRoute = AuthVerifyIndexRouteImport.update({
+  id: '/_auth/verify/',
+  path: '/verify/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterIndexRoute = AuthRegisterIndexRouteImport.update({
+  id: '/_auth/register/',
+  path: '/register/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
+  id: '/_auth/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardSettingsUsersRouteRoute =
   DashboardSettingsUsersRouteRouteImport.update({
@@ -111,6 +129,9 @@ export interface FileRoutesByFullPath {
   '/settings/notifications': typeof DashboardSettingsNotificationsRouteRouteWithChildren
   '/settings/roles': typeof DashboardSettingsRolesRouteRouteWithChildren
   '/settings/users': typeof DashboardSettingsUsersRouteRouteWithChildren
+  '/login': typeof AuthLoginIndexRoute
+  '/register': typeof AuthRegisterIndexRoute
+  '/verify': typeof AuthVerifyIndexRoute
   '/settings/roles/$name': typeof DashboardSettingsRolesNameRouteRouteWithChildren
   '/settings/notifications/': typeof DashboardSettingsNotificationsIndexRoute
   '/settings/roles/': typeof DashboardSettingsRolesIndexRoute
@@ -123,6 +144,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/profile': typeof DashboardProfileRoute
   '/': typeof DashboardIndexRoute
+  '/login': typeof AuthLoginIndexRoute
+  '/register': typeof AuthRegisterIndexRoute
+  '/verify': typeof AuthVerifyIndexRoute
   '/settings/notifications': typeof DashboardSettingsNotificationsIndexRoute
   '/settings/roles': typeof DashboardSettingsRolesIndexRoute
   '/settings/users': typeof DashboardSettingsUsersIndexRoute
@@ -139,6 +163,9 @@ export interface FileRoutesById {
   '/_dashboard/settings/notifications': typeof DashboardSettingsNotificationsRouteRouteWithChildren
   '/_dashboard/settings/roles': typeof DashboardSettingsRolesRouteRouteWithChildren
   '/_dashboard/settings/users': typeof DashboardSettingsUsersRouteRouteWithChildren
+  '/_auth/login/': typeof AuthLoginIndexRoute
+  '/_auth/register/': typeof AuthRegisterIndexRoute
+  '/_auth/verify/': typeof AuthVerifyIndexRoute
   '/_dashboard/settings/roles/$name': typeof DashboardSettingsRolesNameRouteRouteWithChildren
   '/_dashboard/settings/notifications/': typeof DashboardSettingsNotificationsIndexRoute
   '/_dashboard/settings/roles/': typeof DashboardSettingsRolesIndexRoute
@@ -156,6 +183,9 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/settings/roles'
     | '/settings/users'
+    | '/login'
+    | '/register'
+    | '/verify'
     | '/settings/roles/$name'
     | '/settings/notifications/'
     | '/settings/roles/'
@@ -168,6 +198,9 @@ export interface FileRouteTypes {
   to:
     | '/profile'
     | '/'
+    | '/login'
+    | '/register'
+    | '/verify'
     | '/settings/notifications'
     | '/settings/roles'
     | '/settings/users'
@@ -183,6 +216,9 @@ export interface FileRouteTypes {
     | '/_dashboard/settings/notifications'
     | '/_dashboard/settings/roles'
     | '/_dashboard/settings/users'
+    | '/_auth/login/'
+    | '/_auth/register/'
+    | '/_auth/verify/'
     | '/_dashboard/settings/roles/$name'
     | '/_dashboard/settings/notifications/'
     | '/_dashboard/settings/roles/'
@@ -195,6 +231,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  AuthLoginIndexRoute: typeof AuthLoginIndexRoute
+  AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
+  AuthVerifyIndexRoute: typeof AuthVerifyIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -219,6 +258,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile'
       preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/_auth/verify/': {
+      id: '/_auth/verify/'
+      path: '/verify'
+      fullPath: '/verify'
+      preLoaderRoute: typeof AuthVerifyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/register/': {
+      id: '/_auth/register/'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthRegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/login/': {
+      id: '/_auth/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_dashboard/settings/users': {
       id: '/_dashboard/settings/users'
@@ -395,6 +455,9 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  AuthLoginIndexRoute: AuthLoginIndexRoute,
+  AuthRegisterIndexRoute: AuthRegisterIndexRoute,
+  AuthVerifyIndexRoute: AuthVerifyIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

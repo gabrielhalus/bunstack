@@ -1,4 +1,4 @@
-import type { NotificationProviderOrderBy } from "@bunstack/shared/database/types/notification-providers";
+import type { NotificationProviderOrderBy } from "@bunstack/shared/types/notification-providers";
 
 import { Hono } from "hono";
 
@@ -8,7 +8,7 @@ import { validationMiddleware } from "../../middlewares/validation";
 import { discordRoutes } from "./discord";
 import { telegramRoutes } from "./telegram";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
-import { getNotificationProviders } from "@bunstack/shared/database/queries/notification-providers";
+import { getNotificationProviders } from "@bunstack/db/queries/notification-providers";
 
 export const notificationsRoutes = new Hono()
   // --- All routes below this point require authentication

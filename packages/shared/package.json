@@ -3,14 +3,6 @@
   "type": "module",
   "version": "0.0.0",
   "exports": {
-    "./access": {
-      "types": "./dist/access/index.d.ts",
-      "import": "./dist/access/index.js"
-    },
-    "./access/*": {
-      "types": "./dist/access/*.d.ts",
-      "import": "./dist/access/*.js"
-    },
     "./constants": {
       "types": "./dist/constants/index.d.ts",
       "import": "./dist/constants/index.js"
@@ -23,25 +15,13 @@
       "types": "./dist/contracts/*/index.d.ts",
       "import": "./dist/contracts/*/index.js"
     },
-    "./database": {
-      "types": "./dist/database/index.d.ts",
-      "import": "./dist/database/index.js"
-    },
-    "./database/queries/*": {
-      "types": "./dist/database/queries/*.d.ts",
-      "import": "./dist/database/queries/*.js"
-    },
-    "./database/schemas/*": {
-      "types": "./dist/database/schemas/*.d.ts",
-      "import": "./dist/database/schemas/*.js"
-    },
-    "./database/types/*": {
-      "types": "./dist/database/types/*.d.ts",
-      "import": "./dist/database/types/*.js"
-    },
     "./lib/*": {
       "types": "./dist/lib/*.d.ts",
       "import": "./dist/lib/*.js"
+    },
+    "./schemas/*": {
+      "types": "./dist/schemas/*.d.ts",
+      "import": "./dist/schemas/*.js"
     },
     "./types/*": {
       "types": "./dist/types/*.d.ts",
@@ -52,24 +32,17 @@
     "dev": "tsc --watch",
     "build": "tsc -b",
     "lint": "eslint .",
-    "check-types": "tsc --noEmit",
-    "drizzle:generate": "drizzle-kit generate --config=drizzle.config.cjs",
-    "drizzle:push": "drizzle-kit push --config=drizzle.config.cjs",
-    "drizzle:studio": "drizzle-kit studio --config=drizzle.config.cjs"
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@bunstack/env": "workspace:*",
     "drizzle-orm": "^0.44.2",
     "drizzle-zod": "^0.7.1",
     "nanoid": "^5.1.5",
-    "postgres": "^3.4.7",
     "zod": "^4.1.11"
   },
   "devDependencies": {
     "@bunstack/eslint-config": "workspace:*",
     "@bunstack/typescript-config": "workspace:*",
-    "drizzle-kit": "^0.31.8",
-    "eslint": "^9.28.0",
-    "eslint-plugin-drizzle": "^0.2.3"
+    "eslint": "^9.28.0"
   }
 }

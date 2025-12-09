@@ -1,4 +1,4 @@
-import type { Policy, RoleContext, UserContext } from "@bunstack/shared/access/types";
+import type { Policy, RoleContext, UserContext } from "@bunstack/auth/types";
 import type { Context } from "hono";
 
 import { createFactory } from "hono/factory";

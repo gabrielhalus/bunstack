@@ -1,4 +1,4 @@
-import type { User } from "@bunstack/shared/database/types/users";
+import type { User } from "@bunstack/shared/types/users";
 import type { Row } from "@tanstack/react-table";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";

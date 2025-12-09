@@ -2,10 +2,10 @@ import { Hono } from "hono";
 
 import { requirePermission } from "@bunstack/api/middlewares/access-control";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
-import { deleteNotificationProviderById, insertNotificationProvider, updateNotificationProvider } from "@bunstack/shared/database/queries/notification-providers";
-import { insertTelegram, updateTelegram } from "@bunstack/shared/database/queries/telegram";
-import { insertTelegramProviderSchema, NotificationProviderType, updateTelegramProviderSchema } from "@bunstack/shared/database/types/notification-providers";
-import { telegramSchema } from "@bunstack/shared/database/types/telegram";
+import { deleteNotificationProviderById, insertNotificationProvider, updateNotificationProvider } from "@bunstack/db/queries/notification-providers";
+import { insertTelegram, updateTelegram } from "@bunstack/db/queries/telegram";
+import { insertTelegramProviderSchema, NotificationProviderType, updateTelegramProviderSchema } from "@bunstack/shared/types/notification-providers";
+import { telegramSchema } from "@bunstack/shared/types/telegram";
 
 export const telegramRoutes = new Hono()
   .post("/", requirePermission("notification:create"), validationMiddleware("json", insertTelegramProviderSchema), async (c) => {

@@ -1,8 +1,8 @@
 import type { AppContext } from "@bunstack/api/utils/hono";
-import type { Permission } from "@bunstack/shared/access/types";
+import type { Permission } from "@bunstack/auth/types";
 
 import { factory } from "@bunstack/api/utils/hono";
-import { can } from "@bunstack/shared/access";
+import { can } from "@bunstack/auth";
 
 /**
  * Core authorization middleware that checks permissions

@@ -7,7 +7,7 @@ import TelegramForm from "./forms/telegram";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@bunstack/react/components/dialog";
 import { Field, FieldGroup, FieldLabel } from "@bunstack/react/components/field";
 import { RadioCard, RadioCardGroup } from "@bunstack/react/components/radio-card";
-import { NotificationProviderType } from "@bunstack/shared/database/types/notification-providers";
+import { NotificationProviderType } from "@bunstack/shared/types/notification-providers";
 
 export default function CreateForm({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) {
   const { t } = useTranslation("dashboard");

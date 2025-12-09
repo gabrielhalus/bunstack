@@ -1,15 +1,15 @@
-import type { Role } from "@bunstack/shared/database/types/roles";
+import type { Role } from "@bunstack/shared/types/roles";
 
 import { Hono } from "hono";
 
 import { requirePermission } from "@bunstack/api/middlewares/access-control";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
+import { deleteRoleById, getRoleByName, getRoles, updateRoleById } from "@bunstack/db/queries/roles";
+import { assignUserRole, removeUserRole } from "@bunstack/db/queries/user-roles";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { updateRoleInputSchema } from "@bunstack/shared/contracts/roles";
 import { assignRoleInputSchema, removeRoleInputSchema } from "@bunstack/shared/contracts/user-roles";
-import { deleteRoleById, getRoleByName, getRoles, updateRoleById } from "@bunstack/shared/database/queries/roles";
-import { assignUserRole, removeUserRole } from "@bunstack/shared/database/queries/user-roles";
 
 export const rolesRoutes = new Hono()
   // --- All routes below this point require authentication

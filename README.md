@@ -33,9 +33,6 @@ cp apps/api/.env.example apps/api/.env.local
 
 # Web frontend
 cp apps/dashboard/.env.example apps/dashboard/.env.local
-
-# Auth frontend
-cp apps/auth/.env.example apps/auth/.env.local
 ```
 
 > For a complete list of all environment variables, their purpose, default values, and which apps use them, check the [Environment Variables Documentation](docs/env.md).
@@ -63,11 +60,7 @@ Or start individually:
 cd apps/api
 bun run dev
 
-# Auth
-cd apps/auth
-bun run dev
-
-# Web
+# Dashboard (includes auth routes)
 cd apps/dashboard
 bun run dev
 ```
@@ -99,7 +92,7 @@ sudo apt install caddy
 Add these lines to map custom local domains to `127.0.0.1`:
 
 ```text
-127.0.0.1 localhost.dev api.localhost auth.localhost.dev
+127.0.0.1 localhost.dev api.localhost
 ```
 
 - On Linux: `sudo vim /etc/hosts`
@@ -112,9 +105,8 @@ PROJECT_ROOT=$(pwd) caddy run --config Caddyfile.dev
 ```
 
 - Your apps are now available at:
-   - https://localhost.dev → dashboard
+   - https://localhost.dev → dashboard (includes auth routes: /, /register, /verify)
    - https://api.localhost.dev → API
-   - https://auth.localhost.dev → Auth
 
 > Optional: You can also use caddy stop and caddy start to manage it in the background.
 

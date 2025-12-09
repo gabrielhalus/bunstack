@@ -1,4 +1,4 @@
-import type { NotificationProvider } from "@bunstack/shared/database/types/notification-providers";
+import type { NotificationProvider } from "@bunstack/shared/types/notification-providers";
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import DiscordForm from "./forms/discord";
 import TelegramForm from "./forms/telegram";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@bunstack/react/components/dialog";
-import { NotificationProviderType } from "@bunstack/shared/database/types/notification-providers";
+import { NotificationProviderType } from "@bunstack/shared/types/notification-providers";
 
 type EditFormProps = {
   open: boolean;

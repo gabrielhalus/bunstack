@@ -1,4 +1,4 @@
-import type { updateDiscordProviderSchema } from "@bunstack/shared/database/types/notification-providers";
+import type { updateDiscordProviderSchema } from "@bunstack/shared/types/notification-providers";
 import type { z } from "zod";
 
 import { useForm } from "@tanstack/react-form";
@@ -16,7 +16,7 @@ import { Switch } from "@bunstack/react/components/switch";
 import { api } from "@bunstack/react/lib/http";
 import { queryClient } from "@bunstack/react/lib/query-client";
 import sayno from "@bunstack/react/lib/sayno";
-import { insertDiscordProviderSchema, NotificationProviderType } from "@bunstack/shared/database/types/notification-providers";
+import { insertDiscordProviderSchema, NotificationProviderType } from "@bunstack/shared/types/notification-providers";
 
 type DiscordFormProps = {
   setOpen: (open: boolean) => void;

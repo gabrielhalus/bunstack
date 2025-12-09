@@ -1,11 +1,11 @@
-import type { NotificationProvider } from "@bunstack/shared/database/types/notification-providers";
+import type { NotificationProvider } from "@bunstack/shared/types/notification-providers";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TFunction } from "i18next";
 
 import Actions from "./actions";
 import { Badge } from "@bunstack/react/components/badge";
 import { SortableHeader } from "@bunstack/react/components/sortable-header";
-import { NotificationProviderType } from "@bunstack/shared/database/types/notification-providers";
+import { NotificationProviderType } from "@bunstack/shared/types/notification-providers";
 
 export function getColumns(t: TFunction<"dashboard">): ColumnDef<NotificationProvider>[] {
   return [
