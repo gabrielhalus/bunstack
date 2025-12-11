@@ -7,8 +7,8 @@ import { getAuthContext } from "../../middlewares/auth";
 import { validationMiddleware } from "../../middlewares/validation";
 import { discordRoutes } from "./discord";
 import { telegramRoutes } from "./telegram";
-import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { getNotificationProviders } from "@bunstack/db/queries/notification-providers";
+import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 
 export const notificationsRoutes = new Hono()
   // --- All routes below this point require authentication

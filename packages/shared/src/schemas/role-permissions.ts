@@ -10,4 +10,3 @@ export const RolePermissions = pgTable("role_permissions", {
     .references(() => Roles.id, { onDelete: "cascade", onUpdate: "cascade" }),
   permission: text("permission").notNull().$type<Permission>(),
 }, table => [primaryKey({ columns: [table.roleId, table.permission] })]);
-

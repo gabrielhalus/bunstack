@@ -26,4 +26,3 @@ export type UserContext = User;
 export type RoleContext = Role & {
   permissions: Permission[];
 };
-

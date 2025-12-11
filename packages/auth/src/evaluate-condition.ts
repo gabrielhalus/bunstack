@@ -66,4 +66,3 @@ export function evaluateCondition(condition: string | Condition, user: UserConte
       throw new Error(`Unsupported condition operator: ${(cond as { op: string }).op}`);
   }
 }
-

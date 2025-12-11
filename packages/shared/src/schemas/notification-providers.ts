@@ -9,4 +9,3 @@ export const NotificationProviders = pgTable("notification_providers", {
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });
-

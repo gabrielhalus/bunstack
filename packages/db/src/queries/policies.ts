@@ -1,5 +1,5 @@
-import type { Policy } from "@bunstack/shared/types/policies";
 import type { Permission } from "@bunstack/shared/types/permissions";
+import type { Policy } from "@bunstack/shared/types/policies";
 
 import { and, eq, isNull, or } from "drizzle-orm";
 

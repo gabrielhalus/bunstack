@@ -1,7 +1,7 @@
+import type { Merge } from "@/lib/utils";
 import type { Discord } from "@/schemas/discord";
 import type { NotificationProviders } from "@/schemas/notification-providers";
 import type { Telegram } from "@/schemas/telegram";
-import type { Merge } from "@/lib/utils";
 
 import z from "zod";
 
@@ -33,4 +33,3 @@ export const updateDiscordProviderSchema = updateNotificationProviderSchema.exte
 // Telegram
 export const insertTelegramProviderSchema = insertNotificationProviderSchema.extend(telegramSchema.shape);
 export const updateTelegramProviderSchema = updateNotificationProviderSchema.extend(telegramSchema.shape);
-

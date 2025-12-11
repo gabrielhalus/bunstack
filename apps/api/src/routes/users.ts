@@ -5,9 +5,9 @@ import { Hono } from "hono";
 import { requirePermission } from "@bunstack/api/middlewares/access-control";
 import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
+import { deleteUserById, findUserById, getUsers, userEmailExists } from "@bunstack/db/queries/users";
 import { paginationInputSchema } from "@bunstack/shared/contracts/pagination";
 import { checkEmailSchema } from "@bunstack/shared/contracts/users";
-import { deleteUserById, findUserById, getUsers, userEmailExists } from "@bunstack/db/queries/users";
 
 export const usersRoutes = new Hono()
   /**

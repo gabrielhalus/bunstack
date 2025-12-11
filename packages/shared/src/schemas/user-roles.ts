@@ -9,4 +9,3 @@ export const UserRoles = pgTable("user_roles", {
 }, table => [
   primaryKey({ columns: [table.userId, table.roleId] }),
 ]);
-

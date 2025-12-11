@@ -7,4 +7,3 @@ export const Discord = pgTable("discord", {
   webhookUrl: text("webhook_url").notNull(),
   decorations: boolean("decorations").notNull(),
 });
-

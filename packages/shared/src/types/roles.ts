@@ -1,6 +1,6 @@
-import type { User } from "@/types/users";
-import type { Permission } from "@/types/permissions";
 import type { Merge } from "@/lib/utils";
+import type { Permission } from "@/types/permissions";
+import type { User } from "@/types/users";
 
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -23,4 +23,3 @@ export const updateRoleInputSchema = z.object({
   label: z.string().min(1, "Label is required"),
   description: z.string().min(1, "Description is required"),
 });
-

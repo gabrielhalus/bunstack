@@ -5,4 +5,3 @@ export const telegramSchema = z.object({
   chatId: z.string().min(1, { message: "errors.notification.telegram.chatId.required" }),
   threadId: z.string().nullable(),
 });
-

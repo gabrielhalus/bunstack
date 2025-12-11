@@ -2,14 +2,14 @@ import type { TFunction } from "i18next";
 
 /**
  * Translates zod validation error messages that use translation keys.
- * 
+ *
  * If an error message starts with "errors.", it's treated as a translation key
  * and will be translated using the provided translation function.
- * 
+ *
  * @param errors - Array of error objects with optional message property
  * @param t - Translation function from react-i18next or i18next
  * @returns Array of errors with translated messages
- * 
+ *
  * @example
  * ```tsx
  * const { t } = useTranslation("dashboard");
@@ -31,4 +31,3 @@ export function translateErrors(
     return error;
   });
 }
-

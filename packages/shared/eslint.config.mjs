@@ -1,3 +1,3 @@
-import createConfig from "@bunstack/eslint-config/create-config";
+import config from "@bunstack/eslint-config";
 
-export default createConfig();
+export default config;

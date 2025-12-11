@@ -26,5 +26,3 @@ export const permissions = [
 ] as const;
 
 export type Permission = (typeof permissions)[number];
-
-

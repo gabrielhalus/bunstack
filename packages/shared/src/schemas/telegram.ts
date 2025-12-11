@@ -8,4 +8,3 @@ export const Telegram = pgTable("telegram", {
   chatId: text("chat_id").notNull(),
   threadId: text("thread_id"),
 });
-

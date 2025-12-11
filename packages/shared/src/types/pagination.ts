@@ -12,5 +12,3 @@ export type PaginatedResult<T> = {
 };
 
 export type OrderBy<T> = keyof T | { field: keyof T; direction: "asc" | "desc" };
-
-

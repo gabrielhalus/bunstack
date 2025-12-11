@@ -57,4 +57,3 @@ export function can(permission: Permission, user: UserContext, roles: RoleContex
 
 // Re-export types for convenience
 export type { Condition, Operand, Permission, Policy, RoleContext, UserContext } from "./types";
-

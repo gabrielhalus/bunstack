@@ -11,4 +11,3 @@ export const Tokens = pgTable("tokens", {
   userAgent: text("user_agent"),
   ip: text("ip"),
 });
-
