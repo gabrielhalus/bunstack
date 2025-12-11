@@ -6,7 +6,6 @@ import { env } from "@bunstack/api/lib/env";
 import { factory } from "@bunstack/api/utils/hono";
 import { deleteToken, getTokenById } from "@bunstack/db/queries/tokens";
 import { findUserWithContext } from "@bunstack/db/queries/users";
-import { Constants } from "@bunstack/shared/constants";
 
 /**
  * Get the user from the JWT token and set the auth context
@@ -16,7 +15,7 @@ import { Constants } from "@bunstack/shared/constants";
  * @returns The user
  */
 export const getAuthContext = factory.createMiddleware(async (c, next) => {
-  const accessToken = getCookie(c, Constants.accessToken);
+  const accessToken = getCookie(c, "accessToken");
   let decoded;
 
   // Try to verify the access token
@@ -55,7 +54,7 @@ export const getAuthContext = factory.createMiddleware(async (c, next) => {
  * @returns The decoded access token payload or null if refresh failed
  */
 async function attemptTokenRefresh(c: any) {
-  const refreshToken = getCookie(c, Constants.refreshToken);
+  const refreshToken = getCookie(c, "refreshToken");
 
   if (!refreshToken) {
     return null;
@@ -80,7 +79,7 @@ async function attemptTokenRefresh(c: any) {
 
     // Create new access token
     const newAccessToken = await createAccessToken(sub);
-    setCookie(c, Constants.accessToken, newAccessToken, getCookieSettings("access"));
+    setCookie(c, "accessToken", newAccessToken, getCookieSettings("access"));
 
     // Verify and return the new token
     return await verify(newAccessToken, env.JWT_SECRET);

@@ -3,14 +3,6 @@
   "type": "module",
   "version": "0.0.0",
   "exports": {
-    "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js"
-    },
-    "./constants/*": {
-      "types": "./dist/constants/*.d.ts",
-      "import": "./dist/constants/*.js"
-    },
     "./contracts/*": {
       "types": "./dist/contracts/*/index.d.ts",
       "import": "./dist/contracts/*/index.js"

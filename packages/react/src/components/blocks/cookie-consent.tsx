@@ -1,8 +1,7 @@
-"use client";
-
+import { Cookie } from "lucide-react";
 import * as React from "react";
-import { Check, Cookie, X } from "lucide-react";
-import { Button } from "@bunstack/components/ui/button";
+
+import { Button } from "@bunstack/react/components/button";
 import {
   Card,
   CardContent,
@@ -10,18 +9,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@bunstack/components/ui/card";
+} from "@bunstack/react/components/card";
 import { cn } from "@bunstack/react/lib/utils";
 
 // Define prop types
-interface CookieConsentProps extends React.HTMLAttributes<HTMLDivElement> {
+type CookieConsentProps = {
   variant?: "default" | "small" | "mini";
   demo?: boolean;
   onAcceptCallback?: () => void;
   onDeclineCallback?: () => void;
   description?: string;
   learnMoreHref?: string;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
   (
@@ -42,8 +41,8 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
 
     const handleAccept = React.useCallback(() => {
       setIsOpen(false);
-      document.cookie =
-        "cookieConsent=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+      document.cookie
+        = "cookieConsent=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
       setTimeout(() => {
         setHide(true);
       }, 700);
@@ -72,7 +71,8 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
       }
     }, [demo]);
 
-    if (hide) return null;
+    if (hide)
+      return null;
 
     const containerClasses = cn(
       "fixed z-50 transition-all duration-700",
@@ -104,7 +104,10 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
                 {description}
               </CardDescription>
               <p className="text-xs text-muted-foreground">
-                By clicking <span className="font-medium">"Accept"</span>, you
+                By clicking
+                {" "}
+                <span className="font-medium">"Accept"</span>
+                , you
                 agree to our use of cookies.
               </p>
               <a

@@ -8,7 +8,7 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { deleteToken, getTokenById, insertToken } from "@bunstack/db/queries/tokens";
 import { insertUser, updateUserById } from "@bunstack/db/queries/users";
-import { Constants } from "@bunstack/shared/constants";
+
 import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bunstack/shared/contracts/auth";
 
 export const authRoutes = new Hono()
@@ -33,10 +33,10 @@ export const authRoutes = new Hono()
       });
 
       const accessToken = await createAccessToken(insertedUser.id);
-      setCookie(c, Constants.accessToken, accessToken, getCookieSettings("access"));
+      setCookie(c, "accessToken", accessToken, getCookieSettings("access"));
 
       const refreshToken = await createRefreshToken(insertedUser.id, insertedToken.id);
-      setCookie(c, Constants.refreshToken, refreshToken, getCookieSettings("refresh"));
+      setCookie(c, "refreshToken", refreshToken, getCookieSettings("refresh"));
 
       return c.json({ success: true as const });
     } catch (error) {
@@ -71,10 +71,10 @@ export const authRoutes = new Hono()
       });
 
       const accessToken = await createAccessToken(userId);
-      setCookie(c, Constants.accessToken, accessToken, getCookieSettings("access"));
+      setCookie(c, "accessToken", accessToken, getCookieSettings("access"));
 
       const refreshToken = await createRefreshToken(userId, insertedToken.id);
-      setCookie(c, Constants.refreshToken, refreshToken, getCookieSettings("refresh"));
+      setCookie(c, "refreshToken", refreshToken, getCookieSettings("refresh"));
 
       return c.json({ success: true as const });
     } catch (error) {
@@ -89,7 +89,7 @@ export const authRoutes = new Hono()
    * @returns Success
    */
   .post("/logout", async (c) => {
-    const refreshToken = getCookie(c, Constants.refreshToken);
+    const refreshToken = getCookie(c, "refreshToken");
 
     if (refreshToken) {
       try {
@@ -102,8 +102,8 @@ export const authRoutes = new Hono()
       }
     }
 
-    setCookie(c, Constants.accessToken, "", getCookieSettings("clear"));
-    setCookie(c, Constants.refreshToken, "", getCookieSettings("clear"));
+    setCookie(c, "accessToken", "", getCookieSettings("clear"));
+    setCookie(c, "refreshToken", "", getCookieSettings("clear"));
 
     return c.json({ success: true as const });
   })

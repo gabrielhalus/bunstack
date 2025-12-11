@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@bunstack/react/components/card";
 import { Skeleton } from "@bunstack/react/components/skeleton";
 import { api } from "@bunstack/react/lib/http";
-import { Constants } from "@bunstack/shared/constants";
+
 
 export const Route = createFileRoute("/_auth/verify/")({
   component: RouteComponent,
@@ -28,7 +28,7 @@ function RouteComponent() {
         return;
       }
 
-      const verifiedToken = sessionStorage.getItem(Constants.verifiedToken);
+      const verifiedToken = sessionStorage.getItem("verifiedToken");
       if (token === verifiedToken) {
         setStatus("success");
         return;
@@ -39,7 +39,7 @@ function RouteComponent() {
         const data = await res.json();
 
         if (data.success) {
-          sessionStorage.setItem(Constants.verifiedToken, token);
+          sessionStorage.setItem("verifiedToken", token);
           setStatus("success");
         } else {
           setStatus("error");
