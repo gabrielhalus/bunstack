@@ -1,4 +1,4 @@
-import type { Condition, Operand, UserContext } from "./types";
+import type { Condition, Operand, User } from "./types";
 
 function getNested(obj: unknown, path: string): unknown {
   return path.split(".").reduce((acc, part) => {
@@ -9,7 +9,7 @@ function getNested(obj: unknown, path: string): unknown {
   }, obj);
 }
 
-export function resolveOperand(operand: Operand, user: UserContext, resource?: Record<string, unknown>): unknown {
+export function resolveOperand(operand: Operand, user: User, resource?: Record<string, unknown>): unknown {
   switch (operand.type) {
     case "user_attr":
       return getNested(user, operand.key);
@@ -20,7 +20,7 @@ export function resolveOperand(operand: Operand, user: UserContext, resource?: R
   }
 }
 
-export function evaluateCondition(condition: string | Condition, user: UserContext, resource?: Record<string, unknown>): boolean {
+export function evaluateCondition(condition: string | Condition, user: User, resource?: Record<string, unknown>): boolean {
   const cond = typeof condition === "string" ? (JSON.parse(condition) as Condition) : condition;
 
   switch (cond.op) {

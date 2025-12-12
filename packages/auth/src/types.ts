@@ -1,10 +1,7 @@
 import type { Permission } from "@bunstack/shared/types/permissions";
-import type { Policy as PolicyDB } from "@bunstack/shared/types/policies";
-import type { Role } from "@bunstack/shared/types/roles";
-import type { User } from "@bunstack/shared/types/users";
-
-// Re-export Permission for convenience
-export type { Permission } from "@bunstack/shared/types/permissions";
+import type { Policy as PolicyShared } from "@bunstack/shared/types/policies";
+import type { Role as RoleShared } from "@bunstack/shared/types/roles";
+import type { User as UserShared } from "@bunstack/shared/types/users";
 
 export type Operand
   = | { type: "user_attr"; key: string }
@@ -19,10 +16,19 @@ export type Condition
     | { op: "in" | "not_in"; left: Operand; right: Operand[] }
     | { op: "exists" | "not_exists"; operand: Operand };
 
-export type Policy = Omit<PolicyDB, "id">;
+export type User = UserShared;
 
-export type UserContext = User;
+export type Policy = Omit<PolicyShared, "id">;
 
-export type RoleContext = Role & {
-  permissions: Permission[];
+export type { Permission } from "@bunstack/shared/types/permissions";
+
+export type Role = RoleShared & { permissions: Permission[] };
+
+export type Session = {
+  user: User;
+  roles: Role[];
+  policies: Policy[];
+  isAdmin: boolean;
+  isAuthenticated: true;
+  can: (permission: Permission, resource?: Record<string, unknown>) => boolean;
 };

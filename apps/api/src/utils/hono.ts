@@ -1,4 +1,4 @@
-import type { Policy, RoleContext, UserContext } from "@bunstack/auth/types";
+import type { Policy, Role, User } from "@bunstack/auth/types";
 import type { Context } from "hono";
 
 import { createFactory } from "hono/factory";
@@ -6,8 +6,8 @@ import { createFactory } from "hono/factory";
 export type AppEnv = {
   Variables: {
     authContext: {
-      user: UserContext;
-      roles: RoleContext[];
+      user: User;
+      roles: Role[];
       policies: Policy[];
     };
   };

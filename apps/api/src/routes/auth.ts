@@ -8,7 +8,6 @@ import { getAuthContext } from "@bunstack/api/middlewares/auth";
 import { validationMiddleware } from "@bunstack/api/middlewares/validation";
 import { deleteToken, getTokenById, insertToken } from "@bunstack/db/queries/tokens";
 import { insertUser, updateUserById } from "@bunstack/db/queries/users";
-
 import { loginInputSchema, registerInputSchema, verifyAccountSchema } from "@bunstack/shared/contracts/auth";
 
 export const authRoutes = new Hono()

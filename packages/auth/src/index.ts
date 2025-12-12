@@ -1,4 +1,4 @@
-import type { Permission, Policy, RoleContext, UserContext } from "./types";
+import type { Permission, Policy, Role, Session, User } from "./types";
 
 import { evaluateCondition } from "./evaluate-condition";
 
@@ -12,7 +12,7 @@ import { evaluateCondition } from "./evaluate-condition";
  * @param resource - Optional resource context for policy evaluation
  * @returns `true` if the user has permission, `false` otherwise
  */
-export function can(permission: Permission, user: UserContext, roles: RoleContext[], policies: Policy[], resource?: Record<string, unknown>): boolean {
+export function can(permission: Permission, user: User, roles: Role[], policies: Policy[], resource?: Record<string, unknown>): boolean {
   // Super admins bypass all checks
   if (roles.some(r => r.isSuperAdmin)) {
     return true;
@@ -55,5 +55,4 @@ export function can(permission: Permission, user: UserContext, roles: RoleContex
   return false;
 }
 
-// Re-export types for convenience
-export type { Condition, Operand, Permission, Policy, RoleContext, UserContext } from "./types";
+export type { Condition, Operand, Permission, Policy, Role, Session, User } from "./types";

@@ -1,4 +1,4 @@
-import type { Session } from "@bunstack/shared/types/auth";
+import type { Session } from "@bunstack/auth/types";
 
 import { createContext, use } from "react";
 
